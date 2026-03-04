@@ -4,6 +4,7 @@ import extractor_procesos
 import extractor_preal
 import extractor_pint
 import extractor_alarmas
+import extractor_etapas
 import extractor_disp_ed
 import extractor_disp_ea
 import extractor_disp_sa
@@ -27,6 +28,7 @@ def ejecutar_todo(ruta_excel):
         ("PReal", extractor_preal.extraer),
         ("PInt", extractor_pint.extraer),
         ("Alarmas", extractor_alarmas.extraer),
+        ("Etapas", extractor_etapas.extraer),
         ("Disp_ED", extractor_disp_ed.extraer),
         ("Disp_EA", extractor_disp_ea.extraer),
         ("Disp_SA", extractor_disp_sa.extraer),        
