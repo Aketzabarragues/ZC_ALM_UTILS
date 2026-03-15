@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    
+    <div class="page-wrapper">
+
+        <div class="page-toc">
+            <h4>En esta página</h4>
+            <ul>
+                <li><a href="#descripcion">Descripción General</a></li>
+                <li><a href="#dependencias">Dependencias</a></li>
+                <li><a href="#interfaz">Interfaz de Variables</a></li>
+                <li><a href="#region_idioma">Lógica: Gestión de Idiomas</a></li>
+                <li><a href="#changelog">Historial de Cambios</a></li>
+            </ul>
+        </div>
+
+        <div class="page-content">
+            <h1 class="doc-title">FC2010_ZC_V <span style="font-size:16px; color:#666;">(DISPOSITIVO VALVULA)</span></h1>
+            
+            <div class="doc-section" id="descripcion">
+                <h3>Descripción General</h3>
+                <p>Modelo de dispositivo válvula para la gestión de aperturas, cierres...</p>
+            </div>
+            
+            <div style="height: 500px;"></div>
+        </div>
+
+    </div>
+</body>
+</html>
+    
+    <div class="page-wrapper">
+
+        <div class="page-content">
+            <h1 class="doc-title">FC2010_ZC_V <span style="font-size:16px; color:#666;">(DISPOSITIVO VALVULA)</span></h1>
+            
+            <div class="doc-section" id="descripcion">
+                <h3>Descripción General</h3>
+                <p>Modelo de dispositivo válvula para la gestión de aperturas, cierres, modos Automático/Manual y gestión de alarmas de retorno.</p>
+            </div>
+
+            <div class="doc-section" id="dependencias">
+                <h3>Dependencias</h3>
+                <ul>
+                    <li><strong>FC:</strong> FC8_TRAZA_REGISTRO</li>
+                    <li><strong>DB:</strong> DB2010_DISP_V, DB1_SYS</li>
+                </ul>
+            </div>
+
+            <div class="doc-section" id="interfaz">
+                <h3>Interfaz de Variables (Inputs)</h3>
+                <table class="doc-table">
+                    <tr><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+                    <tr><td><strong>Pulso1seg</strong></td><td>Bool</td><td>Marca de reloj de 1 segundo del sistema</td></tr>
+                </table>
+            </div>
+
+            <div class="doc-section" id="region_idioma">
+                <h3>Lógica: Gestión de Idiomas</h3>
+                <p>Este bloque se encarga de gestionar los idiomas para la generación de alarmas...</p>
+                <pre class="scl-code">
+REGION IDIOMA
+    CASE #Idioma OF...
+END_REGION</pre>
+            </div>
+
+            <div class="doc-section" id="changelog">
+                <h3>Historial de Cambios (Changelog)</h3>
+                <table class="doc-table">
+                    <tr><th>Versión</th><th>Fecha</th><th>Autor</th><th>Descripción</th></tr>
+                    <tr><td>01.00.00</td><td>15.10.2020</td><td>ABH</td><td>Primera versión.</td></tr>
+                </table>
+            </div>
+            
+            <div style="height: 500px;"></div>
+        </div>
+
+        <div class="page-toc">
+            <h4>En esta página</h4>
+            <ul>
+                <li><a href="#descripcion">Descripción General</a></li>
+                <li><a href="#dependencias">Dependencias</a></li>
+                <li><a href="#interfaz">Interfaz de Variables</a></li>
+                <li><a href="#region_idioma">Lógica: Gestión de Idiomas</a></li>
+                <li><a href="#changelog">Historial de Cambios</a></li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ayuda - Zeus Control ALM</title>
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="layout-shell"> <div class="header">
+        <div>ZCALM - Documentación de Ingeniería</div>
+        <div style="font-size: 14px; font-weight: normal; margin-top: 4px;">Proyecto: Estándar Alimentación</div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="search-box">
+                <input type="text" id="buscador" placeholder="Buscar bloque (ej. FC2010)..." onkeyup="filtrarMenu()">
+            </div>
+            <ul class="nav-list" id="listaBloques">
+                <li><a href="bloques/inicio.html" target="visor">🏠 Inicio</a></li>
+                <li><a href="bloques/FC2010_ZC_V.html" target="visor">FC2010_ZC_V (Válvula)</a></li>
+                <li><a href="#" target="visor">FC2015_ZC_M (Motor)</a></li>
+                <li><a href="#" target="visor">FC2020_ZC_PID (PID)</a></li>
+                <li><a href="#" target="visor">DB1_SYS (Sistema)</a></li>
+            </ul>
+        </div>
+
+        <div class="content-area">
+            <iframe name="visor" src="bloques/inicio.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function filtrarMenu() {
+            var input = document.getElementById('buscador').value.toUpperCase();
+            var ul = document.getElementById('listaBloques');
+            var li = ul.getElementsByTagName('li');
+            for (var i = 1; i < li.length; i++) { 
+                var a = li[i].getElementsByTagName('a')[0];
+                if (a.innerHTML.toUpperCase().indexOf(input) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
