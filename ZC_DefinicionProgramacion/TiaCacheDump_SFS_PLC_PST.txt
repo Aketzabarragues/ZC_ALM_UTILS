@@ -1,0 +1,122 @@
+=========================================================
+             VOLCADO DE CACHÉ DE TIA PORTAL              
+=========================================================
+Fecha de volcado: 11/03/2026 9:13:46
+PLC: SFS_PLC_PST
+Total Bloques: 102
+=========================================================
+
+[Nombre] Bloque de datos_1                   | [Num] 1     | [Tipo API] GlobalDB     | [Ruta] Root
+[Nombre] DB1_SYS                             | [Num] 1     | [Tipo API] GlobalDB     | [Ruta] Root
+[Nombre] DB1990_PLANTILLA                    | [Num] 1990  | [Tipo API] GlobalDB     | [Ruta] 1990_Plantilla\1990 Proceso
+[Nombre] DB2000_ED                           | [Num] 2000  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2001_EA                           | [Num] 2001  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2005_SD                           | [Num] 2005  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2006_SA                           | [Num] 2006  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2010_V                            | [Num] 2010  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2015_M                            | [Num] 2015  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2016_M_VF                         | [Num] 2016  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2017_M_SINA                       | [Num] 2017  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2025_TOT                          | [Num] 2025  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2026_FF                           | [Num] 2026  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2027_FF_SEC                       | [Num] 2027  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2031_TP                           | [Num] 2031  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2035_PID                          | [Num] 2035  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2037_MEDIA                        | [Num] 2037  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2038_MEDIA_VOLUMEN                | [Num] 2038  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2039_TQ                           | [Num] 2039  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2045_TQ_AE                        | [Num] 2045  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB3100_PREAL                        | [Num] 3100  | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\3100_Parametros
+[Nombre] DB3101_PINT                         | [Num] 3101  | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\3100_Parametros
+[Nombre] DB4990_PREAL                        | [Num] 4990  | [Tipo API] GlobalDB     | [Ruta] 1990_Plantilla\4990_Parametros
+[Nombre] DB4991_PINT                         | [Num] 4991  | [Tipo API] GlobalDB     | [Ruta] 1990_Plantilla\4990_Parametros
+[Nombre] DB5100_ALM                          | [Num] 5100  | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\5100_Alarmas
+[Nombre] DB6990_ALM                          | [Num] 6990  | [Tipo API] GlobalDB     | [Ruta] 1990_Plantilla\6990_Alarmas
+[Nombre] FB15049_ZC_AIRE_ESTERIL             | [Num] 15149 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15100_ZC_CALCULO_PRESION_HZ       | [Num] 15100 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15150_ZC_SEC_GET                  | [Num] 15150 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15152_ZC_PARO_SECUENCIAL          | [Num] 15152 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15153_ZC_MARCHA_SEC_BOMBAS        | [Num] 15153 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15159_ZC_CIP_DOSIF_PREP           | [Num] 15159 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15160_ZC_CIP_SOSA_LIMP            | [Num] 15160 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15161_ZC_CIP_SOSA_ENJ             | [Num] 15161 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15162_ZC_CIP_ACIDO_LIMP           | [Num] 15162 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15163_ZC_CIP_ACIDO_ENJ            | [Num] 15163 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15164_ZC_CIP_SOLO_ENJ             | [Num] 15164 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15165_ZC_CIP_DESINF_LIMP          | [Num] 15165 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15166_ZC_CIP_DESINF_ENJ           | [Num] 15166 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15167_ZC_CIP_ESTERIL              | [Num] 15167 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15168_ZC_CIP_AGUA_RECUP           | [Num] 15168 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15169_ZC_CIP_RECUP_RECHAZO        | [Num] 15169 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15176_ZC_FASE_AD_AGUA             | [Num] 15176 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15177_ZC_FASE_CAL_ENF             | [Num] 15177 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15178_ZC_FASE_HOMO                | [Num] 15178 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15179_ZC_FASE_VACIADO             | [Num] 15179 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15302_ZC_MB_CLIENT_RW             | [Num] 15302 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB15995_ZC_BUSCAR_DIR               | [Num] 15995 | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB2017_ZC_M_SINA                    | [Num] 2017  | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FB3_ZC_CHECKSUM                     | [Num] 3     | [Tipo API] FB           | [Ruta] ZC_Controles
+[Nombre] FC1_ZC_SISTEMA                      | [Num] 1     | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC11_ZC_GESTOR_INFORMES             | [Num] 11    | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC12_ZC_INFORME_REGISTRO            | [Num] 12    | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15001_ZC_INT_TO_STRING            | [Num] 15001 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15003_ZC_REAL_TO_STRING           | [Num] 15003 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15005_ZC_DTL_TO_ZC_FECHA          | [Num] 15005 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15006_ZC_DTL_TO_STRING            | [Num] 15006 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15025_ZC_CONTADOR_TIEMPO          | [Num] 15025 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15026_ZC_PULSADOR                 | [Num] 15026 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15027_ZC_CONTADOR_MINUTOS         | [Num] 15027 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15151_ZC_MARCHA_PARO_SEC          | [Num] 15151 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC1990_PLANTILLA                    | [Num] 1990  | [Tipo API] FC           | [Ruta] 1990_Plantilla\1990 Proceso
+[Nombre] FC1991_PLANTILLA_AUXILIARES         | [Num] 1991  | [Tipo API] FC           | [Ruta] 1990_Plantilla\1990 Proceso
+[Nombre] FC1992_PLANTILLA_TRANSICIONES       | [Num] 1992  | [Tipo API] FC           | [Ruta] 1990_Plantilla\1990 Proceso
+[Nombre] FC1993_PLANTILLA_ORDENES            | [Num] 1993  | [Tipo API] FC           | [Ruta] 1990_Plantilla\1990 Proceso
+[Nombre] FC2000_ZC_ED                        | [Num] 2000  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2001_ZC_EA                        | [Num] 2001  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2005_ZC_SD                        | [Num] 2005  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2006_ZC_SA                        | [Num] 2006  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2010_ZC_V                         | [Num] 2010  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2015_ZC_M                         | [Num] 2015  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2016_ZC_M_VF                      | [Num] 2016  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2025_ZC_TOT                       | [Num] 2025  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2026_ZC_FF                        | [Num] 2026  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2027_ZC_FF_SEC                    | [Num] 2027  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2028_ZC_TON                       | [Num] 2028  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2029_ZC_TOF                       | [Num] 2029  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2030_ZC_TONR                      | [Num] 2030  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2031_ZC_TP                        | [Num] 2031  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2035_ZC_PID                       | [Num] 2035  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2036_ZC_PID_MUX                   | [Num] 2036  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2037_ZC_MEDIA                     | [Num] 2037  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2038_ZC_MEDIA_VOLUMEN             | [Num] 2038  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2039_ZC_TQ                        | [Num] 2039  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2045_ZC_TQ_AE                     | [Num] 2045  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2926_ZC_FF_INDV                   | [Num] 2926  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2927_ZC_FF_SEC_INDV               | [Num] 2927  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2928_ZC_TON_INDV                  | [Num] 2928  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2929_ZC_TOF_INDV                  | [Num] 2929  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2930_ZC_TONR_INDV                 | [Num] 2930  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2931_ZC_TP_INDV                   | [Num] 2931  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC2937_ZC_MEDIA_INDV                | [Num] 2937  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC3000_ZC_GEST_PARAMETROS           | [Num] 3000  | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC4_ZC_DISPONIBILIDAD_ENTIDAD       | [Num] 4     | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC4990_GEST_PARAM                   | [Num] 4990  | [Tipo API] FC           | [Ruta] 1990_Plantilla\4990_Parametros
+[Nombre] FC4991_VIS_PARAM                    | [Num] 4991  | [Tipo API] FC           | [Ruta] 1990_Plantilla\4990_Parametros
+[Nombre] FC5_ZC_GESTOR_PROCESO               | [Num] 5     | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC6_ZC_ESTADO_ENTIDAD               | [Num] 6     | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC6990_GEST_ALARMAS                 | [Num] 6990  | [Tipo API] FC           | [Ruta] 1990_Plantilla\6990_Alarmas
+[Nombre] FC7_ZC_GESTOR_TRAZA                 | [Num] 7     | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC8_ZC_TRAZA_REGISTRO               | [Num] 8     | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] Main                                | [Num] 1     | [Tipo API] OB           | [Ruta] Root
+
+=== TABLAS DE VARIABLES ===
+[Nombre] 000_Config_Dispositivos             | [Ruta] 000_Sistema
+[Nombre] 002_Disp_EA                         | [Ruta] 002_Dispositivos
+[Nombre] 002_Disp_ED                         | [Ruta] 002_Dispositivos
+[Nombre] 002_Disp_M                          | [Ruta] 002_Dispositivos
+[Nombre] 002_Disp_M_VF                       | [Ruta] 002_Dispositivos
+[Nombre] 002_Disp_SA                         | [Ruta] 002_Dispositivos
+[Nombre] 002_Disp_V                          | [Ruta] 002_Dispositivos
+[Nombre] 100_COMPACTO                        | [Ruta] 003_Procesos
+[Nombre] 1990_PLANTILLA                      | [Ruta] 003_Procesos
+[Nombre] Tabla de variables estándar         | [Ruta] Variables de PLC
