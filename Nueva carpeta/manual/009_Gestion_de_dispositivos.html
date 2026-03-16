@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/custom.css">
+    <style>
+        /* Quitar márgenes a los títulos principales que queden primeros en su tarjeta */
+        .doc-section > h1:first-child, .doc-section > h2:first-child, .doc-section > h3:first-child { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Gestión_de_dispositivos"></a><a id="_Toc224541428"></a>Gestión de dispositivos</h2><p>Función encargada de realizar todas las llamadas a dispositivos de la instalación. Se utiliza un segmento en SCL para cada dispositivo.</p>
+</div>
+<div class="doc-section" id="sec_Multiplexado">
+<h3><a id="_Toc224541429"></a>Multiplexado</h3>
+<p>Segmento encargado de configuración de multiplexado. Mediante un bucle FOR, se habilitan los multiplexados de todos los dispositivos.</p><p><a href="http://192.168.2.208:3000/aketza/Estandar-alimentacion/raw/branch/main/assets/images/dispositivos_multiplexado.png"><img alt="Multiplexado" src="../img/img_14.png" /></a></p>
+</div>
+<div class="doc-section" id="sec_Entrada_digital">
+<h3><a id="_Toc224541430"></a>Entrada digital</h3>
+<p>Segmento encargado de llamada a función de gestión de entradas digitales.</p><p><a href="http://192.168.2.208:3000/aketza/Estandar-alimentacion/raw/branch/main/assets/images/dispositivos_ed.png"><img alt="ED" src="../img/img_15.png" /></a></p>
+</div>
+<div class="doc-section" id="sec_Entrada_analogica">
+<h3><a id="_Toc224541431"></a>Entrada analógica</h3>
+<p>Segmento encargado de llamada a función de gestión de entradas analógicas.</p><p><a href="http://192.168.2.208:3000/aketza/Estandar-alimentacion/raw/branch/main/assets/images/dispositivos_ea.png"><img alt="EA" src="../img/img_16.png" /></a></p>
+</div>
+<div class="doc-section" id="sec_Salida_digital">
+<h3><a id="_Toc224541432"></a>Salida digital</h3>
+<p>Segmento encargado de llamada a función de gestión de salidas digitales.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_17.png" /></p>
+</div>
+<div class="doc-section" id="sec_Salida_analogica">
+<h3><a id="_Toc224541433"></a>Salida analógica</h3>
+<p>Segmento encargado de llamada a función de gestión de salidas analógicas.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_18.png" /></p><p>Los dispositivos con activación de salidas disponen de dos tipos de seguridades.</p><ul><li>A nivel de función:<ul><li>El bloque tiene una entrada de SeguridadesOK a nivel general, con esta señal se enclavan todos los dispositivos.</li></ul></li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_19.png" /></p><ul><li>A nivel de dispositivo:<ul><li>Cada dispositivo dispone de una variable de SeguridadesOK, en caso de querer diferenciar las seguridades por dispositivo.</li></ul></li></ul><p><img alt="Imagen que contiene Forma
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_20.png" /></p>
+</div>
+<div class="doc-section" id="sec_Valvulas">
+<h3><a id="_Toc224541434"></a>Válvulas</h3>
+<p>Segmento encargado de llamada a función de gestión de válvulas.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_21.png" /></p><p>Los dispositivos con activación de salidas disponen de dos tipos de seguridades.</p><ul><li>A nivel de función:<ul><li>El bloque tiene una entrada de SeguridadesOK a nivel general, con esta señal se enclavan todos los dispositivos.</li></ul></li></ul><p><img alt="Texto, Carta
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_22.png" /></p><ul><li>A nivel de dispositivo:<ul><li>Cada dispositivo dispone de una variable de SeguridadesOK, en caso de querer diferenciar las seguridades por dispositivo.</li></ul></li></ul><p><img alt="Forma
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_23.png" /></p>
+</div>
+<div class="doc-section" id="sec_Motores">
+<h3><a id="_Toc224541435"></a>Motores</h3>
+<p>Segmento encargado de llamada a función de gestión de motores arranque directo.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_24.png" /></p><p>Los dispositivos con activación de salidas disponen de dos tipos de seguridades.</p><ul><li>A nivel de función:<ul><li>El bloque tiene una entrada de SeguridadesOK a nivel general, con esta señal se enclavan todos los dispositivos.</li></ul></li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_25.png" /></p><ul><li>A nivel de dispositivo:<ul><li>Cada dispositivo dispone de una variable de SeguridadesOK, en caso de querer diferenciar las seguridades por dispositivo.</li></ul></li></ul><p><img alt="Forma
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_26.png" /></p>
+</div>
+<div class="doc-section" id="sec_Motores_con_variador_cableado">
+<h3><a id="_Toc224541436"></a>Motores con variador cableado</h3>
+<p>Segmento encargado de llamada a función de gestión de motor variador.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_27.png" /></p><p>Los dispositivos con activación de salidas disponen de dos tipos de seguridades.</p><ul><li>A nivel de función:<ul><li>El bloque tiene una entrada de SeguridadesOK a nivel general, con esta señal se enclavan todos los dispositivos.</li></ul></li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_28.png" /></p><ul><li>A nivel de dispositivo:<ul><li>Cada dispositivo dispone de una variable de SeguridadesOK, en caso de querer diferenciar las seguridades por dispositivo.</li></ul></li></ul><p><img alt="Imagen que contiene Forma
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_29.png" /></p>
+</div>
+<div class="doc-section" id="sec_Motores_Sinamics_comunicados">
+<h3><a id="_Toc224541437"></a>Motores Sinamics comunicados</h3>
+<p>PENDIENTE</p>
+</div>
+<div class="doc-section" id="sec_Tanques">
+<h3><a id="_Toc224541438"></a>Tanques</h3>
+<p>PENDIENTE CAMBIO DE FC DE TANQUE</p>
+</div>
+<div class="doc-section" id="sec_Tanques_aire_esteril">
+<h3><a id="_Toc224541439"></a>Tanques aire estéril</h3>
+<p>Segmento encargado de llamada a función de gestión de tanque aire estéril.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_30.png" /></p><p>Para el correcto uso de este dispositivo, previa a la llamada al bloque de gestión hay que realizar un traspaso de valores y de parámetros.</p><ul><li>Asignación de presiones:</li></ul><p><img src="../img/img_31.png" /></p><ul><li>Asignación de parámetros:</li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_32.png" /></p>
+</div>
+<div class="doc-section" id="sec_Totalizadores">
+<h3><a id="_Toc224541440"></a>Totalizadores</h3>
+<p>Segmento encargado de llamada a función de gestión de totalizadores.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_33.png" /></p><p>Para el correcto uso de este dispositivo, previa a la llamada al bloque de gestión hay que realizar la configuración y el traspaso de valores.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_34.png" /></p>
+</div>
+<div class="doc-section" id="sec_Temporizadores_y_Flip_Flop_Glo">
+<h3><a id="_Toc224541441"></a>Temporizadores y Flip Flop Globales</h3>
+<p>Segmento encargado de llamada a función de gestión de temporizadores y de flip flop <strong>GLOBALES</strong>.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_35.png" /></p>
+</div>
+<div class="doc-section" id="sec_PID">
+<h3><a id="_Toc224541442"></a>PID</h3>
+<p>Segmento encargado de llamada a función de gestión de controles PID. A diferencia de los otros dispositivos, este se divide en dos partes. Por un lado, tenemos la gestión del multiplexado y por otro, la gestión de cada PID individual.</p><p><img src="../img/img_36.png" /></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+</body>
+</html>
