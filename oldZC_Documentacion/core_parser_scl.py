@@ -1,12 +1,8 @@
 import os
 import re
-import textwrap
-import core_logger as log
 
-def parsear_bloque(ruta_archivo):
-    """Lee un archivo .scl y devuelve un diccionario puro (sin HTML) con toda su info."""
-    log.info(f"Parseando bloque SCL: {os.path.basename(ruta_archivo)}")
-    
+def parsear_scl(ruta_archivo):
+    """Lee el SCL y devuelve todos los datos limpios y estructurados."""
     with open(ruta_archivo, 'r', encoding='utf-8') as f:
         contenido = f.read()
 
@@ -18,17 +14,17 @@ def parsear_bloque(ruta_archivo):
         if match.group(1) != 'RegionDoc':
             etiquetas[match.group(1)] = match.group(2).strip()
 
-    # Dependencias en bruto (luego el Enlazador se encargará de ponerles URL)
-    dependencias_brutas = []
+    # Estructuramos Dependencias para Jinja2
+    dependencias = []
     if 'Requires' in etiquetas:
         for linea in etiquetas["Requires"].strip().split('\n'):
             if ':' in linea:
                 partes = linea.split(':', 1)
-                dependencias_brutas.append({'tipo': 'normal', 'clave': partes[0].strip(), 'valor': partes[1].strip(), 'url': None})
+                dependencias.append({'tipo': 'normal', 'clave': partes[0].strip(), 'valor': partes[1].strip()})
             elif linea.strip():
-                dependencias_brutas.append({'tipo': 'colspan', 'valor': linea.strip()})
+                dependencias.append({'tipo': 'colspan', 'valor': linea.strip()})
 
-    # Changelog
+    # Estructuramos el Changelog para Jinja2
     changelog = None
     if 'Changelog' in etiquetas:
         lineas = etiquetas["Changelog"].strip().split('\n')
@@ -38,7 +34,7 @@ def parsear_bloque(ruta_archivo):
             for linea in lineas[1:]:
                 if linea.strip():
                     columnas = re.split(r'\s{2,}', linea.strip())
-                    columnas += [''] * (len(cabeceras) - len(columnas))
+                    columnas += [''] * (len(cabeceras) - len(columnas)) # Relleno de seguridad
                     filas.append(columnas)
             changelog = {"cabeceras": cabeceras, "filas": filas}
 
@@ -52,7 +48,6 @@ def parsear_bloque(ruta_archivo):
     # Regiones
     regiones, pila, doc_pendiente = [], [], "Sin documentación específica."
     patron_tokens = r'(?P<doc>///\s*<RegionDoc>\s*\(\*(?P<texto_doc>.*?)\*\)\s*///\s*</RegionDoc>)|(?P<region>^[ \t]*REGION\s+(?P<nombre_region>[^\n\r]+))|(?P<endregion>^[ \t]*END_REGION)'
-    
     for match in re.finditer(patron_tokens, contenido, flags=re.DOTALL | re.IGNORECASE | re.MULTILINE):
         if match.group('doc'):
             doc_pendiente = match.group('texto_doc').strip()
@@ -63,45 +58,21 @@ def parsear_bloque(ruta_archivo):
             doc_pendiente = "Sin documentación específica."
         elif match.group('endregion') and pila:
             region_cerrada = pila.pop()
-            
-            # 1. Cogemos el código bruto con todos sus tabuladores (Solo lo de dentro)
-            codigo_bruto = contenido[region_cerrada['start_idx']:match.start()]
-            
-            # 2. Lo pegamos todo al margen izquierdo (columna 0) y limpiamos los saltos
-            codigo_limpio = textwrap.dedent(codigo_bruto).strip()
-            
-            # 3. Le inyectamos 4 espacios (o un '\t') al principio de cada línea
-            # Así mantenemos la jerarquía visual dentro del REGION en el HTML
-            region_cerrada['codigo'] = textwrap.indent(codigo_limpio, '    ')
-            
+            region_cerrada['codigo'] = contenido[region_cerrada['start_idx']:match.start()].strip()
             if pila: pila[-1]['hijos'].append(region_cerrada['nombre'])
 
-    # OBJETO FINAL (El Contrato de Datos)
-    bloque_data = {
-        "nombre_bloque": nombre_bloque,
-        "etiquetas": etiquetas,
-        "dependencias": dependencias_brutas,
-        "changelog": changelog,
-        "variables": variables,
-        "regiones": regiones,
-        "contenido_original": contenido
-    }
+    return nombre_bloque, etiquetas, dependencias, changelog, variables, regiones, contenido
 
-    # ¡MAGIA DEL LOGGER! Volcamos la memoria de este bloque a un txt
-    log.dump_dict(f"SCL_PARSEADO: {nombre_bloque}", bloque_data)
-
-    return bloque_data
-
-def generar_secciones_menu(bloque_data):
-    """Crea la estructura de apartados para el menú lateral del index."""
+def obtener_menu_secciones(etiquetas, variables, regiones, contenido_original):
+    """Devuelve los apartados que irán al árbol de navegación izquierdo."""
     secciones = []
-    if 'Summary' in bloque_data['etiquetas']: secciones.append({"id": "descripcion", "titulo": "Descripción General", "nivel": 2})
-    if bloque_data['dependencias']: secciones.append({"id": "dependencias", "titulo": "Dependencias", "nivel": 2})
-    if bloque_data['changelog']: secciones.append({"id": "changelog", "titulo": "Historial de Cambios", "nivel": 2})
-    if bloque_data['variables']: secciones.append({"id": "interfaz", "titulo": "Interfaz de Variables", "nivel": 2})
+    if 'Summary' in etiquetas: secciones.append({"id": "descripcion", "titulo": "Descripción General", "nivel": 2})
+    if 'Requires' in etiquetas: secciones.append({"id": "dependencias", "titulo": "Dependencias", "nivel": 2})
+    if 'Changelog' in etiquetas: secciones.append({"id": "changelog", "titulo": "Historial de Cambios", "nivel": 2})
+    if variables: secciones.append({"id": "interfaz", "titulo": "Interfaz de Variables", "nivel": 2})
     
-    for i, reg in enumerate(bloque_data['regiones']):
+    for i, reg in enumerate(regiones):
         secciones.append({"id": f"region_{i}", "titulo": f"Lógica: {reg['nombre']}", "nivel": reg['nivel'] + 1})
         
-    if bloque_data['contenido_original']: secciones.append({"id": "codigo_fuente", "titulo": "Código Fuente Completo", "nivel": 2})
+    if contenido_original: secciones.append({"id": "codigo_fuente", "titulo": "Código Fuente Completo", "nivel": 2})
     return secciones

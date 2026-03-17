@@ -1,7 +1,9 @@
 import os
 import ui_dialogs
+import core_logger as log
 import core_parser_word
 import core_parser_scl
+import core_linker
 import html_renderer
 from tkinter import filedialog
 
@@ -11,10 +13,11 @@ def seleccionar_carpeta_scl():
 def main():
     ui_dialogs.inicializar_ui()
     
-    print("=================================================")
-    print(" ZCALM - GENERADOR DE DOCUMENTACIÓN v2.0 (FINAL) ")
-    print("=================================================")
+    log.info("=================================================")
+    log.info(" ZCALM - GENERADOR DE DOCUMENTACIÓN v3.0 (PRO)   ")
+    log.info("=================================================")
 
+    # -- INTERFAZ DE USUARIO --
     ruta_word = ui_dialogs.seleccionar_archivo_origen()
     if not ruta_word: return
     
@@ -24,50 +27,62 @@ def main():
     if not ruta_destino: return
 
     try:
-        print(f"\n1. Preparando entorno en: {ruta_destino}")
+        log.info(f"Iniciando proceso en la ruta destino: {ruta_destino}")
         html_renderer.copiar_estaticos(ruta_destino)
 
-        print(f"2. Procesando manual de Word...")
-        capitulos = core_parser_word.procesar_word(ruta_word, ruta_destino)
+        # -- FASE 1 y 2: EXTRAER DATOS (WORD) --
+        capitulos_word = core_parser_word.procesar_word(ruta_word, ruta_destino)
+
+        # -- FASE 1 y 2: EXTRAER DATOS (SCL) --
+        bloques_scl = []
+        if ruta_scl and os.path.exists(ruta_scl):
+            log.info(f"Escaneando carpeta SCL: {ruta_scl}")
+            archivos_scl = [f for f in os.listdir(ruta_scl) if f.lower().endswith('.scl')]
+            
+            for archivo in archivos_scl:
+                ruta_completa = os.path.join(ruta_scl, archivo)
+                datos_bloque = core_parser_scl.parsear_bloque(ruta_completa)
+                bloques_scl.append(datos_bloque)
+                
+            log.info(f"Extraídos datos de {len(bloques_scl)} bloques SCL.")
+
+        # -- FASE 3: EL CEREBRO Y LOS ENLACES (LINKER) --
+        registro_global = core_linker.construir_registro_global(capitulos_word, bloques_scl)
+        capitulos_word, bloques_scl = core_linker.enlazar_todo(capitulos_word, bloques_scl, registro_global)
+
+        # -- FASE 4: EL PINTOR Y LAS PLANTILLAS (RENDERER) --
+        log.info("Generando archivos HTML finales...")
         
-        # Renderizar cada capítulo del Word
-        for cap in capitulos:
+        # Pintamos el Word
+        for cap in capitulos_word:
             ruta_guardado = os.path.join(ruta_destino, 'manual', cap["archivo"])
             html_renderer.renderizar_pagina(cap["titulo"], cap["contenido"], ruta_guardado)
 
-        print(f"3. Procesando bloques SCL...")
-        bloques_info = []
-        if ruta_scl and os.path.exists(ruta_scl):
-            archivos_scl = [f for f in os.listdir(ruta_scl) if f.lower().endswith('.scl')]
-            for archivo in archivos_scl:
-                ruta_completa = os.path.join(ruta_scl, archivo)
-                
-                # Extraemos datos
-                nombre, etiquetas, dependencias, changelog, variables, regiones, cont_orig = core_parser_scl.parsear_scl(ruta_completa)
-                
-                # Renderizamos la plantilla Jinja2
-                ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{nombre}.html")
-                html_renderer.renderizar_bloque_scl(nombre, etiquetas, dependencias, changelog, variables, regiones, cont_orig, ruta_guardado)
-                
-                # Guardamos su estructura para el menú izquierdo
-                secciones = core_parser_scl.obtener_menu_secciones(etiquetas, variables, regiones, cont_orig)
-                bloques_info.append({"nombre": nombre, "archivo": f"{nombre}.html", "secciones": secciones})
-                
-            print(f"   -> ¡{len(archivos_scl)} bloques procesados con éxito!")
+        # Pintamos los Bloques SCL
+        bloques_info_menu = []
+        for bloque in bloques_scl:
+            ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque['nombre_bloque']}.html")
+            html_renderer.renderizar_bloque_scl(bloque, ruta_guardado)
+            
+            # Extraemos la estructura para poder dibujar el árbol lateral
+            secciones = core_parser_scl.generar_secciones_menu(bloque)
+            bloques_info_menu.append({"nombre": bloque['nombre_bloque'], "archivo": f"{bloque['nombre_bloque']}.html", "secciones": secciones})
 
-        print(f"4. Generando Índice de Navegación Maestro...")
-        manual_html = html_renderer.construir_arbol_manual(capitulos)
-        bloques_html = html_renderer.construir_arbol_bloques(bloques_info)
-        pagina_inicio = f"manual/{capitulos[0]['archivo']}" if capitulos else "inicio.html"
+        # Pintamos el Index Maestro
+        log.info("Construyendo Índices de navegación...")
+        manual_html = html_renderer.construir_arbol_manual(capitulos_word)
+        bloques_html = html_renderer.construir_arbol_bloques(bloques_info_menu)
+        pagina_inicio = f"manual/{capitulos_word[0]['archivo']}" if capitulos_word else "inicio.html"
         
         html_renderer.renderizar_index(manual_html, bloques_html, pagina_inicio, os.path.join(ruta_destino, 'index.html'))
 
+        log.info("¡PROCESO COMPLETADO CON ÉXITO!")
         ui_dialogs.mostrar_exito(f"Ayuda corporativa generada con éxito en:\n{ruta_destino}")
 
     except Exception as e:
         import traceback
-        traceback.print_exc()
-        ui_dialogs.mostrar_error(f"Error crítico durante la generación:\n{e}")
+        log.error(f"Error crítico durante la generación:\n{traceback.format_exc()}")
+        ui_dialogs.mostrar_error(f"Error crítico durante la generación. Revisa el archivo zcalm_debug.log para más detalles.\nError: {e}")
 
 if __name__ == "__main__":
     main()

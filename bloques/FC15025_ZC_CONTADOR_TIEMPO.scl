@@ -1,0 +1,111 @@
+﻿FUNCTION "FC15025_ZC_CONTADOR_TIEMPO" : Void
+TITLE = FC15025_ZC_CONTADOR_TIEMPO
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : HCR
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion contador de tiempo
+   VAR_INPUT 
+      Pulso1seg : Bool;   // Pulso de 1 segundo
+      Iniciar : Bool;   // Orden iniciar contador
+      Reset : Bool;   // Reset contador
+   END_VAR
+
+   VAR_IN_OUT 
+      Contador : "ZC_CONTADOR_TIEMPO";
+   END_VAR
+
+   VAR_TEMP 
+      borrar : String;
+   END_VAR
+
+   VAR CONSTANT 
+      MAX_HORAS : UDInt := 10000000;   // Valor maximo de horas
+   END_VAR
+
+
+BEGIN
+	//==========================================================================================================
+	/// <Header>
+	(*
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	*)
+	/// </Header>
+	
+	/// <Summary>
+	(* 
+	Nombre:         #FC15025_ZC_CONTADOR_TIEMPO
+	Descripcion:    Funcion #Contador de tiempo.
+	*)
+	/// </Summary>
+	
+	/// <Remarks> 
+	(*
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	*)
+	/// </Remarks>
+	
+	/// <Requires>
+(*
+FC:  FC15001_ZC_INT_TO_STRING
+DB:  DB1_SYS
+UDT: ZC_CONTADOR_TIEMPO
+*)
+/// </Requires>
+	
+	/// <Changelog>
+	(*
+	
+	Version     Fecha       Tecnico a cargo     Descripcion
+	
+	01.00.00    16.03.2023  (HCR)               Primera version
+	01.00.01    25.07.2023  (HCR)               Se añade valor maximo DINT para limitar contador horas. En caso de alcanzar valor maximo,
+	                                            se resetea el contador de horas. 
+	*)
+	/// </Changelog>
+	//==========================================================================================================
+	
+	
+	//==========================================================================================================
+	/// <RegionDoc>
+	(* 
+	Este bloque se encarga de resetear el tiempo del contador
+	*)
+	/// </RegionDoc>
+	REGION RESET_CONTADOR  
+	    
+	    IF #Reset OR "DB1_SYS".ACK OR #Contador.Hora >= #MAX_HORAS THEN
+	        #Contador.Hora := #Contador.Minuto := #Contador.Segundo := 0;
+	    END_IF;
+	    
+	    #borrar := "FC15001_ZC_INT_TO_STRING"(10);
+	END_REGION
+	
+	
+	//==========================================================================================================
+	/// <RegionDoc>
+	(* 
+	Este bloque se encarga de gestionar el contaje del contador, incrementando mediante la entrada #Pulso1seg
+	*)
+	/// </RegionDoc>
+	REGION GESTION_CONTADOR
+	    
+	    IF #Iniciar AND #Pulso1seg THEN
+	        #Contador.#Segundo += 1;
+	        IF #Contador.#Segundo >= 60 THEN
+	            #Contador.#Segundo := 0;
+	            #Contador.#Minuto += 1;
+	            IF #Contador.#Minuto >= 60 THEN
+	                #Contador.#Minuto := 0;
+	                #Contador.Hora += 1;
+	            END_IF;
+	        END_IF;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+END_FUNCTION
+

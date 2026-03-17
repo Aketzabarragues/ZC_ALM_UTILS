@@ -2,63 +2,99 @@ import os
 import sys
 import shutil
 from jinja2 import Environment, FileSystemLoader
-import core_logger as log
 
 def obtener_ruta_base():
-    """Ruta absoluta compatible con el futuro .exe de PyInstaller."""
+    """
+    Obtiene la ruta absoluta del proyecto. 
+    Es VITAL para que PyInstaller encuentre las carpetas estáticas al compilar el .exe.
+    """
     if getattr(sys, 'frozen', False):
+        # Si se ejecuta como un ejecutable (.exe), usa la carpeta temporal de PyInstaller
         return sys._MEIPASS
-    return os.path.dirname(os.path.abspath(__file__))
+    else:
+        # Si se ejecuta como script (.py), usa la ruta de este mismo archivo
+        return os.path.dirname(os.path.abspath(__file__))
 
 def configurar_jinja():
-    """Conecta con la carpeta /templates."""
-    ruta_templates = os.path.join(obtener_ruta_base(), 'templates')
+    """Conecta Jinja2 con nuestra carpeta de plantillas."""
+    ruta_base = obtener_ruta_base()
+    ruta_templates = os.path.join(ruta_base, 'templates')
+    
+    # Creamos el entorno de plantillas
     return Environment(loader=FileSystemLoader(ruta_templates))
 
 def copiar_estaticos(ruta_destino):
-    """Crea las carpetas base y copia el CSS y las imágenes estáticas."""
-    log.info(f"Creando estructura de carpetas en destino: {ruta_destino}")
+    """Copia la carpeta CSS e imágenes a la ruta de generación de la ayuda."""
     ruta_base = obtener_ruta_base()
     
+    # Rutas de origen en nuestro proyecto
+    ruta_css_origen = os.path.join(ruta_base, 'static', 'css')
+    
+    # Rutas de destino donde el usuario quiere guardar la ayuda
     ruta_css_destino = os.path.join(ruta_destino, 'css')
     ruta_img_destino = os.path.join(ruta_destino, 'img')
-    os.makedirs(ruta_css_destino, exist_ok=True)
-    os.makedirs(ruta_img_destino, exist_ok=True)
-    os.makedirs(os.path.join(ruta_destino, 'manual'), exist_ok=True)
-    os.makedirs(os.path.join(ruta_destino, 'bloques'), exist_ok=True)
+    ruta_manual_destino = os.path.join(ruta_destino, 'manual')
+    ruta_bloques_destino = os.path.join(ruta_destino, 'bloques')
     
-    # Copiar CSS
-    archivo_css_origen = os.path.join(ruta_base, 'static', 'css', 'custom.css')
+    # 1. Creamos todas las carpetas necesarias en el destino
+    for carpeta in [ruta_css_destino, ruta_img_destino, ruta_manual_destino, ruta_bloques_destino]:
+        os.makedirs(carpeta, exist_ok=True)
+        
+    # 2. Copiamos los archivos estáticos reales (como el custom.css)
+    archivo_css_origen = os.path.join(ruta_css_origen, 'custom.css')
     if os.path.exists(archivo_css_origen):
         shutil.copy(archivo_css_origen, ruta_css_destino)
-        
-    # Copiar Logo y otras imágenes estáticas
-    ruta_img_origen = os.path.join(ruta_base, 'static', 'img')
-    if os.path.exists(ruta_img_origen):
-        for archivo in os.listdir(ruta_img_origen):
-            shutil.copy(os.path.join(ruta_img_origen, archivo), ruta_img_destino)
-        log.debug("Archivos estáticos (CSS/IMG) copiados correctamente.")
 
 def renderizar_pagina(titulo, contenido_html, ruta_guardado):
-    """Renderiza páginas genéricas (como las del manual de Word)."""
+    """Coge la plantilla genérica, le inyecta el contenido y la guarda en el disco."""
     env = configurar_jinja()
     plantilla = env.get_template('layout_page.html')
-    html_final = plantilla.render(titulo_pagina=titulo, contenido=contenido_html)
+    
+    # Inyectamos las variables a los "comodines" de la plantilla
+    html_final = plantilla.render(
+        titulo_pagina=titulo,
+        contenido=contenido_html
+    )
+    
     with open(ruta_guardado, 'w', encoding='utf-8') as f:
         f.write(html_final)
 
-def renderizar_bloque_scl(datos_bloque, ruta_guardado):
-    """Renderiza un bloque SCL usando las plantillas de Jinja2."""
-    log.debug(f"Renderizando HTML para el bloque: {datos_bloque['nombre_bloque']}")
+def renderizar_index(manual_html, bloques_html, pagina_inicio, ruta_guardado):
+    """Coge la plantilla del menú principal, inyecta los árboles de navegación y la guarda."""
+    env = configurar_jinja()
+    plantilla = env.get_template('layout_index.html')
+    
+    html_final = plantilla.render(
+        manual_html=manual_html,
+        bloques_html=bloques_html,
+        pagina_inicio=pagina_inicio
+    )
+    
+    with open(ruta_guardado, 'w', encoding='utf-8') as f:
+        f.write(html_final)
+
+def renderizar_bloque_scl(nombre_bloque, etiquetas, dependencias, changelog, variables, regiones, contenido_original, ruta_guardado):
+    """Carga los datos de Siemens en su plantilla y la envuelve en el layout de página."""
     env = configurar_jinja()
     plantilla_scl = env.get_template('template_scl.html')
     plantilla_base = env.get_template('layout_page.html')
     
-    # 1. Rellenamos las cajas SCL (pasamos todo el diccionario de golpe)
-    html_interior = plantilla_scl.render(**datos_bloque)
+    # 1. Rellenamos las cajas SCL
+    html_interior = plantilla_scl.render(
+        nombre_bloque=nombre_bloque,
+        etiquetas=etiquetas,
+        dependencias=dependencias,
+        changelog=changelog,
+        variables=variables,
+        regiones=regiones,
+        contenido_original=contenido_original
+    )
     
-    # 2. Metemos las cajas en la página maestra
-    html_final = plantilla_base.render(titulo_pagina=datos_bloque['nombre_bloque'], contenido=html_interior)
+    # 2. Metemos todo ese bloque dentro de la página con menú, css, etc.
+    html_final = plantilla_base.render(
+        titulo_pagina=nombre_bloque,
+        contenido=html_interior
+    )
     
     with open(ruta_guardado, 'w', encoding='utf-8') as f:
         f.write(html_final)
@@ -133,12 +169,3 @@ def construir_arbol_bloques(bloques_info):
             bloques_html += '</ul>\n'
         bloques_html += '</li>\n'
     return bloques_html
-
-def renderizar_index(manual_html, bloques_html, pagina_inicio, ruta_guardado):
-    """Renderiza el menú lateral interactivo."""
-    log.info("Renderizando index.html principal...")
-    env = configurar_jinja()
-    plantilla = env.get_template('layout_index.html')
-    html_final = plantilla.render(manual_html=manual_html, bloques_html=bloques_html, pagina_inicio=pagina_inicio)
-    with open(ruta_guardado, 'w', encoding='utf-8') as f:
-        f.write(html_final)

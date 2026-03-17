@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC1_ZC_SISTEMA</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541454"></a>FC1_ZC_SISTEMA</h2><p>Función encargada de gestionar marcas de sistema, fecha y hora, selección de usuarios y selección de idioma.</p>
+</div>
+<div class="doc-section" id="sec_Registro_de_versiones">
+<h3><a id="_Toc146267717"></a><a id="_Toc224541455"></a>Registro de versiones</h3>
+<table><tr><td><p>Versión</p></td><td><p>Fecha</p></td><td><p>Técnico</p></td><td><p>Descripción</p></td></tr><tr><td><p>01.00.00</p></td><td><p>03/11/2022</p></td><td><p>HCR</p></td><td><p>Primera version</p></td></tr><tr><td><p>01.00.01</p></td><td><p>02/06/2023</p></td><td><p>ABH</p></td><td><p>Optimización de bloque para integrar en librería.<br />Se eliminan marcas no utilizadas.<br />Se reorganizan las variables y se ponen bien los comentarios.</p></td></tr><tr><td><p>01.00.02</p></td><td><p>24.04.2025</p></td><td><p>HCR</p></td><td><p>Se añade gestión de idioma</p></td></tr><tr><td><p>01.00.03</p></td><td><p>11.09.2025</p></td><td><p>ABH</p></td><td><p>Se eliminan las constantes de idioma dentro del FC. Se utilizan constantes globales para                                                 facilitar su traducción.</p></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></table>
+</div>
+<div class="doc-section" id="sec_PLC_Dependencias">
+<h3><a id="_Toc146267718"></a><a id="_Toc224541456"></a>PLC Dependencias</h3>
+<p>La función tiene las siguientes dependencias:</p><ul><li>FC15026_ZC_PULSADOR</li><li>ZC_PULSADOR</li></ul>
+</div>
+<div class="doc-section" id="sec_PLC_Tipo_de_datos">
+<h3><a id="_Toc146267719"></a><a id="_Toc224541457"></a>PLC Tipo de datos</h3>
+<p>N.A.</p><p><a id="_Toc146267720"></a></p>
+</div>
+<div class="doc-section" id="sec_PLC_Bloque_de_datos">
+<h3><a id="_Toc224541458"></a>PLC Bloque de datos</h3>
+<p>Para el uso de las marcas de sistema, se utilizará el DB1_SYS.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_168.png" /></p><p>ON</p>
+</div>
+<div class="doc-section" id="sec_PLC_Gestion">
+<h3><a id="_Toc146267721"></a><a id="_Toc224541459"></a>PLC Gestión</h3>
+<p>-</p>
+</div>
+<div class="doc-section" id="sec_HMI_Variables">
+<h3><a id="_Toc146267722"></a><a id="_Toc224541460"></a>HMI Variables</h3>
+<p>-</p>
+</div>
+<div class="doc-section" id="sec_HMI_Lista_de_texto">
+<h3><a id="_Toc146267723"></a> <a id="_Toc224541461"></a>HMI Lista de texto</h3>
+<p>-</p>
+</div>
+<div class="doc-section" id="sec_HMI_Alarmas">
+<h3><a id="_Toc146267724"></a><a id="_Toc224541462"></a>HMI Alarmas</h3>
+<p>-</p>
+</div>
+<div class="doc-section" id="sec_HMI_Objeto_sinoptico">
+<h3><a id="_Toc146267725"></a><a id="_Toc224541463"></a>HMI Objeto sinóptico</h3>
+<p><a id="_Toc146267726"></a>-</p>
+</div>
+<div class="doc-section" id="sec_HMI_Ventana_emergente">
+<h3><a id="_Toc224541464"></a>HMI Ventana emergente</h3>
+<p><a id="_Toc146267727"></a>-</p>
+</div>
+<div class="doc-section" id="sec_HMI_Configuracion">
+<h3><a id="_Toc224541465"></a>HMI Configuración</h3>
+<p>-</p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC2010_ZC_V</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>FC2010_ZC_V</h1>
+
+    
+        <h3>Descripción General</h3>
+        <p style="white-space: pre-wrap;">Nombre:         DISPOSITIVO VALVULA
+	Descripcion:    Modelo de dispositivo válvula para la gestión integral de alarmas, modos y multiplexado hacia el HMI.</p>
+        
+        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
+            <strong>Notas y Restricciones:</strong>
+            <p style="white-space: pre-wrap; margin-bottom: 0;">Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500</p>
+        </div>
+        
+    
+</div>
+
+
+<div class="doc-section" id="dependencias">
+    <h3>Dependencias</h3>
+    <table>
+        <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
+        
+            
+                <tr>
+                    <td><strong>FC</strong></td>
+                    <td>
+                        
+                            FC8_ZC_TRAZA_REGISTRO
+                        
+                    </td>
+                </tr>
+            
+        
+            
+                <tr>
+                    <td><strong>DB</strong></td>
+                    <td>
+                        
+                            DB1_SYS, DB2010_V
+                        
+                    </td>
+                </tr>
+            
+        
+    </table>
+</div>
+
+
+
+<div class="doc-section" id="changelog">
+    <h3>Historial de Cambios (Changelog)</h3>
+    <table>
+        <tr>
+        
+            <th>Version</th>
+        
+            <th>Fecha</th>
+        
+            <th>Tecnico a cargo</th>
+        
+            <th>Descripcion</th>
+        
+        </tr>
+        
+        <tr>
+            
+            <td>01.00.00</td>
+            
+            <td>15.10.2020</td>
+            
+            <td>(ABH)</td>
+            
+            <td>Primera version.</td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>01.00.01</td>
+            
+            <td>28.11.2020</td>
+            
+            <td>(ABH)</td>
+            
+            <td>Añadidas alarmas mantenimiento</td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>01.00.02</td>
+            
+            <td>28.07.2021</td>
+            
+            <td>(ABH)</td>
+            
+            <td>Añadidas alarmas en doble posicion / ninguna posicion</td>
+            
+        </tr>
+        
+        <tr>
+            
+            <td>01.00.17</td>
+            
+            <td>29.01.2026</td>
+            
+            <td>(ABH)</td>
+            
+            <td>Se reorganiza la logica de gestion de las alarmas.</td>
+            
+        </tr>
+        
+    </table>
+</div>
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Arranque</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SeguridadesOK</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_mux</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_oldIndex</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ErrorReposo</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ErrorDoble</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_TrazaManual</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_TrazaActivado</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: IDIOMA</h3>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de gestionar los idiomas para la generación de alarmas,
+	leyendo la variable de configuración de idioma actual del HMI.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION IDIOMA
+    CASE #Idioma OF
+            // =============================================================================
+            // ESPAÑOL
+        1:
+            #t_TrazaDispositivo := '';
+            #t_TrazaManual := '';
+            #t_TrazaAutomatico := '';
+            #t_TrazaActivado := '';
+            #t_TrazaDesactivado := '';
+    END_CASE;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_1">
+        <h3>🔸 Lógica: MULTIPLEXADO</h3>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Gestión centralizada del Multiplexado de datos hacia las pantallas HMI.
+	Nota estructural: Esta región contiene la lógica de primer arranque y un bucle principal 
+	que recorre todos los multiplexados activos ("N_MAX_MUX_DISP").</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: INICIALIZACION_ARRANQUE</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Al arranque del PLC, ponemos a 0 todos los índices de los multiplexados y abortamos la ejecución de esta región.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION INICIALIZACION_ARRANQUE
+    IF #Arranque THEN
+        FOR #for_mux := 0 TO "N_MAX_MUX_DISP" DO
+            "DB2010_V".Mux[#for_mux].Index :=
+            "DB2010_V".Mux[#for_mux].oldIndex := 0;
+        END_FOR;
+        RETURN;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: BUCLE_PRINCIPAL_MUX</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Bucle principal de escaneo para evaluar y procesar los índices solicitados desde las pantallas HMI.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITES</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Antes de iniciar la lógica del multiplexado, revisamos que el índice solicitado
+	            esté dentro de los límites permitidos (0 y N_MAX_DISP_V). Si se excede, se limita y se activa el flag MaxVisible.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITES
+    IF "DB2010_V".Mux[#for_mux].Index < 0 THEN
+        "DB2010_V".Mux[#for_mux].Index := 0;
+    END_IF;
+    IF "DB2010_V".Mux[#for_mux].Index > "N_MAX_DISP_V" THEN
+        "DB2010_V".Mux[#for_mux].Index := "N_MAX_DISP_V";
+    END_IF;
+    IF "DB2010_V".Mux[#for_mux].Index >= "N_MAX_DISP_V" THEN
+        "DB2010_V".Mux[#for_mux].MaxVisible := TRUE;
+    ELSE
+        "DB2010_V".Mux[#for_mux].MaxVisible := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CARGA_INICIAL</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Carga inicial de valores del dispositivo al detectar un cambio de índice desde el HMI.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CARGA_INICIAL
+    IF #t_Index <> #t_oldIndex THEN
+        "DB2010_V".Mux[#for_mux].V := "DB2010_V".V[#t_Index];
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_6" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_LECTURA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Transfiere el estado actual físico de la válvula al multiplexado para visualizarlo en pantalla.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_LECTURA
+    "DB2010_V".Mux[#for_mux].V.Hmi_Estado := "DB2010_V".V[#t_Index].Hmi_Estado;
+    "DB2010_V".Mux[#for_mux].V.Estado_SeguridadOk := "DB2010_V".V[#t_Index].Estado_SeguridadOk;
+    // ... (Resto de mapeos de lectura)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_7" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_ESCRITURA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Captura las órdenes y cambios de configuración realizados por el usuario en el HMI y los aplica a la válvula.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_ESCRITURA
+    "DB2010_V".Mux[#for_mux].ExisteCambio := false;
+    IF "DB2010_V".Mux[#for_mux].V.Estado_AutoMan <> "DB2010_V".V[#t_Index].Estado_AutoMan THEN
+        "DB2010_V".V[#t_Index].Estado_AutoMan := "DB2010_V".Mux[#for_mux].V.Estado_AutoMan;
+        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    // ... (Resto de órdenes y configuraciones)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_CAMBIOS</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Sincroniza los cambios realizados en este multiplexado con el resto de visores que tengan abierto el mismo dispositivo.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_CAMBIOS
+    IF "DB2010_V".Mux[#for_mux].ExisteCambio THEN
+        FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
+            IF #for_mux_cambios <> #for_mux THEN
+                IF #t_Index = "DB2010_V".Mux[#for_mux_cambios].Index THEN
+                    "DB2010_V".Mux[#for_mux_cambios].V := "DB2010_V".V[#t_Index];
+                END_IF;
+            END_IF;
+        END_FOR;
+        "DB2010_V".Mux[#for_mux].ExisteCambio := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_9">
+        <h3>🔸 Lógica: LOGICA_DEL_DISPOSITIVO</h3>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Motor principal de control. 
+	Recorre todos los dispositivos físicos configurados ("N_MAX_DISP_V") y ejecuta la lógica de lectura, control, diagnóstico y escritura.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_10" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITE_GRUPO_ALARMA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Asegura que la válvula está asignada a un grupo de alarmas válido y existente.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITE_GRUPO_ALARMA
+    IF "DB2010_V".V[#for_i].Config_GrupoAlarma < 0 THEN
+        "DB2010_V".V[#for_i].Config_GrupoAlarma := 0;
+    END_IF;
+    IF "DB2010_V".V[#for_i].Config_GrupoAlarma > "N_MAX_DISP_AGRUP" THEN
+        "DB2010_V".V[#for_i].Config_GrupoAlarma := "N_MAX_DISP_AGRUP";
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_11" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LECTURA_VALORES_DE_LA_TARJETA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Lectura de las señales físicas de retorno (Finales de carrera) mediante punteros dinámicos (PEEK_BOOL).</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LECTURA_VALORES_DE_LA_TARJETA
+    IF "DB2010_V".V[#for_i].Config_DireccionRetReposoByte >= 0 THEN
+        "DB2010_V".V[#for_i].Estado_EntradaRetornoReposo := PEEK_BOOL(area := 16#81,
+                                                            dbNumber := 0,
+                                                            byteOffset := "DB2010_V".V[#for_i].Config_DireccionRetReposoByte,
+                                                            bitOffset := "DB2010_V".V[#for_i].Config_DireccionRetReposoBit);
+    END_IF;
+    // ... (Lógica de retorno trabajo)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_12" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: MODOS_DE_TRABAJO</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Evalúa la orden de activación basándose en si la válvula se encuentra en modo Automático o Manual.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION MODOS_DE_TRABAJO
+    IF "DB2010_V".V[#for_i].Estado_AutoMan THEN
+        "DB2010_V".Agrup["DB2010_V".V[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+        IF "DB2010_V".V[#for_i].Orden_ActivarManual AND #SeguridadesOK AND "DB2010_V".V[#for_i].Estado_SeguridadOk THEN 
+            #t_Activar := TRUE;
+        ELSE
+            #t_Activar := FALSE;
+            "DB2010_V".V[#for_i].Orden_ActivarManual := FALSE;
+        END_IF;
+    ELSE
+        "DB2010_V".V[#for_i].Orden_ActivarManual := FALSE;
+        // ... (Lógica automática)
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_13" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESTADO_DEL_DISPOSITIVO</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Cruza la orden de activación (#t_Activar) con los finales de carrera físicos y la configuración para establecer el estado real de la válvula.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESTADO_DEL_DISPOSITIVO
+    IF #Simulacion THEN
+        IF #t_Activar THEN "DB2010_V".V[#for_i].Estado_Activado := TRUE; ELSE "DB2010_V".V[#for_i].Estado_Activado := FALSE; END_IF;
+    END_IF;
+    // ... (Lógica de los diferentes tipos de válvulas)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_14" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ERRORES</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Subsistema principal de evaluación, temporización y confirmación de fallos mecánicos de la válvula.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_15" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_ALARMA_INSTANTANEA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Detección instantánea (sin temporizar) de discrepancias entre la orden dada y el retorno físico esperado.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_ALARMA_INSTANTANEA
+    // (Lógica instantánea reposo, trabajo y doble)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_16" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_TIEMPO_ALARMA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Aplica el tiempo de gracia (Setpoint) configurado a los errores instantáneos detectados antes de lanzar una alarma.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_TIEMPO_ALARMA
+    // (Temporizador de alarmas)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_17" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_ALARMAS</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Consolida los errores superados en tiempo y activa la alarma general del dispositivo y del grupo.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_ALARMAS
+    // (Traspaso de tiempos a marcas de alarma reales)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_18" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DIAGNOSIS</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Contabiliza maniobras para los planes de mantenimiento preventivo.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DIAGNOSIS
+    IF ("DB2010_V".V[#for_i].Estado_Activado AND NOT "DB2010_V".V[#for_i].Aux_oldActivado) OR
+        (NOT "DB2010_V".V[#for_i].Estado_Activado AND "DB2010_V".V[#for_i].Aux_oldActivado) THEN
+        "DB2010_V".V[#for_i].Tiempos_Ciclos += 1;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_19" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESCRITURA_SALIDA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Ataque físico a la salida de la tarjeta de periferia (POKE_BOOL) si la válvula no está en alarma.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESCRITURA_SALIDA
+    IF "DB2010_V".V[#for_i].Config_DireccionSalidaByte >= 0 THEN
+        IF #t_Activar AND NOT "DB2010_V".V[#for_i].Alarmas_General THEN
+            POKE_BOOL(area := 16#82, dbNumber := 0, byteOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaByte, bitOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaBit, value := TRUE);
+        ELSE
+            POKE_BOOL(area := 16#82, dbNumber := 0, byteOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaByte, bitOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaBit, value := FALSE);
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_20" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZABILIDAD_MANUALIZACION</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Registra en el sistema de trazabilidad del SCADA/HMI los cambios de estado (Pase a Manual) y maniobras operadas manualmente.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZABILIDAD_MANUALIZACION
+    IF "DB2010_V".V[#for_i].Estado_AutoMan AND NOT "DB2010_V".V[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual, Registrar := 1, Categoria := 1, Id := #for_i, User := "DB1_SYS".Usuario.Actual, Texto := CONCAT_STRING(IN1 := #t_TrazaDispositivo, IN2 := "DB2010_V".V[#for_i].Hmi_Nombre, IN3 := #t_TrazaManual));
+    END_IF;
+    // ... (Resto de trazas)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_21" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_HMI</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Compacta el estado de alarmas, manual, etc. en una única variable 'Word' para ahorrar recursos en la comunicación HMI.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_HMI
+    "DB2010_V".V[#for_i].Hmi_Estado.%X0 :="DB2010_V".V[#for_i].Config_Habilitar;
+    "DB2010_V".V[#for_i].Hmi_Estado.%X1 := "DB2010_V".V[#for_i].Estado_AutoMan;
+    // ... (Resto de mapeos de bits)
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_22" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_NUEVA_ALARMA</h4>
+    
+    
+    
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Detección de flanco positivo de una alarma para disparar la activación de balizas o cláxones a nivel de máquina.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_NUEVA_ALARMA
+    IF "DB2010_V".V[#for_i].Alarmas_General AND NOT "DB2010_V".V[#for_i].Aux_oldAlarma THEN
+        "DB2010_V".Agrup["DB2010_V".V[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+        "DB2010_V".V[#for_i].Aux_oldAlarma := TRUE;
+    END_IF;
+    IF NOT "DB2010_V".V[#for_i].Alarmas_General AND NOT #t_ErrorReposo AND NOT #t_ErrorTrabajo THEN
+        "DB2010_V".V[#for_i].Aux_oldAlarma := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC2010_ZC_V&#34; : Void
+TITLE = FC2010_V
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Modelo de dispositivo vlvula
+   VAR_INPUT 
+      Pulso1seg : Bool;
+      Simulacion : Bool;
+      Arranque : Bool;
+      Ack : Bool;
+      SeguridadesOK : Bool;
+      Idioma : Int;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      for_mux_cambios : Int;
+      for_mux : Int;
+      t_Index : Int;
+      t_oldIndex : Int;
+      t_Activar : Bool;
+      t_ErrorReposo : Bool;
+      t_ErrorTrabajo : Bool;
+      t_ErrorDoble : Bool;
+      t_TrazaDispositivo : String;
+      t_TrazaManual : String;
+      t_TrazaAutomatico : String;
+      t_TrazaActivado : String;
+      t_TrazaDesactivado : String;
+   END_VAR
+
+
+BEGIN
+	//==========================================================================================================
+	/// &lt;Header&gt;
+	(*
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	----------------------------------------------------------------------------- 
+	*)
+	/// &lt;/Header&gt;
+	
+	/// &lt;Summary&gt;
+	(* Nombre:         DISPOSITIVO VALVULA
+	Descripcion:    Modelo de dispositivo válvula para la gestión integral de alarmas, modos y multiplexado hacia el HMI.
+	*)
+	/// &lt;/Summary&gt;
+	
+	/// &lt;Remarks&gt; 
+	(*
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	*)
+	/// &lt;/Remarks&gt;
+	
+	/// &lt;Requires&gt;
+	(*
+	FC:  FC8_ZC_TRAZA_REGISTRO
+	DB:  DB1_SYS, DB2010_V
+	*)
+	/// &lt;/Requires&gt;
+	
+	/// &lt;Changelog&gt;
+	(*
+	Version     Fecha       Tecnico a cargo     Descripcion
+	01.00.00    15.10.2020  (ABH)               Primera version.
+	01.00.01    28.11.2020  (ABH)               Añadidas alarmas mantenimiento
+	01.00.02    28.07.2021  (ABH)               Añadidas alarmas en doble posicion / ninguna posicion
+	01.00.17    29.01.2026  (ABH)               Se reorganiza la logica de gestion de las alarmas.
+	*)
+	/// &lt;/Changelog&gt;
+	//==========================================================================================================
+
+
+	//==========================================================================================================
+	/// &lt;RegionDoc&gt;
+	(* Este bloque se encarga de gestionar los idiomas para la generación de alarmas,
+	leyendo la variable de configuración de idioma actual del HMI.
+	*)
+	/// &lt;/RegionDoc&gt;
+	REGION IDIOMA
+	    CASE #Idioma OF
+	            // =============================================================================
+	            // ESPAÑOL
+	        1:
+	            #t_TrazaDispositivo := &#39;&#39;;
+	            #t_TrazaManual := &#39;&#39;;
+	            #t_TrazaAutomatico := &#39;&#39;;
+	            #t_TrazaActivado := &#39;&#39;;
+	            #t_TrazaDesactivado := &#39;&#39;;
+	    END_CASE;
+	END_REGION
+	
+	
+	//==========================================================================================================
+	/// &lt;RegionDoc&gt;
+	(* Gestión centralizada del Multiplexado de datos hacia las pantallas HMI.
+	Nota estructural: Esta región contiene la lógica de primer arranque y un bucle principal 
+	que recorre todos los multiplexados activos (&#34;N_MAX_MUX_DISP&#34;).
+	*)
+	/// &lt;/RegionDoc&gt;
+	REGION MULTIPLEXADO
+	    
+	    //--------------------------------------------------------------------------------------------------
+	    /// &lt;RegionDoc&gt;
+	    (* Al arranque del PLC, ponemos a 0 todos los índices de los multiplexados y abortamos la ejecución de esta región. *)
+	    /// &lt;/RegionDoc&gt;
+	    REGION INICIALIZACION_ARRANQUE
+	        IF #Arranque THEN
+	            FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	                &#34;DB2010_V&#34;.Mux[#for_mux].Index :=
+	                &#34;DB2010_V&#34;.Mux[#for_mux].oldIndex := 0;
+	            END_FOR;
+	            RETURN;
+	        END_IF;
+	    END_REGION
+	    
+	    //--------------------------------------------------------------------------------------------------
+	    /// &lt;RegionDoc&gt;
+	    (* Bucle principal de escaneo para evaluar y procesar los índices solicitados desde las pantallas HMI. *)
+	    /// &lt;/RegionDoc&gt;
+	    REGION BUCLE_PRINCIPAL_MUX
+	        FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	            
+	            /// &lt;RegionDoc&gt;
+	            (* Antes de iniciar la lógica del multiplexado, revisamos que el índice solicitado
+	            esté dentro de los límites permitidos (0 y N_MAX_DISP_V). Si se excede, se limita y se activa el flag MaxVisible. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION LIMITES
+	                IF &#34;DB2010_V&#34;.Mux[#for_mux].Index &lt; 0 THEN
+	                    &#34;DB2010_V&#34;.Mux[#for_mux].Index := 0;
+	                END_IF;
+	                IF &#34;DB2010_V&#34;.Mux[#for_mux].Index &gt; &#34;N_MAX_DISP_V&#34; THEN
+	                    &#34;DB2010_V&#34;.Mux[#for_mux].Index := &#34;N_MAX_DISP_V&#34;;
+	                END_IF;
+	                IF &#34;DB2010_V&#34;.Mux[#for_mux].Index &gt;= &#34;N_MAX_DISP_V&#34; THEN
+	                    &#34;DB2010_V&#34;.Mux[#for_mux].MaxVisible := TRUE;
+	                ELSE
+	                    &#34;DB2010_V&#34;.Mux[#for_mux].MaxVisible := FALSE;
+	                END_IF;
+	            END_REGION 
+	            
+	            #t_Index := &#34;DB2010_V&#34;.Mux[#for_mux].Index;
+	            #t_oldIndex := &#34;DB2010_V&#34;.Mux[#for_mux].oldIndex;
+	            &#34;DB2010_V&#34;.Mux[#for_mux].oldIndex := #t_Index;
+	            
+	            IF &#34;DB2010_V&#34;.Mux[#for_mux].Habilitar THEN
+	                IF #t_Index &gt; 0 THEN
+	                    
+	                    /// &lt;RegionDoc&gt;
+	                    (* Carga inicial de valores del dispositivo al detectar un cambio de índice desde el HMI. *)
+	                    /// &lt;/RegionDoc&gt;
+	                    REGION CARGA_INICIAL
+	                        IF #t_Index &lt;&gt; #t_oldIndex THEN
+	                            &#34;DB2010_V&#34;.Mux[#for_mux].V := &#34;DB2010_V&#34;.V[#t_Index];
+	                        END_IF;
+	                    END_REGION
+	                    
+	                    /// &lt;RegionDoc&gt;
+	                    (* Transfiere el estado actual físico de la válvula al multiplexado para visualizarlo en pantalla. *)
+	                    /// &lt;/RegionDoc&gt;
+	                    REGION DATOS_LECTURA
+	                        &#34;DB2010_V&#34;.Mux[#for_mux].V.Hmi_Estado := &#34;DB2010_V&#34;.V[#t_Index].Hmi_Estado;
+	                        &#34;DB2010_V&#34;.Mux[#for_mux].V.Estado_SeguridadOk := &#34;DB2010_V&#34;.V[#t_Index].Estado_SeguridadOk;
+	                        // ... (Resto de mapeos de lectura)
+	                    END_REGION
+
+	                    /// &lt;RegionDoc&gt;
+	                    (* Captura las órdenes y cambios de configuración realizados por el usuario en el HMI y los aplica a la válvula. *)
+	                    /// &lt;/RegionDoc&gt;
+	                    REGION DATOS_ESCRITURA
+	                        &#34;DB2010_V&#34;.Mux[#for_mux].ExisteCambio := false;
+	                        IF &#34;DB2010_V&#34;.Mux[#for_mux].V.Estado_AutoMan &lt;&gt; &#34;DB2010_V&#34;.V[#t_Index].Estado_AutoMan THEN
+	                            &#34;DB2010_V&#34;.V[#t_Index].Estado_AutoMan := &#34;DB2010_V&#34;.Mux[#for_mux].V.Estado_AutoMan;
+	                            &#34;DB2010_V&#34;.Mux[#for_mux].ExisteCambio := true;
+	                        END_IF;
+	                        // ... (Resto de órdenes y configuraciones)
+	                    END_REGION
+	                    
+	                    /// &lt;RegionDoc&gt;
+	                    (* Sincroniza los cambios realizados en este multiplexado con el resto de visores que tengan abierto el mismo dispositivo. *)
+	                    /// &lt;/RegionDoc&gt;
+	                    REGION GESTION_CAMBIOS
+	                        IF &#34;DB2010_V&#34;.Mux[#for_mux].ExisteCambio THEN
+	                            FOR #for_mux_cambios := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	                                IF #for_mux_cambios &lt;&gt; #for_mux THEN
+	                                    IF #t_Index = &#34;DB2010_V&#34;.Mux[#for_mux_cambios].Index THEN
+	                                        &#34;DB2010_V&#34;.Mux[#for_mux_cambios].V := &#34;DB2010_V&#34;.V[#t_Index];
+	                                    END_IF;
+	                                END_IF;
+	                            END_FOR;
+	                            &#34;DB2010_V&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	                        END_IF;
+	                    END_REGION
+	                    
+	                END_IF;
+	            END_IF;
+	        END_FOR;
+	    END_REGION
+	END_REGION
+	
+	
+	//==========================================================================================================
+	/// &lt;RegionDoc&gt;
+	(* Motor principal de control. 
+	Recorre todos los dispositivos físicos configurados (&#34;N_MAX_DISP_V&#34;) y ejecuta la lógica de lectura, control, diagnóstico y escritura. *)
+	/// &lt;/RegionDoc&gt;
+	REGION LOGICA_DEL_DISPOSITIVO
+	    
+	    FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	        &#34;DB2010_V&#34;.Agrup[#for_i].AlgunaAlarma := FALSE;
+	        &#34;DB2010_V&#34;.Agrup[#for_i].AlgunaEnManual := FALSE;
+	    END_FOR;
+	    
+	    FOR #for_i := 1 TO &#34;N_MAX_DISP_V&#34; DO
+	        
+	        IF &#34;DB2010_V&#34;.V[#for_i].Config_Habilitar THEN
+	            
+	            /// &lt;RegionDoc&gt;
+	            (* Asegura que la válvula está asignada a un grupo de alarmas válido y existente. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION LIMITE_GRUPO_ALARMA
+	                IF &#34;DB2010_V&#34;.V[#for_i].Config_GrupoAlarma &lt; 0 THEN
+	                    &#34;DB2010_V&#34;.V[#for_i].Config_GrupoAlarma := 0;
+	                END_IF;
+	                IF &#34;DB2010_V&#34;.V[#for_i].Config_GrupoAlarma &gt; &#34;N_MAX_DISP_AGRUP&#34; THEN
+	                    &#34;DB2010_V&#34;.V[#for_i].Config_GrupoAlarma := &#34;N_MAX_DISP_AGRUP&#34;;
+	                END_IF;
+	            END_REGION
+	            
+	            #t_Activar := FALSE;
+
+	            /// &lt;RegionDoc&gt;
+	            (* Lectura de las señales físicas de retorno (Finales de carrera) mediante punteros dinámicos (PEEK_BOOL). *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION LECTURA_VALORES_DE_LA_TARJETA
+	                IF &#34;DB2010_V&#34;.V[#for_i].Config_DireccionRetReposoByte &gt;= 0 THEN
+	                    &#34;DB2010_V&#34;.V[#for_i].Estado_EntradaRetornoReposo := PEEK_BOOL(area := 16#81,
+	                                                                        dbNumber := 0,
+	                                                                        byteOffset := &#34;DB2010_V&#34;.V[#for_i].Config_DireccionRetReposoByte,
+	                                                                        bitOffset := &#34;DB2010_V&#34;.V[#for_i].Config_DireccionRetReposoBit);
+	                END_IF;
+	                // ... (Lógica de retorno trabajo)
+	            END_REGION
+	                  
+	            /// &lt;RegionDoc&gt;
+	            (* Evalúa la orden de activación basándose en si la válvula se encuentra en modo Automático o Manual. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION MODOS_DE_TRABAJO
+	                IF &#34;DB2010_V&#34;.V[#for_i].Estado_AutoMan THEN
+	                    &#34;DB2010_V&#34;.Agrup[&#34;DB2010_V&#34;.V[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+	                    IF &#34;DB2010_V&#34;.V[#for_i].Orden_ActivarManual AND #SeguridadesOK AND &#34;DB2010_V&#34;.V[#for_i].Estado_SeguridadOk THEN 
+	                        #t_Activar := TRUE;
+	                    ELSE
+	                        #t_Activar := FALSE;
+	                        &#34;DB2010_V&#34;.V[#for_i].Orden_ActivarManual := FALSE;
+	                    END_IF;
+	                ELSE
+	                    &#34;DB2010_V&#34;.V[#for_i].Orden_ActivarManual := FALSE;
+	                    // ... (Lógica automática)
+	                END_IF;
+	            END_REGION
+	                  
+	            /// &lt;RegionDoc&gt;
+	            (* Cruza la orden de activación (#t_Activar) con los finales de carrera físicos y la configuración para establecer el estado real de la válvula. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION ESTADO_DEL_DISPOSITIVO
+	                IF #Simulacion THEN
+	                    IF #t_Activar THEN &#34;DB2010_V&#34;.V[#for_i].Estado_Activado := TRUE; ELSE &#34;DB2010_V&#34;.V[#for_i].Estado_Activado := FALSE; END_IF;
+	                END_IF;
+	                // ... (Lógica de los diferentes tipos de válvulas)
+	            END_REGION
+	                  
+	            /// &lt;RegionDoc&gt;
+	            (* Subsistema principal de evaluación, temporización y confirmación de fallos mecánicos de la válvula. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION ERRORES
+	                
+	                /// &lt;RegionDoc&gt;
+	                (* Detección instantánea (sin temporizar) de discrepancias entre la orden dada y el retorno físico esperado. *)
+	                /// &lt;/RegionDoc&gt;
+	                REGION GESTION_ALARMA_INSTANTANEA
+	                    // (Lógica instantánea reposo, trabajo y doble)
+	                END_REGION
+	                
+	                /// &lt;RegionDoc&gt;
+	                (* Aplica el tiempo de gracia (Setpoint) configurado a los errores instantáneos detectados antes de lanzar una alarma. *)
+	                /// &lt;/RegionDoc&gt;
+	                REGION GESTION_TIEMPO_ALARMA
+	                    // (Temporizador de alarmas)
+	                END_REGION
+	                
+	                /// &lt;RegionDoc&gt;
+	                (* Consolida los errores superados en tiempo y activa la alarma general del dispositivo y del grupo. *)
+	                /// &lt;/RegionDoc&gt;
+	                REGION GESTION_ALARMAS                          
+	                    // (Traspaso de tiempos a marcas de alarma reales)
+	                END_REGION
+	                
+	            END_REGION
+	                  
+	            /// &lt;RegionDoc&gt;
+	            (* Contabiliza maniobras para los planes de mantenimiento preventivo. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION DIAGNOSIS
+	                IF (&#34;DB2010_V&#34;.V[#for_i].Estado_Activado AND NOT &#34;DB2010_V&#34;.V[#for_i].Aux_oldActivado) OR
+	                    (NOT &#34;DB2010_V&#34;.V[#for_i].Estado_Activado AND &#34;DB2010_V&#34;.V[#for_i].Aux_oldActivado) THEN
+	                    &#34;DB2010_V&#34;.V[#for_i].Tiempos_Ciclos += 1;
+	                END_IF;
+	            END_REGION
+	                  
+	            /// &lt;RegionDoc&gt;
+	            (* Ataque físico a la salida de la tarjeta de periferia (POKE_BOOL) si la válvula no está en alarma. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION ESCRITURA_SALIDA
+	                IF &#34;DB2010_V&#34;.V[#for_i].Config_DireccionSalidaByte &gt;= 0 THEN
+	                    IF #t_Activar AND NOT &#34;DB2010_V&#34;.V[#for_i].Alarmas_General THEN
+	                        POKE_BOOL(area := 16#82, dbNumber := 0, byteOffset := &#34;DB2010_V&#34;.V[#for_i].Config_DireccionSalidaByte, bitOffset := &#34;DB2010_V&#34;.V[#for_i].Config_DireccionSalidaBit, value := TRUE);
+	                    ELSE
+	                        POKE_BOOL(area := 16#82, dbNumber := 0, byteOffset := &#34;DB2010_V&#34;.V[#for_i].Config_DireccionSalidaByte, bitOffset := &#34;DB2010_V&#34;.V[#for_i].Config_DireccionSalidaBit, value := FALSE);
+	                    END_IF;
+	                END_IF;
+	            END_REGION
+	                  
+	            &#34;DB2010_V&#34;.V[#for_i].Orden_ActivarAuto := FALSE;
+	            &#34;DB2010_V&#34;.V[#for_i].Estado_Enclavado := FALSE;
+	                  
+	            /// &lt;RegionDoc&gt;
+	            (* Registra en el sistema de trazabilidad del SCADA/HMI los cambios de estado (Pase a Manual) y maniobras operadas manualmente. *)
+	            /// &lt;/RegionDoc&gt;
+	            REGION TRAZABILIDAD_MANUALIZACION
+	                IF &#34;DB2010_V&#34;.V[#for_i].Estado_AutoMan AND NOT &#34;DB2010_V&#34;.V[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual, Registrar := 1, Categoria := 1, Id := #for_i, User := &#34;DB1_SYS&#34;.Usuario.Actual, Texto := CONCAT_STRING(IN1 := #t_TrazaDispositivo, IN2 := &#34;DB2010_V&#34;.V[#for_i].Hmi_Nombre, IN3 := #t_TrazaManual));
+	                END_IF;
+	                // ... (Resto de trazas)
+	            END_REGION
+	                  
+	            &#34;DB2010_V&#34;.V[#for_i].Aux_oldActivado := &#34;DB2010_V&#34;.V[#for_i].Estado_Activado;
+	            &#34;DB2010_V&#34;.V[#for_i].Aux_oldAutoMan := &#34;DB2010_V&#34;.V[#for_i].Estado_AutoMan;
+	                  
+	        ELSE
+	                  
+	            // =============================================================================
+	            // DISPOSITIVO NO HABILITADO
+	            &#34;DB2010_V&#34;.V[#for_i].Alarmas_General := FALSE;
+	            // ... (Reset del resto)
+	                  
+	        END_IF;
+	              
+	        /// &lt;RegionDoc&gt;
+	        (* Compacta el estado de alarmas, manual, etc. en una única variable &#39;Word&#39; para ahorrar recursos en la comunicación HMI. *)
+	        /// &lt;/RegionDoc&gt;
+	        REGION GESTION_HMI
+	            &#34;DB2010_V&#34;.V[#for_i].Hmi_Estado.%X0 :=&#34;DB2010_V&#34;.V[#for_i].Config_Habilitar;
+	            &#34;DB2010_V&#34;.V[#for_i].Hmi_Estado.%X1 := &#34;DB2010_V&#34;.V[#for_i].Estado_AutoMan;
+	            // ... (Resto de mapeos de bits)
+	        END_REGION
+	              
+	        /// &lt;RegionDoc&gt;
+	        (* Detección de flanco positivo de una alarma para disparar la activación de balizas o cláxones a nivel de máquina. *)
+	        /// &lt;/RegionDoc&gt;
+	        REGION GESTION_NUEVA_ALARMA
+	            IF &#34;DB2010_V&#34;.V[#for_i].Alarmas_General AND NOT &#34;DB2010_V&#34;.V[#for_i].Aux_oldAlarma THEN
+	                &#34;DB2010_V&#34;.Agrup[&#34;DB2010_V&#34;.V[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+	                &#34;DB2010_V&#34;.V[#for_i].Aux_oldAlarma := TRUE;
+	            END_IF;
+	            IF NOT &#34;DB2010_V&#34;.V[#for_i].Alarmas_General AND NOT #t_ErrorReposo AND NOT #t_ErrorTrabajo THEN
+	                &#34;DB2010_V&#34;.V[#for_i].Aux_oldAlarma := FALSE;
+	            END_IF;
+	        END_REGION
+	              
+	    END_FOR;
+	          
+	    // =============================================================================
+	    //  ACUSE DE NUEVAS ALARMAS
+	    IF #Ack THEN
+	        FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	            &#34;DB2010_V&#34;.Agrup[#for_i].NuevaAlarma := FALSE;
+	        END_FOR;
+	    END_IF;
+	
+	END_REGION
+	      
+END_FUNCTION
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

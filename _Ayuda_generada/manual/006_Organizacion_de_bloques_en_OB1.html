@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Organización de bloques en OB1</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541415"></a>Organización de bloques en OB1</h2><p>La organización de los programas del área de alimentación siempre llevara el siguiente orden de llamadas a bloques y funciones. Para ello, se crearán 4 segmentos en el <strong><em>OB1_MAIN</em></strong> en SCL</p><p><strong><em><img src="../img/img_5.png" /></em></strong></p><p>A continuación, se detallará el orden de llamadas de un programa base.</p><ul><li><strong><em>OB1_MAIN</em></strong> (Se generan 4 segmentos en SCL)<ul><li><a href="../manual/006_Organizacion_de_bloques_en_OB1.html#_Inicialización,_FAT_y">Segmento 1 (Inicialización, FAT y pruebas)</a><ul><li><strong><em>FB15994_ZC_INICIALIZAR_DISP</em></strong></li><li><strong><em>FB15995_ZC_BUSCAR_DIR</em></strong></li><li><strong><em>FB15990_ZC_FAT_DI</em></strong></li><li><strong><em>FB15991_ZC_FAT_DO</em></strong></li><li><strong><em>FB15992_ZC_FAT_AI</em></strong></li><li><strong><em>FB15993_ZC_FAT_AO</em></strong></li><li>Bloques, funciones, código para pruebas.</li></ul></li><li><a href="../manual/006_Organizacion_de_bloques_en_OB1.html#_Pre-Programa">Segmento 2 (Pre-programa)</a><ul><li><strong><em>FC1_SISTEMA</em></strong></li><li>DEVICESTATES <em>(Opcional)</em></li><li>GESTION SCADAS, HMI, ETC.		(<em>Opcional)</em></li><li><a href="../manual/009_Gestion_de_dispositivos.html#_Gestión_de_dispositivos"><strong><em>FC9_GESTOR_DISPOSITIVOS</em></strong></a><ul><li>Configuración multiplexado</li><li><strong><em>FC2000_ZC_ED</em></strong></li><li><strong><em>FC2001_ZC_EA</em></strong></li><li><strong><em>FC2005_ZC_SD</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2006_ZC_SA</em></strong></li><li><strong><em>FC2010_ZC_V</em></strong></li><li><strong><em>FC2015_ZC_M</em></strong></li><li><strong><em>FC2016_ZC_M_VF</em></strong></li><li><strong><em>FB2017_ZC_M_SINA</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2039_ZC_TQ</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2045_ZC_TQ_AE</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2025_ZC_TOT</em></strong></li><li><strong><em>FC2026_ZC_FF</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2027_ZC_FF_SEC</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2028_ZC_TON</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2029_ZC_TOF</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2030_ZC_TONR</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2031_ZC_TP</em></strong>		(<em>Opcional)</em></li><li><strong><em>FC2036_ZC_PID_MUX</em></strong></li><li><strong><em>FC2035_ZC_PID</em></strong></li></ul></li></ul></li><li><a href="../manual/006_Organizacion_de_bloques_en_OB1.html#_Procesos">Segmento 3 (Procesos)</a><ul><li><a href="../manual/010_Logica_de_procesos.html#_FC_Principal"><strong>FCXX0_PRINCIPAL</strong></a></li><li>Estado seguridad y comunicaciones OK</li><li>Alguna alarma dispositivo y nueva alarma dispositivo</li><li>Asignación estado dispositivos</li><li>Asignación Entidades</li><li>Llamadas a bloques</li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Proceso"><strong>FCXX1_PROCESO</strong></a><ul><li>Enclavamientos</li><li>Errores</li><li>Avisos</li><li>Permisos</li><li>Permisos pulsadores extra</li><li>Ordenes</li><li>Agrupaciones</li><li>Modos de trabajo</li><li>Litros etapa</li><li>Entidades</li><li>Configuración proceso</li><li><strong>FC5_ZC_GESTOR_PROCESO</strong></li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Auxiliares"><strong>FCXX2_AUXILIARES</strong></a></li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Transiciones"><strong>FCXX3_TRANSICIONES</strong></a></li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Activaciones"><strong>FCXX4_ACTIVACIONES</strong></a></li></ul></li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Gestión_de"><strong>FC3XX0_GEST_PARAMETROS</strong></a></li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Visibilidad_de"><strong>FC3XX1_VIS_PARAMETROS</strong></a></li><li><a href="../manual/010_Logica_de_procesos.html#_FC_Alarmas"><strong>FC5XX0_GEST_ALARMAS</strong></a></li><li>Órdenes a dispositivos</li><li>Reset ordenes</li></ul></li><li><a href="#_Post-Programa">Segmento 4 (Post-programa)</a><ul><li><strong>FC3000_ZC_GEST_PARAMETROS</strong>	<em>(Opcional)</em></li><li><strong>FC3001_VIS_PARAMETROS</strong>		<em>(Opcional)</em></li><li><strong>FC5000_GEST_ALARMAS_GNR</strong>		<em>(Opcional)</em></li><li><strong>FC5001_GESTION_BALIZAS</strong></li><li><strong>FB15200_ZC_SYNC_RECETA_PANEL</strong>	<em>(Opcional)</em></li><li><strong>FC7_ZC_GESTOR_TRAZA</strong></li><li><strong>FC11_ZC_GESTOR_INFORMES</strong></li><li><strong>FC11000_ZC_GESTION_COM</strong>		<em>(Opcional)</em></li></ul></li></ul></li></ul><p><a id="_Inicialización,_FAT_y"></a></p>
+</div>
+<div class="doc-section" id="sec_Inicializacion_FAT_y_pruebas">
+<h3><a id="_Toc224541416"></a>Inicialización, FAT y pruebas</h3>
+<p>Este segmento esta dedicado a la llamada de bloques de inicialización, búsqueda de direcciones, bloques de pruebas FAT y pruebas varias que se necesite realizar en el programa.</p><p><img src="../img/img_6.png" /></p><ul><li>FB15994_ZC_INICIALIZAR_DISP<ul><li>Bloque de función encargado de inicializar dispositivos.</li></ul></li><li>FB15995_ZC_BUSCAR_DIR<ul><li>Bloque de función encargado de buscar direcciones de entrada y de salida utilizados en los dispositivos</li></ul></li><li>FB15990_ZC_FAT_DI<ul><li>Bloque de función para pruebas FAT.</li></ul></li><li>FB15991_ZC_FAT_DO<ul><li>Bloque de función para pruebas FAT.</li></ul></li><li>FB15992_ZC_FAT_AI<ul><li>Bloque de función para pruebas FAT.</li></ul></li><li>FB15993_ZC_FAT_AO<ul><li>Bloque de función para pruebas FAT.</li></ul></li><li>Pruebas<ul><li>Se utilizará esta región para pruebas varias que se necesiten desarrollar en el programa.</li></ul></li></ul><p><a id="_Pre-Programa"></a></p>
+</div>
+<div class="doc-section" id="sec_Pre_Programa">
+<h3><a id="_Toc224541417"></a>Pre-Programa</h3>
+<p>Este segmento está dedicado a la llamada de bloques de inicialización, búsqueda de direcciones, bloques de pruebas FAT y pruebas varias que se necesite realizar en el programa.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_7.png" /></p><ul><li>FC1_SISTEMA<ul><li>Función encargada de gestionar marcas de sistema, usuarios, etc.</li></ul></li><li>DeviceStates (Función de SIEMENS)<ul><li>Función encargada de monitorización y comprobar el estado de la red profinet.</li></ul></li><li>GESTION SCADAS, HMI, ETC.<ul><li>FC16_GESTION_SCADA<ul><li>Función encargada de gestionar maestro/esclavo en sistemas con varios Scadas mono puestos</li></ul></li><li>FC15_SINCRONIZAR_FECHA_SCADA<ul><li>Función encargada de sincronizar la fecha y hora en todos los equipos siendo un Scada el maestro.</li></ul></li><li>Otras funciones relacionadas con HMI, Scadas, etc.</li></ul></li><li>FC9_GESTOR_DISPOSITIVOS<ul><li>Función encargada de realizar llamadas a dispositivos.</li></ul></li></ul><p><a id="_Procesos"></a></p>
+</div>
+<div class="doc-section" id="sec_Procesos">
+<h3><a id="_Toc224541418"></a>Procesos</h3>
+<p>Este segmento está dedicado a la llamada de procesos. Se llamará siempre al <a href="../manual/010_Logica_de_procesos.html#_FC_Principal">FC Principal</a> de cada proceso.</p><p><img src="../img/img_8.png" /></p>
+</div>
+<div class="doc-section" id="sec_Post_Programa">
+<h3><a id="_Toc224541419"></a>Post-Programa</h3>
+<p>Este segmento está dedicado a la llamada de funciones para la gestión tras la gestión de los procesos. </p><p><img src="../img/img_9.png" /></p><ul><li>FC3000_ZC_GEST_PARAMETROS<ul><li>Función encargada de gestionar parámetros generales.</li></ul></li><li>FC3001_VIS_PARAMETROS<ul><li>Función encargada de gestionar visibilidades de parámetros generales.</li></ul></li><li>FC5000_GEST_ALARMAS_GNR<ul><li>Función encargada de gestionar alarmas generales.</li></ul></li><li>FC5001_GESTION_BALIZAS<ul><li>Función encargada de gestionar activaciones de balizas.</li></ul></li><li>FB15200_ZC_SYNC_RECETA_PANEL	(Opcional)<ul><li>Función encargada de gestionar sincronización de recetas con paneles.</li></ul></li><li>FC7_ZC_GESTOR_TRAZA<ul><li>Función encargada de gestionar la trazabilidad.</li></ul></li><li>FC11_ZC_GESTOR_INFORMES<ul><li>Función encargada de gestionar el guardado de informes en SQL.</li></ul></li><li>FC11000_GESTION_COM<ul><li>Función encargada de gestionar las comunicaciones.</li></ul></li></ul>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

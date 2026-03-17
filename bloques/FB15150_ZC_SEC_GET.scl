@@ -1,0 +1,519 @@
+﻿FUNCTION_BLOCK "FB15150_ZC_SEC_GET"
+TITLE = FB15150_ZC_SEC_GET
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para gestion de comunicaciones secuenciales GET.
+   VAR_INPUT 
+      Habilitar : Bool := FALSE;   // Habilitacion General
+      Iniciar : Bool;   // Iniciar secuencia
+      Ack : Bool;   // Acuse general para resetear la secuencia
+      NumeroGet : Int;   // Numero de GET en la secuencia
+      Get_Status { S7_HiddenAssignment := 'Hide'} : Array[1..8] of Struct
+         NDR : Bool;   // GET 1 NDR
+         ERROR : Bool;   // GET 1 ERROR
+      END_STRUCT;
+   END_VAR
+
+   VAR_OUTPUT 
+      Finalizado : Bool;   // Secuencia finalizada
+      EnEjecuccion : Bool;   // Secuencia en ejecucion
+      AlgunError { ExternalWritable := 'False'} : Bool := FALSE;   // Algun error
+      ErrorGet { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Array[1..8] of Bool := [8(FALSE)];   // Error en GET
+      Get_REQ { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Array[1..8] of Bool;
+   END_VAR
+
+   VAR RETAIN
+      s_Etapa : Int := #ETAPA_0_REPOSO;
+   END_VAR
+   VAR 
+      s_AlgunError { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := FALSE;
+      s_NumeroGet { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      s_ErrorGet : Array[1..8] of Bool := [8(FALSE)];
+   END_VAR
+   VAR RETAIN
+      s_NumeroErrorGet : Array[1..8] of UInt;
+      s_NumeroDoneGet : Array[1..8] of UInt;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ETAPA_0_REPOSO : Int := 0;
+      ETAPA_1_PROCESANDO_GET_1 : Int := 1;
+      ETAPA_2_PROCESANDO_GET_2 : Int := 2;
+      ETAPA_3_PROCESANDO_GET_3 : Int := 3;
+      ETAPA_4_PROCESANDO_GET_4 : Int := 4;
+      ETAPA_5_PROCESANDO_GET_5 : Int := 5;
+      ETAPA_6_PROCESANDO_GET_6 : Int := 6;
+      ETAPA_7_PROCESANDO_GET_7 : Int := 7;
+      ETAPA_8_PROCESANDO_GET_8 : Int := 8;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15150_ZC_SEC_GET
+	Descripcion:    Bloque de funcion para gestion de comunicaciones secuenciales GET.
+	
+	Dependencias:   
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        -
+	                                
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    24.05.2023  (ABH)               Primera version
+	    01.00.01    21.09.2023  (ABH)               Cambio a SCL.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	/// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION LIMITES
+	    
+	    #s_NumeroGet := #NumeroGet;
+	    
+	    IF #s_NumeroGet > 8 THEN
+	        #s_NumeroGet := 8;
+	    END_IF;
+	    IF #s_NumeroGet < 1 THEN
+	        #s_NumeroGet := 1;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	/// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION ORDEN_DE_INICIO
+	    
+	    IF NOT #Habilitar OR #Ack THEN
+	        #s_AlgunError := FALSE;
+	        FOR #for_i := 1 TO 8 DO
+	            #Get_REQ[#for_i] := FALSE;
+	            #s_ErrorGet[#for_i] := FALSE;
+	            #s_NumeroDoneGet[#for_i] := 0;
+	            #s_NumeroErrorGet[#for_i] := 0;
+	        END_FOR;
+	        #s_Etapa := #ETAPA_0_REPOSO;
+	    END_IF;
+	    
+	    IF #Habilitar AND #s_Etapa = 0 AND #s_NumeroGet > 0 AND #Iniciar THEN
+	        
+	        #s_AlgunError := FALSE;
+	        #s_Etapa := #ETAPA_1_PROCESANDO_GET_1;
+	        //  Reinicializamos las variables REQ y ERROR
+	        FOR #for_i := 1 TO 8 DO
+	            #Get_REQ[#for_i] := FALSE;
+	            #s_ErrorGet[#for_i] := FALSE;
+	        END_FOR;
+	        
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	/// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION SECUENCIA
+	    
+	    CASE #s_Etapa OF
+	            
+	        #ETAPA_0_REPOSO:
+	            ;
+	        #ETAPA_1_PROCESANDO_GET_1:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_1
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet = 0 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[1] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[1].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[1] := FALSE;
+	                        #s_NumeroDoneGet[1] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_2_PROCESANDO_GET_2;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[1].ERROR THEN
+	                        
+	                        #s_ErrorGet[1] := TRUE;
+	                        #Get_REQ[1] := FALSE;
+	                        #s_NumeroErrorGet[1] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_2_PROCESANDO_GET_2;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_2_PROCESANDO_GET_2:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_2
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet <= 1 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[2] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[2].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[2] := FALSE;
+	                        #s_NumeroDoneGet[2] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_3_PROCESANDO_GET_3;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[2].ERROR THEN
+	                        
+	                        #s_ErrorGet[2] := TRUE;
+	                        #Get_REQ[2] := FALSE;
+	                        #s_NumeroErrorGet[2] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_3_PROCESANDO_GET_3;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        #ETAPA_3_PROCESANDO_GET_3:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_3
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet <= 2 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[3] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[3].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[3] := FALSE;
+	                        #s_NumeroDoneGet[3] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_4_PROCESANDO_GET_4;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[3].ERROR THEN
+	                        
+	                        #s_ErrorGet[3] := TRUE;
+	                        #Get_REQ[3] := FALSE;
+	                        #s_NumeroErrorGet[3] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_4_PROCESANDO_GET_4;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        #ETAPA_4_PROCESANDO_GET_4:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_4
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet <= 3 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[4] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[4].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[4] := FALSE;
+	                        #s_NumeroDoneGet[4] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_5_PROCESANDO_GET_5;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[4].ERROR THEN
+	                        
+	                        #s_ErrorGet[4] := TRUE;
+	                        #Get_REQ[4] := FALSE;
+	                        #s_NumeroErrorGet[4] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_5_PROCESANDO_GET_5;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_5_PROCESANDO_GET_5:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_5
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet <= 4 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[5] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[5].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[5] := FALSE;
+	                        #s_NumeroDoneGet[5] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_6_PROCESANDO_GET_6;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[5].ERROR THEN
+	                        
+	                        #s_ErrorGet[5] := TRUE;
+	                        #Get_REQ[5] := FALSE;
+	                        #s_NumeroErrorGet[5] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_6_PROCESANDO_GET_6;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_6_PROCESANDO_GET_6:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_6
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet <= 5 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[6] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[6].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[6] := FALSE;
+	                        #s_NumeroDoneGet[6] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_7_PROCESANDO_GET_7;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[6].ERROR THEN
+	                        
+	                        #s_ErrorGet[6] := TRUE;
+	                        #Get_REQ[6] := FALSE;
+	                        #s_NumeroErrorGet[6] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_7_PROCESANDO_GET_7;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_7_PROCESANDO_GET_7:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_7
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroGet <= 6 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #Get_REQ[7] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #Get_Status[7].NDR THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #Get_REQ[7] := FALSE;
+	                        #s_NumeroDoneGet[7] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_8_PROCESANDO_GET_8;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #Get_Status[7].ERROR THEN
+	                        
+	                        #s_ErrorGet[7] := TRUE;
+	                        #Get_REQ[7] := FALSE;
+	                        #s_NumeroErrorGet[7] += 1;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_8_PROCESANDO_GET_8;
+	                        
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        #ETAPA_8_PROCESANDO_GET_8:
+	            
+	            /// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION GET_8
+	                
+	                //  Lanzamos la orden del GET
+	                #Get_REQ[8] := TRUE;
+	                
+	                //  Esperamos a que finalice correctamente el GET
+	                IF #Get_Status[8].NDR THEN
+	                    
+	                    //  Quitamos la peticion
+	                    #Get_REQ[8] := FALSE;
+	                    #s_NumeroDoneGet[8] += 1;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                    
+	                    //  En caso de error mostramos informacion
+	                ELSIF #Get_Status[8].ERROR THEN
+	                    
+	                    #s_ErrorGet[8] := TRUE;
+	                    #Get_REQ[8] := FALSE;
+	                    #s_NumeroErrorGet[8] += 1;
+	                    //  Finalizamos la secuencia
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        ELSE
+	            
+	            #s_Etapa := #ETAPA_0_REPOSO;
+	            
+	    END_CASE;
+	    
+	END_REGION
+	
+	
+	/// <Requires>
+(*
+Sin dependencias detectadas.
+*)
+/// </Requires>
+
+REGION SALIDAS
+	    
+	    #Finalizado := #s_Etapa = 0;
+	    #EnEjecuccion := #s_Etapa <> 0;
+	    
+	    //  Gestion señales de salida de bloque
+	    #s_AlgunError := FALSE;
+	    FOR #for_i := 1 TO 8 DO
+	        #ErrorGet[#for_i] := #s_ErrorGet[#for_i];
+	        IF #s_ErrorGet[#for_i] THEN
+	            #s_AlgunError := TRUE;
+	        END_IF;
+	    END_FOR;
+	    
+	    #AlgunError := #s_AlgunError;
+	    
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+

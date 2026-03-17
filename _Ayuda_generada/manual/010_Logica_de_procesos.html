@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lógica de procesos</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Lógica_de_procesos"></a><a id="_Toc224541443"></a>Lógica de procesos</h2><p>La lógica a la hora de desarrollar los procesos sigue la premisa de encapsular los procesos para poder convertirlos en procesos reutilizables y versátiles. Para ello, los procesos utilizaran marcas de dispositivos genéricas, para de esta forma poder asignárselos a dispositivos reales, bien que sean de controles de Zeus Control o bien de otro estándar diferente.</p><p>Los procesos siempre tienen que seguir las mismas reglas y programarse de la misma forma, con esto, se consigue una coherencia entre todos los procesos programados por el área, lo que consigue que cualquier técnico pueda saber donde se encuentran todas las partes de la lógica sin realmente saber de qué trata el proceso.</p><p>Partiendo de esta idea, debemos de tener en cuenta la numeración especificada en <a href="../manual/003_Organizacion_de_numeracion_de_bloques.html#_Organización_de_numeración">organización de numeración de bloques</a>. Los procesos siempre se programarán siguiendo el siguiente orden de bloques:</p><ul><li>Principal<ul><li>Se numerará el primero, terminando en 0.</li><li>Se nombrará el bloque de función de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + PRINCIPAL</li><li>FC300_UF1_PRINCIPAL</li></ul></li><li>Se nombrará el bloque de datos de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + PRINCIPAL</li><li>DB300_UF1_PRINCIPAL</li></ul></li></ul></li><li>Proceso<ul><li>Se numerará el primero, terminando en 1.</li><li>Se nombrará de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + PROCESO</li><li>FC301_UF1_PROCESO</li></ul></li><li>Se nombrará el bloque de datos de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + AUXILIARES</li><li>DB301_UF1_PROCESO</li></ul></li></ul></li><li>Auxiliares<ul><li>Se numerará el primero, terminando en 2.</li><li>Se nombrará el bloque de función de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + AUXILIARES</li><li>FC302_UF1_AUXILIARES</li></ul></li></ul></li><li>Transiciones<ul><li>Se numerará el primero, terminando en 3.</li><li>Se nombrará de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + TRANSICIONES</li><li>FC303_UF1_TRANSICIONES</li></ul></li></ul></li><li>Activaciones<ul><li>Se numerará el primero, terminando en 4.</li><li>Se nombrará de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + ACTIVACIONES</li><li>FC304_UF1_ ACTIVACIONES</li></ul></li></ul></li></ul><p><strong><em>Dada la complejidad de los procesos CIP, será el único proceso que no seguirá esta norma de numeración.</em></strong></p><p>Para poder encapsular el proceso, se utilizarán bloques de datos y funciones específicas de parámetros y de alarmas. Debemos de tener en cuenta la numeración especificada en <a href="../manual/003_Organizacion_de_numeracion_de_bloques.html#_Organización_de_numeración">organización de numeración de bloques</a>. </p><ul><li>FC Parámetros<ul><li>Se numerará sumándole al inicio del número de parámetros (3000) el número del proceso (en este ejemplo, 300).<ul><li>Para la gestión de parámetros, se utilizará siempre el 0.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + GEST_PARAMETROS</li><li>FC3300_UF1_GEST_PARAMETROS</li></ul></li><li>Para la visibilidad de parámetros, se utilizará siempre el 1.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + GEST_PARAMETROS</li><li>FC3301_UF1_VIS_PARAMETROS</li></ul></li></ul></li><li>Para parámetros reales, se utiliza siempre el 0.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + PREAL</li><li>DB3300_UF1_PREAL</li></ul></li><li>Para parámetros enteros, se utiliza siempre el 1.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + PINT</li><li>DB3301_UF1_PINT</li></ul></li></ul></li><li>Alarmas<ul><li>Se numerará sumándole al inicio del número de alarmas (5000) el número del proceso (en este ejemplo, 300).<ul><li>Para la gestión de alarmas, se utilizará siempre el 0.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + GEST_ALARMAS</li><li>FC5300_UF1_GEST_ALARMAS</li></ul></li></ul></li><li>Para el bloque de datos de alarmas, se utiliza siempre el 0.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + ALM</li><li>DB5300_UF1_ALM</li></ul></li></ul></li></ul><p>Con todas estas premisas, quedaría de la siguiente forma:</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_37.png" /></p>
+</div>
+<div class="doc-section" id="sec_Constantes_de_proceso">
+<h3><a id="_Constantes_de_usuario"></a><a id="_Toc224541444"></a>Constantes de proceso</h3>
+<p>Todos los procesos contaran con una tabla de variables para declarar constantes de usuario, para su uso en el programa.</p><p>El nombre seguirá las convenciones de <a href="../manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#_Tablas_de_variables">codificación y nomenclatura</a>. </p><p>Las constantes obligatorias serán las siguientes:</p><p><img src="../img/img_38.png" /></p><p>Se declararán también números máximos para los dispositivos temporizadores, flip flop y medias que se declaren en el DB principal del proceso.</p><p><img src="../img/img_39.png" /></p><p>Se declararán todas las etapas que contenga el proceso.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_40.png" /></p>
+</div>
+<div class="doc-section" id="sec_Principal">
+<h3><a id="_Toc224541445"></a>Principal</h3>
+<p>La función de este grupo es la de trabajar como interfaz entre el proceso y los datos de dispositivos, estados de seguridad y comunicaciones reales. Para ello, se creará el bloque de datos principal, el cual tendrá la siguiente organización:</p><ul><li>Variables <strong>OBLIGATORIAS</strong>.<ul><li>Al inicio del bloque de datos, deberá tener las siguientes variables booleanas.</li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_41.png" /></p><ul><li><ul><li>SeguridadesOk<ul><li>Variable que indica que las seguridades están ok.</li></ul></li><li>ComunicacionesOk<ul><li>Variable que indica que las comunicaciones están ok.</li></ul></li><li>AlgunaAlarmaDisp<ul><li>Variable que indica que existe una alarma en algún dispositivo.</li></ul></li><li>NuevaAlarmaDispA<ul><li>Variable que indica que existe una nueva alarma en algún dispositivo.</li></ul></li></ul></li><li>Variables de dispositivos.<ul><li>Se utilizarán UDT específicos para generar los dispositivos genéricos.</li><li>Se organizarán de la siguiente forma:<ul><li>Motores</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_42.png" /></p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_43.png" /></p><ul><li><ul><li><ul><li>Válvulas</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_44.png" /></p><ul><li><ul><li><ul><li>Salidas analógicas</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_45.png" /></p><ul><li><ul><li><ul><li>Entradas analógicas</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_46.png" /></p><ul><li><ul><li><ul><li>Entradas digitales</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_47.png" /></p><ul><li><ul><li><ul><li>Totalizadores</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_48.png" /></p><ul><li><ul><li><ul><li>PID</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_49.png" /></p><ul><li>Variables de temporizadores, flip flop medias, etc.<ul><li>Con el fin de encapsular y no depender de dispositivos externos, se crearán dispositivos internos para temporizadores, flip flop, medias, etc.</li><li>Se declararán en forma de array de dispositivos.</li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_50.png" /></p><ul><li><ul><li>Se utilizarán las <a href="../manual/010_Logica_de_procesos.html#_Constantes_de_usuario">constantes de usuario</a> del proceso creadas para definir el tamaño del array.</li></ul></li></ul><p>La función tendrá declarados las siguientes variables temporales:</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_51.png" /></p><p>Los segmentos de la función principal siempre seguirán el siguiente orden:</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_52.png" /></p><h4>Estado seguridad y comunicaciones OK</h4><p>Segmento encargado de escribir el estado de las seguridades y comunicaciones. El objetivo es agrupar estos estados en las variables del DB Principal para su uso en el proceso.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_53.png" /></p><h4>Alguna alarma dispositivo y nueva alarma dispositivo</h4><p>Segmento encargado de escribir el estado de alguna alarma y nueva alarma de dispositivos. El objetivo es agrupar estos estados en las variables del DB Principal para su uso en el proceso.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_54.png" /></p><h4>Asignación estado dispositivos</h4><p>Segmento encargado de traspasar los valores de lectura de dispositivos reales a los dispositivos genéricos del proceso. El objetivo es utilizar estos dispositivos genéricos en el proceso en vez de los dispositivos reales, con el fin de encapsular los procesos.</p><p><img src="../img/img_55.png" /></p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_56.png" /></p><h4>Asignación Entidades</h4><p>Segmento encargado de configurar las entidades que utilizara el proceso.</p><p>Se dividen en dos tipos de entidades.</p><ul><li>Tipo FALSE:<ul><li>Entidad capturada desde el inicio del proceso, es el propio proceso el que se encarga de capturar y liberarlas.</li></ul></li><li>Tipo TRUE:<ul><li>Entidad dinámica, esta se <a href="../manual/010_Logica_de_procesos.html#_Entidades">captura</a> a petición del usuario.</li></ul></li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_57.png" /></p><h4>Llamadas a bloques</h4><p>Segmento encargado de realizar las llamadas a los bloques de temporizadores, medias, flip flop, proceso, parámetros y alarmas.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_58.png" /></p><h4>Órdenes a dispositivos</h4><p>Las órdenes a los dispositivos se utilizarán siempre con <strong>SET </strong>a excepción de los<strong> totalizadores.</strong></p><p>Segmento encargado de escribir las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p>Se organizarán por segmentos según el tipo de dispositivo.</p><p><img alt="Imagen que contiene Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_59.png" /></p><h5>Motores</h5><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_60.png" /></p><h5>Motores variador</h5><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_61.png" /></p><h5>Válvulas</h5><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_62.png" /></p><h5>Salidas analógicas</h5><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_63.png" /></p><h5>PID</h5><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_64.png" /></p><h5>Totalizadores</h5><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p>Se realizará mediante <strong>asignación directa</strong> la orden de activación.</p><p>Se realizará mediante <strong>SET</strong> la orden de reset.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_65.png" /></p><ul><li>Totalizadores</li></ul><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_66.png" /></p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_67.png" /></p><h4>Reset ordenes</h4><p>Segmento encargado de resetear todas las ordenes de los dispositivos genéricos para que se puedan volver a generar en el siguiente ciclo de scan.</p><p><img alt="Imagen que contiene Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_68.png" /></p><p><a id="_FC_Proceso"></a></p>
+</div>
+<div class="doc-section" id="sec_DB_Proceso">
+<h3><a id="_Toc224541446"></a>DB Proceso</h3>
+<p>Cada proceso tendrá su DB asociado, siguiendo las mismas reglas de <a href="../manual/010_Logica_de_procesos.html#_Lógica_de_procesos">numeración de bloques</a>. Siempre deberá tener la siguiente estructura y en este orden. Estas categorías serán comunes para todos los procesos, y son <strong>OBLIGATORIAS</strong> para todos los procesos.</p><p><img alt="Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_69.png" /></p><h4>Proceso</h4><p>UDT principal del <a href="../manual/013_UDT_Proceso.html#_UDT_Proceso">proceso</a>. Contiene la estructura de datos principal de los procesos</p><h4>Pulsadores</h4><p>STRUCT. Contendrá pulsadores extra para el proceso. Utilizaran UDT ZC_PULSADOR.</p><p><img src="../img/img_70.png" /></p><p>En caso de no utilizar pulsadores extra, se deja declarado un pulsador de reserva.</p><h4>Visibilidades</h4><p>STRUCT. Contendrá variables auxiliares para su uso como visibilidades.</p><p><img src="../img/img_71.png" /></p><p>En caso de no utilizar visibilidades, dejar variables de reserva.</p><h4>Pulsos</h4><p>ARRAY [1..XX] OF BOOL.  Array de booleanos para su uso como pulsos. </p><p><img src="../img/img_72.png" /></p><p>Ajustar en función del proceso.</p><h4>Modo trabajo</h4><p>STRUCT. Contendrá variables que indican el modo de trabajo de la maquina/proceso. </p><p>Se utilizarán variables tipo INT para su gestión bien mediante pulsadores o bien mediante asignación directa en HMI.</p><p>Se utilizarán variables tipo BOOL para su uso en el programa. De esta forma las referencias cruzadas serán más sencillas.</p><p><img src="../img/img_73.png" /></p><p>En caso de no utilizar modos de trabajo, dejar un booleano y un entero de reserva.</p><h4>Parámetros de trabajo</h4><p>STRUCT. Contendrá variables que indicaran parámetros de funcionamiento del proceso (temperaturas, valores fijos, conductividades, tiempos, etc.)</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_74.png" /></p><p>En caso de no utilizar parámetros de trabajo, dejar de reserva.</p><h4>Agrupaciones</h4><p>STRUCT. Contendrá variables que indican agrupaciones de etapas, modos, etc. Se utilizan para simplificar la lógica del proceso.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_75.png" /></p><p>En caso de no utilizar agrupaciones, dejar de reserva.</p><h4>Etapa</h4><p>STRUCT. Contendrá variables que indican la etapa actual en la que se encuentra el proceso. </p><p><img alt="Interfaz de usuario gráfica, Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_76.png" /></p><p>Siempre deberá de tener todas las etapas del proceso.</p><h4>Estado</h4><p>STRUCT. Contendrá variables que indican el estado del proceso/maquina. No confundir con el estado del proceso, esta estructura se utilizará para indicar otros estados (planta limpia, tiempos calculados, etc.)</p><p><img src="../img/img_77.png" /></p><p>En caso de no utilizar estados, dejar de reserva.</p><h4>Auxiliares</h4><p>STRUCT. Contendrá variables auxiliares para cálculos, marcas internas, variables que solo se utilizaran en el proceso. </p><p><img alt="Interfaz de usuario gráfica, Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_78.png" /></p><p><a id="_FC_Principal"></a>En caso de no utilizar estados, dejar de reserva.</p><h4>Extras</h4><p>A continuación de estas estructuras obligatorias, se ira añadiendo las estructuras particulares de cada proceso. Se intentará mantener la misma organización y normas descritas en este manual. </p>
+</div>
+<div class="doc-section" id="sec_Proceso">
+<h3><a id="_Toc224541447"></a>Proceso</h3>
+<p>La lógica de los procesos siempre seguirá este orden de segmentos:</p><ul><li><a href="../manual/010_Logica_de_procesos.html#_Enclavamientos">Enclavamientos proceso</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Errores">Alarmas proceso</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Avisos">Avisos</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Permisos">Permisos</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Permisos_pulsadores_extra">Permisos pulsadores extra</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Ordenes">Ordenes</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Agrupaciones">Agrupaciones</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Agrupaciones">Modos de trabajo</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Litros_etapa">Litros etapa</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Entidades">Entidades</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Configuración_proceso">Configuración Proceso</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Llamada_a_FC">Llamada a FC Proceso</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Llamada_a_FC_1">Llamada a FC Auxiliares</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Llamada_a_FC_2">Llamada a FC Transiciones</a></li><li><a href="../manual/010_Logica_de_procesos.html#_Llamada_a_FC_3">Llamada a FC Activaciones</a></li></ul><h4><a id="_Enclavamientos"></a><a id="_Constantes_de_proceso"></a>Variables temporales</h4><p>El FC de proceso tiene las siguientes variables temporales.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_79.png" /></p><h4>Enclavamientos proceso</h4><p>Grupo de segmentos encargado de gestionar los enclavamientos del proceso. El enclavamiento del proceso impide que este se pueda iniciar.</p><p>Se disponen de 8 enclavamientos para poder diferenciarlos.</p><p>Hoy en día no se usa.</p><p><img src="../img/img_80.png" /></p><p>El modo de uso es mediante una asignación directa a la variable de los enclavamientos.</p><p><img alt="Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_81.png" /></p><p><a id="_Errores"></a><a id="_Alarmas_de_proceso"></a></p><h4>Alarmas de proceso</h4><p>Grupo de segmentos encargados de gestionar las alarmas del proceso. La alarma o error del proceso, hace que este se pause.</p><p>Se disponen de 8 alarmas de proceso para su libre programación.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_82.png" /></p><p>En el segmento principal, se realiza un reset de las alarmas, para que estas se puedan volver a generar.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_83.png" /></p><p>El modo de uso es mediante SET, escribiendo el valor de la alarma y también el texto de error.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_84.png" /></p><h4><a id="_Avisos"></a>Avisos</h4><p>Grupo de segmentos encargados de gestionar los avisos del proceso. El aviso NO realiza ninguna acción al proceso.</p><p>Se disponen de 8 avisos de proceso para su libre programación.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_85.png" /></p><p>En el segmento principal, se realiza un reset de los avisos, para que estas se puedan volver a generar.</p><p><img alt="Interfaz de usuario gráfica, Texto, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_86.png" /></p><p>El modo de uso es mediante SET, escribiendo el valor del aviso y también el texto de aviso.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_87.png" /></p><h4><a id="_Permisos"></a>Permisos</h4><p>Grupo de segmentos encargados de gestionar los permisos del proceso. Estos permisos son los propios del proceso.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_88.png" /></p><p>El modo de uso es mediante asignación directa.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_89.png" /></p><p><a id="_Permisos_pulsadores_extra"></a></p><h4><a id="_Permisos_pulsadores_extra_1"></a>Permisos pulsadores extra</h4><p>Grupo de segmentos encargados de gestionar los permisos y gestión de los pulsadores extras.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_90.png" /></p><p>En cada segmento, se gestionará el permiso de cada pulsador, del mismo modo que los permisos descritos en el <a href="../manual/010_Logica_de_procesos.html#_Permisos">punto anterior</a>.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_91.png" /></p><p>En caso de no tener, se dejará un segmento vacío como el siguiente.</p><p><img alt="Rectángulo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_92.png" /></p><p>Al final de este grupo de segmentos, en el segmento “Gestión pulsadores extras”, se realizará la llamada a la función pulsador para que se gestionen.</p><p> <img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_93.png" /></p><p>En caso de no utilizar, se dejara el segmento vacio.</p><h4><a id="_Ordenes"></a>Ordenes</h4><p>Grupo de segmentos encargados de gestionar las órdenes del proceso. Estas órdenes se utilizarán en caso de tener que gestionar el proceso directamente desde el PLC.</p><p><img src="../img/img_94.png" /></p><p>La orden de reset errores, siempre deberá tener por lo menos la marca de acuse del DB de sistema.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_95.png" /></p><h4><a id="_Agrupaciones"></a>Agrupaciones</h4><p>Grupo de segmentos encargados de gestionar las marcas de agrupaciones.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_96.png" /></p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_97.png" /></p><p>En caso de no utilizar, se dejará un segmento vacío como el siguiente.</p><p><img alt="Rectángulo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_98.png" /></p><h4>Modos de trabajo</h4><p>Grupo de segmentos encargados de gestionar las marcas de modos de trabajo.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_99.png" /></p><p>Los modos de trabajo se intentará siempre gestionarlos mediante <a href="../manual/010_Logica_de_procesos.html#_Permisos_pulsadores_extra_1">pulsadores</a>.</p><p>En el primer segmento, se realizará la gestión de la marca INT del modo de trabajo.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_100.png" /></p><p>En el siguiente segmento en SCL, se realizará la conversión de INT a las variables BOOL, las cuales serán las que se utilicen en el proceso.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_101.png" /></p><p>En caso de no utilizar, se dejará un segmento vacío como el siguiente.</p><p><img alt="Rectángulo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_102.png" /></p><h4><a id="_Litros_etapa"></a>Litros etapa</h4><p>Grupo de segmentos encargados de gestionar los litros de etapa el proceso.</p><p>Siguiendo la misma filosofía de encapsulamiento, en los procesos que se necesite contar totalizadores para gestionar los cambios de etapa, utilizaran las variables de “litros etapa” que se encuentran dentro del UDT del proceso.</p><p><img alt="Imagen que contiene Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_103.png" /></p><p>En el primer segmento se gestionará la visibilidad de los litros de etapa, que se mostraran en HMI/SCADA. Se utilizará mediante asignación directa.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_104.png" /></p><p>En el siguiente segmento, se gestionará la transferencia de datos del totalizador actual a la variable del proceso.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_105.png" /></p><h4><a id="_Entidades"></a>Entidades</h4><p>Grupo de segmentos encargados de gestionar las capturas y liberaciones de entidades dinámicas del proceso.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_106.png" /></p><p>Se dividen en dos subgrupos de segmentos, uno para ordenes de capturar y otro para ordenes de liberar.</p><h5>Capturar</h5><p>Segmentos encargados de gestionar las órdenes de captura de entidades a petición del usuario.</p><p>Siempre se utilizará mediante un SET.</p><p>Se activará la orden de capturar de la entidad deseada dentro del proceso.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_107.png" /></p><h5>Liberar</h5><p>Segmentos encargados de gestionar las órdenes de liberación de entidades a petición del usuario.</p><p>Siempre se utilizará mediante un SET.</p><p>Se activará la orden de liberar de la entidad deseada dentro del proceso.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_108.png" /></p><p><a id="_Configuración_proceso"></a></p><h4>Configuración proceso</h4><p>Grupo de segmentos encargados de gestionar la configuración del proceso.</p><p><img alt="Texto, Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_109.png" /></p><p>En el primer segmento, se asignará el tipo de proceso.</p><p><img alt="Gráfico, Gráfico en cascada
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_110.png" /></p><p>En el siguiente segmento, se realizará la activación de las marcas de etapa.</p><p>Se escribirán mediante asignación directa.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_111.png" /></p><p>En el siguiente segmento, se realizará la configuración de la secuencia. Este se encargará de:</p><ul><li>Reinicializar la marca Proceso.VentanaAviso.Mostrar</li><li>Definir el nombre del proceso</li><li>Definir el ID</li><li>Definir el tiempo etapa</li><li>Definir los litros de etapa</li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_112.png" /></p><p>En caso de querer utilizar la ventana de aviso del proceso, esta se definirá en la configuración de la secuencia.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_113.png" /></p><p>En el siguiente segmento, se realizará la configuración del texto de cada etapa. Este se encargará de gestionar tanto el texto de la etapa actual como el del cambio de etapa.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_114.png" /></p><p>En el siguiente segmento, se realizará la configuración de los bits de marcha del proceso. Los procesos cuentan con hasta 8 bit de marcha retardados, que se utilizaran para activaciones de dispositivos. </p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_115.png" /> </p><h4><a id="_Llamada_a_FC"></a>Llamada a FC Proceso</h4><p>Segmento encargado de realizar la llamada a la función de gestor de proceso.</p><p><img alt="Interfaz de usuario gráfica, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_116.png" /></p><h4><a id="_Llamada_a_FC_1"></a>Llamada a FC Auxiliares</h4><p>Segmento encargado de realizar la llamada a la función de <a href="../manual/010_Logica_de_procesos.html#_Auxiliares">auxiliares</a>.</p><p><img alt="Interfaz de usuario gráfica, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_117.png" /></p><h4><a id="_Llamada_a_FC_2"></a>Llamada a FC Transiciones</h4><p>Segmento encargado de realizar la llamada a la función de <a href="../manual/010_Logica_de_procesos.html#_Transiciones">transiciones</a>.</p><p><img alt="Interfaz de usuario gráfica, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_118.png" /></p><h4><a id="_Llamada_a_FC_3"></a>Llamada a FC Activaciones</h4><p>Segmento encargado de realizar la llamada a la función de <a href="../manual/010_Logica_de_procesos.html#_Activaciones">activaciones</a>.</p><p><img alt="Interfaz de usuario gráfica, Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_119.png" /></p>
+</div>
+<div class="doc-section" id="sec_Auxiliares">
+<h3><a id="_FC_Auxiliares"></a><a id="_Auxiliares"></a><a id="_Toc224541448"></a>Auxiliares</h3>
+<p>Este bloque es el encargado de gestionar todas las marcas, cálculos, informes, registros, etc. Auxiliares que no estén contempladas en el resto de la organización de los procesos. </p><p>Se seguirá manteniendo las mismas reglas de organización.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_120.png" /></p><p><a id="_FC_Transiciones"></a><a id="_Transiciones"></a></p>
+</div>
+<div class="doc-section" id="sec_Transiciones">
+<h3><a id="_Toc224541449"></a>Transiciones</h3>
+<p>Este bloque es el encargado de gestionar todas las transiciones entre las etapas de la secuencia del proceso. </p><p>Siempre se utilizarán las <a href="../manual/010_Logica_de_procesos.html#_Constantes_de_usuario">constantes de usuario</a> creadas para este proceso para su uso en la etapa actual y en la etapa siguiente.</p><p>El primer segmento de este bloque <strong>SIEMPRE</strong> tiene que estar, este es el encargado de gestionar el arranque del proceso. Cada vez que un proceso se arranca, pasa de la etapa 0 a la etapa 1, y ya a partir de aquí pasa a la etapa que se configure en este segmento. Las marcas de ErroresComprobados y de EntidadesCargadas <strong>SIEMPRE</strong> tienen que estar.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_121.png" /></p><p>Por norma general, siempre se intentará mantener el mismo número de segmentos por cada etapa, y su orden.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_122.png" /></p><h4>Gestión tiempo de etapa</h4><p>Segmento encargado de activar/desactivar el tiempo de etapa.</p><p>La activación del tiempo de etapa, siempre se gestionará con un <strong>SET</strong>.</p><p>La activación del reset de tiempo de etapa, siempre se gestionará con un <strong>SET</strong>.</p><p><img alt="Diagrama, Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_123.png" /></p><p>En caso de no utilizar, dejar la orden activar a <strong>RESET</strong> o el segmento vacío.</p><h4>Gestión litros etapa</h4><p>Segmento encargado de activar/desactivar los litros de etapa.</p><p>La activación de los litros de etapa, siempre se gestionará con un <strong>SET</strong>.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_124.png" /></p><p>En caso de no utilizar, dejar la orden activar a <strong>RESET</strong> o el segmento vacío.</p><h4>Gestión salto de etapa</h4><p>Segmento encargado de gestionar los saltos de etapa. </p><p>Siempre se utiliza la variable <strong>EtapaSiguiente</strong> para el salto de etapa.</p><p>Siempre se utilizarán las <a href="../manual/010_Logica_de_procesos.html#_Constantes_de_proceso">constantes de proceso</a> para las etapas.</p><p>Se puede utilizar las variables de <strong>LitrosEtapa.Cumplido</strong> o <strong>TiempoEtapa.Cumplido</strong> del proceso.</p><p><img alt="Imagen que contiene Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_125.png" /></p><p>Se puede utilizar cualquier condición de salto de etapa.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_126.png" /></p><h4>Finalización del proceso</h4><p>Para finalizar el proceso, siempre hay que utilizar la <a href="../manual/007_Configuracion_de_sistema.html#_0_Config_Generales">constante de sistema</a> de <strong>FIN_PROCESO</strong>.</p><p><img alt="Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_127.png" /></p>
+</div>
+<div class="doc-section" id="sec_Activaciones">
+<h3><a id="_FC_Activaciones"></a><a id="_Activaciones"></a><a id="_Toc224541450"></a>Activaciones</h3>
+<p>Este bloque es el encargado de gestionar todas las activaciones de los dispositivos que utiliza el proceso. </p><p>Siempre se agruparán por tipo de dispositivo. Siempre deberán tener los siguientes segmentos, con el siguiente orden:</p><ul><li>Motor Variador<ul><li>Segmento con titulo</li><li>Gestión seguridad dispositivo</li><li>Gestión activación dispositivo</li></ul></li><li>Motor<ul><li>Segmento con titulo</li><li>Gestión seguridad dispositivo</li><li>Gestión activación dispositivo</li></ul></li><li>Válvula<ul><li>Segmento con titulo</li><li>Gestión seguridad dispositivo</li><li>Gestión activación dispositivo</li></ul></li><li>Salida analógica<ul><li>Segmento con titulo</li><li>Gestión seguridad dispositivo</li><li>Gestión activación dispositivo</li></ul></li><li>Totalizadores<ul><li>Segmento con titulo</li><li>Gestión reset dispositivo</li><li>Gestión activación dispositivo</li></ul></li><li>Medias<ul><li>Segmento con titulo</li><li>Gestión activación dispositivo</li></ul></li><li>Otros<ul><li>Segmento con titulo</li><li>Otros</li></ul></li></ul><h4>Motor variador</h4><p>Grupo de segmentos encargados de gestionar las ordenes de los motores con variador.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_128.png" /></p><p>El segmento inicial estará vacío, solo contendrá el título.</p><p><img src="../img/img_129.png" /></p><p>Los siguientes segmentos, se agruparán por dispositivo, conteniendo como mínimo un segmento para la gestión de enclavamiento y otro para la gestión de la activación.</p><p><img alt="Interfaz de usuario gráfica, Sitio web
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_130.png" /></p><p>En caso de tener que realizar alguna otra gestión, siempre estará antes que estos dos segmentos.</p><p><img alt="Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_131.png" /></p><h5>Seguridad</h5><p>Segmento encargado de gestionar la seguridad de activación del dispositivo. </p><p>Se utilizará la marca SegActivacion de cada uno de ellos.</p><p>Se utilizará siempre con una asignación directa.</p><p><img alt="Imagen que contiene Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_132.png" /></p><h5>Activación</h5><p>Segmento encargado de gestionar la activación del dispositivo. </p><p><strong>SIEMPRE</strong> debe tener la marca de SegActivacion que se gestiona en el segmento anterior.</p><p>Se utilizará siempre con un <strong>SET</strong>.</p><p><img alt="Texto, Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_133.png" /></p><p>En el caso de tener que asignar una consigna en cada etapa, por facilidad se utilizará un segmento en SCL, el cual contendrá un CASE según la etapa actual.</p><p><img alt="Interfaz de usuario gráfica, Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_134.png" /></p><h4>Motor</h4><p>Grupo de segmentos encargados de gestionar las ordenes de los motores.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_135.png" /></p><p>El segmento inicial estará vacío, solo contendrá el título.</p><p><img src="../img/img_136.png" /></p><p>Los siguientes segmentos, se agruparán por dispositivo, conteniendo como mínimo un segmento para la gestión de enclavamiento y otro para la gestión de la activación.</p><p><img alt="Interfaz de usuario gráfica, Sitio web
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_137.png" /></p><p>En caso de tener que realizar alguna otra gestión, siempre estará antes que estos dos segmentos.</p><p><img alt="Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_138.png" /></p><h5>Seguridad</h5><p>Segmento encargado de gestionar la seguridad de activación del dispositivo. </p><p>Se utilizará la marca SegActivacion de cada uno de ellos.</p><p>Se utilizará siempre con una asignación directa.</p><p><img alt="Imagen que contiene Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_139.png" /></p><h5>Activación</h5><p>Segmento encargado de gestionar la activación del dispositivo. </p><p><strong>SIEMPRE</strong> debe tener la marca de SegActivacion que se gestiona en el segmento anterior.</p><p>Se utilizará siempre con un <strong>SET</strong>.</p><p><img alt="Texto, Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_140.png" /></p><h4>Válvula</h4><p>Grupo de segmentos encargados de gestionar las ordenes de las válvulas.</p><p><img alt="Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_141.png" /></p><p>El segmento inicial estará vacío, solo contendrá el título.</p><p><img src="../img/img_142.png" /></p><p>Los siguientes segmentos, se agruparán por dispositivo, conteniendo como mínimo un segmento para la gestión de enclavamiento y otro para la gestión de la activación.</p><p><img alt="Interfaz de usuario gráfica, Sitio web
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_143.png" /></p><p>En caso de tener que realizar alguna otra gestión, siempre estará antes que estos dos segmentos.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_144.png" /></p><h5>Seguridad</h5><p>Segmento encargado de gestionar la seguridad de activación del dispositivo. </p><p>Se utilizará la marca SegActivacion de cada uno de ellos.</p><p>Se utilizará siempre con una asignación directa.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_145.png" /></p><h5>Activación</h5><p>Segmento encargado de gestionar la activación del dispositivo. </p><p><strong>SIEMPRE</strong> debe tener la marca de SegActivacion que se gestiona en el segmento anterior.</p><p>Se utilizará siempre con un <strong>SET</strong>.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_146.png" /></p><h4>Salida analógica</h4><p>Grupo de segmentos encargados de gestionar las ordenes de las salidas analogicas.</p><p><img src="../img/img_147.png" /></p><p>El segmento inicial estará vacío, solo contendrá el título.</p><p><img src="../img/img_148.png" /></p><p>Los siguientes segmentos, se agruparán por dispositivo, conteniendo como mínimo un segmento para la gestión de enclavamiento y otro para la gestión de la activación.</p><p><img src="../img/img_149.png" /></p><p>En caso de tener que realizar alguna otra gestión, siempre estará antes que estos dos segmentos.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_150.png" /></p><h5>Seguridad</h5><p>Segmento encargado de gestionar la seguridad de activación del dispositivo. </p><p>Se utilizará la marca SegActivacion de cada uno de ellos.</p><p>Se utilizará siempre con una asignación directa.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_151.png" /></p><h5>Activación</h5><p>Segmento encargado de gestionar la activación del dispositivo. </p><p><strong>SIEMPRE</strong> debe tener la marca de SegActivacion que se gestiona en el segmento anterior.</p><p>Se utilizará siempre con un <strong>SET</strong>.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_152.png" /></p><p>En el caso de tener que asignar una consigna en cada etapa, por facilidad se utilizará un segmento en SCL, el cual contendrá un CASE según la etapa actual.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_153.png" /></p><h4>Totalizadores</h4><p>Grupo de segmentos encargados de gestionar las ordenes de los totalizadores.</p><p><img alt="Interfaz de usuario gráfica, Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_154.png" /></p><p>El segmento inicial estará vacío, solo contendrá el título.</p><p><img src="../img/img_155.png" /></p><p>Los siguientes segmentos, se agruparán por dispositivo, conteniendo como mínimo un segmento para la gestión del reset y otro para la gestión de la activación.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Chat o mensaje de texto, Sitio web
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_156.png" /></p><h5>Reset</h5><p>Segmento encargado de gestionar la orden de reset del dispositivo. </p><p>Se utilizará siempre con una <strong>SET</strong>.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_157.png" /></p><h5>Activación</h5><p>Segmento encargado de gestionar la activación del dispositivo. </p><p>Se utilizará siempre con una <strong>SET</strong>.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_158.png" /></p><h4>Medias</h4><p>Grupo de segmentos encargados de gestionar las medias.</p><p><img alt="Imagen que contiene Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_159.png" /></p><p>El segmento inicial estará vacío, solo contendrá el título.</p><p><img src="../img/img_160.png" /></p><p>Los siguientes segmentos, se utilizará un segmento por dispositivo. En él, se realizará la gestión y la llamada al bloque de medias.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_161.png" /></p><h4>Otros</h4><p>Grupo de segmentos encargados de gestionar el resto de los equipos no contemplados en los puntos anteriores.</p><p>Se mantendrá la misma lógica que los puntos anteriores.</p>
+</div>
+<div class="doc-section" id="sec_Parametros">
+<h3><a id="_FC_Gestión_de"></a><a id="_Toc224541451"></a>Parámetros</h3>
+<p>Con el fin de encapsular el proceso, se creará un <a href="../manual/010_Logica_de_procesos.html#_Lógica_de_procesos">DB de parámetros específicos</a> para cada proceso.</p><p>Para la gestión de parámetros del proceso, serán necesarios dos bloques para gestionar la trazabilidad de los cambios de parámetros, así como la visibilidad de estos para su uso en HMI/SCADA.</p><h4>Gestión de parámetros</h4><p>Este bloque es el encargado de gestionar la trazabilidad de cambios de parámetros, tanto reales como enteros.</p><p>El bloque cuenta con esta interfaz.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_162.png" /></p><p>Se realizan dos bucles FOR para gestionar los parámetros enteros y reales, y realizar la gestión de trazabilidad de los cambios de parámetros.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_163.png" /></p><h4><a id="_FC_Visibilidad_de"></a>Visibilidad de parámetros</h4><p>Este bloque es el encargado de gestionar la visibilidad de los parámetros que se mostraran en HMISCADA.</p><p>Para facilidad de comprensión, se agruparán por dispositivo asociado al parámetro.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_164.png" /></p><p>Se utilizará mediante asignación directa.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_165.png" /></p><p><a id="_FC_Alarmas"></a></p>
+</div>
+<div class="doc-section" id="sec_Alarmas">
+<h3><a id="_Toc224541452"></a>Alarmas</h3>
+<p>Con el fin de encapsular el proceso, se creará un <a href="../manual/010_Logica_de_procesos.html#_Lógica_de_procesos">DB de alarmas específicas</a> para cada proceso.</p><p>Para la gestión de las alarmas del proceso (no confundir con los <a href="../manual/010_Logica_de_procesos.html#_Alarmas_de_proceso">errores del proceso</a>), será necesario un bloque para gestionar las alarmas.</p><p>Se creará un segmento por cada alarma.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_166.png" /></p><p>Las alarmas siempre seguirán el mismo formato de utilización.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_167.png" /></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -6,30 +6,98 @@
     <link rel="stylesheet" href="css/custom.css">
 </head>
 <body class="layout-shell">
-    <div class="header">
-        <div>ZCALM - Documentación de Ingeniería</div>
-        <div style="font-size: 14px; font-weight: normal; margin-top: 4px;">Generado automáticamente</div>
-    </div>
+    
     <div class="main-container">
+        
         <div class="sidebar">
-            <div class="search-box"><input type="text" id="buscador" placeholder="Buscar..." onkeyup="filtrarMenu()"></div>
+            <div class="sidebar-header">
+                <img src="img/logo.png" alt="Zeus Control" onerror="this.style.display='none'">
+                <h2>Zeus Control ALM</h2>
+                <small>Documentación de Ingeniería</small>
+            </div>
+
+            <div class="search-box"><input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarMenu()"></div>
+            
             <ul class="nav-list" id="listaBloques">
-                <li style="background-color: #e2e8f0; padding: 8px 15px; font-weight: bold; color: #334155; font-size: 11px; letter-spacing: 1px;">📚 MANUAL DEL ESTÁNDAR</li>
+                <li class="titulo-seccion-menu">📚 MANUAL DEL ESTÁNDAR</li>
                 
                 {{ manual_html | safe }}
                 
-                <li style="background-color: #e2e8f0; padding: 8px 15px; font-weight: bold; color: #334155; font-size: 11px; letter-spacing: 1px; margin-top: 15px;">⚙️ LIBRERÍA DE BLOQUES</li>
+                <li class="titulo-seccion-menu" style="margin-top: 15px;">⚙️ LIBRERÍA DE BLOQUES</li>
                 
                 {{ bloques_html | safe }}
                 
             </ul>
         </div>
+
         <div class="content-area">
             <iframe name="visor" src="{{ pagina_inicio }}"></iframe>
         </div>
     </div>
 
     <script>
+        // === INTELIGENCIA DEL MENÚ: Escucha al iframe ===
+        function marcarMenuDesdeIframe(urlIframe) {
+            let links = document.querySelectorAll('.menu-link');
+            let encontrado = false;
+            
+            let urlNormalizada = urlIframe.replace(/\\/g, '/');
+
+            // Intento 1: Coincidencia exacta
+            links.forEach(link => {
+                let hrefLink = link.getAttribute('href');
+                if (urlNormalizada.endsWith(hrefLink) || link.href === urlIframe) {
+                    activarEstiloLink(link);
+                    encontrado = true;
+                }
+            });
+            
+            // Intento 2: Búsqueda sin ancla
+            if (!encontrado) {
+                let urlSinHash = urlNormalizada.split('#')[0];
+                links.forEach(link => {
+                    let hrefSinHash = link.getAttribute('href').split('#')[0];
+                    if (urlSinHash.endsWith(hrefSinHash) || link.href.split('#')[0] === urlSinHash) {
+                        if (!encontrado) {
+                            activarEstiloLink(link);
+                            encontrado = true;
+                        }
+                    }
+                });
+            }
+        }
+
+        // === ACTIVA VISUALMENTE EL ITEM ===
+        function activarEstiloLink(linkElement) {
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('activo-menu'));
+            let menuItem = linkElement.closest('.menu-item');
+            
+            if (menuItem) {
+                menuItem.classList.add('activo-menu');
+                
+                let parentUl = menuItem.closest('ul.nested');
+                while(parentUl) {
+                    parentUl.style.display = 'block';
+                    let parentLi = parentUl.closest('li');
+                    if(parentLi) {
+                        let btn = parentLi.querySelector('.toggle-btn');
+                        if(btn) btn.innerHTML = '▼';
+                        parentUl = parentLi.closest('ul.nested');
+                    } else break;
+                }
+                
+                menuItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Clic manual de usuario
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                activarEstiloLink(this);
+            });
+        });
+
+        // Desplegar/plegar carpetas
         function toggleMenu(btn) {
             var li = btn.closest('li');
             var nestedUl = Array.from(li.children).find(c => c.classList.contains('nested'));
@@ -44,6 +112,7 @@
             }
         }
 
+        // Buscador
         function filtrarMenu() {
             var input = document.getElementById('buscador').value.toUpperCase();
             var menuItems = document.querySelectorAll('.menu-link');
@@ -72,6 +141,7 @@
             });
         }
         
+        // Iniciar flechitas
         document.querySelectorAll('ul.nested').forEach(function(ul) {
             var btn = ul.closest('li').querySelector('.toggle-btn');
             if(btn) btn.innerHTML = (ul.style.display === 'none') ? '►' : '▼';

@@ -1,35 +1,26 @@
-<div class="doc-section">
-    <h1>{{ nombre_bloque }}</h1>
+<h1 class="doc-title">{{ nombre_bloque }}</h1>
 
-    {% if etiquetas.Summary %}
-        <h3>Descripción General</h3>
-        <p style="white-space: pre-wrap;">{{ etiquetas.Summary }}</p>
-        {% if etiquetas.Remarks %}
-        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
-            <strong>Notas y Restricciones:</strong>
-            <p style="white-space: pre-wrap; margin-bottom: 0;">{{ etiquetas.Remarks }}</p>
-        </div>
-        {% endif %}
+{% if etiquetas.Summary %}
+<div class="doc-section" id="descripcion">
+    <h3>Descripción General</h3>
+    <pre style="font-family: inherit; white-space: pre-wrap; margin:0; line-height: 1.5;">{{ etiquetas.Summary }}</pre>
+    {% if etiquetas.Remarks %}
+    <div style="margin-top:15px; padding:12px; background:#f8fafc; border-left:4px solid #94a3b8; border-radius: 4px;">
+        <pre style="font-family: inherit; white-space: pre-wrap; margin:0; line-height: 1.5;"><strong style="color:#334155;">Notas y Restricciones:</strong>
+{{ etiquetas.Remarks }}</pre>
+    </div>
     {% endif %}
 </div>
+{% endif %}
 
 {% if dependencias %}
 <div class="doc-section" id="dependencias">
     <h3>Dependencias</h3>
-    <table>
+    <table class="doc-table">
         <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
         {% for dep in dependencias %}
             {% if dep.tipo == 'normal' %}
-                <tr>
-                    <td><strong>{{ dep.clave }}</strong></td>
-                    <td>
-                        {% if dep.url %}
-                            <a href="{{ dep.url }}" style="color: #e74c3c; font-weight: bold; text-decoration: none;">{{ dep.valor }}</a>
-                        {% else %}
-                            {{ dep.valor }}
-                        {% endif %}
-                    </td>
-                </tr>
+                <tr><td><strong>{{ dep.clave }}</strong></td><td>{{ dep.valor }}</td></tr>
             {% else %}
                 <tr><td colspan="2">{{ dep.valor }}</td></tr>
             {% endif %}
@@ -41,7 +32,7 @@
 {% if changelog %}
 <div class="doc-section" id="changelog">
     <h3>Historial de Cambios (Changelog)</h3>
-    <table>
+    <table class="doc-table">
         <tr>
         {% for cab in changelog.cabeceras %}
             <th>{{ cab }}</th>
@@ -61,7 +52,7 @@
 {% if variables %}
 <div class="doc-section" id="interfaz">
     <h3>Interfaz de Variables</h3>
-    <table>
+    <table class="doc-table">
         <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
         {% for var in variables %}
         <tr>
@@ -88,16 +79,16 @@
     
     {% if reg.nivel == 1 %}
         <div class="doc-section" id="{{ id_region }}">
-        <h3>🔸 Lógica: {{ reg.nombre }}</h3>
+        <h3>Lógica: {{ reg.nombre }}</h3>
     {% else %}
-        <div id="{{ id_region }}" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
-        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: {{ reg.nombre }}</h4>
+        <div id="{{ id_region }}" style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #005c8a; margin-top:0; font-size: 15px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: {{ reg.nombre }}</h4>
     {% endif %}
     
     {% if reg.doc == "Sin documentación específica." %}
         <p style="color:#999; font-style:italic; margin-bottom:15px;">{{ reg.doc }}</p>
     {% else %}
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">{{ reg.doc }}</p>
+        <pre style="font-family: inherit; white-space: pre-wrap; margin:0; padding-bottom: 15px; color: #334155; line-height: 1.5;">{{ reg.doc }}</pre>
     {% endif %}
     
     {% if reg.hijos | length == 0 %}
@@ -105,7 +96,7 @@
 {{ reg.codigo }}
 END_REGION</pre>
     {% else %}
-        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+        <p style="color:#64748b; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
     {% endif %}
     
     {% set ns.nivel_previo = reg.nivel %}
@@ -118,7 +109,7 @@ END_REGION</pre>
 {% endif %}
 
 {% if contenido_original %}
-<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #005c8a;">
     <h3>Código Fuente Completo</h3>
     <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">{{ contenido_original | e }}</pre>
 </div>

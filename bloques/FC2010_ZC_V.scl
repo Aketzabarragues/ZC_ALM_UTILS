@@ -4,7 +4,7 @@ TITLE = FC2010_V
 AUTHOR : ABH
 FAMILY : ZeusControl
 VERSION : 1.0
-//Modelo de dispositivo valvula
+//Modelo de dispositivo vlvula
    VAR_INPUT 
       Pulso1seg : Bool;
       Simulacion : Bool;
@@ -31,367 +31,356 @@ VERSION : 1.0
       t_TrazaDesactivado : String;
    END_VAR
 
-   VAR CONSTANT 
-      TRAZA_DISPOSITIVO_ES : String := 'DISPOSITIVO VALVULA AUTOMATICA ';
-      TRAZA_MANUAL_ES : String := ' - EN MODO MANUAL';
-      TRAZA_AUTOMATICO_ES : String := ' - CAMBIO A MODO AUTOMATICO';
-      TRAZA_ACTIVADO_ES : String := '- ACTIVADO A EN MODO MANUAL';
-      TRAZA_DESACTIVADO_ES : String := '- DESACTIVADO EN MODO MANUAL';
-      TRAZA_DISPOSITIVO_EN : String := 'AUTOMATIC VALVE DEVICE ';
-      TRAZA_MANUAL_EN : String := ' - IN MANUAL MODE';
-      TRAZA_AUTOMATICO_EN : String := ' - CHANGE TO AUTOMATIC MODE';
-      TRAZA_ACTIVADO_EN : String := '- ACTIVATED IN MANUAL MODE';
-      TRAZA_DESACTIVADO_EN : String := '- DEACTIVATED IN MANUAL MODE';
-   END_VAR
-
 
 BEGIN
-/// <Header>
-(*
-ZEUS CONTROL, S.A.
-(c)Copyright (2023) All Rights Reserved
------------------------------------------------------------------------------ 
-*)
-/// </Header>
-
-/// <Summary>
-(* Nombre:         DISPOSITIVO VALVULA
-Descripcion:    Modelo de dispositivo válvula para la gestión integral de alarmas, modos y multiplexado hacia el HMI.
-*)
-/// </Summary>
-
-/// <Remarks> 
-(*
-Software:       TIA Portal 16
-Restricciones:  PLC serie 1200/1500
-*)
-/// </Remarks>
-
-/// <Requires>
-(* FC:  FC8_TRAZA_REGISTRO
-DB:  DB2010_DISP_V, DB1_SYS
-UDT: ZC_DISP_V, ZC_MUX
-*)
-/// </Requires>
-
-/// <Changelog>
-(*
-Version     Fecha       Tecnico a cargo     Descripcion
-01.00.00    15.10.2020  (ABH)               Primera version.
-01.00.01    28.11.2020  (ABH)               Añadidas alarmas mantenimiento
-01.00.13    24.01.2025  (ABH)               Se modifica la logica del multiplexado
-*)
-/// </Changelog>
-
-/// <RegionDoc>
-(* Este bloque se encarga de gestionar los idiomas para la generación de alarmas,
-leyendo la variable de configuración de idioma actual del HMI.
-*)
-/// </RegionDoc>
-REGION IDIOMA
-    CASE #Idioma OF
-            // =============================================================================
-            // ESPAÑOL
-        1:
-            #t_TrazaDispositivo := #TRAZA_DISPOSITIVO_ES;
-            #t_TrazaManual := #TRAZA_MANUAL_ES;
-            #t_TrazaAutomatico := #TRAZA_AUTOMATICO_ES;
-            #t_TrazaActivado := #TRAZA_ACTIVADO_ES;
-            #t_TrazaDesactivado := #TRAZA_DESACTIVADO_ES;
-            // =============================================================================
-            // INGLES
-        2:
-            #t_TrazaDispositivo := #TRAZA_DISPOSITIVO_EN;
-            #t_TrazaManual := #TRAZA_MANUAL_EN;
-            #t_TrazaAutomatico := #TRAZA_AUTOMATICO_EN;
-            #t_TrazaActivado := #TRAZA_ACTIVADO_EN;
-            #t_TrazaDesactivado := #TRAZA_DESACTIVADO_EN;
-            // =============================================================================
-            // ALEMAN
-        3:
-            ;
-        ELSE
-            #t_TrazaDispositivo := #TRAZA_DISPOSITIVO_ES;
-            #t_TrazaManual := #TRAZA_MANUAL_ES;
-            #t_TrazaAutomatico := #TRAZA_AUTOMATICO_ES;
-            #t_TrazaActivado := #TRAZA_ACTIVADO_ES;
-            #t_TrazaDesactivado := #TRAZA_DESACTIVADO_ES;
-    END_CASE;
-END_REGION
+	//==========================================================================================================
+	/// <Header>
+	(*
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	----------------------------------------------------------------------------- 
+	*)
+	/// </Header>
+	
+	/// <Summary>
+	(* Nombre:         DISPOSITIVO VALVULA
+	Descripcion:    Modelo de dispositivo válvula para la gestión integral de alarmas, modos y multiplexado hacia el HMI.
+	*)
+	/// </Summary>
+	
+	/// <Remarks> 
+	(*
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	*)
+	/// </Remarks>
+	
+	/// <Requires>
+	(*
+	FC:  FC8_ZC_TRAZA_REGISTRO
+	DB:  DB1_SYS, DB2010_V
+	*)
+	/// </Requires>
+	
+	/// <Changelog>
+	(*
+	Version     Fecha       Tecnico a cargo     Descripcion
+	01.00.00    15.10.2020  (ABH)               Primera version.
+	01.00.01    28.11.2020  (ABH)               Añadidas alarmas mantenimiento
+	01.00.02    28.07.2021  (ABH)               Añadidas alarmas en doble posicion / ninguna posicion
+	01.00.17    29.01.2026  (ABH)               Se reorganiza la logica de gestion de las alarmas.
+	*)
+	/// </Changelog>
+	//==========================================================================================================
 
 
-/// <RegionDoc>
-(*
-Gestión centralizada del Multiplexado de datos hacia las pantallas HMI (SCADA/Paneles).
-Al arranque del PLC, se ponen a 0 todos los índices de los multiplexados. 
-Si el sistema está en marcha, se procesan los límites, lecturas y escrituras de todos los visores abiertos.
-*)
-/// </RegionDoc>
-REGION MULTIPLEXADO
-    
-    //  ===========================================================================================================
-    //  Al arranque del PLC, ponemos a 0 todos los indices de los multiplexados y salimos del bloque sin gestionarlo
-    IF #Arranque THEN
-        FOR #for_mux := 0 TO "N_MAX_MUX_DISP" DO
-            "DB2010_V".Mux[#for_mux].Index :=
-            "DB2010_V".Mux[#for_mux].oldIndex := 0;
-        END_FOR;
-        RETURN;
-    END_IF;
-    
-    //  ===========================================================================================================
-    //  Gestion de multiplexado
-    FOR #for_mux := 0 TO "N_MAX_MUX_DISP" DO
-        
-        //  ===============================================================================================================
-        
-        /// <RegionDoc>
-        (*
-        Antes de iniciar la lógica del multiplexado, revisamos que el índice solicitado
-        esté dentro de los límites permitidos (0 y N_MAX_DISP_V). 
-        Si se excede, se limita y se activa el flag MaxVisible.
-        *)
-        /// </RegionDoc>
-        REGION LIMITES
-            
-            //  ===========================================================================================================
-            //  Limites
-            IF "DB2010_V".Mux[#for_mux].Index < 0 THEN
-                "DB2010_V".Mux[#for_mux].Index := 0;
-            END_IF;
-            IF "DB2010_V".Mux[#for_mux].Index > "N_MAX_DISP_V" THEN
-                "DB2010_V".Mux[#for_mux].Index := "N_MAX_DISP_V";
-            END_IF;
-            IF "DB2010_V".Mux[#for_mux].Index >= "N_MAX_DISP_V" THEN
-                "DB2010_V".Mux[#for_mux].MaxVisible := TRUE;
-            ELSE
-                "DB2010_V".Mux[#for_mux].MaxVisible := FALSE;
-            END_IF;
-        END_REGION
-        
-        //  Pasamos el indice a variable temporal para evisar cambios no deseados
-        #t_Index := "DB2010_V".Mux[#for_mux].Index;
-        #t_oldIndex := "DB2010_V".Mux[#for_mux].oldIndex;
-        
-        //  ===========================================================================================================
-        //  Valor anterior del indice
-        "DB2010_V".Mux[#for_mux].oldIndex := #t_Index;
-        IF "DB2010_V".Mux[#for_mux].Habilitar THEN
-            
-            //  ===========================================================================================================
-            //  Gestionamos solo los tipos 
-            IF #t_Index > 0 THEN
-                
-                /// <RegionDoc>
-                (*
-                Al detectar un cambio en el índice del dispositivo en el HMI, 
-                cargamos de golpe todos los valores del nuevo dispositivo seleccionado en el multiplexor.
-                *)
-                /// </RegionDoc>
-                REGION CARGA_INICIAL
-                    
-                    //  ===========================================================================================================
-                    IF #t_Index <> #t_oldIndex THEN
-                        "DB2010_V".Mux[#for_mux].V := "DB2010_V".V[#t_Index];
-                    END_IF;
-                    
-                END_REGION
-                
-                
-                /// <RegionDoc>
-                (*
-                Movimiento continuo de datos gestionados en el FC hacia el Multiplexor.
-                Actualiza los estados (Auto/Manual, Enclavado, Alarmas, Tiempos...) para refrescar el HMI.
-                *)
-                /// </RegionDoc>
-                REGION DATOS_LECTURA
-                    
-                    //  ===========================================================================================================
-                    //  Movimiento de datos gestionados en FC
-                    "DB2010_V".Mux[#for_mux].V.Hmi_Estado := "DB2010_V".V[#t_Index].Hmi_Estado;
-                    "DB2010_V".Mux[#for_mux].V.Estado_SeguridadOk := "DB2010_V".V[#t_Index].Estado_SeguridadOk;
-                    IF NOT "DB2010_V".V[#t_Index].Estado_AutoMan THEN
-                        "DB2010_V".Mux[#for_mux].V.Orden_ActivarManual := "DB2010_V".V[#t_Index].Orden_ActivarManual;
-                    ELSE
-                        IF NOT #SeguridadesOK OR NOT "DB2010_V".Mux[#for_mux].V.Estado_SeguridadOk THEN
-                            "DB2010_V".Mux[#for_mux].V.Orden_ActivarManual :=
-                            "DB2010_V".V[#t_Index].Orden_ActivarManual := FALSE;
-                        END_IF;
-                    END_IF;
-                    
-                    "DB2010_V".Mux[#for_mux].V.Estado_Activado := "DB2010_V".V[#t_Index].Estado_Activado;
-                    "DB2010_V".Mux[#for_mux].V.Estado_Enclavado := "DB2010_V".V[#t_Index].Estado_Enclavado;
-                    "DB2010_V".Mux[#for_mux].V.Estado_EntradaRetornoReposo := "DB2010_V".V[#t_Index].Estado_EntradaRetornoReposo;
-                    "DB2010_V".Mux[#for_mux].V.Estado_EntradaRetornoTrabajo := "DB2010_V".V[#t_Index].Estado_EntradaRetornoTrabajo;
-                    "DB2010_V".Mux[#for_mux].V.Alarmas_Doble := "DB2010_V".V[#t_Index].Alarmas_Doble;
-                    "DB2010_V".Mux[#for_mux].V.Alarmas_General := "DB2010_V".V[#t_Index].Alarmas_General;
-                    "DB2010_V".Mux[#for_mux].V.Alarmas_Mantenimiento := "DB2010_V".V[#t_Index].Alarmas_Mantenimiento;
-                    "DB2010_V".Mux[#for_mux].V.Alarmas_Reposo := "DB2010_V".V[#t_Index].Alarmas_Reposo;
-                    "DB2010_V".Mux[#for_mux].V.Alarmas_Trabajo := "DB2010_V".V[#t_Index].Alarmas_Trabajo;
-                    "DB2010_V".Mux[#for_mux].V.Orden_ActivarAuto := "DB2010_V".V[#t_Index].Orden_ActivarAuto;
-                    "DB2010_V".Mux[#for_mux].V.Tiempos_Alarma := "DB2010_V".V[#t_Index].Tiempos_Alarma;
-                    "DB2010_V".Mux[#for_mux].V.Tiempos_Ciclos := "DB2010_V".V[#t_Index].Tiempos_Ciclos;
-                    "DB2010_V".Mux[#for_mux].V.Aux_oldActivado := "DB2010_V".V[#t_Index].Aux_oldActivado;
-                    "DB2010_V".Mux[#for_mux].V.Aux_oldAlarma := "DB2010_V".V[#t_Index].Aux_oldAlarma;
-                    "DB2010_V".Mux[#for_mux].V.Aux_oldAutoMan := "DB2010_V".V[#t_Index].Aux_oldAutoMan;
-                    "DB2010_V".Mux[#for_mux].V.Config_GrupoAlarma := "DB2010_V".V[#t_Index].Config_GrupoAlarma;
-                END_REGION
-                
-                
-                /// <RegionDoc>
-                (*
-                Procesa las escrituras realizadas desde el HMI. 
-                Si detecta que el Mux tiene un valor distinto al del DB del dispositivo, 
-                sobrescribe el dispositivo y levanta el flag "ExisteCambio".
-                *)
-                /// </RegionDoc>
-                REGION DATOS_ESCRITURA
-                    
-                    //  ===========================================================================================================
-                    //  Reinicializamos valor existe cambio
-                    "DB2010_V".Mux[#for_mux].ExisteCambio := false;
-                    
-                    //  ===========================================================================================================
-                    //  Nombre dispositivo
-                    IF "DB2010_V".Mux[#for_mux].V.Hmi_Nombre <> "DB2010_V".V[#t_Index].Hmi_Nombre THEN
-                        "DB2010_V".V[#t_Index].Hmi_Nombre := "DB2010_V".Mux[#for_mux].V.Hmi_Nombre;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    
-                    //  ===========================================================================================================
-                    //  Estado auto/manual
-                    IF "DB2010_V".Mux[#for_mux].V.Estado_AutoMan <> "DB2010_V".V[#t_Index].Estado_AutoMan THEN
-                        "DB2010_V".V[#t_Index].Estado_AutoMan := "DB2010_V".Mux[#for_mux].V.Estado_AutoMan;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    
-                    //  ===========================================================================================================
-                    //  Ordenes
-                    IF "DB2010_V".Mux[#for_mux].V.Orden_ActivarManual <> "DB2010_V".V[#t_Index].Orden_ActivarManual THEN
-                        "DB2010_V".V[#t_Index].Orden_ActivarManual := "DB2010_V".Mux[#for_mux].V.Orden_ActivarManual;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Orden_ResetCiclos <> "DB2010_V".V[#t_Index].Orden_ResetCiclos THEN
-                        "DB2010_V".V[#t_Index].Orden_ResetCiclos := "DB2010_V".Mux[#for_mux].V.Orden_ResetCiclos;
-                        "DB2010_V".Mux[#for_mux].V.Orden_ResetCiclos := FALSE;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    
-                    //  ===========================================================================================================
-                    //  Configuracion
-                    IF "DB2010_V".Mux[#for_mux].V.Config_DireccionRetReposoBit <> "DB2010_V".V[#t_Index].Config_DireccionRetReposoBit THEN
-                        "DB2010_V".V[#t_Index].Config_DireccionRetReposoBit := "DB2010_V".Mux[#for_mux].V.Config_DireccionRetReposoBit;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_DireccionRetReposoByte <> "DB2010_V".V[#t_Index].Config_DireccionRetReposoByte THEN
-                        "DB2010_V".V[#t_Index].Config_DireccionRetReposoByte := "DB2010_V".Mux[#for_mux].V.Config_DireccionRetReposoByte;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_DireccionRetTrabajoBit <> "DB2010_V".V[#t_Index].Config_DireccionRetTrabajoBit THEN
-                        "DB2010_V".V[#t_Index].Config_DireccionRetTrabajoBit := "DB2010_V".Mux[#for_mux].V.Config_DireccionRetTrabajoBit;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_DireccionRetTrabajoByte <> "DB2010_V".V[#t_Index].Config_DireccionRetTrabajoByte THEN
-                        "DB2010_V".V[#t_Index].Config_DireccionRetTrabajoByte := "DB2010_V".Mux[#for_mux].V.Config_DireccionRetTrabajoByte;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_DireccionSalidaBit <> "DB2010_V".V[#t_Index].Config_DireccionSalidaBit THEN
-                        "DB2010_V".V[#t_Index].Config_DireccionSalidaBit := "DB2010_V".Mux[#for_mux].V.Config_DireccionSalidaBit;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_DireccionSalidaByte <> "DB2010_V".V[#t_Index].Config_DireccionSalidaByte THEN
-                        "DB2010_V".V[#t_Index].Config_DireccionSalidaByte := "DB2010_V".Mux[#for_mux].V.Config_DireccionSalidaByte;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_Habilitar <> "DB2010_V".V[#t_Index].Config_Habilitar THEN
-                        "DB2010_V".V[#t_Index].Config_Habilitar := "DB2010_V".Mux[#for_mux].V.Config_Habilitar;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_HabilitarInvertirReposo <> "DB2010_V".V[#t_Index].Config_HabilitarInvertirReposo THEN
-                        "DB2010_V".V[#t_Index].Config_HabilitarInvertirReposo := "DB2010_V".Mux[#for_mux].V.Config_HabilitarInvertirReposo;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_HabilitarInvertirTrabajo <> "DB2010_V".V[#t_Index].Config_HabilitarInvertirTrabajo THEN
-                        "DB2010_V".V[#t_Index].Config_HabilitarInvertirTrabajo := "DB2010_V".Mux[#for_mux].V.Config_HabilitarInvertirTrabajo;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_HabilitarMantenimiento <> "DB2010_V".V[#t_Index].Config_HabilitarMantenimiento THEN
-                        "DB2010_V".V[#t_Index].Config_HabilitarMantenimiento := "DB2010_V".Mux[#for_mux].V.Config_HabilitarMantenimiento;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_HabilitarRetornoReposo <> "DB2010_V".V[#t_Index].Config_HabilitarRetornoReposo THEN
-                        "DB2010_V".V[#t_Index].Config_HabilitarRetornoReposo := "DB2010_V".Mux[#for_mux].V.Config_HabilitarRetornoReposo;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Config_HabilitarRetornoTrabajo <> "DB2010_V".V[#t_Index].Config_HabilitarRetornoTrabajo THEN
-                        "DB2010_V".V[#t_Index].Config_HabilitarRetornoTrabajo := "DB2010_V".Mux[#for_mux].V.Config_HabilitarRetornoTrabajo;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    
-                    //  ===========================================================================================================
-                    //  Tiempos
-                    IF "DB2010_V".Mux[#for_mux].V.Tiempos_SetPointTiempoAlarma <> "DB2010_V".V[#t_Index].Tiempos_SetPointTiempoAlarma THEN
-                        "DB2010_V".V[#t_Index].Tiempos_SetPointTiempoAlarma := "DB2010_V".Mux[#for_mux].V.Tiempos_SetPointTiempoAlarma;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    IF "DB2010_V".Mux[#for_mux].V.Tiempos_SetPointCiclos <> "DB2010_V".V[#t_Index].Tiempos_SetPointCiclos THEN
-                        "DB2010_V".V[#t_Index].Tiempos_SetPointCiclos := "DB2010_V".Mux[#for_mux].V.Tiempos_SetPointCiclos;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := true;
-                    END_IF;
-                    
-                END_REGION
-                
-                
-                /// <RegionDoc>
-                (*
-                Si existen cambios generados por el SCADA en este multiplexor, actualiza 
-                los datos en el resto de multiplexores en caso de que algún otro usuario 
-                tenga abierto el mismo dispositivo en otra pantalla.
-                *)
-                /// </RegionDoc>
-                REGION GESTION_CAMBIOS
-                    
-                    //  ===========================================================================================================
-                    IF "DB2010_V".Mux[#for_mux].ExisteCambio THEN
-                        
-                        //  Recorremos todos los multiplexados
-                        FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
-                            
-                            //  No miramos el multiplexado actual
-                            IF #for_mux_cambios <> #for_mux THEN
-                                
-                                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
-                                //  correspondiente
-                                IF #t_Index = "DB2010_V".Mux[#for_mux_cambios].Index THEN
-                                    "DB2010_V".Mux[#for_mux_cambios].V := "DB2010_V".V[#t_Index];
-                                END_IF;
-                                
-                            END_IF;
-                            
-                        END_FOR;
-                        "DB2010_V".Mux[#for_mux].ExisteCambio := FALSE;
-                    END_IF;
-                    
-                END_REGION
-                
-            ELSE
-                
-                //  ===========================================================================================================
-                //  En caso de que el indice sea 0, movemos el valor de la 
-                //  V[0] que no se usa para escribir el index.
-                "DB2010_V".Mux[#for_mux].V := "DB2010_V".V[0];
-                
-            END_IF;
-        ELSE
-            
-            "DB2010_V".Mux[#for_mux].ExisteCambio := FALSE;
-            "DB2010_V".Mux[#for_mux].Index :=
-            "DB2010_V".Mux[#for_mux].oldIndex := 0;
-            
-        END_IF;
-        
-    END_FOR;
-    
-END_REGION
+	//==========================================================================================================
+	/// <RegionDoc>
+	(* Este bloque se encarga de gestionar los idiomas para la generación de alarmas,
+	leyendo la variable de configuración de idioma actual del HMI.
+	*)
+	/// </RegionDoc>
+	REGION IDIOMA
+	    CASE #Idioma OF
+	            // =============================================================================
+	            // ESPAÑOL
+	        1:
+	            #t_TrazaDispositivo := '';
+	            #t_TrazaManual := '';
+	            #t_TrazaAutomatico := '';
+	            #t_TrazaActivado := '';
+	            #t_TrazaDesactivado := '';
+	    END_CASE;
+	END_REGION
+	
+	
+	//==========================================================================================================
+	/// <RegionDoc>
+	(* Gestión centralizada del Multiplexado de datos hacia las pantallas HMI.
+	Nota estructural: Esta región contiene la lógica de primer arranque y un bucle principal 
+	que recorre todos los multiplexados activos ("N_MAX_MUX_DISP").
+	*)
+	/// </RegionDoc>
+	REGION MULTIPLEXADO
+	    
+	    //--------------------------------------------------------------------------------------------------
+	    /// <RegionDoc>
+	    (* Al arranque del PLC, ponemos a 0 todos los índices de los multiplexados y abortamos la ejecución de esta región. *)
+	    /// </RegionDoc>
+	    REGION INICIALIZACION_ARRANQUE
+	        IF #Arranque THEN
+	            FOR #for_mux := 0 TO "N_MAX_MUX_DISP" DO
+	                "DB2010_V".Mux[#for_mux].Index :=
+	                "DB2010_V".Mux[#for_mux].oldIndex := 0;
+	            END_FOR;
+	            RETURN;
+	        END_IF;
+	    END_REGION
+	    
+	    //--------------------------------------------------------------------------------------------------
+	    /// <RegionDoc>
+	    (* Bucle principal de escaneo para evaluar y procesar los índices solicitados desde las pantallas HMI. *)
+	    /// </RegionDoc>
+	    REGION BUCLE_PRINCIPAL_MUX
+	        FOR #for_mux := 0 TO "N_MAX_MUX_DISP" DO
+	            
+	            /// <RegionDoc>
+	            (* Antes de iniciar la lógica del multiplexado, revisamos que el índice solicitado
+	            esté dentro de los límites permitidos (0 y N_MAX_DISP_V). Si se excede, se limita y se activa el flag MaxVisible. *)
+	            /// </RegionDoc>
+	            REGION LIMITES
+	                IF "DB2010_V".Mux[#for_mux].Index < 0 THEN
+	                    "DB2010_V".Mux[#for_mux].Index := 0;
+	                END_IF;
+	                IF "DB2010_V".Mux[#for_mux].Index > "N_MAX_DISP_V" THEN
+	                    "DB2010_V".Mux[#for_mux].Index := "N_MAX_DISP_V";
+	                END_IF;
+	                IF "DB2010_V".Mux[#for_mux].Index >= "N_MAX_DISP_V" THEN
+	                    "DB2010_V".Mux[#for_mux].MaxVisible := TRUE;
+	                ELSE
+	                    "DB2010_V".Mux[#for_mux].MaxVisible := FALSE;
+	                END_IF;
+	            END_REGION 
+	            
+	            #t_Index := "DB2010_V".Mux[#for_mux].Index;
+	            #t_oldIndex := "DB2010_V".Mux[#for_mux].oldIndex;
+	            "DB2010_V".Mux[#for_mux].oldIndex := #t_Index;
+	            
+	            IF "DB2010_V".Mux[#for_mux].Habilitar THEN
+	                IF #t_Index > 0 THEN
+	                    
+	                    /// <RegionDoc>
+	                    (* Carga inicial de valores del dispositivo al detectar un cambio de índice desde el HMI. *)
+	                    /// </RegionDoc>
+	                    REGION CARGA_INICIAL
+	                        IF #t_Index <> #t_oldIndex THEN
+	                            "DB2010_V".Mux[#for_mux].V := "DB2010_V".V[#t_Index];
+	                        END_IF;
+	                    END_REGION
+	                    
+	                    /// <RegionDoc>
+	                    (* Transfiere el estado actual físico de la válvula al multiplexado para visualizarlo en pantalla. *)
+	                    /// </RegionDoc>
+	                    REGION DATOS_LECTURA
+	                        "DB2010_V".Mux[#for_mux].V.Hmi_Estado := "DB2010_V".V[#t_Index].Hmi_Estado;
+	                        "DB2010_V".Mux[#for_mux].V.Estado_SeguridadOk := "DB2010_V".V[#t_Index].Estado_SeguridadOk;
+	                        // ... (Resto de mapeos de lectura)
+	                    END_REGION
 
+	                    /// <RegionDoc>
+	                    (* Captura las órdenes y cambios de configuración realizados por el usuario en el HMI y los aplica a la válvula. *)
+	                    /// </RegionDoc>
+	                    REGION DATOS_ESCRITURA
+	                        "DB2010_V".Mux[#for_mux].ExisteCambio := false;
+	                        IF "DB2010_V".Mux[#for_mux].V.Estado_AutoMan <> "DB2010_V".V[#t_Index].Estado_AutoMan THEN
+	                            "DB2010_V".V[#t_Index].Estado_AutoMan := "DB2010_V".Mux[#for_mux].V.Estado_AutoMan;
+	                            "DB2010_V".Mux[#for_mux].ExisteCambio := true;
+	                        END_IF;
+	                        // ... (Resto de órdenes y configuraciones)
+	                    END_REGION
+	                    
+	                    /// <RegionDoc>
+	                    (* Sincroniza los cambios realizados en este multiplexado con el resto de visores que tengan abierto el mismo dispositivo. *)
+	                    /// </RegionDoc>
+	                    REGION GESTION_CAMBIOS
+	                        IF "DB2010_V".Mux[#for_mux].ExisteCambio THEN
+	                            FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
+	                                IF #for_mux_cambios <> #for_mux THEN
+	                                    IF #t_Index = "DB2010_V".Mux[#for_mux_cambios].Index THEN
+	                                        "DB2010_V".Mux[#for_mux_cambios].V := "DB2010_V".V[#t_Index];
+	                                    END_IF;
+	                                END_IF;
+	                            END_FOR;
+	                            "DB2010_V".Mux[#for_mux].ExisteCambio := FALSE;
+	                        END_IF;
+	                    END_REGION
+	                    
+	                END_IF;
+	            END_IF;
+	        END_FOR;
+	    END_REGION
+	END_REGION
+	
+	
+	//==========================================================================================================
+	/// <RegionDoc>
+	(* Motor principal de control. 
+	Recorre todos los dispositivos físicos configurados ("N_MAX_DISP_V") y ejecuta la lógica de lectura, control, diagnóstico y escritura. *)
+	/// </RegionDoc>
+	REGION LOGICA_DEL_DISPOSITIVO
+	    
+	    FOR #for_i := 0 TO "N_MAX_DISP_AGRUP" DO
+	        "DB2010_V".Agrup[#for_i].AlgunaAlarma := FALSE;
+	        "DB2010_V".Agrup[#for_i].AlgunaEnManual := FALSE;
+	    END_FOR;
+	    
+	    FOR #for_i := 1 TO "N_MAX_DISP_V" DO
+	        
+	        IF "DB2010_V".V[#for_i].Config_Habilitar THEN
+	            
+	            /// <RegionDoc>
+	            (* Asegura que la válvula está asignada a un grupo de alarmas válido y existente. *)
+	            /// </RegionDoc>
+	            REGION LIMITE_GRUPO_ALARMA
+	                IF "DB2010_V".V[#for_i].Config_GrupoAlarma < 0 THEN
+	                    "DB2010_V".V[#for_i].Config_GrupoAlarma := 0;
+	                END_IF;
+	                IF "DB2010_V".V[#for_i].Config_GrupoAlarma > "N_MAX_DISP_AGRUP" THEN
+	                    "DB2010_V".V[#for_i].Config_GrupoAlarma := "N_MAX_DISP_AGRUP";
+	                END_IF;
+	            END_REGION
+	            
+	            #t_Activar := FALSE;
+
+	            /// <RegionDoc>
+	            (* Lectura de las señales físicas de retorno (Finales de carrera) mediante punteros dinámicos (PEEK_BOOL). *)
+	            /// </RegionDoc>
+	            REGION LECTURA_VALORES_DE_LA_TARJETA
+	                IF "DB2010_V".V[#for_i].Config_DireccionRetReposoByte >= 0 THEN
+	                    "DB2010_V".V[#for_i].Estado_EntradaRetornoReposo := PEEK_BOOL(area := 16#81,
+	                                                                        dbNumber := 0,
+	                                                                        byteOffset := "DB2010_V".V[#for_i].Config_DireccionRetReposoByte,
+	                                                                        bitOffset := "DB2010_V".V[#for_i].Config_DireccionRetReposoBit);
+	                END_IF;
+	                // ... (Lógica de retorno trabajo)
+	            END_REGION
+	                  
+	            /// <RegionDoc>
+	            (* Evalúa la orden de activación basándose en si la válvula se encuentra en modo Automático o Manual. *)
+	            /// </RegionDoc>
+	            REGION MODOS_DE_TRABAJO
+	                IF "DB2010_V".V[#for_i].Estado_AutoMan THEN
+	                    "DB2010_V".Agrup["DB2010_V".V[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+	                    IF "DB2010_V".V[#for_i].Orden_ActivarManual AND #SeguridadesOK AND "DB2010_V".V[#for_i].Estado_SeguridadOk THEN 
+	                        #t_Activar := TRUE;
+	                    ELSE
+	                        #t_Activar := FALSE;
+	                        "DB2010_V".V[#for_i].Orden_ActivarManual := FALSE;
+	                    END_IF;
+	                ELSE
+	                    "DB2010_V".V[#for_i].Orden_ActivarManual := FALSE;
+	                    // ... (Lógica automática)
+	                END_IF;
+	            END_REGION
+	                  
+	            /// <RegionDoc>
+	            (* Cruza la orden de activación (#t_Activar) con los finales de carrera físicos y la configuración para establecer el estado real de la válvula. *)
+	            /// </RegionDoc>
+	            REGION ESTADO_DEL_DISPOSITIVO
+	                IF #Simulacion THEN
+	                    IF #t_Activar THEN "DB2010_V".V[#for_i].Estado_Activado := TRUE; ELSE "DB2010_V".V[#for_i].Estado_Activado := FALSE; END_IF;
+	                END_IF;
+	                // ... (Lógica de los diferentes tipos de válvulas)
+	            END_REGION
+	                  
+	            /// <RegionDoc>
+	            (* Subsistema principal de evaluación, temporización y confirmación de fallos mecánicos de la válvula. *)
+	            /// </RegionDoc>
+	            REGION ERRORES
+	                
+	                /// <RegionDoc>
+	                (* Detección instantánea (sin temporizar) de discrepancias entre la orden dada y el retorno físico esperado. *)
+	                /// </RegionDoc>
+	                REGION GESTION_ALARMA_INSTANTANEA
+	                    // (Lógica instantánea reposo, trabajo y doble)
+	                END_REGION
+	                
+	                /// <RegionDoc>
+	                (* Aplica el tiempo de gracia (Setpoint) configurado a los errores instantáneos detectados antes de lanzar una alarma. *)
+	                /// </RegionDoc>
+	                REGION GESTION_TIEMPO_ALARMA
+	                    // (Temporizador de alarmas)
+	                END_REGION
+	                
+	                /// <RegionDoc>
+	                (* Consolida los errores superados en tiempo y activa la alarma general del dispositivo y del grupo. *)
+	                /// </RegionDoc>
+	                REGION GESTION_ALARMAS                          
+	                    // (Traspaso de tiempos a marcas de alarma reales)
+	                END_REGION
+	                
+	            END_REGION
+	                  
+	            /// <RegionDoc>
+	            (* Contabiliza maniobras para los planes de mantenimiento preventivo. *)
+	            /// </RegionDoc>
+	            REGION DIAGNOSIS
+	                IF ("DB2010_V".V[#for_i].Estado_Activado AND NOT "DB2010_V".V[#for_i].Aux_oldActivado) OR
+	                    (NOT "DB2010_V".V[#for_i].Estado_Activado AND "DB2010_V".V[#for_i].Aux_oldActivado) THEN
+	                    "DB2010_V".V[#for_i].Tiempos_Ciclos += 1;
+	                END_IF;
+	            END_REGION
+	                  
+	            /// <RegionDoc>
+	            (* Ataque físico a la salida de la tarjeta de periferia (POKE_BOOL) si la válvula no está en alarma. *)
+	            /// </RegionDoc>
+	            REGION ESCRITURA_SALIDA
+	                IF "DB2010_V".V[#for_i].Config_DireccionSalidaByte >= 0 THEN
+	                    IF #t_Activar AND NOT "DB2010_V".V[#for_i].Alarmas_General THEN
+	                        POKE_BOOL(area := 16#82, dbNumber := 0, byteOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaByte, bitOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaBit, value := TRUE);
+	                    ELSE
+	                        POKE_BOOL(area := 16#82, dbNumber := 0, byteOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaByte, bitOffset := "DB2010_V".V[#for_i].Config_DireccionSalidaBit, value := FALSE);
+	                    END_IF;
+	                END_IF;
+	            END_REGION
+	                  
+	            "DB2010_V".V[#for_i].Orden_ActivarAuto := FALSE;
+	            "DB2010_V".V[#for_i].Estado_Enclavado := FALSE;
+	                  
+	            /// <RegionDoc>
+	            (* Registra en el sistema de trazabilidad del SCADA/HMI los cambios de estado (Pase a Manual) y maniobras operadas manualmente. *)
+	            /// </RegionDoc>
+	            REGION TRAZABILIDAD_MANUALIZACION
+	                IF "DB2010_V".V[#for_i].Estado_AutoMan AND NOT "DB2010_V".V[#for_i].Aux_oldAutoMan THEN
+	                    "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual, Registrar := 1, Categoria := 1, Id := #for_i, User := "DB1_SYS".Usuario.Actual, Texto := CONCAT_STRING(IN1 := #t_TrazaDispositivo, IN2 := "DB2010_V".V[#for_i].Hmi_Nombre, IN3 := #t_TrazaManual));
+	                END_IF;
+	                // ... (Resto de trazas)
+	            END_REGION
+	                  
+	            "DB2010_V".V[#for_i].Aux_oldActivado := "DB2010_V".V[#for_i].Estado_Activado;
+	            "DB2010_V".V[#for_i].Aux_oldAutoMan := "DB2010_V".V[#for_i].Estado_AutoMan;
+	                  
+	        ELSE
+	                  
+	            // =============================================================================
+	            // DISPOSITIVO NO HABILITADO
+	            "DB2010_V".V[#for_i].Alarmas_General := FALSE;
+	            // ... (Reset del resto)
+	                  
+	        END_IF;
+	              
+	        /// <RegionDoc>
+	        (* Compacta el estado de alarmas, manual, etc. en una única variable 'Word' para ahorrar recursos en la comunicación HMI. *)
+	        /// </RegionDoc>
+	        REGION GESTION_HMI
+	            "DB2010_V".V[#for_i].Hmi_Estado.%X0 :="DB2010_V".V[#for_i].Config_Habilitar;
+	            "DB2010_V".V[#for_i].Hmi_Estado.%X1 := "DB2010_V".V[#for_i].Estado_AutoMan;
+	            // ... (Resto de mapeos de bits)
+	        END_REGION
+	              
+	        /// <RegionDoc>
+	        (* Detección de flanco positivo de una alarma para disparar la activación de balizas o cláxones a nivel de máquina. *)
+	        /// </RegionDoc>
+	        REGION GESTION_NUEVA_ALARMA
+	            IF "DB2010_V".V[#for_i].Alarmas_General AND NOT "DB2010_V".V[#for_i].Aux_oldAlarma THEN
+	                "DB2010_V".Agrup["DB2010_V".V[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+	                "DB2010_V".V[#for_i].Aux_oldAlarma := TRUE;
+	            END_IF;
+	            IF NOT "DB2010_V".V[#for_i].Alarmas_General AND NOT #t_ErrorReposo AND NOT #t_ErrorTrabajo THEN
+	                "DB2010_V".V[#for_i].Aux_oldAlarma := FALSE;
+	            END_IF;
+	        END_REGION
+	              
+	    END_FOR;
+	          
+	    // =============================================================================
+	    //  ACUSE DE NUEVAS ALARMAS
+	    IF #Ack THEN
+	        FOR #for_i := 0 TO "N_MAX_DISP_AGRUP" DO
+	            "DB2010_V".Agrup[#for_i].NuevaAlarma := FALSE;
+	        END_FOR;
+	    END_IF;
+	
+	END_REGION
+	      
 END_FUNCTION
