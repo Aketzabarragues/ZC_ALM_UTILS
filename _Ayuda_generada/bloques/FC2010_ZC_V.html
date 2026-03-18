@@ -9,17 +9,28 @@
     <div class="page-wrapper">
         <div class="page-content manual-content">
             <div class="doc-section">
-    <h1>FC2010_ZC_V</h1>
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC2010_ZC_V
+    </h1>
 
     
         <h3>Descripción General</h3>
         <p style="white-space: pre-wrap;">Nombre:         DISPOSITIVO VALVULA
-	Descripcion:    Modelo de dispositivo válvula para la gestión integral de alarmas, modos y multiplexado hacia el HMI.</p>
+Descripcion:    Modelo de dispositivo válvula para la gestión integral de alarmas, modos y multiplexado hacia el HMI.</p>
         
         <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
             <strong>Notas y Restricciones:</strong>
             <p style="white-space: pre-wrap; margin-bottom: 0;">Software:       TIA Portal 16
-	Restricciones:  PLC serie 1200/1500</p>
+Restricciones:  PLC serie 1200/1500</p>
         </div>
         
     
@@ -218,7 +229,7 @@
     
     
         <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de gestionar los idiomas para la generación de alarmas,
-	leyendo la variable de configuración de idioma actual del HMI.</p>
+leyendo la variable de configuración de idioma actual del HMI.</p>
     
     
     
@@ -254,8 +265,8 @@ END_REGION</pre>
     
     
         <p style="white-space: pre-wrap; margin-bottom: 15px;">Gestión centralizada del Multiplexado de datos hacia las pantallas HMI.
-	Nota estructural: Esta región contiene la lógica de primer arranque y un bucle principal 
-	que recorre todos los multiplexados activos ("N_MAX_MUX_DISP").</p>
+Nota estructural: Esta región contiene la lógica de primer arranque y un bucle principal
+que recorre todos los multiplexados activos ("N_MAX_MUX_DISP").</p>
     
     
     
@@ -326,7 +337,7 @@ END_REGION</pre>
     
     
         <p style="white-space: pre-wrap; margin-bottom: 15px;">Antes de iniciar la lógica del multiplexado, revisamos que el índice solicitado
-	            esté dentro de los límites permitidos (0 y N_MAX_DISP_V). Si se excede, se limita y se activa el flag MaxVisible.</p>
+esté dentro de los límites permitidos (0 y N_MAX_DISP_V). Si se excede, se limita y se activa el flag MaxVisible.</p>
     
     
     
@@ -488,8 +499,8 @@ END_REGION</pre>
     
     
     
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Motor principal de control. 
-	Recorre todos los dispositivos físicos configurados ("N_MAX_DISP_V") y ejecuta la lógica de lectura, control, diagnóstico y escritura.</p>
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Motor principal de control.
+Recorre todos los dispositivos físicos configurados ("N_MAX_DISP_V") y ejecuta la lógica de lectura, control, diagnóstico y escritura.</p>
     
     
     

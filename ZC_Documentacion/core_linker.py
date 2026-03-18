@@ -37,7 +37,7 @@ def construir_registro_global(capitulos_word, bloques_scl):
                 "url": f"{archivo_base}#{id_nativo}"
             }
 
-    log.dump_dict("REGISTRO_GLOBAL_ENLACES", registro)
+    #log.dump_dict("REGISTRO_GLOBAL_ENLACES", registro)
     return registro
 
 

@@ -7,410 +7,418 @@
 </head>
 <body class="layout-shell">
     
+    <header class="top-header">
+        <div class="header-left">
+            <img src="img/logo.png" alt="Zeus Control" onerror="this.style.display='none'">
+        </div>
+        <div class="header-center">
+            Documentación de Ingeniería
+        </div>
+        <div class="header-right">
+            ZEUS CONTROL
+        </div>
+    </header>
+
     <div class="main-container">
         
         <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="img/logo.png" alt="Zeus Control" onerror="this.style.display='none'">
-                <h2>Zeus Control ALM</h2>
-                <small>Documentación de Ingeniería</small>
-            </div>
-
             <div class="search-box"><input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarMenu()"></div>
             
             <ul class="nav-list" id="listaBloques">
                 <li class="titulo-seccion-menu">📚 MANUAL DEL ESTÁNDAR</li>
                 
-                <li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="manual/000_portada.html" target="visor">Portada y Revisiones</a></div>
+                <li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="manual/000_portada.html" target="visor">Portada y Revisiones</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="manual/001_Control_de_revisiones.html" target="visor">Control de revisiones</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="manual/001_Control_de_revisiones.html" target="visor">Control de revisiones</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="manual/002_Consideraciones_Estandares_de_Desarrollo.html" target="visor">Consideraciones (Estándares de Desarrollo)</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="manual/002_Consideraciones_Estandares_de_Desarrollo.html" target="visor">Consideraciones (Estándares de Desarrollo)</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/003_Organizacion_de_numeracion_de_bloques.html" target="visor">Organización de numeración de bloques</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/003_Organizacion_de_numeracion_de_bloques.html" target="visor">Organización de numeración de bloques</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/003_Organizacion_de_numeracion_de_bloques.html#sec_Listado" target="visor">Listado</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/003_Organizacion_de_numeracion_de_bloques.html#sec_Listado" target="visor">Listado</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html" target="visor">Convenciones de Codificación y Nomenclatura</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html" target="visor">Convenciones de Codificación y Nomenclatura</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Nombre_de_proyectos" target="visor">Nombre de proyectos</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Nombre_de_proyectos" target="visor">Nombre de proyectos</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Nomenclatura_de_bloques_OB_FC_" target="visor">Nomenclatura de bloques (OB/FC/FB/DB)</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Nomenclatura_de_bloques_OB_FC_" target="visor">Nomenclatura de bloques (OB/FC/FB/DB)</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Organizacion_de_carpetas" target="visor">Organización de carpetas</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Organizacion_de_carpetas" target="visor">Organización de carpetas</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Tablas_de_variables_generales" target="visor">Tablas de variables generales</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Tablas_de_variables_generales" target="visor">Tablas de variables generales</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Variables_internas_de_bloques" target="visor">Variables internas de bloques</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Variables_internas_de_bloques" target="visor">Variables internas de bloques</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Variables_de_DB" target="visor">Variables de DB</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Variables_de_DB" target="visor">Variables de DB</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Comentarios_en_Codigo_SCL_y_KO" target="visor">Comentarios en Código SCL y KOP</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Comentarios_en_Codigo_SCL_y_KO" target="visor">Comentarios en Código SCL y KOP</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Espaciado_de_codigo_en_SLC" target="visor">Espaciado de código en SLC</a></div>
-</li>
-</ul></li>
-</ul></li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="manual/005_Documentacion_tecnica_Estructura_de_Software.html" target="visor">Documentación técnica (Estructura de Software)</a></div>
-<ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/006_Organizacion_de_bloques_en_OB1.html" target="visor">Organización de bloques en OB1</a></div>
-<ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Inicializacion_FAT_y_pruebas" target="visor">Inicialización, FAT y pruebas</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Pre_Programa" target="visor">Pre-Programa</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Procesos" target="visor">Procesos</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Post_Programa" target="visor">Post-Programa</a></div>
-</li>
-</ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/007_Configuracion_de_sistema.html" target="visor">Configuración de sistema</a></div>
-<ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/007_Configuracion_de_sistema.html#sec_0_Config_Dispositivos" target="visor">0_Config_Dispositivos</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/007_Configuracion_de_sistema.html#sec_0_Config_Generales" target="visor">0_Config_Generales</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/007_Configuracion_de_sistema.html#sec_0_Config_Traza" target="visor">0_Config_Traza</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/007_Configuracion_de_sistema.html#sec_0_Idiomas" target="visor">0_Idiomas</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/007_Configuracion_de_sistema.html#sec_0_Idiomas_Textos" target="visor">0_Idiomas_Textos</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/007_Configuracion_de_sistema.html#sec_0_Productos" target="visor">0_Productos</a></div>
-</li>
-</ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/008_Constantes_de_dispositivos.html" target="visor">Constantes de dispositivos</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/009_Gestion_de_dispositivos.html" target="visor">Gestión de dispositivos</a></div>
-<ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Multiplexado" target="visor">Multiplexado</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Entrada_digital" target="visor">Entrada digital</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Entrada_analogica" target="visor">Entrada analógica</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Salida_digital" target="visor">Salida digital</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Salida_analogica" target="visor">Salida analógica</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Valvulas" target="visor">Válvulas</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Motores" target="visor">Motores</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Motores_con_variador_cableado" target="visor">Motores con variador cableado</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Motores_Sinamics_comunicados" target="visor">Motores Sinamics comunicados</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Tanques" target="visor">Tanques</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Tanques_aire_esteril" target="visor">Tanques aire estéril</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Totalizadores" target="visor">Totalizadores</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_Temporizadores_y_Flip_Flop_Glo" target="visor">Temporizadores y Flip Flop Globales</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/009_Gestion_de_dispositivos.html#sec_PID" target="visor">PID</a></div>
-</li>
-</ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/010_Logica_de_procesos.html" target="visor">Lógica de procesos</a></div>
-<ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Constantes_de_proceso" target="visor">Constantes de proceso</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Principal" target="visor">Principal</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_DB_Proceso" target="visor">DB Proceso</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Proceso" target="visor">Proceso</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Auxiliares" target="visor">Auxiliares</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Transiciones" target="visor">Transiciones</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Activaciones" target="visor">Activaciones</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Parametros" target="visor">Parámetros</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/010_Logica_de_procesos.html#sec_Alarmas" target="visor">Alarmas</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/004_Convenciones_de_Codificacion_y_Nomenclatura.html#sec_Espaciado_de_codigo_en_SLC" target="visor">Espaciado de código en SLC</a></div>
 </li>
 </ul></li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="manual/011_Documentacion_de_funciones.html" target="visor">Documentación de funciones</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="manual/005_Documentacion_tecnica_Estructura_de_Software.html" target="visor">Documentación técnica (Estructura de Software)</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/012_FC1_ZC_SISTEMA.html" target="visor">FC1_ZC_SISTEMA</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/006_Organizacion_de_bloques_en_OB1.html" target="visor">Organización de bloques en OB1</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_Registro_de_versiones" target="visor">Registro de versiones</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Inicializacion_FAT_y_pruebas" target="visor">Inicialización, FAT y pruebas</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Dependencias" target="visor">PLC Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Pre_Programa" target="visor">Pre-Programa</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Tipo_de_datos" target="visor">PLC Tipo de datos</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Procesos" target="visor">Procesos</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Bloque_de_datos" target="visor">PLC Bloque de datos</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Gestion" target="visor">PLC Gestión</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Variables" target="visor">HMI Variables</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Lista_de_texto" target="visor">HMI Lista de texto</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Alarmas" target="visor">HMI Alarmas</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Objeto_sinoptico" target="visor">HMI Objeto sinóptico</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Ventana_emergente" target="visor">HMI Ventana emergente</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #555; font-style: italic;" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Configuracion" target="visor">HMI Configuración</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/006_Organizacion_de_bloques_en_OB1.html#sec_Post_Programa" target="visor">Post-Programa</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/013_UDT_Proceso.html" target="visor">UDT Proceso</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/007_Configuracion_de_sistema.html" target="visor">Configuración de sistema</a></div>
+<ul class="nested" style="display: none;">
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/007_Configuracion_de_sistema.html#sec_0_Config_Dispositivos" target="visor">0_Config_Dispositivos</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/014_UDT_Entidad.html" target="visor">UDT Entidad</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/007_Configuracion_de_sistema.html#sec_0_Config_Generales" target="visor">0_Config_Generales</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: 500; font-size: 13px; color: #333;" href="manual/015_UDT.html" target="visor">UDT</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/007_Configuracion_de_sistema.html#sec_0_Config_Traza" target="visor">0_Config_Traza</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/007_Configuracion_de_sistema.html#sec_0_Idiomas" target="visor">0_Idiomas</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/007_Configuracion_de_sistema.html#sec_0_Idiomas_Textos" target="visor">0_Idiomas_Textos</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/007_Configuracion_de_sistema.html#sec_0_Productos" target="visor">0_Productos</a></div>
+</li>
+</ul></li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="manual/008_Constantes_de_dispositivos.html" target="visor">Constantes de dispositivos</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/009_Gestion_de_dispositivos.html" target="visor">Gestión de dispositivos</a></div>
+<ul class="nested" style="display: none;">
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Multiplexado" target="visor">Multiplexado</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Entrada_digital" target="visor">Entrada digital</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Entrada_analogica" target="visor">Entrada analógica</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Salida_digital" target="visor">Salida digital</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Salida_analogica" target="visor">Salida analógica</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Valvulas" target="visor">Válvulas</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Motores" target="visor">Motores</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Motores_con_variador_cableado" target="visor">Motores con variador cableado</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Motores_Sinamics_comunicados" target="visor">Motores Sinamics comunicados</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Tanques" target="visor">Tanques</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Tanques_aire_esteril" target="visor">Tanques aire estéril</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Totalizadores" target="visor">Totalizadores</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_Temporizadores_y_Flip_Flop_Glo" target="visor">Temporizadores y Flip Flop Globales</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/009_Gestion_de_dispositivos.html#sec_PID" target="visor">PID</a></div>
+</li>
+</ul></li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/010_Logica_de_procesos.html" target="visor">Lógica de procesos</a></div>
+<ul class="nested" style="display: none;">
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Constantes_de_proceso" target="visor">Constantes de proceso</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Principal" target="visor">Principal</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_DB_Proceso" target="visor">DB Proceso</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Proceso" target="visor">Proceso</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Auxiliares" target="visor">Auxiliares</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Transiciones" target="visor">Transiciones</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Activaciones" target="visor">Activaciones</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Parametros" target="visor">Parámetros</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/010_Logica_de_procesos.html#sec_Alarmas" target="visor">Alarmas</a></div>
+</li>
+</ul></li>
+</ul></li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="manual/011_Documentacion_de_funciones.html" target="visor">Documentación de funciones</a></div>
+<ul class="nested" style="display: none;">
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="manual/012_FC1_ZC_SISTEMA.html" target="visor">FC1_ZC_SISTEMA</a></div>
+<ul class="nested" style="display: none;">
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_Registro_de_versiones" target="visor">Registro de versiones</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Dependencias" target="visor">PLC Dependencias</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Tipo_de_datos" target="visor">PLC Tipo de datos</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Bloque_de_datos" target="visor">PLC Bloque de datos</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_PLC_Gestion" target="visor">PLC Gestión</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Variables" target="visor">HMI Variables</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Lista_de_texto" target="visor">HMI Lista de texto</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Alarmas" target="visor">HMI Alarmas</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Objeto_sinoptico" target="visor">HMI Objeto sinóptico</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Ventana_emergente" target="visor">HMI Ventana emergente</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="manual/012_FC1_ZC_SISTEMA.html#sec_HMI_Configuracion" target="visor">HMI Configuración</a></div>
+</li>
+</ul></li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="manual/013_UDT_Proceso.html" target="visor">UDT Proceso</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="manual/014_UDT_Entidad.html" target="visor">UDT Entidad</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="manual/015_UDT.html" target="visor">UDT</a></div>
 </li>
 </ul></li>
 
                 
                 <li class="titulo-seccion-menu" style="margin-top: 15px;">⚙️ LIBRERÍA DE BLOQUES</li>
                 
-                <li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FB15150_ZC_SEC_GET.html" target="visor">FB15150_ZC_SEC_GET</a></div>
+                <li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FB15150_ZC_SEC_GET.html" target="visor">FB15150_ZC_SEC_GET</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#region_0" target="visor">Lógica: LIMITES</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#region_0" target="visor">Lógica: LIMITES</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#region_1" target="visor">Lógica: ORDEN_DE_INICIO</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#region_1" target="visor">Lógica: ORDEN_DE_INICIO</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#region_2" target="visor">Lógica: SECUENCIA</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#region_2" target="visor">Lógica: SECUENCIA</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_3" target="visor">Lógica: GET_1</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_3" target="visor">↳ Sub-lógica: GET_1</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_4" target="visor">Lógica: GET_2</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_4" target="visor">↳ Sub-lógica: GET_2</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_5" target="visor">Lógica: GET_3</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_5" target="visor">↳ Sub-lógica: GET_3</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_6" target="visor">Lógica: GET_4</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_6" target="visor">↳ Sub-lógica: GET_4</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_7" target="visor">Lógica: GET_5</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_7" target="visor">↳ Sub-lógica: GET_5</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_8" target="visor">Lógica: GET_6</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_8" target="visor">↳ Sub-lógica: GET_6</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_9" target="visor">Lógica: GET_7</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_9" target="visor">↳ Sub-lógica: GET_7</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB15150_ZC_SEC_GET.html#region_10" target="visor">Lógica: GET_8</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB15150_ZC_SEC_GET.html#region_10" target="visor">↳ Sub-lógica: GET_8</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#region_11" target="visor">Lógica: SALIDAS</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#region_11" target="visor">Lógica: SALIDAS</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15150_ZC_SEC_GET.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
-</li>
-</ul>
-</li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FB15995_ZC_BUSCAR_DIR.html" target="visor">FB15995_ZC_BUSCAR_DIR</a></div>
-<ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#dependencias" target="visor">Dependencias</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#interfaz" target="visor">Interfaz de Variables</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_0" target="visor">Lógica: BUSQUEDA_ENTRADA_DIGITAL</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_1" target="visor">Lógica: BUSQUEDA_ENTRADA_ANALOGICA</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_2" target="visor">Lógica: BUSQUEDA_SALIDA_DIGITAL</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_3" target="visor">Lógica: BUSQUEDA_SALIDA_ANALOGICA</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB15995_ZC_BUSCAR_DIR.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15150_ZC_SEC_GET.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FB2017_ZC_M_SINA.html" target="visor">FB2017_ZC_M_SINA</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FB15995_ZC_BUSCAR_DIR.html" target="visor">FB15995_ZC_BUSCAR_DIR</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB2017_ZC_M_SINA.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB2017_ZC_M_SINA.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#changelog" target="visor">Historial de Cambios</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB2017_ZC_M_SINA.html#region_0" target="visor">Lógica: MULTIPLEXADO</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#interfaz" target="visor">Interfaz de Variables</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_0" target="visor">Lógica: BUSQUEDA_ENTRADA_DIGITAL</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_1" target="visor">Lógica: BUSQUEDA_ENTRADA_ANALOGICA</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_2" target="visor">Lógica: BUSQUEDA_SALIDA_DIGITAL</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#region_3" target="visor">Lógica: BUSQUEDA_SALIDA_ANALOGICA</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB15995_ZC_BUSCAR_DIR.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+</li>
+</ul>
+</li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FB2017_ZC_M_SINA.html" target="visor">FB2017_ZC_M_SINA</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_1" target="visor">Lógica: LIMITES</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB2017_ZC_M_SINA.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_2" target="visor">Lógica: CARGA_INICIAL</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB2017_ZC_M_SINA.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_3" target="visor">Lógica: DATOS_LECTURA</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="bloques/FB2017_ZC_M_SINA.html#region_0" target="visor">Lógica: MULTIPLEXADO</a></div>
+<ul class="nested" style="display: none;">
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_1" target="visor">↳ Sub-lógica: LIMITES</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_4" target="visor">Lógica: DATOS_ESCRITURA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_2" target="visor">↳ Sub-lógica: CARGA_INICIAL</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_5" target="visor">Lógica: GESTION_CAMBIOS</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_3" target="visor">↳ Sub-lógica: DATOS_LECTURA</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_4" target="visor">↳ Sub-lógica: DATOS_ESCRITURA</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_5" target="visor">↳ Sub-lógica: GESTION_CAMBIOS</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB2017_ZC_M_SINA.html#region_6" target="visor">Lógica: LOGICA_DEL_DISPOSITIVO</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="bloques/FB2017_ZC_M_SINA.html#region_6" target="visor">Lógica: LOGICA_DEL_DISPOSITIVO</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_7" target="visor">Lógica: LIMITE_GRUPO_ALARMA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_7" target="visor">↳ Sub-lógica: LIMITE_GRUPO_ALARMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_8" target="visor">Lógica: LECTURA_VALORES_DE_LA_TARJETA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_8" target="visor">↳ Sub-lógica: LECTURA_VALORES_DE_LA_TARJETA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_9" target="visor">Lógica: MODOS_DE_TRABAJO</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_9" target="visor">↳ Sub-lógica: MODOS_DE_TRABAJO</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_10" target="visor">Lógica: ESTADO_DEL_DISPOSITIVO</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_10" target="visor">↳ Sub-lógica: ESTADO_DEL_DISPOSITIVO</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_11" target="visor">Lógica: ERRORES</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_11" target="visor">↳ Sub-lógica: ERRORES</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_12" target="visor">Lógica: DIAGNOSIS</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_12" target="visor">↳ Sub-lógica: DIAGNOSIS</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_13" target="visor">Lógica: ESCRITURA_SALIDA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_13" target="visor">↳ Sub-lógica: ESCRITURA_SALIDA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_14" target="visor">Lógica: TRAZABILIDAD_MANUALIZACION</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_14" target="visor">↳ Sub-lógica: TRAZABILIDAD_MANUALIZACION</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_15" target="visor">Lógica: GESTION_HMI</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_15" target="visor">↳ Sub-lógica: GESTION_HMI</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_16" target="visor">Lógica: GESTION_NUEVA_ALARMA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_16" target="visor">↳ Sub-lógica: GESTION_NUEVA_ALARMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_17" target="visor">Lógica: SINASPEED</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_17" target="visor">↳ Sub-lógica: SINASPEED</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FB2017_ZC_M_SINA.html#region_18" target="visor">Lógica: *)</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FB2017_ZC_M_SINA.html#region_18" target="visor">↳ Sub-lógica: *)</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FB2017_ZC_M_SINA.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FB2017_ZC_M_SINA.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html" target="visor">FC15025_ZC_CONTADOR_TIEMPO</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html" target="visor">FC15025_ZC_CONTADOR_TIEMPO</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#descripcion" target="visor">Descripción General</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#changelog" target="visor">Historial de Cambios</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#changelog" target="visor">Historial de Cambios</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#region_0" target="visor">Lógica: RESET_CONTADOR</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#region_0" target="visor">Lógica: RESET_CONTADOR</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#region_1" target="visor">Lógica: GESTION_CONTADOR</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#region_1" target="visor">Lógica: GESTION_CONTADOR</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15025_ZC_CONTADOR_TIEMPO.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html" target="visor">FC15027_ZC_CONTADOR_MINUTOS</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html" target="visor">FC15027_ZC_CONTADOR_MINUTOS</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#descripcion" target="visor">Descripción General</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#changelog" target="visor">Historial de Cambios</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#changelog" target="visor">Historial de Cambios</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#region_0" target="visor">Lógica: RESET_CONTADOR</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#region_0" target="visor">Lógica: RESET_CONTADOR</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#region_1" target="visor">Lógica: GESTION_CONTADOR</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#region_1" target="visor">Lógica: GESTION_CONTADOR</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC15027_ZC_CONTADOR_MINUTOS.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FC2010_ZC_V.html" target="visor">FC2010_ZC_V</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FC2010_ZC_V.html" target="visor">FC2010_ZC_V</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#descripcion" target="visor">Descripción General</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#changelog" target="visor">Historial de Cambios</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#changelog" target="visor">Historial de Cambios</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#region_0" target="visor">Lógica: IDIOMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#region_0" target="visor">Lógica: IDIOMA</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#region_1" target="visor">Lógica: MULTIPLEXADO</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#region_1" target="visor">Lógica: MULTIPLEXADO</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_2" target="visor">Lógica: INICIALIZACION_ARRANQUE</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_2" target="visor">↳ Sub-lógica: INICIALIZACION_ARRANQUE</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_3" target="visor">Lógica: BUCLE_PRINCIPAL_MUX</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_3" target="visor">↳ Sub-lógica: BUCLE_PRINCIPAL_MUX</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_4" target="visor">Lógica: LIMITES</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_4" target="visor">↳ Sub-lógica: LIMITES</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_5" target="visor">Lógica: CARGA_INICIAL</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_5" target="visor">↳ Sub-lógica: CARGA_INICIAL</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_6" target="visor">Lógica: DATOS_LECTURA</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_6" target="visor">↳ Sub-lógica: DATOS_LECTURA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_7" target="visor">Lógica: DATOS_ESCRITURA</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_7" target="visor">↳ Sub-lógica: DATOS_ESCRITURA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_8" target="visor">Lógica: GESTION_CAMBIOS</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_8" target="visor">↳ Sub-lógica: GESTION_CAMBIOS</a></div>
 </li>
 </ul></li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#region_9" target="visor">Lógica: LOGICA_DEL_DISPOSITIVO</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#region_9" target="visor">Lógica: LOGICA_DEL_DISPOSITIVO</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_10" target="visor">Lógica: LIMITE_GRUPO_ALARMA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_10" target="visor">↳ Sub-lógica: LIMITE_GRUPO_ALARMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_11" target="visor">Lógica: LECTURA_VALORES_DE_LA_TARJETA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_11" target="visor">↳ Sub-lógica: LECTURA_VALORES_DE_LA_TARJETA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_12" target="visor">Lógica: MODOS_DE_TRABAJO</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_12" target="visor">↳ Sub-lógica: MODOS_DE_TRABAJO</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_13" target="visor">Lógica: ESTADO_DEL_DISPOSITIVO</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_13" target="visor">↳ Sub-lógica: ESTADO_DEL_DISPOSITIVO</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_14" target="visor">Lógica: ERRORES</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_14" target="visor">↳ Sub-lógica: ERRORES</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_15" target="visor">Lógica: GESTION_ALARMA_INSTANTANEA</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_15" target="visor">↳ Sub-lógica: GESTION_ALARMA_INSTANTANEA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_16" target="visor">Lógica: GESTION_TIEMPO_ALARMA</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_16" target="visor">↳ Sub-lógica: GESTION_TIEMPO_ALARMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 76px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_17" target="visor">Lógica: GESTION_ALARMAS</a></div>
+<li><div class="menu-item" style="padding-left: 50px;"><div class="toggle-spacer"></div><a class="menu-link level-4" href="bloques/FC2010_ZC_V.html#region_17" target="visor">↳ Sub-lógica: GESTION_ALARMAS</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_18" target="visor">Lógica: DIAGNOSIS</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_18" target="visor">↳ Sub-lógica: DIAGNOSIS</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_19" target="visor">Lógica: ESCRITURA_SALIDA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_19" target="visor">↳ Sub-lógica: ESCRITURA_SALIDA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_20" target="visor">Lógica: TRAZABILIDAD_MANUALIZACION</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_20" target="visor">↳ Sub-lógica: TRAZABILIDAD_MANUALIZACION</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_21" target="visor">Lógica: GESTION_HMI</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_21" target="visor">↳ Sub-lógica: GESTION_HMI</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 54px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12px; color: #666; font-style: italic;" href="bloques/FC2010_ZC_V.html#region_22" target="visor">Lógica: GESTION_NUEVA_ALARMA</a></div>
+<li><div class="menu-item" style="padding-left: 35px;"><div class="toggle-spacer"></div><a class="menu-link level-3" href="bloques/FC2010_ZC_V.html#region_22" target="visor">↳ Sub-lógica: GESTION_NUEVA_ALARMA</a></div>
 </li>
 </ul></li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC2010_ZC_V.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC2010_ZC_V.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html" target="visor">FC6_ZC_ESTADO_ENTIDAD</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html" target="visor">FC6_ZC_ESTADO_ENTIDAD</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#descripcion" target="visor">Descripción General</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#changelog" target="visor">Historial de Cambios</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#changelog" target="visor">Historial de Cambios</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#region_0" target="visor">Lógica: IDIOMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#region_0" target="visor">Lógica: IDIOMA</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#region_1" target="visor">Lógica: GESTION_ENTIDADES</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#region_1" target="visor">Lógica: GESTION_ENTIDADES</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC6_ZC_ESTADO_ENTIDAD.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
 </li>
-<li><div class="menu-item" style="padding-left: 10px;"><div class="toggle-btn" onclick="toggleMenu(this)">▼</div><a class="menu-link" style="font-weight: bold; font-size: 13.5px; color: #005c8a;" href="bloques/FC8_TRAZA_REGISTRO.html" target="visor">FC8_TRAZA_REGISTRO</a></div>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-btn" onclick="toggleMenu(this)"></div><a class="menu-link level-1" href="bloques/FC8_TRAZA_REGISTRO.html" target="visor">FC8_TRAZA_REGISTRO</a></div>
 <ul class="nested" style="display: none;">
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#descripcion" target="visor">Descripción General</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC8_TRAZA_REGISTRO.html#dependencias" target="visor">Dependencias</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#dependencias" target="visor">Dependencias</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC8_TRAZA_REGISTRO.html#changelog" target="visor">Historial de Cambios</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#changelog" target="visor">Historial de Cambios</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC8_TRAZA_REGISTRO.html#interfaz" target="visor">Interfaz de Variables</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#interfaz" target="visor">Interfaz de Variables</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC8_TRAZA_REGISTRO.html#region_0" target="visor">Lógica: IDIOMA</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#region_0" target="visor">Lógica: IDIOMA</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC8_TRAZA_REGISTRO.html#region_1" target="visor">Lógica: GESTION_ENTIDADES</a></div>
 </li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#region_1" target="visor">Lógica: GESTION_ENTIDADES</a></div>
-</li>
-<li><div class="menu-item" style="padding-left: 32px;"><div class="toggle-spacer"></div><a class="menu-link" style="font-weight: normal; font-size: 12.5px; color: #444;" href="bloques/FC8_TRAZA_REGISTRO.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
+<li><div class="menu-item" style="padding-left: 20px;"><div class="toggle-spacer"></div><a class="menu-link level-2" href="bloques/FC8_TRAZA_REGISTRO.html#codigo_fuente" target="visor">Código Fuente Completo</a></div>
 </li>
 </ul>
+</li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="bloques/DB2010_V.html" target="visor">DB2010_V</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="bloques/ZC_DISP_MUX_V.html" target="visor">ZC_DISP_MUX_V</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="bloques/ZC_DISP_PPAL_V.html" target="visor">ZC_DISP_PPAL_V</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="bloques/ZC_DISP_V.html" target="visor">ZC_DISP_V</a></div>
+</li>
+<li><div class="menu-item" style="padding-left: 5px;"><div class="toggle-spacer"></div><a class="menu-link level-1" href="bloques/ZC_FECHA.html" target="visor">ZC_FECHA</a></div>
 </li>
 
                 
@@ -423,14 +431,13 @@
     </div>
 
     <script>
+        
         // === INTELIGENCIA DEL MENÚ: Escucha al iframe ===
         function marcarMenuDesdeIframe(urlIframe) {
             let links = document.querySelectorAll('.menu-link');
             let encontrado = false;
-            
             let urlNormalizada = urlIframe.replace(/\\/g, '/');
 
-            // Intento 1: Coincidencia exacta
             links.forEach(link => {
                 let hrefLink = link.getAttribute('href');
                 if (urlNormalizada.endsWith(hrefLink) || link.href === urlIframe) {
@@ -439,7 +446,6 @@
                 }
             });
             
-            // Intento 2: Búsqueda sin ancla
             if (!encontrado) {
                 let urlSinHash = urlNormalizada.split('#')[0];
                 links.forEach(link => {
@@ -462,13 +468,14 @@
             if (menuItem) {
                 menuItem.classList.add('activo-menu');
                 
+                // Desplegamos todos los padres
                 let parentUl = menuItem.closest('ul.nested');
                 while(parentUl) {
                     parentUl.style.display = 'block';
                     let parentLi = parentUl.closest('li');
                     if(parentLi) {
                         let btn = parentLi.querySelector('.toggle-btn');
-                        if(btn) btn.innerHTML = '▼';
+                        if(btn) btn.classList.add('open'); // <-- Añadimos la clase en lugar de texto
                         parentUl = parentLi.closest('ul.nested');
                     } else break;
                 }
@@ -477,7 +484,6 @@
             }
         }
 
-        // Clic manual de usuario
         document.querySelectorAll('.menu-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 activarEstiloLink(this);
@@ -491,10 +497,10 @@
             if (nestedUl) {
                 if (nestedUl.style.display === 'none') { 
                     nestedUl.style.display = 'block'; 
-                    btn.innerHTML = '▼'; 
+                    btn.classList.add('open'); // <-- Rota hacia abajo
                 } else { 
                     nestedUl.style.display = 'none'; 
-                    btn.innerHTML = '►'; 
+                    btn.classList.remove('open'); // <-- Rota a la derecha
                 }
             }
         }
@@ -516,7 +522,7 @@
                             if(parentLi) {
                                 parentLi.style.display = "";
                                 var btn = parentLi.querySelector('.toggle-btn');
-                                if(btn) btn.innerHTML = '▼';
+                                if(btn) btn.classList.add('open'); // <-- Asegura que se abra
                                 parentUl = parentLi.closest('ul.nested');
                             } else break;
                         }
@@ -527,11 +533,17 @@
                 }
             });
         }
-        
-        // Iniciar flechitas
+
+        // Inicializar el estado de las flechas al cargar la página
         document.querySelectorAll('ul.nested').forEach(function(ul) {
             var btn = ul.closest('li').querySelector('.toggle-btn');
-            if(btn) btn.innerHTML = (ul.style.display === 'none') ? '►' : '▼';
+            if(btn) {
+                if (ul.style.display === 'none') {
+                    btn.classList.remove('open');
+                } else {
+                    btn.classList.add('open');
+                }
+            }
         });
     </script>
 </body>

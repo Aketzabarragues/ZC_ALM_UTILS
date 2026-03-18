@@ -7,15 +7,21 @@
 </head>
 <body class="layout-shell">
     
+    <header class="top-header">
+        <div class="header-left">
+            <img src="img/logo.png" alt="Zeus Control" onerror="this.style.display='none'">
+        </div>
+        <div class="header-center">
+            Documentación de Ingeniería
+        </div>
+        <div class="header-right">
+            ZEUS CONTROL
+        </div>
+    </header>
+
     <div class="main-container">
         
         <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="img/logo.png" alt="Zeus Control" onerror="this.style.display='none'">
-                <h2>Zeus Control ALM</h2>
-                <small>Documentación de Ingeniería</small>
-            </div>
-
             <div class="search-box"><input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarMenu()"></div>
             
             <ul class="nav-list" id="listaBloques">
@@ -36,14 +42,13 @@
     </div>
 
     <script>
+        
         // === INTELIGENCIA DEL MENÚ: Escucha al iframe ===
         function marcarMenuDesdeIframe(urlIframe) {
             let links = document.querySelectorAll('.menu-link');
             let encontrado = false;
-            
             let urlNormalizada = urlIframe.replace(/\\/g, '/');
 
-            // Intento 1: Coincidencia exacta
             links.forEach(link => {
                 let hrefLink = link.getAttribute('href');
                 if (urlNormalizada.endsWith(hrefLink) || link.href === urlIframe) {
@@ -52,7 +57,6 @@
                 }
             });
             
-            // Intento 2: Búsqueda sin ancla
             if (!encontrado) {
                 let urlSinHash = urlNormalizada.split('#')[0];
                 links.forEach(link => {
@@ -75,13 +79,14 @@
             if (menuItem) {
                 menuItem.classList.add('activo-menu');
                 
+                // Desplegamos todos los padres
                 let parentUl = menuItem.closest('ul.nested');
                 while(parentUl) {
                     parentUl.style.display = 'block';
                     let parentLi = parentUl.closest('li');
                     if(parentLi) {
                         let btn = parentLi.querySelector('.toggle-btn');
-                        if(btn) btn.innerHTML = '▼';
+                        if(btn) btn.classList.add('open'); // <-- Añadimos la clase en lugar de texto
                         parentUl = parentLi.closest('ul.nested');
                     } else break;
                 }
@@ -90,7 +95,6 @@
             }
         }
 
-        // Clic manual de usuario
         document.querySelectorAll('.menu-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 activarEstiloLink(this);
@@ -104,10 +108,10 @@
             if (nestedUl) {
                 if (nestedUl.style.display === 'none') { 
                     nestedUl.style.display = 'block'; 
-                    btn.innerHTML = '▼'; 
+                    btn.classList.add('open'); // <-- Rota hacia abajo
                 } else { 
                     nestedUl.style.display = 'none'; 
-                    btn.innerHTML = '►'; 
+                    btn.classList.remove('open'); // <-- Rota a la derecha
                 }
             }
         }
@@ -129,7 +133,7 @@
                             if(parentLi) {
                                 parentLi.style.display = "";
                                 var btn = parentLi.querySelector('.toggle-btn');
-                                if(btn) btn.innerHTML = '▼';
+                                if(btn) btn.classList.add('open'); // <-- Asegura que se abra
                                 parentUl = parentLi.closest('ul.nested');
                             } else break;
                         }
@@ -140,11 +144,17 @@
                 }
             });
         }
-        
-        // Iniciar flechitas
+
+        // Inicializar el estado de las flechas al cargar la página
         document.querySelectorAll('ul.nested').forEach(function(ul) {
             var btn = ul.closest('li').querySelector('.toggle-btn');
-            if(btn) btn.innerHTML = (ul.style.display === 'none') ? '►' : '▼';
+            if(btn) {
+                if (ul.style.display === 'none') {
+                    btn.classList.remove('open');
+                } else {
+                    btn.classList.add('open');
+                }
+            }
         });
     </script>
 </body>

@@ -1,0 +1,13 @@
+﻿TYPE "ZC_DISP_MUX_V"
+VERSION : 0.1
+   STRUCT
+      Habilitar : Bool := FALSE;   // Habilitar gestion multiplexado
+      ExisteCambio : Bool := FALSE;   // Existe algun cambio
+      MaxVisible : Bool := FALSE;   // Visibilidad ultimo dispositivo
+      Index : Int := 0;   // Indice
+      oldIndex : Int := 0;   // Auxiliar indice
+      V { S7_SetPoint := 'False'} : "ZC_DISP_V";
+   END_STRUCT;
+
+END_TYPE
+

@@ -9,8 +9,30 @@
     <div class="page-wrapper">
         <div class="page-content manual-content">
             <div class="doc-section">
-    <h1>FB15995_ZC_BUSCAR_DIR</h1>
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FB
+        </span>
+        FB15995_ZC_BUSCAR_DIR
+    </h1>
 
+    
+        <h3>Descripción General</h3>
+        <p style="white-space: pre-wrap;">Nombre:         FB15995_ZC_BUSCAR_DIR
+Descripcion:    Bloque de funcion encargado de buscar direcciones de entrada y salida utilizadas en el programa, en los dispositivos.</p>
+        
+        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
+            <strong>Notas y Restricciones:</strong>
+            <p style="white-space: pre-wrap; margin-bottom: 0;">Software:       TIA Portal 16
+Restricciones:  PLC serie 1200/1500</p>
+        </div>
+        
     
 </div>
 
@@ -46,6 +68,36 @@
 </div>
 
 
+
+<div class="doc-section" id="changelog">
+    <h3>Historial de Cambios (Changelog)</h3>
+    <table>
+        <tr>
+        
+            <th>Version</th>
+        
+            <th>Fecha</th>
+        
+            <th>Tecnico a cargo</th>
+        
+            <th>Descripcion</th>
+        
+        </tr>
+        
+        <tr>
+            
+            <td>01.00.00</td>
+            
+            <td>15.10.2020</td>
+            
+            <td>(ABH)</td>
+            
+            <td>Primera version.</td>
+            
+        </tr>
+        
+    </table>
+</div>
 
 
 
@@ -179,7 +231,13 @@
     
     
     
-        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+Busca en dispositivos:
+ED
+V
+M
+M_VF
+TOT</p>
     
     
     
@@ -290,7 +348,13 @@ END_REGION</pre>
     
     
     
-        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+Busca en dispositivos:
+ED
+V
+M
+M_VF
+TOT</p>
     
     
     
@@ -331,7 +395,13 @@ END_REGION</pre>
     
     
     
-        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+Busca en dispositivos:
+ED
+V
+M
+M_VF
+TOT</p>
     
     
     
@@ -418,7 +488,13 @@ END_REGION</pre>
     
     
     
-        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+Busca en dispositivos:
+ED
+V
+M
+M_VF
+TOT</p>
     
     
     
@@ -517,18 +593,55 @@ VERSION : 1.0
 
 
 BEGIN
+	/// &lt;Header&gt;
+	(*
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	----------------------------------------------------------------------------- 
+	*)
+	/// &lt;/Header&gt;
 	
+	/// &lt;Summary&gt;
+	(* 
+	Nombre:         FB15995_ZC_BUSCAR_DIR
+	Descripcion:    Bloque de funcion encargado de buscar direcciones de entrada y salida utilizadas en el programa, en los dispositivos.
+	*)
+	/// &lt;/Summary&gt;
 	
-	
+	/// &lt;Remarks&gt; 
+	(*
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	*)
+	/// &lt;/Remarks&gt;
 	
 	/// &lt;Requires&gt;
-(*
-FC:  FC15001_ZC_INT_TO_STRING
-DB:  DB2000_ED, DB2001_EA, DB2005_SD, DB2006_SA, DB2010_V, DB2015_M, DB2016_M_VF, DB2025_TOT
-*)
-/// &lt;/Requires&gt;
-
-REGION BUSQUEDA_ENTRADA_DIGITAL
+	(*
+	FC:  FC15001_ZC_INT_TO_STRING
+	DB:  DB2000_ED, DB2001_EA, DB2005_SD, DB2006_SA, DB2010_V, DB2015_M, DB2016_M_VF, DB2025_TOT
+	*)
+	/// &lt;/Requires&gt;
+	
+	/// &lt;Changelog&gt;
+	(*
+	Version     Fecha       Tecnico a cargo     Descripcion
+	01.00.00    15.10.2020  (ABH)               Primera version.
+	*)
+	/// &lt;/Changelog&gt;
+	
+	
+	/// &lt;RegionDoc&gt;
+	(* 
+	Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+	Busca en dispositivos:
+	ED
+	V
+	M
+	M_VF
+	TOT
+	*)
+	/// &lt;/RegionDoc&gt;
+	REGION BUSQUEDA_ENTRADA_DIGITAL
 	    
 	    
 	    #s_EntradaDigital.Encontrada := FALSE;
@@ -622,14 +735,18 @@ REGION BUSQUEDA_ENTRADA_DIGITAL
 	END_REGION
 	
 	
-	/// &lt;Requires&gt;
-(*
-FC:  FC15001_ZC_INT_TO_STRING
-DB:  DB2000_ED, DB2001_EA, DB2005_SD, DB2006_SA, DB2010_V, DB2015_M, DB2016_M_VF, DB2025_TOT
-*)
-/// &lt;/Requires&gt;
-
-REGION BUSQUEDA_ENTRADA_ANALOGICA
+	/// &lt;RegionDoc&gt;
+	(* 
+	Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+	Busca en dispositivos:
+	ED
+	V
+	M
+	M_VF
+	TOT
+	*)
+	/// &lt;/RegionDoc&gt;
+	REGION BUSQUEDA_ENTRADA_ANALOGICA
 	    
 	    
 	    #s_EntradaAnalogica.Encontrada := FALSE;
@@ -653,19 +770,23 @@ REGION BUSQUEDA_ENTRADA_ANALOGICA
 	END_REGION
 	
 	
-	/// &lt;Requires&gt;
-(*
-FC:  FC15001_ZC_INT_TO_STRING
-DB:  DB2000_ED, DB2001_EA, DB2005_SD, DB2006_SA, DB2010_V, DB2015_M, DB2016_M_VF, DB2025_TOT
-*)
-/// &lt;/Requires&gt;
-
-REGION BUSQUEDA_SALIDA_DIGITAL
+	/// &lt;RegionDoc&gt;
+	(* 
+	Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+	Busca en dispositivos:
+	ED
+	V
+	M
+	M_VF
+	TOT
+	*)
+	/// &lt;/RegionDoc&gt;
+	REGION BUSQUEDA_SALIDA_DIGITAL
 	    
 	    
 	    #s_Salidadigital.Encontrada := FALSE;
 	    #s_Salidadigital.Dispositivo := &#39;&#39;;
-	
+	    
 	    IF #s_Salidadigital.Habilitar THEN
 	        
 	        IF #s_Salidadigital.NumeroBit &gt; 7 THEN
@@ -730,14 +851,18 @@ REGION BUSQUEDA_SALIDA_DIGITAL
 	END_REGION
 	
 	
-	/// &lt;Requires&gt;
-(*
-FC:  FC15001_ZC_INT_TO_STRING
-DB:  DB2000_ED, DB2001_EA, DB2005_SD, DB2006_SA, DB2010_V, DB2015_M, DB2016_M_VF, DB2025_TOT
-*)
-/// &lt;/Requires&gt;
-
-REGION BUSQUEDA_SALIDA_ANALOGICA
+	/// &lt;RegionDoc&gt;
+	(* 
+	Este bloque se encarga de buscar las entradas digitales. siempre que esten habilitadas.
+	Busca en dispositivos:
+	ED
+	V
+	M
+	M_VF
+	TOT
+	*)
+	/// &lt;/RegionDoc&gt;
+	REGION BUSQUEDA_SALIDA_ANALOGICA
 	    
 	    
 	    #s_SalidaAnalogica.Encontrada := FALSE;
@@ -754,7 +879,7 @@ REGION BUSQUEDA_SALIDA_ANALOGICA
 	                #s_SalidaAnalogica.Dispositivo := CONCAT_STRING(IN1 := #s_SalidaAnalogica.Dispositivo, IN2 := #DISP_SA, IN3 := &#34;FC15001_ZC_INT_TO_STRING&#34;(#for_i), IN4 := &#39;;&#39;);
 	            END_IF;
 	        END_FOR;
-	
+	        
 	        //  ================================================================================================
 	        //  BUSQUEDA EN MOTOR VARIADOR
 	        FOR #for_i := 1 TO &#34;N_MAX_DISP_M_VF&#34; DO

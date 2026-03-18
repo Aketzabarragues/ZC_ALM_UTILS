@@ -1,5 +1,20 @@
 <div class="doc-section">
-    <h1>{{ nombre_bloque }}</h1>
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        {% set tipo_badge = "SCL" %}
+        {% if nombre_bloque.startswith('FB') %}
+            {% set tipo_badge = "FB" %}
+        {% elif nombre_bloque.startswith('FC') %}
+            {% set tipo_badge = "FC" %}
+        {% elif nombre_bloque.startswith('OB') %}
+            {% set tipo_badge = "OB" %}
+        {% endif %}
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            {{ tipo_badge }}
+        </span>
+        {{ nombre_bloque }}
+    </h1>
 
     {% if etiquetas.Summary %}
         <h3>Descripción General</h3>

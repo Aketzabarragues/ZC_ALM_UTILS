@@ -81,6 +81,6 @@ def procesar_word(ruta_word, ruta_destino):
     
     # Volcamos a log para debug (imprimimos solo los metadatos para no saturar el log con todo el HTML gigante)
     resumen_log = [{"archivo": c["archivo"], "titulo": c["titulo"], "subs": [s["titulo"] for s in c["subsecciones"]]} for c in capitulos]
-    log.dump_dict("ESTRUCTURA_WORD_EXTRAIDA", resumen_log)
+    #log.dump_dict("ESTRUCTURA_WORD_EXTRAIDA", resumen_log)
     
     return capitulos
