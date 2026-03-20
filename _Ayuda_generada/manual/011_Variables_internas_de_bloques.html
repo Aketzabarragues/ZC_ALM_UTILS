@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Variables internas de bloques</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541410"></a>Variables internas de bloques</h2><p>Se intentará que el nombre de la variable no exceda los <strong>15 caracteres</strong>.</p><p>Los comentarios son <strong>obligatorios</strong> para todas las variables, explicando su uso. </p><p>Omitir caracteres especiales, así como signos, tildes y <strong>la letra Ñ</strong>.</p><p>Las reglas para nombrar las variables internas de los bloques OB, FC y FB son las siguientes:</p><ul><li>Parámetros In/Out/InOut<ul><li>Seguir la norma <strong>PascalCase</strong><ul><li>EstadoMarcha</li><li>SetPointTemp</li></ul></li></ul></li><li>Parámetros estáticos<ul><li><strong>Prefijo s_ seguido de PascalCase</strong><ul><li>s_TiempoEtapa</li><li>s_EtapaActual</li></ul></li></ul></li><li>Parámetros temporales<ul><li><strong>Prefijo t_ seguido de PascalCase</strong><ul><li>t_TiempoEtapa</li><li>t_EtapaActual</li></ul></li></ul></li><li>Variables para bucles FOR<ul><li>Nombres <strong>fijos</strong> para los bucles.<ul><li>for_i</li><li>for_j</li><li>for_k</li></ul></li></ul></li><li>Constantes<ul><li><strong>MAYÚSCULAS</strong> con palabras separadas por <strong>barra baja</strong> (_). <ul><li>ETAPA_0_REPOSO</li></ul></li></ul></li></ul>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

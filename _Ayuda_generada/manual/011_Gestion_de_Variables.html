@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Variables</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2>Gestión de Variables</h2>
+</div>
+<div class="doc-section" id="sec_Tablas_de_variables_generales">
+<h3>Tablas de variables generales</h3>
+<p>La regla para organizar las carpetas será idéntica al punto anterior.</p><p>La regla para nombrar las tablas de variables será la siguiente:</p><ul><li><strong>Número de bloque + _ + Nombre en MAYÚSCULAS.</strong></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_3.png" /></p>
+</div>
+<div class="doc-section" id="sec_Variables_de_DB">
+<h3><a id="_Toc224541410"></a><a id="_Toc224541411"></a>Variables de DB</h3>
+<p>Se intentará que el nombre de la variable no exceda los <strong>15 caracteres</strong>.</p><p>Los comentarios son <strong>obligatorios</strong>. En el caso de grupos de variables dentro de un Struct,  comentario principal de la estructura debe dejarse en blanco. Solo se comentan las variables internas, incluyendo el nombre de la estructura en el inicio del comentario para claridad.</p><ul><li>Ejemplo:<ul><li>Estado.Marcha 		<strong><em><span style="color: #00B050;">// Estado en marcha</span></em></strong></li></ul></li></ul><p>Evitar siempre la creación de arrays de tipos de datos <strong>(<em>Array[0..N] OF Bool/Int/Real</em>)</strong> para marcas auxiliares, en su defecto usar una estructura con el nombre “Aux” y dentro de ella declarar las variables de una en una. De esta forma, se puede escribir el nombre de la variable para su mejor comprensión en el programa, en vez de usar la variable del array. Por ejemplo:</p><ul><li>DB300_UF1_PROCESO.Aux.ChequeoListo <ul><li><strong><em>Buena comprensión del uso de la variable</em></strong></li></ul></li><li>DB300_UF1_PROCESO.Aux.Bool[2]<ul><li>Dependencia únicamente del comentario de la variable, mala comprensión en programa.</li></ul></li></ul><p>Se intentará agrupar siempre los tipos de datos en las estructuras:</p><ul><li>Datos booleanos</li><li>Datos enteros</li><li>Datos reales</li></ul><p>Siempre se intentará dejar variables de reserva para futuras ampliaciones. Estas variables deben seguir el siguiente formato de nombre:</p><ul><li>R_TipoDeDato_Numero<ul><li>R_Bool_3</li><li>R_Int_1</li><li>R_Real_2</li></ul></li></ul><p>Las variables internas de una estructura <strong>no deben</strong> repetir el nombre de la estructura que las contiene, ya que la estructura completa ya implica ese contexto.</p><ul><li>MAL:<ul><li>Estado.EstadoMarcha</li></ul></li><li>BIEN:<ul><li>Estado.Marcha</li></ul></li></ul>
+</div>
+<div class="doc-section" id="sec_Variables_internas_de_bloques">
+<h3>Variables internas de bloques</h3>
+<p>Se intentará que el nombre de la variable no exceda los <strong>15 caracteres</strong>.</p><p>Los comentarios son <strong>obligatorios</strong> para todas las variables, explicando su uso. </p><p>Omitir caracteres especiales, así como signos, tildes y <strong>la letra Ñ</strong>.</p><p>Las reglas para nombrar las variables internas de los bloques OB, FC y FB son las siguientes:</p><table><tr><td><p>Tipo parámetro</p></td><td><p>Norma</p></td><td><p>Ejemplo</p></td></tr><tr><td><p>In/Out/InOut</p></td><td><p>Seguir la norma <strong>PascalCase</strong></p></td><td><p>EstadoMarcha</p><p>SetPointTemp</p></td></tr><tr><td><p>Estáticos</p></td><td><p><strong>Prefijo s_ seguido de PascalCase</strong></p></td><td><p>s_TiempoEtapa</p><p>s_EtapaActual</p></td></tr><tr><td><p>Temporales</p></td><td><p><strong>Prefijo t_ seguido de PascalCase</strong></p></td><td><p>t_TiempoEtapa</p><p>t_EtapaActual</p></td></tr><tr><td><p>Bucles FOR</p></td><td><p>Nombres <strong>fijos</strong> para los bucles.</p></td><td><p>for_i</p><p>for_j</p><p>for_k</p></td></tr><tr><td><p>Constantes</p></td><td><p><strong>MAYÚSCULAS</strong> con palabras separadas por <strong>barra baja</strong> (_). </p></td><td><p>ETAPA_0_REPOSO</p></td></tr></table>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

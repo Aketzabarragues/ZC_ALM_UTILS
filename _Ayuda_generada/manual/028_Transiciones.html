@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Transiciones</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541449"></a>Transiciones</h2><p>Este bloque es el encargado de gestionar todas las transiciones entre las etapas de la secuencia del proceso. </p><p>Siempre se utilizarán las <a href="../manual/023_Constantes_de_proceso.html#_Constantes_de_usuario">constantes de usuario</a> creadas para este proceso para su uso en la etapa actual y en la etapa siguiente.</p><p>El primer segmento de este bloque <strong>SIEMPRE</strong> tiene que estar, este es el encargado de gestionar el arranque del proceso. Cada vez que un proceso se arranca, pasa de la etapa 0 a la etapa 1, y ya a partir de aquí pasa a la etapa que se configure en este segmento. Las marcas de ErroresComprobados y de EntidadesCargadas <strong>SIEMPRE</strong> tienen que estar.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_121.png" /></p><p>Por norma general, siempre se intentará mantener el mismo número de segmentos por cada etapa, y su orden.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_122.png" /></p>
+</div>
+<div class="doc-section" id="sec_Gestion_tiempo_de_etapa">
+<h3>Gestión tiempo de etapa</h3>
+<p>Segmento encargado de activar/desactivar el tiempo de etapa.</p><p>La activación del tiempo de etapa, siempre se gestionará con un <strong>SET</strong>.</p><p>La activación del reset de tiempo de etapa, siempre se gestionará con un <strong>SET</strong>.</p><p><img alt="Diagrama, Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_123.png" /></p><p>En caso de no utilizar, dejar la orden activar a <strong>RESET</strong> o el segmento vacío.</p>
+</div>
+<div class="doc-section" id="sec_Gestion_litros_etapa">
+<h3>Gestión litros etapa</h3>
+<p>Segmento encargado de activar/desactivar los litros de etapa.</p><p>La activación de los litros de etapa, siempre se gestionará con un <strong>SET</strong>.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_124.png" /></p><p>En caso de no utilizar, dejar la orden activar a <strong>RESET</strong> o el segmento vacío.</p>
+</div>
+<div class="doc-section" id="sec_Gestion_salto_de_etapa">
+<h3>Gestión salto de etapa</h3>
+<p>Segmento encargado de gestionar los saltos de etapa. </p><p>Siempre se utiliza la variable <strong>EtapaSiguiente</strong> para el salto de etapa.</p><p>Siempre se utilizarán las <a href="../manual/026_Proceso.html#_Constantes_de_proceso">constantes de proceso</a> para las etapas.</p><p>Se puede utilizar las variables de <strong>LitrosEtapa.Cumplido</strong> o <strong>TiempoEtapa.Cumplido</strong> del proceso.</p><p><img alt="Imagen que contiene Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_125.png" /></p><p>Se puede utilizar cualquier condición de salto de etapa.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_126.png" /></p>
+</div>
+<div class="doc-section" id="sec_Finalizacion_del_proceso">
+<h3>Finalización del proceso</h3>
+<p>Para finalizar el proceso, siempre hay que utilizar la <a href="../manual/016_0_Config_Generales.html#_0_Config_Generales">constante de sistema</a> de <strong>FIN_PROCESO</strong>.</p><p><img alt="Interfaz de usuario gráfica
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_127.png" /></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Comentarios en Código SCL y KOP</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541412"></a><a id="comentarios-en-código-scl-y-kop"></a>Comentarios en Código SCL y KOP</h2><p><strong>Comentario Principal (en código SCL):</strong> </p><ul><li>Se usa una línea separadora para el título del bloque/segmento. Siempre utilizando un espaciado de tabulación entre el inicio del comentario a la barra separadora o descripción.</li></ul><p>// 	===================================================================    </p><p>//	COMENTARIO PRINCIPAL</p><p>IF ...... THEN</p><p>	………</p><p>END_IF;</p><ul><li><strong>Comentario Puntual:</strong> No se utiliza línea separadora.     </li></ul><p>//	Comentario puntual</p><p>IF ...... THEN</p><p>	………</p><p>END_IF;</p><p><strong>Comentario de Segmento (KOP/FUP):</strong> Se usa la línea separadora al inicio del segmento (<strong>15 símbolos de igualación + espacio + Descripción</strong>). Se intentará siempre dejar este segmento vacío, y comenzar con el código que corresponde al titulo en el segmento siguiente.</p><ul><li>=============== Titulo del segmento</li></ul><p><img src="../img/img_4.png" /></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

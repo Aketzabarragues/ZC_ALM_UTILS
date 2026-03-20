@@ -25,13 +25,17 @@
             <div class="search-box"><input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarMenu()"></div>
             
             <ul class="nav-list" id="listaBloques">
-                <li class="titulo-seccion-menu">📚 MANUAL DEL ESTÁNDAR</li>
+                <li class="titulo-seccion-menu">📚 MANUAL DE PROGRAMACIÓN</li>
                 
                 {{ manual_html | safe }}
                 
-                <li class="titulo-seccion-menu" style="margin-top: 15px;">⚙️ LIBRERÍA DE BLOQUES</li>
+                <li class="titulo-seccion-menu" style="margin-top: 15px;">⚙️ FUNCIONES (FC Y FB)</li>
                 
-                {{ bloques_html | safe }}
+                {{ funciones_html | safe }}
+
+                <li class="titulo-seccion-menu" style="margin-top: 15px;">💾 DATOS (DB Y UDT)</li>
+                
+                {{ datos_html | safe }}
                 
             </ul>
         </div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>0_Config_Generales</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_0_Config_Generales"></a><a id="_Toc224541422"></a>0_Config_Generales</h2><p>Esta tabla es la encargada de configurar la cantidad parámetros generales, alarmas generales, entidades, dispositivos dentro de entidades, número de entidades en los procesos, numero de buffer de informes y la constante de FIN_PROCESO para su uso en los procesos para terminarlos.</p><table><tr><td><p>NOMBRE</p></td><td><p>DESCRIPCION</p></td></tr><tr><td><p>FIN_PROCESO</p></td><td><p>Constante para finalizar los procesos</p></td></tr><tr><td><p>N_MAX_PINT</p></td><td><p>Número máximo de parámetros enteros</p></td></tr><tr><td><p>N_MAX_PREAL</p></td><td><p>Número máximo de parámetros reales</p></td></tr><tr><td><p>N_MAX_ENTIDAD_PROCESO</p></td><td><p>Número de entidades dentro de los procesos</p></td></tr><tr><td><p>N_MAX_ENTIDAD</p></td><td><p>Número máximo de entidades</p></td></tr><tr><td><p>N_MAX_ENTIDAD_DISPOSITIVOS</p></td><td><p>Número máximo de dispositivos dentro de las entidades</p></td></tr><tr><td><p>N_MAX_ALARMAS</p></td><td><p>Número máximo de alarmas</p></td></tr><tr><td><p>N_MAX_ALARMAS_HMI</p></td><td><p>Número máximo de variables de alarmas para HMI/Scada</p></td></tr><tr><td><p>N_MAX_INF_BUFFER</p></td><td><p>Número máximo del buffer de informes</p></td></tr></table>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

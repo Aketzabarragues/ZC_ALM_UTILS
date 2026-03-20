@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Principal</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541445"></a>Principal</h2><p>La función de este grupo es la de trabajar como interfaz entre el proceso y los datos de dispositivos, estados de seguridad y comunicaciones reales. Para ello, se creará el bloque de datos principal, el cual tendrá la siguiente organización:</p><ul><li>Variables <strong>OBLIGATORIAS</strong>.<ul><li>Al inicio del bloque de datos, deberá tener las siguientes variables booleanas.</li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_41.png" /></p><ul><li><ul><li>SeguridadesOk<ul><li>Variable que indica que las seguridades están ok.</li></ul></li><li>ComunicacionesOk<ul><li>Variable que indica que las comunicaciones están ok.</li></ul></li><li>AlgunaAlarmaDisp<ul><li>Variable que indica que existe una alarma en algún dispositivo.</li></ul></li><li>NuevaAlarmaDispA<ul><li>Variable que indica que existe una nueva alarma en algún dispositivo.</li></ul></li></ul></li><li>Variables de dispositivos.<ul><li>Se utilizarán UDT específicos para generar los dispositivos genéricos.</li><li>Se organizarán de la siguiente forma:<ul><li>Motores</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_42.png" /></p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_43.png" /></p><ul><li><ul><li><ul><li>Válvulas</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_44.png" /></p><ul><li><ul><li><ul><li>Salidas analógicas</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_45.png" /></p><ul><li><ul><li><ul><li>Entradas analógicas</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_46.png" /></p><ul><li><ul><li><ul><li>Entradas digitales</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_47.png" /></p><ul><li><ul><li><ul><li>Totalizadores</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_48.png" /></p><ul><li><ul><li><ul><li>PID</li></ul></li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_49.png" /></p><ul><li>Variables de temporizadores, flip flop medias, etc.<ul><li>Con el fin de encapsular y no depender de dispositivos externos, se crearán dispositivos internos para temporizadores, flip flop, medias, etc.</li><li>Se declararán en forma de array de dispositivos.</li></ul></li></ul><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_50.png" /></p><ul><li><ul><li>Se utilizarán las <a href="../manual/023_Constantes_de_proceso.html#_Constantes_de_usuario">constantes de usuario</a> del proceso creadas para definir el tamaño del array.</li></ul></li></ul><p>La función tendrá declarados las siguientes variables temporales:</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_51.png" /></p><p>Los segmentos de la función principal siempre seguirán el siguiente orden:</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_52.png" /></p>
+</div>
+<div class="doc-section" id="sec_Estado_seguridad_y_comunicacio">
+<h3>Estado seguridad y comunicaciones OK</h3>
+<p>Segmento encargado de escribir el estado de las seguridades y comunicaciones. El objetivo es agrupar estos estados en las variables del DB Principal para su uso en el proceso.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_53.png" /></p>
+</div>
+<div class="doc-section" id="sec_Alguna_alarma_dispositivo_y_nu">
+<h3>Alguna alarma dispositivo y nueva alarma dispositivo</h3>
+<p>Segmento encargado de escribir el estado de alguna alarma y nueva alarma de dispositivos. El objetivo es agrupar estos estados en las variables del DB Principal para su uso en el proceso.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_54.png" /></p>
+</div>
+<div class="doc-section" id="sec_Asignacion_estado_dispositivos">
+<h3>Asignación estado dispositivos</h3>
+<p>Segmento encargado de traspasar los valores de lectura de dispositivos reales a los dispositivos genéricos del proceso. El objetivo es utilizar estos dispositivos genéricos en el proceso en vez de los dispositivos reales, con el fin de encapsular los procesos.</p><p><img src="../img/img_55.png" /></p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_56.png" /></p>
+</div>
+<div class="doc-section" id="sec_Asignacion_Entidades">
+<h3>Asignación Entidades</h3>
+<p>Segmento encargado de configurar las entidades que utilizara el proceso.</p><p>Se dividen en dos tipos de entidades.</p><ul><li>Tipo FALSE:<ul><li>Entidad capturada desde el inicio del proceso, es el propio proceso el que se encarga de capturar y liberarlas.</li></ul></li><li>Tipo TRUE:<ul><li>Entidad dinámica, esta se <a href="../manual/026_Proceso.html#_Entidades">captura</a> a petición del usuario.</li></ul></li></ul><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_57.png" /></p>
+</div>
+<div class="doc-section" id="sec_Llamadas_a_bloques">
+<h3>Llamadas a bloques</h3>
+<p>Segmento encargado de realizar las llamadas a los bloques de temporizadores, medias, flip flop, proceso, parámetros y alarmas.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_58.png" /></p>
+</div>
+<div class="doc-section" id="sec_Ordenes_a_dispositivos">
+<h3>Órdenes a dispositivos</h3>
+<p>Las órdenes a los dispositivos se utilizarán siempre con <strong>SET </strong>a excepción de los<strong> totalizadores.</strong></p><p>Segmento encargado de escribir las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p>Se organizarán por segmentos según el tipo de dispositivo.</p><p><img alt="Imagen que contiene Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_59.png" /></p><h4>Motores</h4><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_60.png" /></p><h4>Motores variador</h4><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_61.png" /></p><h4>Válvulas</h4><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_62.png" /></p><h4>Salidas analógicas</h4><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_63.png" /></p><h4>PID</h4><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p><img alt="Diagrama
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_64.png" /></p><h4>Totalizadores</h4><p>Segmento encargado de traspasar las ordenes de los dispositivos genéricos a los dispositivos reales.</p><p>Se realizará mediante <strong>asignación directa</strong> la orden de activación.</p><p>Se realizará mediante <strong>SET</strong> la orden de reset.</p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_65.png" /></p><ul><li>Totalizadores</li></ul><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_66.png" /></p><p><img alt="Escala de tiempo
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_67.png" /></p>
+</div>
+<div class="doc-section" id="sec_Reset_ordenes">
+<h3>Reset ordenes</h3>
+<p>Segmento encargado de resetear todas las ordenes de los dispositivos genéricos para que se puedan volver a generar en el siguiente ciclo de scan.</p><p><img alt="Imagen que contiene Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_68.png" /></p><p><a id="_FC_Proceso"></a></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

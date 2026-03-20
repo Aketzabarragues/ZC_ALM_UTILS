@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lógica de procesos</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h1><a id="_Lógica_de_procesos"></a><a id="_Toc224541443"></a>Lógica de procesos</h1><p>La lógica a la hora de desarrollar los procesos sigue la premisa de encapsular los procesos para poder convertirlos en procesos reutilizables y versátiles. Para ello, los procesos utilizaran marcas de dispositivos genéricas, para de esta forma poder asignárselos a dispositivos reales, bien que sean de controles de Zeus Control o bien de otro estándar diferente.</p><p>Los procesos siempre tienen que seguir las mismas reglas y programarse de la misma forma, con esto, se consigue una coherencia entre todos los procesos programados por el área, lo que consigue que cualquier técnico pueda saber donde se encuentran todas las partes de la lógica sin realmente saber de qué trata el proceso.</p><p>Partiendo de esta idea, debemos de tener en cuenta la numeración especificada en <a href="../manual/005_Convenciones_de_Codificacion_y_Nomenclatura.html#_Organización_de_numeración">organización de numeración de bloques</a>. Los procesos siempre se programarán siguiendo el siguiente orden de bloques:</p><ul><li>Principal<ul><li>Se numerará el primero, terminando en 0.</li><li>Se nombrará el bloque de función de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + PRINCIPAL</li><li>FC300_UF1_PRINCIPAL</li></ul></li><li>Se nombrará el bloque de datos de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + PRINCIPAL</li><li>DB300_UF1_PRINCIPAL</li></ul></li></ul></li><li>Proceso<ul><li>Se numerará el primero, terminando en 1.</li><li>Se nombrará de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + PROCESO</li><li>FC301_UF1_PROCESO</li></ul></li><li>Se nombrará el bloque de datos de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + AUXILIARES</li><li>DB301_UF1_PROCESO</li></ul></li></ul></li><li>Auxiliares<ul><li>Se numerará el primero, terminando en 2.</li><li>Se nombrará el bloque de función de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + AUXILIARES</li><li>FC302_UF1_AUXILIARES</li></ul></li></ul></li><li>Transiciones<ul><li>Se numerará el primero, terminando en 3.</li><li>Se nombrará de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + TRANSICIONES</li><li>FC303_UF1_TRANSICIONES</li></ul></li></ul></li><li>Activaciones<ul><li>Se numerará el primero, terminando en 4.</li><li>Se nombrará de la siguiente forma en <strong>MAYUSCULAS</strong>.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + ACTIVACIONES</li><li>FC304_UF1_ ACTIVACIONES</li></ul></li></ul></li></ul><p><strong><em>Dada la complejidad de los procesos CIP, será el único proceso que no seguirá esta norma de numeración.</em></strong></p><p>Para poder encapsular el proceso, se utilizarán bloques de datos y funciones específicas de parámetros y de alarmas. Debemos de tener en cuenta la numeración especificada en <a href="../manual/005_Convenciones_de_Codificacion_y_Nomenclatura.html#_Organización_de_numeración">organización de numeración de bloques</a>. </p><ul><li>FC Parámetros<ul><li>Se numerará sumándole al inicio del número de parámetros (3000) el número del proceso (en este ejemplo, 300).<ul><li>Para la gestión de parámetros, se utilizará siempre el 0.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + GEST_PARAMETROS</li><li>FC3300_UF1_GEST_PARAMETROS</li></ul></li><li>Para la visibilidad de parámetros, se utilizará siempre el 1.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + GEST_PARAMETROS</li><li>FC3301_UF1_VIS_PARAMETROS</li></ul></li></ul></li><li>Para parámetros reales, se utiliza siempre el 0.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + PREAL</li><li>DB3300_UF1_PREAL</li></ul></li><li>Para parámetros enteros, se utiliza siempre el 1.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + PINT</li><li>DB3301_UF1_PINT</li></ul></li></ul></li><li>Alarmas<ul><li>Se numerará sumándole al inicio del número de alarmas (5000) el número del proceso (en este ejemplo, 300).<ul><li>Para la gestión de alarmas, se utilizará siempre el 0.<ul><li>Tipo de bloque + Numero de FC + _ + Maquina + _ + GEST_ALARMAS</li><li>FC5300_UF1_GEST_ALARMAS</li></ul></li></ul></li><li>Para el bloque de datos de alarmas, se utiliza siempre el 0.<ul><li>Tipo de bloque + Numero de DB + _ + Maquina + _ + ALM</li><li>DB5300_UF1_ALM</li></ul></li></ul></li></ul><p>Con todas estas premisas, quedaría de la siguiente forma:</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_37.png" /></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

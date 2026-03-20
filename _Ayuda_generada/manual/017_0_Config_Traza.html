@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>0_Config_Traza</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_Toc224541423"></a>0_Config_Traza</h2><p>Esta tabla es la encargada de configurar la cantidad del buffer de trazabilidades, así como la definición de las categorías.</p><ul><li>N_MAX_TRAZA_BUFFER<ul><li>Número máximo del buffer de trazabilidad</li></ul></li><li>TRAZA_CAT_1_EVENTOS<ul><li>Categoría de eventos de sistema.</li></ul></li><li>TRAZA_CAT_2_MANUALES<ul><li>Categoría de manualizaciones.</li></ul></li><li>TRAZA_CAT_3_P_REAL<ul><li>Categoría de cambios en parámetros reales.</li></ul></li><li>TRAZA_CAT_4_P_INT<ul><li>Categoría de cambios en parámetros enteros.</li></ul></li><li>TRAZA_CAT_5_PID <ul><li>Categoría de cambios en PID.</li></ul></li><li>TRAZA_CAT_6<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_7<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_8<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_9<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_10<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_11<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_12<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_13<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_14<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_15<ul><li>Categoría reserva.</li></ul></li><li>TRAZA_CAT_16<ul><li>Categoría reserva.</li></ul></li></ul>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

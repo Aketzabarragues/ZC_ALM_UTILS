@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import json
 import core_logger as log
@@ -64,6 +65,7 @@ def modificar_configuracion():
     guardar_configuracion(config)
     print("\n[OK] Configuración guardada correctamente.")
 
+
 def generar_documentacion():
     """Ejecuta el proceso core de generación leyendo el JSON."""
     config = cargar_configuracion()
@@ -123,33 +125,95 @@ def generar_documentacion():
             ruta_guardado = os.path.join(ruta_destino, 'manual', cap["archivo"])
             html_renderer.renderizar_pagina(cap["titulo"], cap["contenido"], ruta_guardado)
 
+        # Pintamos los Bloques SCL
         bloques_info_menu = []
-        
-        # SCL
         for bloque in bloques_scl:
             ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque['nombre_bloque']}.html")
             html_renderer.renderizar_bloque_scl(bloque, ruta_guardado)
+            
+            # Extraemos la estructura para poder dibujar el árbol lateral
             secciones = core_parser_scl.generar_secciones_menu(bloque)
+            
+            # --- MAGIA AQUÍ: Detectar el tipo de bloque por su nombre ---
+            nombre_upper = bloque['nombre_bloque'].upper()
+            if nombre_upper.startswith('FC'):
+                tipo_bloque = 'FC'
+            elif nombre_upper.startswith('FB'):
+                tipo_bloque = 'FB'
+            elif nombre_upper.startswith('DB'):
+                tipo_bloque = 'DB'
+            else:
+                tipo_bloque = 'UDT'
+            
+            # Guardamos la información incluyendo el "tipo"
             bloques_info_menu.append({
-                "nombre": bloque['nombre_bloque'], "archivo": f"{bloque['nombre_bloque']}.html", 
-                "secciones": secciones, "tipo": "SCL"
+                "nombre": bloque['nombre_bloque'], 
+                "archivo": f"{bloque['nombre_bloque']}.html", 
+                "secciones": secciones,
+                "tipo": tipo_bloque
             })
 
         # Datos (UDT/DB)
         for bloque_dato in bloques_datos:
             ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque_dato['nombre_bloque']}.html")
             html_renderer.renderizar_datos(bloque_dato, ruta_guardado)
+            
+            # Forzamos a que el tipo sea estrictamente DB o UDT para el menú
+            tipo_dato = 'DB' if bloque_dato['nombre_bloque'].upper().startswith('DB') else 'UDT'
+            
             bloques_info_menu.append({
                 "nombre": bloque_dato['nombre_bloque'], "archivo": f"{bloque_dato['nombre_bloque']}.html", 
-                "secciones": [], "tipo": bloque_dato['tipo']
+                "secciones": [], "tipo": tipo_dato
             })
+
+        # =====================================================================
+        # --- ORDENACIÓN NATURAL (ALFANUMÉRICA ESTILO TIA PORTAL) ---
+        # =====================================================================
+        # --- ORDENACIÓN ESTRICTA POR NÚMERO DE BLOQUE ---
+        def orden_natural(item):
+            """
+            Busca el número del bloque ignorando si es FB, FC, DB o UDT
+            y ordena la lista basándose únicamente en ese valor matemático.
+            """
+            import re
+            texto = item["nombre"]
+            
+            # Extrae el primer número que encuentre en el nombre (ej: de "FB15150_SEC" saca 15150)
+            match = re.search(r'\d+', texto)
+            
+            # Si tiene número, lo convertimos a entero real. 
+            # Si no tiene (ej. "UDT_Proceso"), le damos un número altísimo para que vaya al final de la lista.
+            numero = int(match.group()) if match else 9999999
+            
+            # Devuelve una tupla: primero ordena por número y, en caso de empate, por orden alfabético
+            return (numero, texto.upper())
+            
+        # Ordenamos la lista maestra de bloques
+        bloques_info_menu.sort(key=orden_natural)
+
+        # --- SEPARACIÓN FINAL ---
+        funciones_info = [b for b in bloques_info_menu if b['tipo'] in ['FC', 'FB']]
+        datos_info     = [b for b in bloques_info_menu if b['tipo'] in ['DB', 'UDT']]
+        # =====================================================================
+        # =====================================================================
 
         log.info("Construyendo Índices de navegación...")
         manual_html = html_renderer.construir_arbol_manual(capitulos_word)
-        bloques_html = html_renderer.construir_arbol_bloques(bloques_info_menu)
+        
+        # Ahora generamos dos menús HTML independientes
+        funciones_html = html_renderer.construir_arbol_bloques(funciones_info)
+        datos_html = html_renderer.construir_arbol_bloques(datos_info)
+        
         pagina_inicio = f"manual/{capitulos_word[0]['archivo']}" if capitulos_word else "inicio.html"
         
-        html_renderer.renderizar_index(manual_html, bloques_html, pagina_inicio, os.path.join(ruta_destino, 'index.html'))
+        # Llamamos al renderizador pasándole las TRES variables
+        html_renderer.renderizar_index(
+            manual_html, 
+            funciones_html, 
+            datos_html, 
+            pagina_inicio, 
+            os.path.join(ruta_destino, 'index.html')
+        )
 
         print("\n[ÉXITO] ¡Proceso completado! Documentación generada en:")
         print(f"-> {ruta_destino}")
@@ -159,6 +223,7 @@ def generar_documentacion():
         print("\n[ERROR CRÍTICO] Ha ocurrido un fallo durante la generación.")
         print(f"Detalle: {e}")
         log.error(f"Error crítico durante la generación:\n{traceback.format_exc()}")
+
 
 def mostrar_menu():
     """Bucle principal de la aplicación de consola."""

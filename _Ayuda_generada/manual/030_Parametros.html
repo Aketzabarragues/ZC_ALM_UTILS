@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Parámetros</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+<h2><a id="_FC_Gestión_de"></a><a id="_Toc224541451"></a>Parámetros</h2><p>Con el fin de encapsular el proceso, se creará un <a href="../manual/022_Logica_de_procesos.html#_Lógica_de_procesos">DB de parámetros específicos</a> para cada proceso.</p><p>Para la gestión de parámetros del proceso, serán necesarios dos bloques para gestionar la trazabilidad de los cambios de parámetros, así como la visibilidad de estos para su uso en HMI/SCADA.</p>
+</div>
+<div class="doc-section" id="sec_Gestion_de_parametros">
+<h3>Gestión de parámetros</h3>
+<p>Este bloque es el encargado de gestionar la trazabilidad de cambios de parámetros, tanto reales como enteros.</p><p>El bloque cuenta con esta interfaz.</p><p><img alt="Tabla
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_162.png" /></p><p>Se realizan dos bucles FOR para gestionar los parámetros enteros y reales, y realizar la gestión de trazabilidad de los cambios de parámetros.</p><p><img alt="Texto
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_163.png" /></p>
+</div>
+<div class="doc-section" id="sec_Visibilidad_de_parametros">
+<h3><a id="_FC_Visibilidad_de"></a>Visibilidad de parámetros</h3>
+<p>Este bloque es el encargado de gestionar la visibilidad de los parámetros que se mostraran en HMISCADA.</p><p>Para facilidad de comprensión, se agruparán por dispositivo asociado al parámetro.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_164.png" /></p><p>Se utilizará mediante asignación directa.</p><p><img alt="Interfaz de usuario gráfica, Texto, Aplicación, Correo electrónico
+
+El contenido generado por IA puede ser incorrecto." src="../img/img_165.png" /></p><p><a id="_FC_Alarmas"></a></p>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

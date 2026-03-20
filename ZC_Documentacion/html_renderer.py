@@ -168,11 +168,19 @@ def construir_arbol_bloques(bloques_info):
         bloques_html += '</li>\n'
     return bloques_html
 
-def renderizar_index(manual_html, bloques_html, pagina_inicio, ruta_guardado):
-    """Renderiza el menú lateral interactivo."""
+def renderizar_index(manual_html, funciones_html, datos_html, pagina_inicio, ruta_guardado):
+    """Renderiza el menú lateral interactivo dividiendo funciones y datos."""
     log.info("Renderizando index.html principal...")
     env = configurar_jinja()
     plantilla = env.get_template('layout_index.html')
-    html_final = plantilla.render(manual_html=manual_html, bloques_html=bloques_html, pagina_inicio=pagina_inicio)
+    
+    # Le pasamos las 3 variables separadas a la plantilla Jinja2
+    html_final = plantilla.render(
+        manual_html=manual_html, 
+        funciones_html=funciones_html, 
+        datos_html=datos_html,
+        pagina_inicio=pagina_inicio
+    )
+    
     with open(ruta_guardado, 'w', encoding='utf-8') as f:
         f.write(html_final)
