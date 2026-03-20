@@ -9,7 +9,7 @@ interfaz de variables (Inputs, Outputs, InOuts, Temp) y lógica interna (Regione
 import os
 import re
 import textwrap
-import core_logger as log
+from core import core_logger as log
 
 
 def limpiar_comentario(texto_crudo):

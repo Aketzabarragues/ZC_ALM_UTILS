@@ -8,7 +8,7 @@ tipos, valores por defecto y comentarios asociados.
 """
 
 import re
-import core_logger as log
+from core import core_logger as log
 
 
 def parsear_archivo_datos(ruta_archivo):

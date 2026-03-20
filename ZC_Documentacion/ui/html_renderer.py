@@ -11,7 +11,7 @@ import os
 import sys
 import shutil
 from jinja2 import Environment, FileSystemLoader
-import core_logger as log
+from core import core_logger as log
 
 
 def obtener_ruta_base():

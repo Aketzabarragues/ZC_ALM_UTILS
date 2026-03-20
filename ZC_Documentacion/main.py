@@ -14,12 +14,12 @@ import json
 import traceback
 
 # Módulos internos del core de ZCALM
-import core_logger as log
-import core_parser_word
-import core_parser_scl
-import core_parser_data
-import core_linker
-import html_renderer
+from core import core_logger as log
+from core import core_parser_word
+from core import core_parser_scl
+from core import core_parser_data
+from core import core_linker
+from ui import html_renderer
 
 # Archivo local de persistencia para las rutas de trabajo del usuario
 CONFIG_FILE = "config.json"

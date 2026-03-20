@@ -9,7 +9,7 @@ y enlaces cruzados detectados en el código.
 """
 
 import re
-import core_logger as log
+from core import core_logger as log
 
 
 def construir_registro_global(capitulos_word, inventario_total):
