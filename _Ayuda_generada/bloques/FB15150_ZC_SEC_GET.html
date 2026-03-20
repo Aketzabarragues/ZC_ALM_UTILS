@@ -77,8 +77,9 @@
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
-            <td><strong>NDR</strong></td>
-            <td>Bool</td>
+            <td><strong>Get_Status</strong></td>
+            <td>Array[1..8] of Struct
+         NDR : Bool</td>
             <td>GET 1 NDR</td>
         </tr>
         
@@ -104,9 +105,37 @@
         </tr>
         
         <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>AlgunError</strong></td>
+            <td>Bool := FALSE</td>
+            <td>Algun error</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>ErrorGet</strong></td>
+            <td>Array[1..8] of Bool := [8(FALSE)]</td>
+            <td>Error en GET</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Get_REQ</strong></td>
+            <td>Array[1..8] of Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
             <td><span style="font-size:11px; color:#666;">VAR</span></td>
             <td><strong>s_Etapa</strong></td>
             <td>Int := #ETAPA_0_REPOSO</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_AlgunError</strong></td>
+            <td>Bool := FALSE</td>
             <td></td>
         </tr>
         

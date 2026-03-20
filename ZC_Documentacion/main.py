@@ -1,7 +1,19 @@
+"""
+Módulo Principal del Generador de Documentación de Zeus Control.
+
+Este script actúa como el controlador central de la aplicación. Gestiona el flujo 
+de ejecución completo: carga de configuración, orquestación de los distintos 
+analizadores (parsers de Word y SCL/Datos), resolución de dependencias cruzadas 
+(Linker) y generación final de las vistas estáticas en formato HTML.
+"""
+
 import os
 import re
 import sys
 import json
+import traceback
+
+# Módulos internos del core de ZCALM
 import core_logger as log
 import core_parser_word
 import core_parser_scl
@@ -9,11 +21,21 @@ import core_parser_data
 import core_linker
 import html_renderer
 
-# Nombre del archivo de configuración
-CONFIG_FILE = "zcalm_config.json"
+# Archivo local de persistencia para las rutas de trabajo del usuario
+CONFIG_FILE = "config.json"
+
 
 def cargar_configuracion():
-    """Carga el archivo JSON. Si no existe, lo crea con valores vacíos."""
+    """
+    Lee el archivo de configuración en formato JSON.
+    
+    Si el archivo no existe o su formato es inválido, retorna un diccionario 
+    con las claves por defecto vacías para evitar excepciones en tiempo de 
+    ejecución y forzar al usuario a definirlas mediante la interfaz.
+    
+    Returns:
+        dict: Diccionario con las rutas de configuración.
+    """
     config_por_defecto = {
         "ruta_word": "",
         "ruta_fuentes": "",
@@ -28,113 +50,135 @@ def cargar_configuracion():
         with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
-        log.error(f"Error leyendo {CONFIG_FILE}: {e}")
+        log.error(f"Error de lectura en {CONFIG_FILE}: {e}")
         return config_por_defecto
 
+
 def guardar_configuracion(config):
-    """Guarda el diccionario de configuración en el archivo JSON."""
+    """
+    Serializa y persiste el diccionario de configuración en disco.
+    """
     try:
         with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
             json.dump(config, f, indent=4, ensure_ascii=False)
     except Exception as e:
-        log.error(f"Error guardando {CONFIG_FILE}: {e}")
+        log.error(f"Error de escritura en {CONFIG_FILE}: {e}")
+
 
 def modificar_configuracion():
-    """Menú interactivo para cambiar las rutas."""
+    """
+    Interfaz interactiva por consola para la actualización de rutas de trabajo.
+    Permite arrastrar y soltar carpetas directamente sobre la terminal.
+    """
     print("\n--- MODIFICAR CONFIGURACIÓN ---")
     print("Consejo: Arrastra la carpeta/archivo a esta ventana o pega la ruta.")
     print("Pulsa ENTER sin escribir nada para mantener la ruta actual.\n")
     
     config = cargar_configuracion()
 
-    # 1. Ruta Word
     print(f"Actual: {config['ruta_word']}")
     nueva_word = input("Nueva ruta del documento Word (.docx): ").strip('\"\' ')
-    if nueva_word: config['ruta_word'] = nueva_word
+    if nueva_word: 
+        config['ruta_word'] = nueva_word
 
-    # 2. Ruta Fuentes (SCL/DB/UDT)
     print(f"\nActual: {config['ruta_fuentes']}")
-    nueva_fuentes = input("Nueva ruta de la carpeta de fuentes exportadas: ").strip('\"\' ')
-    if nueva_fuentes: config['ruta_fuentes'] = nueva_fuentes
+    nueva_fuentes = input("Nueva ruta de la carpeta de fuentes (SCL/DB/UDT): ").strip('\"\' ')
+    if nueva_fuentes: 
+        config['ruta_fuentes'] = nueva_fuentes
 
-    # 3. Ruta Destino
     print(f"\nActual: {config['ruta_destino']}")
-    nuevo_destino = input("Nueva ruta de la carpeta de SALIDA (HTML): ").strip('\"\' ')
-    if nuevo_destino: config['ruta_destino'] = nuevo_destino
+    nuevo_destino = input("Nueva ruta del directorio de SALIDA (HTML): ").strip('\"\' ')
+    if nuevo_destino: 
+        config['ruta_destino'] = nuevo_destino
 
     guardar_configuracion(config)
-    print("\n[OK] Configuración guardada correctamente.")
+    print("\n[OK] Configuración actualizada correctamente.")
 
 
 def generar_documentacion():
-    """Ejecuta el proceso core de generación leyendo el JSON."""
+    """
+    Ejecuta el pipeline principal de extracción y generación de documentación.
+    
+    Fases del proceso:
+    1. Extracción y parseo de datos del manual (Word).
+    2. Escaneo y parseo de código fuente SCL y estructuras de datos (DB/UDT).
+    3. Vinculación (Linking) para resolución de referencias cruzadas.
+    4. Renderización de plantillas Jinja2 a HTML estático.
+    5. Estructuración y ordenación del árbol de navegación lateral.
+    """
     config = cargar_configuracion()
     
     ruta_word = config.get("ruta_word")
     ruta_scl = config.get("ruta_fuentes")
     ruta_destino = config.get("ruta_destino")
 
-    # Validaciones básicas
+    # Validación pre-ejecución de rutas críticas
     if not ruta_word or not os.path.exists(ruta_word):
-        print("\n[ERROR] La ruta del archivo Word no es válida. Ve a la opción 2.")
+        print("\n[ERROR] La ruta del archivo Word especificada no es válida.")
         return
     if not ruta_destino:
-        print("\n[ERROR] La ruta de destino no está configurada. Ve a la opción 2.")
+        print("\n[ERROR] El directorio de destino no está configurado.")
         return
 
-    print("\n=================================================")
-    print(" ZCALM - GENERADOR DE DOCUMENTACIÓN v3.0 (PRO)   ")
-    print("=================================================")
+    print("\n" + "="*49)
+    print(" ZCALM - GENERADOR DE DOCUMENTACIÓN TÉCNICA v3.0 ")
+    print("="*49)
 
     try:
-        log.info(f"Iniciando proceso en la ruta destino: {ruta_destino}")
+        log.info(f"Inicializando despliegue estático en: {ruta_destino}")
         html_renderer.copiar_estaticos(ruta_destino)
 
-        # -- FASE 1 y 2: EXTRAER DATOS (WORD) --
+        # FASE 1: Procesamiento del documento funcional (Manual)
         capitulos_word = core_parser_word.procesar_word(ruta_word, ruta_destino)
 
-        # -- FASE 1 y 2: EXTRAER DATOS (SCL, DB y UDT) --
+        # FASE 2: Extracción de lógica y datos desde exportaciones VCI
         bloques_scl = []
         bloques_datos = []
         
         if ruta_scl and os.path.exists(ruta_scl):
-            log.info(f"Escaneando carpeta fuentes: {ruta_scl}")
+            log.info(f"Iniciando escaneo de código fuente en: {ruta_scl}")
             archivos_fuente = [f for f in os.listdir(ruta_scl) if f.lower().endswith(('.scl', '.db', '.udt'))]
             
             for archivo in archivos_fuente:
                 ruta_completa = os.path.join(ruta_scl, archivo)
                 
+                # Desvío según el formato del archivo fuente
                 if archivo.lower().endswith('.scl'):
                     datos_bloque = core_parser_scl.parsear_bloque(ruta_completa)
-                    if datos_bloque: bloques_scl.append(datos_bloque)
+                    if datos_bloque: 
+                        bloques_scl.append(datos_bloque)
                 
                 elif archivo.lower().endswith(('.db', '.udt')):
                     datos_extraidos = core_parser_data.parsear_archivo_datos(ruta_completa)
                     bloques_datos.extend(datos_extraidos)
                     
-            log.info(f"Extraídos {len(bloques_scl)} bloques SCL y {len(bloques_datos)} estructuras de datos (DB/UDT).")
+            log.info(f"Parseo finalizado: {len(bloques_scl)} bloques SCL, {len(bloques_datos)} estructuras DB/UDT.")
 
-        # -- FASE 3: EL CEREBRO Y LOS ENLACES (LINKER) --
-        registro_global = core_linker.construir_registro_global(capitulos_word, bloques_scl)
-        capitulos_word, bloques_scl = core_linker.enlazar_todo(capitulos_word, bloques_scl, registro_global)
+        # FASE 3: Enlazador (Linker) - Generación del árbol de dependencias
+        # Agrupamos todo (SCL + DB/UDT) para que el registro global conozca todos los archivos
+        inventario_total = bloques_scl + bloques_datos        
+        registro_global = core_linker.construir_registro_global(capitulos_word, inventario_total)        
+        # Procesamos los enlaces para todo el inventario completo
+        capitulos_word, inventario_total = core_linker.enlazar_todo(capitulos_word, inventario_total, registro_global)
 
-        # -- FASE 4: EL PINTOR Y LAS PLANTILLAS (RENDERER) --
-        log.info("Generando archivos HTML finales...")
+        # FASE 4: Renderizado de Vistas (HTML)
+        log.info("Iniciando compilación de vistas HTML...")
         
+        # Renderizado del Manual
         for cap in capitulos_word:
             ruta_guardado = os.path.join(ruta_destino, 'manual', cap["archivo"])
             html_renderer.renderizar_pagina(cap["titulo"], cap["contenido"], ruta_guardado)
 
-        # Pintamos los Bloques SCL
         bloques_info_menu = []
+
+        # Renderizado de Funciones y FBs
         for bloque in bloques_scl:
             ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque['nombre_bloque']}.html")
             html_renderer.renderizar_bloque_scl(bloque, ruta_guardado)
             
-            # Extraemos la estructura para poder dibujar el árbol lateral
             secciones = core_parser_scl.generar_secciones_menu(bloque)
             
-            # --- MAGIA AQUÍ: Detectar el tipo de bloque por su nombre ---
+            # Clasificación heurística del tipo de bloque basándose en el prefijo estándar
             nombre_upper = bloque['nombre_bloque'].upper()
             if nombre_upper.startswith('FC'):
                 tipo_bloque = 'FC'
@@ -145,7 +189,6 @@ def generar_documentacion():
             else:
                 tipo_bloque = 'UDT'
             
-            # Guardamos la información incluyendo el "tipo"
             bloques_info_menu.append({
                 "nombre": bloque['nombre_bloque'], 
                 "archivo": f"{bloque['nombre_bloque']}.html", 
@@ -153,60 +196,52 @@ def generar_documentacion():
                 "tipo": tipo_bloque
             })
 
-        # Datos (UDT/DB)
+        # Renderizado de Tipos de Datos y Data Blocks
         for bloque_dato in bloques_datos:
             ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque_dato['nombre_bloque']}.html")
             html_renderer.renderizar_datos(bloque_dato, ruta_guardado)
             
-            # Forzamos a que el tipo sea estrictamente DB o UDT para el menú
+            # Clasificación binaria estricta para el menú de datos
             tipo_dato = 'DB' if bloque_dato['nombre_bloque'].upper().startswith('DB') else 'UDT'
             
             bloques_info_menu.append({
-                "nombre": bloque_dato['nombre_bloque'], "archivo": f"{bloque_dato['nombre_bloque']}.html", 
-                "secciones": [], "tipo": tipo_dato
+                "nombre": bloque_dato['nombre_bloque'], 
+                "archivo": f"{bloque_dato['nombre_bloque']}.html", 
+                "secciones": [], 
+                "tipo": tipo_dato
             })
 
-        # =====================================================================
-        # --- ORDENACIÓN NATURAL (ALFANUMÉRICA ESTILO TIA PORTAL) ---
-        # =====================================================================
-        # --- ORDENACIÓN ESTRICTA POR NÚMERO DE BLOQUE ---
-        def orden_natural(item):
+        # FASE 5: Construcción y ordenación del Índice Lateral
+        def orden_natural_por_numero(item):
             """
-            Busca el número del bloque ignorando si es FB, FC, DB o UDT
-            y ordena la lista basándose únicamente en ese valor matemático.
+            Algoritmo de ordenación natural focalizado en la numeración Siemens.
+            
+            Extrae el primer identificador numérico encontrado en el nombre del bloque
+            para realizar una ordenación matemática estricta (ej. FC8 precederá a FB2010),
+            ignorando el tipo de bloque. Si no posee identificador, se delega al final.
             """
-            import re
             texto = item["nombre"]
-            
-            # Extrae el primer número que encuentre en el nombre (ej: de "FB15150_SEC" saca 15150)
             match = re.search(r'\d+', texto)
-            
-            # Si tiene número, lo convertimos a entero real. 
-            # Si no tiene (ej. "UDT_Proceso"), le damos un número altísimo para que vaya al final de la lista.
             numero = int(match.group()) if match else 9999999
             
-            # Devuelve una tupla: primero ordena por número y, en caso de empate, por orden alfabético
+            # Retorna tupla para desempatar alfabéticamente si comparten número (o carecen de él)
             return (numero, texto.upper())
             
-        # Ordenamos la lista maestra de bloques
-        bloques_info_menu.sort(key=orden_natural)
+        bloques_info_menu.sort(key=orden_natural_por_numero)
 
-        # --- SEPARACIÓN FINAL ---
+        # Segmentación del inventario para su distribución en el layout principal
         funciones_info = [b for b in bloques_info_menu if b['tipo'] in ['FC', 'FB']]
         datos_info     = [b for b in bloques_info_menu if b['tipo'] in ['DB', 'UDT']]
-        # =====================================================================
-        # =====================================================================
 
-        log.info("Construyendo Índices de navegación...")
+        log.info("Ensamblando dom del índice de navegación...")
         manual_html = html_renderer.construir_arbol_manual(capitulos_word)
-        
-        # Ahora generamos dos menús HTML independientes
         funciones_html = html_renderer.construir_arbol_bloques(funciones_info)
         datos_html = html_renderer.construir_arbol_bloques(datos_info)
         
+        # Enrutamiento de la vista por defecto al abrir la aplicación
         pagina_inicio = f"manual/{capitulos_word[0]['archivo']}" if capitulos_word else "inicio.html"
         
-        # Llamamos al renderizador pasándole las TRES variables
+        # Renderizado del contenedor primario (Index)
         html_renderer.renderizar_index(
             manual_html, 
             funciones_html, 
@@ -215,38 +250,40 @@ def generar_documentacion():
             os.path.join(ruta_destino, 'index.html')
         )
 
-        print("\n[ÉXITO] ¡Proceso completado! Documentación generada en:")
-        print(f"-> {ruta_destino}")
+        log.info("Proceso de generación finalizado con éxito.")
 
     except Exception as e:
-        import traceback
-        print("\n[ERROR CRÍTICO] Ha ocurrido un fallo durante la generación.")
-        print(f"Detalle: {e}")
-        log.error(f"Error crítico durante la generación:\n{traceback.format_exc()}")
+        # Captura de errores fatales no previstos durante el pipeline
+        log.error(f"Fallo estructural durante la ejecución:\n{traceback.format_exc()}")
 
 
 def mostrar_menu():
-    """Bucle principal de la aplicación de consola."""
+    """
+    Bucle principal de la interfaz CLI de la aplicación.
+    Mantiene la ejecución activa hasta que el usuario decida salir.
+    """
     while True:
         print("\n" + "="*40)
-        print(" ZCALM - HERRAMIENTA DE DOCUMENTACIÓN")
+        print(" ZCALM - INTERFAZ DE ADMINISTRACIÓN")
         print("="*40)
-        print("1. Generar documentación")
-        print("2. Modificar configuración (rutas)")
-        print("3. Salir")
+        print("1. Iniciar compilación de documentación")
+        print("2. Configurar entornos de trabajo (Rutas)")
+        print("3. Finalizar sesión")
         print("="*40)
         
-        opcion = input("Elige una opción (1-3): ").strip()
+        opcion = input("Seleccione una operación (1-3): ").strip()
         
         if opcion == '1':
             generar_documentacion()
         elif opcion == '2':
             modificar_configuracion()
         elif opcion == '3':
-            print("Saliendo de la aplicación...")
+            print("Cerrando herramientas ZCALM...")
             sys.exit(0)
         else:
-            print("[!] Opción no válida. Por favor, introduce 1, 2 o 3.")
+            print("[!] Operación no reconocida. Valores válidos: 1, 2 o 3.")
+
 
 if __name__ == "__main__":
+    # Punto de entrada de la aplicación
     mostrar_menu()

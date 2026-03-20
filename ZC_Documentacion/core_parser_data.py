@@ -1,10 +1,30 @@
+"""
+Analizador (Parser) de Estructuras de Datos de TIA Portal.
+
+Este módulo procesa archivos fuente exportados que contienen la definición de
+Bloques de Datos (DB) y Tipos de Datos de Usuario (UDT). Extrae metadatos,
+descripciones globales y la estructura interna de variables, incluyendo sus 
+tipos, valores por defecto y comentarios asociados.
+"""
+
 import re
 import core_logger as log
 
+
 def parsear_archivo_datos(ruta_archivo):
     """
-    Analiza un archivo fuente (.db o .udt) y extrae las estructuras de datos.
-    Puede devolver más de un bloque si el archivo contiene TYPEs y DATA_BLOCKs.
+    Analiza un archivo físico (.db o .udt) para extraer sus bloques lógicos.
+    
+    Un único archivo fuente de Siemens puede contener múltiples declaraciones 
+    (por ejemplo, varios TYPEs). Esta función fragmenta el archivo en bloques
+    y delega el análisis sintáctico de cada uno.
+
+    Args:
+        ruta_archivo (str): Ruta absoluta al archivo fuente a procesar.
+
+    Returns:
+        list: Lista de diccionarios (Data Transfer Objects) con la información 
+              estructurada de cada bloque de datos encontrado.
     """
     try:
         with open(ruta_archivo, 'r', encoding='utf-8', errors='replace') as f:
@@ -12,30 +32,46 @@ def parsear_archivo_datos(ruta_archivo):
 
         bloques = []
 
-        # 1. Buscar bloques UDT (TYPE ... END_TYPE)
-        types = re.finditer(r'TYPE\s+"([^"]+)"(.*?)END_TYPE', contenido, re.DOTALL)
-        for t in types:
-            nombre = t.group(1)
-            cuerpo = t.group(2)
-            bloques.append(_procesar_bloque(nombre, "UDT", cuerpo))
+        # 1. Extracción de Tipos de Datos de Usuario (UDT)
+        # El patrón busca bloques delimitados por las palabras clave TYPE y END_TYPE
+        patron_udt = r'TYPE\s+"([^"]+)"(.*?)END_TYPE'
+        for match in re.finditer(patron_udt, contenido, flags=re.DOTALL):
+            nombre_udt = match.group(1)
+            cuerpo_udt = match.group(2)
+            bloques.append(_procesar_bloque(nombre_udt, "UDT", cuerpo_udt))
 
-        # 2. Buscar Bloques de Datos (DATA_BLOCK ... BEGIN)
-        # Ignoramos todo lo que hay después del BEGIN porque ahí van las constantes machacadas
-        dbs = re.finditer(r'DATA_BLOCK\s+"([^"]+)"(.*?)BEGIN', contenido, re.DOTALL)
-        for db in dbs:
-            nombre = db.group(1)
-            cuerpo = db.group(2)
-            bloques.append(_procesar_bloque(nombre, "DB", cuerpo))
+        # 2. Extracción de Bloques de Datos Globales o de Instancia (DB)
+        # Se procesa únicamente la cabecera declarativa hasta la cláusula BEGIN.
+        # Se ignora el código posterior ya que contiene sobreescrituras estáticas de valores.
+        patron_db = r'DATA_BLOCK\s+"([^"]+)"(.*?)BEGIN'
+        for match in re.finditer(patron_db, contenido, flags=re.DOTALL):
+            nombre_db = match.group(1)
+            cuerpo_db = match.group(2)
+            bloques.append(_procesar_bloque(nombre_db, "DB", cuerpo_db))
 
         return bloques
 
     except Exception as e:
-        log.error(f"Error parseando datos en {ruta_archivo}: {e}")
+        log.error(f"Fallo estructural durante el parseo de datos en {ruta_archivo}: {str(e)}")
         return []
 
+
 def _procesar_bloque(nombre, tipo_bloque, cuerpo):
-    """Procesa el texto interno de un TYPE o DATA_BLOCK"""
-    import re
+    """
+    Procesa el contenido interno de un bloque de datos (TYPE o DATA_BLOCK).
+
+    Aplica limpieza de metadatos del compilador y extrae línea por línea
+    las variables declaradas, identificando su identificador, tipo de dato, 
+    valor de inicialización y comentario asociado.
+
+    Args:
+        nombre (str): Identificador del bloque (ej. "DB_PROCESO").
+        tipo_bloque (str): Clasificación funcional ("DB" o "UDT").
+        cuerpo (str): Cadena de texto con la definición interna del bloque.
+
+    Returns:
+        dict: Objeto estandarizado con los metadatos y la colección de variables.
+    """
     bloque_info = {
         "nombre_bloque": nombre,
         "tipo": tipo_bloque,
@@ -43,29 +79,38 @@ def _procesar_bloque(nombre, tipo_bloque, cuerpo):
         "variables": []
     }
 
-    # Extraer la descripción general (suele ser el comentario debajo de VERSION o TITLE)
-    desc_match = re.search(r'VERSION.*?\n\s*//\s*(.*)', cuerpo)
-    if desc_match:
-        bloque_info["descripcion"] = desc_match.group(1).strip()
+    # Extracción de la descripción global del bloque
+    # Típicamente ubicada como comentario inmediatamente después de la declaración de VERSION
+    match_desc = re.search(r'VERSION.*?\n\s*//\s*(.*)', cuerpo)
+    if match_desc:
+        bloque_info["descripcion"] = match_desc.group(1).strip()
 
-    lineas = cuerpo.split('\n')
+    # Análisis secuencial de la estructura de variables
+    lineas = cuerpo.splitlines()
+    
     for linea in lineas:
-        linea = linea.strip()
+        linea_limpia = linea.strip()
         
-        # Ignoramos líneas vacías, aperturas/cierres o comentarios
-        if not linea or linea.startswith('STRUCT') or linea.startswith('END_STRUCT') or linea.startswith('//'):
+        # Filtro: Omisión de líneas vacías, delimitadores de jerarquía anidada (STRUCT) 
+        # y líneas exclusivas de comentarios.
+        if not linea_limpia or linea_limpia.startswith('STRUCT') or linea_limpia.startswith('END_STRUCT') or linea_limpia.startswith('//'):
             continue
 
-        # TRUCO MÁGICO: Eliminamos los atributos entre llaves de TIA Portal (ej: { S7_SetPoint := 'False'})
-        linea_limpia = re.sub(r'\{[^}]*\}\s*', '', linea)
+        # Neutralización de metadatos de configuración inyectados por el IDE de TIA Portal
+        # Ej: { S7_SetPoint := 'False'; ExternalVisible := 'False' }
+        linea_sin_metadatos = re.sub(r'\{[^}]*\}\s*', '', linea_limpia)
 
-        # Regex ahora procesa la línea limpia
-        var_match = re.match(r'^([a-zA-Z0-9_]+)\s*:\s*([^;]+);(?:\s*//\s*(.*))?', linea_limpia)
-        if var_match:
-            nombre_var = var_match.group(1).strip()
-            tipo_y_valor = var_match.group(2).strip()
-            comentario = var_match.group(3).strip() if var_match.group(3) else ""
+        # Extracción léxica de los componentes de la variable
+        # Grupos esperados: (1) Nombre, (2) Tipo y posible Valor, (3) Comentario opcional
+        patron_variable = r'^([a-zA-Z0-9_]+)\s*:\s*([^;]+);(?:\s*//\s*(.*))?'
+        match_var = re.match(patron_variable, linea_sin_metadatos)
+        
+        if match_var:
+            nombre_var = match_var.group(1).strip()
+            tipo_y_valor = match_var.group(2).strip()
+            comentario = match_var.group(3).strip() if match_var.group(3) else ""
 
+            # Desacoplamiento del tipo de dato y su valor de inicialización (si existe)
             if ':=' in tipo_y_valor:
                 partes = tipo_y_valor.split(':=')
                 tipo_var = partes[0].strip()
@@ -76,6 +121,7 @@ def _procesar_bloque(nombre, tipo_bloque, cuerpo):
 
             bloque_info["variables"].append({
                 "nombre": nombre_var,
+                # Limpieza de comillas residuales en tipos envolventes (ej. "UDT_Motor")
                 "tipo": tipo_var.replace('"', ''), 
                 "valor": valor_defecto,
                 "comentario": comentario

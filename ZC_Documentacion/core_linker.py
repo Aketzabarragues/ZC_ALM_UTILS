@@ -1,79 +1,123 @@
+"""
+Módulo Enlazador (Linker) de Referencias Cruzadas.
+
+Este componente actúa como el motor de hipervinculación del generador.
+Se encarga de construir un registro global en memoria con todos los identificadores
+(Bloques SCL, UDTs, DBs y anclas del manual Word) y, posteriormente, realiza
+una pasada de resolución inyectando las URLs definitivas en las dependencias
+y enlaces cruzados detectados en el código.
+"""
+
 import re
 import core_logger as log
 
-def construir_registro_global(capitulos_word, bloques_scl):
+
+def construir_registro_global(capitulos_word, inventario_total):
     """
-    PASADA 1: Crea un mapa en memoria de TODOS los identificadores del proyecto 
-    y les asigna su URL definitiva.
+    Fase 1: Escaneo y catalogación de entidades.
+    
+    Construye un diccionario en memoria (Hash Map) que relaciona el identificador
+    único de cada entidad (nombre de bloque o ID de sección) con su URI de destino.
+    
+    Args:
+        capitulos_word (list): Colección de capítulos procesados del manual.
+        inventario_total (list): Colección combinada de bloques (FC, FB) y datos (DB, UDT).
+        
+    Returns:
+        dict: Registro de enrutamiento global.
     """
-    log.info("Construyendo Registro Global de Enlaces (Cerebro)...")
+    log.info("Construyendo Registro Global de Enrutamiento (Cerebro)...")
     registro = {}
 
-    # 1. Registrar todos los bloques SCL
-    for bloque in bloques_scl:
-        nombre = bloque["nombre_bloque"]
-        # Convertimos todo a mayúsculas para evitar fallos si alguien escribe "fc2010" en lugar de "FC2010"
-        registro[nombre.upper()] = {
-            "tipo": "bloque_scl",
-            "url": f"../bloques/{nombre}.html"
-        }
-
-    # 2. Registrar todas las anclas y títulos del Word
-    for cap in capitulos_word:
-        archivo_base = f"../manual/{cap['archivo']}"
-        
-        # A. Registrar los IDs generados por nosotros (los de los H3)
-        for sub in cap.get("subsecciones", []):
-            registro[sub["id"]] = {
-                "tipo": "seccion_word",
-                "url": f"{archivo_base}#{sub['id']}"
+    # 1. Indexación de bloques de código y estructuras de datos
+    for bloque in inventario_total:
+        nombre = bloque.get("nombre_bloque", "")
+        if nombre:
+            # Estandarización a mayúsculas para garantizar resolución case-insensitive
+            registro[nombre.upper()] = {
+                "tipo": "bloque_codigo_o_dato",
+                "url": f"../bloques/{nombre}.html"
             }
+
+    # 2. Indexación de anclas topológicas del manual (Word)
+    for cap in capitulos_word:
+        archivo_base = f"../manual/{cap.get('archivo', '')}"
+        
+        # A. Indexar secciones explícitas (H3) generadas por nuestro parser
+        for sub in cap.get("subsecciones", []):
+            id_sub = sub.get("id")
+            if id_sub:
+                registro[id_sub] = {
+                    "tipo": "seccion_word",
+                    "url": f"{archivo_base}#{id_sub}"
+                }
             
-        # B. Rastrear el HTML del capítulo buscando los IDs nativos invisibles que crea Word (ej. _Ref12345)
-        ids_nativos = re.findall(r'\b(?:id|name)="([^"]+)"', cap["contenido"], re.IGNORECASE)
+        # B. Indexar marcadores nativos de anclaje de Microsoft Word (_Ref...)
+        contenido_cap = cap.get("contenido", "")
+        ids_nativos = re.findall(r'\b(?:id|name)="([^"]+)"', contenido_cap, re.IGNORECASE)
         for id_nativo in ids_nativos:
             registro[id_nativo] = {
                 "tipo": "ancla_nativa_word",
                 "url": f"{archivo_base}#{id_nativo}"
             }
 
-    #log.dump_dict("REGISTRO_GLOBAL_ENLACES", registro)
     return registro
 
 
-def enlazar_todo(capitulos_word, bloques_scl, registro_global):
+def enlazar_todo(capitulos_word, inventario_total, registro_global):
     """
-    PASADA 2: Recorre todos los datos y resuelve los hipervínculos cruzados usando el Registro.
+    Fase 2: Resolución estática de dependencias cruzadas.
+    
+    Recorre los documentos y bloques parseados, detectando referencias a otras entidades
+    y sobrescribiendo sus atributos/enlaces con las URLs consolidadas del registro global.
+    
+    Args:
+        capitulos_word (list): Colección de capítulos del manual.
+        inventario_total (list): Inventario completo de bloques SCL y datos.
+        registro_global (dict): Mapa de rutas generado en la Fase 1.
+        
+    Returns:
+        tuple: (capitulos_word, inventario_total) con las URIs ya inyectadas.
     """
-    log.info("Resolviendo dependencias e hipervínculos cruzados...")
+    log.info("Resolviendo matriz de dependencias e hipervínculos cruzados...")
 
-    # --- 1. Enlazar el Word ---
+    # --- 1. Resolución de referencias internas del Manual (Word) ---
     for cap in capitulos_word:
         def reemplazar_enlace_word(match):
             id_destino = match.group(1)
-            # Si el enlace apunta a un ID que conocemos, reescribimos la URL
+            # Inyección de URL si el ancla destino existe en nuestro ecosistema
             if id_destino in registro_global:
                 return f'href="{registro_global[id_destino]["url"]}"'
-            # Si no (ej. un link a google.com), lo dejamos intacto
+            # Preservación del enlace original si es externo (ej. protocolo HTTP)
             return match.group(0)
 
-        # Buscamos href="#algo" y lo mandamos a reemplazar
-        cap["contenido"] = re.sub(r'href="#([^"]+)"', reemplazar_enlace_word, cap["contenido"], flags=re.IGNORECASE)
+        # Intercepción de atributos href basados en anclas (#)
+        if "contenido" in cap:
+            cap["contenido"] = re.sub(
+                r'href="#([^"]+)"', 
+                reemplazar_enlace_word, 
+                cap["contenido"], 
+                flags=re.IGNORECASE
+            )
 
-    # --- 2. Enlazar las dependencias de SCL ---
+    # --- 2. Resolución de dependencias (Requires) en bloques de código ---
     enlaces_resueltos_scl = 0
-    for bloque in bloques_scl:
-        for dep in bloque["dependencias"]:
-            if dep["tipo"] == 'normal':
-                # El valor es el nombre del bloque (ej: "FC8_TRAZA_REGISTRO")
+    for bloque in inventario_total:
+        
+        # PREVENCIÓN DE ERROR: Uso de .get() seguro en caso de que la entidad (ej. un UDT) 
+        # no posea la clave 'dependencias' en su estructura de datos original.
+        dependencias = bloque.get("dependencias", [])
+        
+        for dep in dependencias:
+            if dep.get("tipo") == 'normal' and "valor" in dep:
+                # El valor declarado en el tag Requires (Ej: "FC8_TRAZA_REGISTRO")
                 nombre_buscado = dep["valor"].strip().upper()
                 
-                # Si ese nombre existe en nuestro Registro Global, le inyectamos la URL
+                # Inyección de hipervínculo si el componente es un ciudadano de nuestro registro
                 if nombre_buscado in registro_global:
                     dep["url"] = registro_global[nombre_buscado]["url"]
                     enlaces_resueltos_scl += 1
 
-    log.debug(f"Se han resuelto automáticamente {enlaces_resueltos_scl} dependencias entre bloques SCL.")
+    log.debug(f"Resolución finalizada: {enlaces_resueltos_scl} dependencias cruzadas inyectadas en el código fuente.")
     
-    # Devolvemos los diccionarios ya mutados y perfectos
-    return capitulos_word, bloques_scl
+    return capitulos_word, inventario_total

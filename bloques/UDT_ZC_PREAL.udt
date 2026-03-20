@@ -1,0 +1,12 @@
+﻿TYPE "UDT_ZC_PREAL"
+TITLE = UDT_ZC_PREAL
+VERSION : 0.1
+//Tipo de dato de parametro real.
+   STRUCT
+      Valor : Real;
+      Maximo : Real;   // Límite máximo
+      Minimo : Real;   // Límite mínimo
+   END_STRUCT;
+
+END_TYPE
+

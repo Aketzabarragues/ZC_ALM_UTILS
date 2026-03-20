@@ -1,47 +1,63 @@
+"""
+Analizador (Parser) de archivos fuente SCL de TIA Portal.
+
+Este módulo se encarga de leer el código fuente exportado (.scl), estandarizar su formato 
+y extraer estructuradamente sus metadatos (etiquetas de documentación), dependencias,
+interfaz de variables (Inputs, Outputs, InOuts, Temp) y lógica interna (Regiones).
+"""
+
 import os
 import re
 import textwrap
 import core_logger as log
 
+
 def limpiar_comentario(texto_crudo):
     """
-    Aniquilación total de caracteres invisibles, tabs y espacios irrompibles.
+    Estandariza los bloques de texto multilinea eliminando tabulaciones 
+    y espacios invisibles introducidos por el editor nativo de TIA Portal.
     """
     if not texto_crudo: 
         return ""
     
-    # 1. Transformar espacios raros y tabs en espacios normales
+    # 1. Transformar espacios no separables y tabs en espacios estándar
     texto = texto_crudo.replace('\xa0', ' ').replace('\t', ' ')
     
-    # 2. Partimos el texto independientemente del salto de línea que use Windows/TIA Portal
+    # 2. Segmentación agnóstica del salto de línea (Windows/Unix/Mac)
     lineas = texto.splitlines()
     
-    # 3. .strip() se come sin piedad todo el espacio por la izquierda y la derecha
+    # 3. Limpieza estricta de márgenes por línea
     lineas_limpias = [linea.strip() for linea in lineas]
     
     return '\n'.join(lineas_limpias).strip()
 
 
-
-
 def parsear_bloque(ruta_archivo):
-    """Lee un archivo .scl y devuelve un diccionario puro (sin HTML) con toda su info."""
-    log.info(f"Parseando bloque SCL: {os.path.basename(ruta_archivo)}")
+    """
+    Procesa un archivo .scl y estructura su contenido en un diccionario de datos.
+    
+    Args:
+        ruta_archivo (str): Ruta absoluta al archivo fuente .scl.
+        
+    Returns:
+        dict: Estructura de datos limpia con variables, regiones y metadatos.
+    """
+    log.info(f"Parseando código fuente SCL: {os.path.basename(ruta_archivo)}")
     
     with open(ruta_archivo, 'r', encoding='utf-8', errors='replace') as f:
         contenido = f.read()
 
+    # Detección del nombre de bloque y clasificación principal (FC, FB, DB)
     match_nombre = re.search(r'(FUNCTION|FUNCTION_BLOCK|DATA_BLOCK)\s+"([^"]+)"', contenido)
     nombre_bloque = match_nombre.group(2) if match_nombre else os.path.basename(ruta_archivo).replace('.scl', '')
 
-    # 1. ETIQUETAS (Summary, Remarks, etc.)
+    # 1. EXTRACCIÓN DE ETIQUETAS XML-LIKE (<Summary>, <Remarks>, etc.)
     etiquetas = {}
     for match in re.finditer(r'///\s*<(\w+)>\s*\(\*(.*?)\*\)\s*///\s*</\1>', contenido, re.DOTALL):
         if match.group(1) != 'RegionDoc':
-            # PASAMOS EL TEXTO POR LA FUNCIÓN BLINDADA
             etiquetas[match.group(1)] = limpiar_comentario(match.group(2))
 
-    # 2. DEPENDENCIAS
+    # 2. EXTRACCIÓN DE DEPENDENCIAS (<Requires>)
     dependencias_brutas = []
     if 'Requires' in etiquetas:
         for linea in etiquetas["Requires"].split('\n'):
@@ -52,51 +68,76 @@ def parsear_bloque(ruta_archivo):
             elif linea_limpia:
                 dependencias_brutas.append({'tipo': 'colspan', 'valor': linea_limpia})
 
-    # 3. CHANGELOG
+    # 3. EXTRACCIÓN DEL HISTORIAL DE VERSIONES (<Changelog>)
     changelog = None
     if 'Changelog' in etiquetas:
         lineas = etiquetas["Changelog"].split('\n')
         lineas_utiles = [l for l in lineas if l.strip()]
+        
         if lineas_utiles:
             cabeceras = re.split(r'\s{2,}', lineas_utiles[0].strip())
             filas = []
             for linea in lineas_utiles[1:]:
                 columnas = re.split(r'\s{2,}', linea.strip())
+                # Rellenado de columnas vacías por seguridad matricial (evita HTML roto)
                 columnas += [''] * (len(cabeceras) - len(columnas))
                 filas.append(columnas)
             changelog = {"cabeceras": cabeceras, "filas": filas}
 
-    # 4. VARIABLES
+    # 4. PARSEO DE INTERFAZ DE VARIABLES (In, Out, InOut, Temp, Constant)
     variables = []
-    for bloque in re.finditer(r'(VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR)(.*?)(?:END_VAR)', contenido, re.DOTALL):
+    # Patrón delimitador de las áreas de variables
+    patron_bloques_var = r'(VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_CONSTANT|VAR)(.*?)(?:END_VAR)'
+    
+    for bloque in re.finditer(patron_bloques_var, contenido, re.DOTALL):
         tipo_seccion = bloque.group(1)
-        for linea in re.finditer(r'^\s*([a-zA-Z0-9_]+)\s*:\s*([^;]+);\s*(?://\s*(.*))?', bloque.group(2), re.MULTILINE):
-            variables.append({'seccion': tipo_seccion, 'nombre': linea.group(1), 'tipo': linea.group(2), 'descripcion': linea.group(3).strip() if linea.group(3) else ''})
+        
+        # Patrón de línea modificado:
+        # Se incluye un grupo no capturable (?:\s*\{[^}]*\})? para absorber metadatos
+        # inyectados por TIA Portal como {InstructionName := 'DTL'; LibVersion := '1.0'}
+        patron_linea_var = r'^\s*([a-zA-Z0-9_]+)(?:\s*\{[^}]*\})?\s*:\s*([^;]+);\s*(?://\s*(.*))?'
+        
+        for linea in re.finditer(patron_linea_var, bloque.group(2), re.MULTILINE):
+            variables.append({
+                'seccion': tipo_seccion, 
+                'nombre': linea.group(1).strip(), 
+                'tipo': linea.group(2).strip(), 
+                'descripcion': linea.group(3).strip() if linea.group(3) else ''
+            })
 
-    # 5. REGIONES
+    # 5. PARSEO JERÁRQUICO DE REGIONES Y CÓDIGO INTERNO
     regiones, pila, doc_pendiente = [], [], "Sin documentación específica."
     patron_tokens = r'(?P<doc>///\s*<RegionDoc>\s*\(\*(?P<texto_doc>.*?)\*\)\s*///\s*</RegionDoc>)|(?P<region>^[ \t]*REGION\s+(?P<nombre_region>[^\n\r]+))|(?P<endregion>^[ \t]*END_REGION)'
     
     for match in re.finditer(patron_tokens, contenido, flags=re.DOTALL | re.IGNORECASE | re.MULTILINE):
         if match.group('doc'):
-            # PASAMOS EL TEXTO DE LA REGIÓN POR LA FUNCIÓN BLINDADA
             doc_pendiente = limpiar_comentario(match.group('texto_doc'))
+            
         elif match.group('region'):
-            nueva_region = {'doc': doc_pendiente, 'nombre': match.group('nombre_region').strip(), 'nivel': len(pila) + 1, 'start_idx': match.end(), 'hijos': [], 'codigo': ''}
+            nueva_region = {
+                'doc': doc_pendiente, 
+                'nombre': match.group('nombre_region').strip(), 
+                'nivel': len(pila) + 1, 
+                'start_idx': match.end(), 
+                'hijos': [], 
+                'codigo': ''
+            }
             pila.append(nueva_region)
             regiones.append(nueva_region)
             doc_pendiente = "Sin documentación específica."
+            
         elif match.group('endregion') and pila:
             region_cerrada = pila.pop()
             
-            # Extraer y formatear el código SCL interno
+            # Extracción y limpieza indentada del bloque de código nativo
             codigo_bruto = contenido[region_cerrada['start_idx']:match.start()]
-            codigo_limpio = textwrap.dedent(codigo_bruto).strip()
+            codigo_limpio = textwrap.dedent(codigo_bruto).strip('\n\r')
             region_cerrada['codigo'] = textwrap.indent(codigo_limpio, '    ')
             
-            if pila: pila[-1]['hijos'].append(region_cerrada['nombre'])
+            if pila: 
+                pila[-1]['hijos'].append(region_cerrada['nombre'])
 
-    # OBJETO FINAL
+    # Ensamblaje del objeto final (DTO - Data Transfer Object)
     bloque_data = {
         "nombre_bloque": nombre_bloque,
         "etiquetas": etiquetas,
@@ -109,12 +150,15 @@ def parsear_bloque(ruta_archivo):
 
     return bloque_data
 
+
 def generar_secciones_menu(bloque):
-    """Genera las entradas del menú lateral basadas en el contenido real del bloque."""
-    secciones = []
+    """
+    Construye la lista de índices (anclas) para el menú lateral web.
     
-    # 1. Secciones fijas (Nivel 1 dentro del bloque)
-    # (Omitimos 'Descripción General' porque al pulsar en el nombre del bloque ya va arriba del todo)
+    Evalúa de forma dinámica la existencia de dependencias, variables o historial
+    para generar un índice limpio y coherente con el contenido real del bloque.
+    """
+    secciones = []
     
     if bloque.get("dependencias") and len(bloque["dependencias"]) > 0:
         secciones.append({"id": "dependencias", "titulo": "Dependencias", "nivel": 1})
@@ -125,9 +169,8 @@ def generar_secciones_menu(bloque):
     if bloque.get("variables") and len(bloque["variables"]) > 0:
         secciones.append({"id": "interfaz", "titulo": "Interfaz de Variables", "nivel": 1})
         
-    # 2. Regiones de código (Respetando su anidamiento/nivel interno)
+    # Árbol dinámico de lógicas de proceso
     for i, r in enumerate(bloque.get("regiones", [])):
-        # Añadimos un pequeño prefijo para que quede claro en el menú qué es cada cosa
         prefijo = "Lógica:" if r['nivel'] == 1 else "↳ Sub-lógica:"
         secciones.append({
             "id": f"region_{i}", 
@@ -135,7 +178,6 @@ def generar_secciones_menu(bloque):
             "nivel": r['nivel']
         })
         
-    # 3. Código Fuente (Nivel 1)
     if bloque.get("contenido_original"):
         secciones.append({"id": "codigo_fuente", "titulo": "Código Fuente Completo", "nivel": 1})
         
