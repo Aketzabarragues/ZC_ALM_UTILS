@@ -1,0 +1,16 @@
+﻿TYPE "UDT_ZC_ALARMA"
+VERSION : 0.1
+   STRUCT
+      In : Bool := FALSE;   // Condiciones
+      Out : Bool := FALSE;   // Activa mantenida
+      OutInstantanea : Bool := FALSE;   // Activa instantanea
+      Habilitar : Bool := TRUE;   // Habilitacion
+      HabilitarInvertir : Bool := FALSE;   // Habilitar invertir señal de alarma
+      HabilitarSonora : Bool := TRUE;   // Habilitar baliza sonora
+      oldAlarma : Bool := FALSE;   // Estado anterior alarma
+      TiempoRetardo : UInt := 0;   // SP Tiempo de retardo de activacion de alarma
+      auxTiempoAlarma : UInt := 0;   // Retardo activacion
+   END_STRUCT;
+
+END_TYPE
+

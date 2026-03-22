@@ -1,0 +1,11 @@
+﻿TYPE "UDT_ZC_COM_BOOL"
+VERSION : 0.1
+   STRUCT
+      In : Bool;
+      Out : Bool;
+      Forzar : Bool;   // 0= Automatico / 1= Forzado
+      ValorForzado : Bool;   // Valor forzado
+   END_STRUCT;
+
+END_TYPE
+

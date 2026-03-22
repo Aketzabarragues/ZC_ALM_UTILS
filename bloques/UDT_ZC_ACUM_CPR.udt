@@ -1,0 +1,15 @@
+﻿TYPE "UDT_ZC_ACUM_CPR"
+VERSION : 0.1
+   STRUCT
+      Diario : Real := 0.0;   // Acumulado diario
+      Mensual : Real := 0.0;   // Acumulado mensual
+      Anual : Real := 0.0;   // Acumulado anual
+      Total : Real := 0.0;   // Acumulado total
+      ResetDiario { S7_SetPoint := 'False'} : "UDT_ZC_PULSADOR";   // Reset Acumulado diario
+      ResetMensual { S7_SetPoint := 'False'} : "UDT_ZC_PULSADOR";   // Reset Acumulado Mensual
+      ResetAnual { S7_SetPoint := 'False'} : "UDT_ZC_PULSADOR";   // Reset Acumulado Anual
+      ResetTotal { S7_SetPoint := 'False'} : "UDT_ZC_PULSADOR";   // Reset Acumulado Total
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,23 @@
+﻿TYPE "UDT_ZC_CIP_CHEQUEO_RUTA"
+VERSION : 0.1
+   STRUCT
+      Seguridades_OK : Bool;   // Seguridades OK
+      Comunicaciones_OK : Bool;   // Comunicaciones OK
+      Detectores_OK : Bool;   // Detectores camino OK
+      Procesos_OK : Bool;   // Procesos OK
+      Camino_OK : Bool;   // Camino abierto OK
+      ParoBombaImpulsion : Bool;   // Orden paro bomba impulsion
+      DestinoVacio : Bool;   // Destino vacio (Ruta tanque -> Nivel / Ruta linea -> Siempre Off)
+      DetectorIntermedio : Bool;   // Estado Detector de flujo intermedio
+      BombaIntermedia : Bool;   // Estado Bomba intermedia
+      BajarFrecuenciaImpulsion : Bool;   // Orden bajar frecuencia impulsion
+      ParoTiempoLimpieza : Bool;   // Orden paro tiempo de limpieza
+      FinLimpieza : Bool;   // Orden fin de limpieza
+      R_Bool_13 : Bool;
+      R_Bool_14 : Bool;
+      R_Bool_15 : Bool;
+      EstadoRuta : Bool;   // Estado de la ruta
+   END_STRUCT;
+
+END_TYPE
+
