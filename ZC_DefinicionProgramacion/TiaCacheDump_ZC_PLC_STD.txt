@@ -1,11 +1,12 @@
 =========================================================
              VOLCADO DE CACHÉ DE TIA PORTAL              
 =========================================================
-Fecha de volcado: 11/03/2026 13:06:57
+Fecha de volcado: 21/03/2026 10:03:27
 PLC: ZC_PLC_STD
-Total Bloques: 117
+Total Bloques: 119 | Total Tablas: 8 | Total UDTs: 89
 =========================================================
 
+=== BLOQUES (OB/FC/FB/DB) ===
 [Nombre] DB1_SYS                             | [Num] 1     | [Tipo API] GlobalDB     | [Ruta] Root
 [Nombre] DB11_INFORMES                       | [Num] 11    | [Tipo API] GlobalDB     | [Ruta] 11_Informes
 [Nombre] DB2000_ED                           | [Num] 2000  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
@@ -81,6 +82,7 @@ Total Bloques: 117
 [Nombre] FC1_ZC_SISTEMA                      | [Num] 1     | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC11_ZC_GESTOR_INFORMES             | [Num] 11    | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC12_ZC_INFORME_REGISTRO            | [Num] 12    | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC15_ZC_GEST_PREAL                  | [Num] 15    | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC15000_ZC_INT_TO_TIME              | [Num] 15000 | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC15001_ZC_INT_TO_STRING            | [Num] 15001 | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC15003_ZC_REAL_TO_STRING           | [Num] 15003 | [Tipo API] FC           | [Ruta] ZC_Controles
@@ -92,6 +94,7 @@ Total Bloques: 117
 [Nombre] FC15103_ZC_CALCULO_RAMPA            | [Num] 15103 | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC15106_ZC_GESTION_LISTA            | [Num] 15106 | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC15151_ZC_MARCHA_PARO_SEC          | [Num] 15151 | [Tipo API] FC           | [Ruta] ZC_Controles
+[Nombre] FC16_ZC_GEST_PINT                   | [Num] 16    | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC2000_ZC_ED                        | [Num] 2000  | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC2001_ZC_EA                        | [Num] 2001  | [Tipo API] FC           | [Ruta] ZC_Controles
 [Nombre] FC2005_ZC_SD                        | [Num] 2005  | [Tipo API] FC           | [Ruta] ZC_Controles
@@ -133,3 +136,94 @@ Total Bloques: 117
 [Nombre] 000_Traza_Codigos                   | [Ruta] Variables de PLC
 [Nombre] 002_Disp_ED                         | [Ruta] Variables de PLC
 [Nombre] Tabla de variables estándar         | [Ruta] Variables de PLC
+
+=== TIPOS DE DATOS DE USUARIO (UDT) ===
+[Nombre] UDT_ZC_ACUM_CPR                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_ALARMA                       | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_CIP_CHEQUEO_RUTA             | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_COM_BOOL                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_COM_INT                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_COM_REAL                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_CONTADOR_MINUTOS             | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_CONTADOR_TIEMPO              | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_CONTADORES_PRODUCCION        | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_CONTROL_PRESION              | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_AGRUP                   | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_EA                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_ED                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_FF                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_FF_PARO                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_FF_SEC                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_M                       | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_M_SINA                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_M_VF                    | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MEDIA                   | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MEDIA_VOLUMEN           | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_EA                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_ED                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_M                   | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_M_SINA              | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_M_VF                | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_PID                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_SA                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_SD                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_TOT                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_TQ                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_TQ_AE               | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_MUX_V                   | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PID                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_EA                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_ED                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_M                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_M_VF               | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_PID                | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_SA                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_TOT                | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_PPAL_V                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_SA                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_SD                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TOF                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TON                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TONR                    | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TOT                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TP                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TQ                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_TQ_AE                   | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_DISP_V                       | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_FECHA                        | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_CHEQUEO                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_CIP                      | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_CPR_PROD                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_DATOS                    | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_DOSIFICACION             | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_GESTION                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_LIMP_MAQ                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_INF_PROD_MEM                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_MARCHA_PARO_SEC              | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_MUX                          | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PINT                         | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PREAL                        | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PRO_ENTIDAD                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PRO_LITROS_ETAPA             | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PRO_PROCESO                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PRO_TIEMPO_ETAPA             | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_PULSADOR                     | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_BATCH                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_BATCH_ETAPA           | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_BATCH_FASE_AD_PROD_REAL | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP                   | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_ACIDO_ENJ         | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_ACIDO_LIMP        | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_COMUNES           | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_DESINF_ENJ        | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_DESINF_LIMP       | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_ESTERIL           | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_HOMOG             | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_RECHAZOS          | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_SOLO_ENJ          | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_SOSA_ENJ          | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_RECETA_CIP_SOSA_LIMP         | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_SIVE_MEMBRANA_CARE           | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_TIEMPO_CICLO                 | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_TRAZA_DATOS                  | [Ruta] Tipos de datos PLC
+[Nombre] UDT_ZC_TRAZA_GESTION                | [Ruta] Tipos de datos PLC
