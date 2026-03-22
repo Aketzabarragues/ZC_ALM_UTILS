@@ -1,0 +1,15 @@
+﻿TYPE "UDT_ZC_FECHA"
+VERSION : 0.1
+   STRUCT
+      Ano : UInt;
+      Mes : USInt;
+      Dia : USInt;
+      DiaSemana : USInt;
+      Hora : USInt;
+      Minuto : USInt;
+      Segundo : USInt;
+      NanoSegundo : UDInt;
+   END_STRUCT;
+
+END_TYPE
+

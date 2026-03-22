@@ -1,0 +1,8 @@
+﻿TYPE "UDT_ZC_DISP_PPAL_ED"
+VERSION : 0.1
+   STRUCT
+      Estado : Bool;   // Estado activado
+   END_STRUCT;
+
+END_TYPE
+

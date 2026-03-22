@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DB1_SYS</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            DB
+        </span>
+        DB1_SYS
+    </h1>
+
+    
+</div>
+
+
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        
+        <tr>
+            <td><strong>ON</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Siempre a 1</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OFF</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Siempre a 0</td>
+        </tr>
+        
+        <tr>
+            <td><strong>SIM</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Sistema en simulacion</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ACK</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Acuse general de errores</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ARRANQUE</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Marca de primer arranque del sistema</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pulso100ms</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulso 100 ms</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pulso1seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulso 1 segundo</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pulso2seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulso 2 segundo</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pulso5seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulso 5 segundos</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pulso1min</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulso 1 minuto</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pulso1h</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulso 1 hora</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FlipFlop1seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flip flop 1 seg ON - 1 seg OFF</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FlipFlop2seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flip flop 2 seg ON - 2 seg OFF</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FlipFlop5seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flip flop 5 seg ON - 5 seg OFF</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ResetEntidades</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reset todas las entidades</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_18</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>EscribirFechaHora</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador cambio de fecha y hora desde hmi</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Ack</strong></td>
+            <td>Array[0..9] of UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador acuse general de errores</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FechaHoraActual</strong></td>
+            <td>DTL</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Fecha y hora actual del sistema</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FechaHoraNueva</strong></td>
+            <td>DTL</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Fecha y hora nueva</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoCiclo</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Tiempo de ciclo del PLC</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Orden</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Usuario</strong></td>
+            <td>String[25]</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Actual</strong></td>
+            <td>String[25]</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Usuario actual</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Seleccionado</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Idioma seleccionado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Espanol</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Español</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Ingles</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Ingles</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Aleman</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Aleman</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Frances</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Frances</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Portugues</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Portugues</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Idioma_6</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Idioma_7</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Idioma_8</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>P_Trig_Pulso100ms</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>P_TRIG Pulso 100 ms</td>
+        </tr>
+        
+        <tr>
+            <td><strong>P_Trig_Pulso1Seg</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>P_TRIG Pulso 1 segundo</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Contador2seg</strong></td>
+            <td>USInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Aux. Contador 2 segundos</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Contador5seg</strong></td>
+            <td>USInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Aux. Contador 5 segundos</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Contador1min</strong></td>
+            <td>USInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Aux. Contador 1 minuto</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Contador1h</strong></td>
+            <td>UInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Aux. Contador 1 hora</td>
+        </tr>
+        
+        <tr>
+            <td><strong>auxRuntime</strong></td>
+            <td>LReal</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Aux. Runtime</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -17,19 +17,14 @@ from core import core_logger as log
 def obtener_ruta_base():
     """
     Resuelve la ruta absoluta del directorio de ejecución.
-    
-    Es un requerimiento arquitectónico para la compatibilidad con PyInstaller.
-    Cuando el script se compila a un ejecutable (.exe), los recursos estáticos 
-    se empaquetan en un directorio temporal (sys._MEIPASS). Si se ejecuta
-    como script nativo, utiliza la ruta del archivo local.
-    
-    Returns:
-        str: Ruta absoluta al directorio base del proyecto.
+    Apunta siempre a la RAÍZ del proyecto (ZC_Documentacion).
     """
     if getattr(sys, 'frozen', False):
+        # Si es un .exe, devuelve la carpeta temporal raíz _MEIPASS
         return sys._MEIPASS
-    return os.path.dirname(os.path.abspath(__file__))
 
+    directorio_actual = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(directorio_actual, '..'))
 
 def configurar_jinja():
     """
@@ -38,7 +33,7 @@ def configurar_jinja():
     Returns:
         Environment: Instancia de Jinja2 enlazada al directorio estático de plantillas.
     """
-    ruta_templates = os.path.join(obtener_ruta_base(), 'templates')
+    ruta_templates = os.path.join(obtener_ruta_base(), 'ui', 'templates')
     return Environment(loader=FileSystemLoader(ruta_templates))
 
 

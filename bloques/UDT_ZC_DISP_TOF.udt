@@ -1,0 +1,12 @@
+﻿TYPE "UDT_ZC_DISP_TOF"
+VERSION : 0.1
+   STRUCT
+      SP : Int := 5;
+      ET : Int := 0;
+      IN : Bool := false;
+      Q : Bool := false;
+      OldActivar : Bool := false;
+   END_STRUCT;
+
+END_TYPE
+

@@ -12,7 +12,7 @@ import json
 import os
 
 # Archivo local de salida para la persistencia de las trazas de ejecución
-LOG_FILE = 'zcalm_debug.log'
+LOG_FILE = 'debug.log'
 
 # ==============================================================================
 # CONFIGURACIÓN DEL MOTOR DE LOGS

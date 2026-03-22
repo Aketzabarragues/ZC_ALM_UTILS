@@ -1,0 +1,87 @@
+﻿FUNCTION_BLOCK "FB15994_ZC_INICIALIZAR_DISP"
+TITLE = FB15994_ZC_INICIALIZAR_DISP
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+   VAR_INPUT 
+      N_MAX_MUX_DISP : Int;
+   END_VAR
+
+   VAR 
+      s_Inicializar : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15994_ZC_INICIALIZAR_DISP
+	Descripcion:    Bloque de funcion para inicializar dispositivos
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        -
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    21.05.2025  (ABH)               Primera version.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	//  =====================================================================================
+	//  Si no hay orden de inicializar, salimos del bloque
+	IF NOT #s_Inicializar THEN
+	    RETURN;
+	END_IF;
+	
+	
+	REGION RESET_INDICES_MULTIPLEXADO
+	    
+	    FOR #for_i := 0 TO #N_MAX_MUX_DISP DO
+	        
+	        "DB2000_ED".Mux[#for_i].Index :=
+	        "DB2001_EA".Mux[#for_i].Index :=
+	        "DB2005_SD".Mux[#for_i].Index :=
+	        "DB2006_SA".Mux[#for_i].Index :=
+	        "DB2010_V".Mux[#for_i].Index :=
+	        "DB2015_M".Mux[#for_i].Index :=
+	        "DB2016_M_VF".Mux[#for_i].Index :=
+	        "DB2025_TOT".Mux[#for_i].Index :=
+	        "DB2039_TQ".Mux[#for_i].Index := 0;
+	        
+	    END_FOR;
+	    
+	END_REGION
+	
+	
+	REGION VALORES_DISPOSITIVOS
+	    
+	    
+	    
+	    
+	    
+	END_REGION
+	
+	
+	//  =====================================================================================
+	//  Reset orden inicializar
+	#s_Inicializar := FALSE;
+END_FUNCTION_BLOCK
+

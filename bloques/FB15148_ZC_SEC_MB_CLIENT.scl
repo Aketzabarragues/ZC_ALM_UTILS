@@ -1,0 +1,549 @@
+﻿FUNCTION_BLOCK "FB15148_ZC_SEC_MB_CLIENT"
+TITLE = FB15148_ZC_SEC_MB_CLIENT
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+   VAR_INPUT 
+      Habilitar : Bool := FALSE;   // Habilitacion General
+      Iniciar : Bool;   // Iniciar secuencia
+      Ack : Bool;   // Acuse general para resetear la secuencia
+      Pulso1Seg : Bool;   // Pulso de 1 segundo
+      AutoDesconexion : Bool;   // 0= Deshabilitada / 1= Habilitada
+      Numero : Int;   // Numero total de bloques
+      DONE { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..8] of Bool;
+      BUSY { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..8] of Bool;
+      ERROR { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..8] of Bool;
+      STATUS { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..8] of Word;
+   END_VAR
+
+   VAR_OUTPUT 
+      Finalizado : Bool;   // Secuencia finalizada
+      EnEjecuccion : Bool;   // Secuencia en ejecucion
+      AlgunError { ExternalWritable := 'False'} : Bool := FALSE;   // Algun error
+      ErrorEnBloque { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Array[1..8] of Bool := [8(FALSE)];
+      REQ { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..8] of Bool;
+      DISCONNECT { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Array[1..8] of Bool;
+   END_VAR
+
+   VAR RETAIN
+      s_Etapa : Int := #ETAPA_0_REPOSO;
+   END_VAR
+   VAR 
+      s_AlgunError { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := FALSE;
+      s_NumeroActual { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      s_SP_TiempoEsperaBusy : Int := 20;
+      s_TiempoEsperaBusy : Int;
+      s_Error : Array[1..8] of Bool := [8(FALSE)];
+   END_VAR
+   VAR RETAIN
+      s_NumeroError : Array[1..8] of UInt;
+      s_NumeroDone : Array[1..8] of UInt;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      ETAPA_0_REPOSO : Int := 0;
+      ETAPA_10_PROCESANDO_1 : Int := 10;
+      ETAPA_20_PROCESANDO_2 : Int := 20;
+      ETAPA_30_PROCESANDO_3 : Int := 30;
+      ETAPA_40_PROCESANDO_4 : Int := 40;
+      ETAPA_50_PROCESANDO_5 : Int := 50;
+      ETAPA_60_PROCESANDO_6 : Int := 60;
+      ETAPA_70_PROCESANDO_7 : Int := 70;
+      ETAPA_80_PROCESANDO_8 : Int := 80;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15148_ZC_SEC_MB_CLIENT
+	Descripcion:    Bloque de funcion para gestion de comunicaciones secuenciales MODBUS.
+	
+	Dependencias:   
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        -
+	
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    04.07.2025  (ABH)               Primera version
+	    
+	//=====================================================================================
+	*)
+	
+	
+	REGION LIMITES
+	    
+	    #s_NumeroActual := #Numero;
+	    
+	    IF #s_NumeroActual > 8 THEN
+	        #s_NumeroActual := 8;
+	    END_IF;
+	    IF #s_NumeroActual < 1 THEN
+	        #s_NumeroActual := 1;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	REGION ORDEN_DE_INICIO
+	    
+	    IF NOT #Habilitar OR #Ack THEN
+	        #s_AlgunError := FALSE;
+	        FOR #for_i := 1 TO 8 DO
+	            #REQ[#for_i] := FALSE;
+	            #DISCONNECT[#for_i] := TRUE;
+	            #s_Error[#for_i] := FALSE;
+	            #s_NumeroDone[#for_i] := 0;
+	            #s_NumeroError[#for_i] := 0;
+	        END_FOR;
+	        #s_Etapa := #ETAPA_0_REPOSO;
+	    END_IF;
+	    
+	    IF #Habilitar AND #s_Etapa = 0 AND #s_NumeroActual > 0 AND #Iniciar THEN
+	        
+	        #s_AlgunError := FALSE;
+	        #s_Etapa := #ETAPA_10_PROCESANDO_1;
+	        //  Reinicializamos las variables REQ y ERROR
+	        FOR #for_i := 1 TO 8 DO
+	            #REQ[#for_i] := FALSE;
+	            #s_Error[#for_i] := FALSE;
+	            IF #AutoDesconexion THEN
+	                #DISCONNECT[#for_i] := TRUE;
+	            END_IF;
+	        END_FOR;
+	        
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	REGION SECUENCIA
+	    
+	    CASE #s_Etapa OF
+	            
+	        #ETAPA_0_REPOSO:
+	            ;
+	        #ETAPA_10_PROCESANDO_1:
+	            
+	            REGION MB_CLIENT_1
+	
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[1] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 0 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[1] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[1] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[1] := FALSE;
+	                        #s_NumeroDone[1] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_20_PROCESANDO_2;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[1] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[1] := TRUE;
+	                        #REQ[1] := FALSE;
+	                        #s_NumeroError[1] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_20_PROCESANDO_2;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[1] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_20_PROCESANDO_2:
+	            
+	            REGION MB_CLIENT_2
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[2] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 1 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[2] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[2] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[2] := FALSE;
+	                        #s_NumeroDone[2] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_30_PROCESANDO_3;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[2] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[2] := TRUE;
+	                        #REQ[2] := FALSE;
+	                        #s_NumeroError[2] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_30_PROCESANDO_3;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[2] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        #ETAPA_30_PROCESANDO_3:
+	            
+	            REGION MB_CLIENT_3
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[3] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 2 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[3] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[3] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[3] := FALSE;
+	                        #s_NumeroDone[3] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_40_PROCESANDO_4;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[3] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[3] := TRUE;
+	                        #REQ[3] := FALSE;
+	                        #s_NumeroError[3] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_40_PROCESANDO_4;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[3] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        #ETAPA_40_PROCESANDO_4:
+	            
+	            REGION MB_CLIENT_4
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[4] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 3 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[4] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[4] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[4] := FALSE;
+	                        #s_NumeroDone[4] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_50_PROCESANDO_5;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[4] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[4] := TRUE;
+	                        #REQ[4] := FALSE;
+	                        #s_NumeroError[4] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_50_PROCESANDO_5;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[4] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_50_PROCESANDO_5:
+	            
+	            REGION MB_CLIENT_5
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[5] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 4 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[5] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[5] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[5] := FALSE;
+	                        #s_NumeroDone[5] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_60_PROCESANDO_6;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[5] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[5] := TRUE;
+	                        #REQ[5] := FALSE;
+	                        #s_NumeroError[5] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_60_PROCESANDO_6;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[5] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_60_PROCESANDO_6:
+	            
+	            REGION MB_CLIENT_6
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[6] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 5 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[6] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[6] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[6] := FALSE;
+	                        #s_NumeroDone[6] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_70_PROCESANDO_7;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[6] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[6] := TRUE;
+	                        #REQ[6] := FALSE;
+	                        #s_NumeroError[6] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_70_PROCESANDO_7;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[6] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        #ETAPA_70_PROCESANDO_7:
+	            
+	            REGION MB_CLIENT_7
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[7] := FALSE;
+	                
+	                //  Comprobamos que esta configurado los datos del enlace S7
+	                IF #s_NumeroActual = 6 THEN
+	                    //  No esta configurado el enlace, Finalizamos
+	                    #s_TiempoEsperaBusy := 0;
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                ELSE
+	                    
+	                    //  Lanzamos la orden del GET
+	                    #REQ[7] := TRUE;
+	                    
+	                    //  Esperamos a que finalice correctamente el GET
+	                    IF #DONE[7] THEN
+	                        
+	                        //  Quitamos la peticion
+	                        #REQ[7] := FALSE;
+	                        #s_NumeroDone[7] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_80_PROCESANDO_8;
+	                        
+	                        //  En caso de error mostramos informacion
+	                    ELSIF #ERROR[7] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                        
+	                        #s_Error[7] := TRUE;
+	                        #REQ[7] := FALSE;
+	                        #s_NumeroError[7] += 1;
+	                        #s_TiempoEsperaBusy := 0;
+	                        //   Saltamos al siguiente
+	                        #s_Etapa := #ETAPA_80_PROCESANDO_8;
+	                        
+	                    END_IF;
+	                    
+	                    //  Gestion de errores por tiempo sin respuesta
+	                    IF #BUSY[7] AND #Pulso1Seg THEN
+	                        #s_TiempoEsperaBusy += 1;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        #ETAPA_80_PROCESANDO_8:
+	            
+	            REGION MB_CLIENT_8
+	                
+	                //  Quitamos la orden de desconexion con el equipo
+	                #DISCONNECT[8] := FALSE;
+	                
+	                //  Lanzamos la orden del GET
+	                #REQ[8] := TRUE;
+	                
+	                //  Esperamos a que finalice correctamente el GET
+	                IF #DONE[8] THEN
+	                    
+	                    //  Quitamos la peticion
+	                    #REQ[8] := FALSE;
+	                    #s_NumeroDone[8] += 1;
+	                    #s_TiempoEsperaBusy := 0;
+	                    //   Saltamos al siguiente
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                    
+	                    //  En caso de error mostramos informacion
+	                ELSIF #ERROR[8] OR #s_TiempoEsperaBusy >= #s_SP_TiempoEsperaBusy THEN
+	                    
+	                    #s_Error[8] := TRUE;
+	                    #REQ[8] := FALSE;
+	                    #s_NumeroError[8] += 1;
+	                    #s_TiempoEsperaBusy := 0;
+	                    //   Saltamos al siguiente
+	                    #s_Etapa := #ETAPA_0_REPOSO;
+	                    
+	                END_IF;
+	                
+	                //  Gestion de errores por tiempo sin respuesta
+	                IF #BUSY[8] AND #Pulso1Seg THEN
+	                    #s_TiempoEsperaBusy += 1;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        ELSE
+	            
+	            #s_Etapa := #ETAPA_0_REPOSO;
+	            
+	    END_CASE;
+	    
+	END_REGION
+	
+	
+	REGION SALIDAS
+	    
+	    #Finalizado := #s_Etapa = 0;
+	    #EnEjecuccion := #s_Etapa <> 0;
+	    
+	    //  Gestion señales de salida de bloque
+	    #s_AlgunError := FALSE;
+	    FOR #for_i := 1 TO 8 DO
+	        #ErrorEnBloque[#for_i] := #s_Error[#for_i];
+	        IF #s_Error[#for_i] THEN
+	            #s_AlgunError := TRUE;
+	        END_IF;
+	    END_FOR;
+	    
+	    #AlgunError := #s_AlgunError;
+	    
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+

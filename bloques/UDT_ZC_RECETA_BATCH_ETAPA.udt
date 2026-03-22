@@ -1,0 +1,52 @@
+﻿TYPE "UDT_ZC_RECETA_BATCH_ETAPA"
+VERSION : 0.1
+   STRUCT
+      Id : Int;
+      Receta_ID : Int;
+      TipoEtapa : Int;   // 0= Nada / 1= Homog. / 2= Adicion producto / 3= Adicion agua / 4= Calentar / 5= Enfriar / 
+      P_Real_1 : Real;
+      P_Real_2 : Real;
+      P_Real_3 : Real;
+      P_Real_4 : Real;
+      P_Real_5 : Real;
+      P_Real_6 : Real;
+      P_Real_7 : Real;
+      P_Real_8 : Real;
+      P_Real_9 : Real;
+      P_Real_10 : Real;
+      P_Real_11 : Real;
+      P_Real_12 : Real;
+      P_Real_13 : Real;
+      P_Real_14 : Real;
+      P_Real_15 : Real;
+      P_Real_16 : Real;
+      P_Real_17 : Real;
+      P_Int_1 : Int;
+      P_Int_2 : Int;
+      P_Int_3 : Int;
+      P_Int_4 : Int;
+      P_Int_5 : Int;
+      P_Int_6 : Int;
+      P_Int_7 : Int;
+      P_Int_8 : Int;
+      P_Int_9 : Int;
+      P_Int_10 : Int;
+      P_Int_11 : Int;
+      P_Int_12 : Int;
+      P_Int_13 : Int;
+      P_Int_14 : Int;
+      P_Int_15 : Int;
+      P_String_1 : String[25];
+      P_String_2 : String[25];
+      P_String_3 : String[25];
+      P_String_4 : String[25];
+      P_String_5 : String[25];
+      P_String_6 : String[25];
+      P_String_7 : String[25];
+      P_String_8 : String[25];
+      P_String_9 : String[25];
+      P_String_10 : String[25];
+   END_STRUCT;
+
+END_TYPE
+

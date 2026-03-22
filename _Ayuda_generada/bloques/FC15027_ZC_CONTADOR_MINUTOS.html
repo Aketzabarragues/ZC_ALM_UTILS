@@ -23,70 +23,10 @@
     </h1>
 
     
-        <h3>Descripción General</h3>
-        <p style="white-space: pre-wrap;">Nombre:         FC15027_ZC_CONTADOR_MINUTOS
-Descripcion:    Funcion contador de minutos.</p>
-        
-        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
-            <strong>Notas y Restricciones:</strong>
-            <p style="white-space: pre-wrap; margin-bottom: 0;">Software:       TIA Portal 16
-Restricciones:  PLC serie 1200/1500</p>
-        </div>
-        
-    
-</div>
-
-
-<div class="doc-section" id="dependencias">
-    <h3>Dependencias</h3>
-    <table>
-        <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
-        
-            
-                <tr>
-                    <td><strong>UDT</strong></td>
-                    <td>
-                        
-                            ZC_CONTADOR_MINUTOS
-                        
-                    </td>
-                </tr>
-            
-        
-    </table>
 </div>
 
 
 
-<div class="doc-section" id="changelog">
-    <h3>Historial de Cambios (Changelog)</h3>
-    <table>
-        <tr>
-        
-            <th>Version</th>
-        
-            <th>Fecha</th>
-        
-            <th>Tecnico a cargo</th>
-        
-            <th>Descripcion</th>
-        
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.00</td>
-            
-            <td>13.05.2024</td>
-            
-            <td>(ABH)</td>
-            
-            <td>Primera version</td>
-            
-        </tr>
-        
-    </table>
-</div>
 
 
 
@@ -119,7 +59,7 @@ Restricciones:  PLC serie 1200/1500</p>
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_IN_OUT</span></td>
             <td><strong>Contador</strong></td>
-            <td>"ZC_CONTADOR_MINUTOS"</td>
+            <td>"UDT_ZC_CONTADOR_MINUTOS"</td>
             <td></td>
         </tr>
         
@@ -146,7 +86,7 @@ Restricciones:  PLC serie 1200/1500</p>
     
     
     
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de resetear el tiempo del contador</p>
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
     
     
     
@@ -174,7 +114,7 @@ END_REGION</pre>
     
     
     
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de gestionar el contaje del contador de minutos, incrementando mediante la entrada #Pulso1seg</p>
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
     
     
     
@@ -215,7 +155,7 @@ VERSION : 1.0
    END_VAR
 
    VAR_IN_OUT 
-      Contador : &#34;ZC_CONTADOR_MINUTOS&#34;;
+      Contador : &#34;UDT_ZC_CONTADOR_MINUTOS&#34;;
    END_VAR
 
    VAR CONSTANT 
@@ -224,52 +164,33 @@ VERSION : 1.0
 
 
 BEGIN
-	//==========================================================================================================
-	/// &lt;Header&gt;
-	(*
+	(*  
 	ZEUS CONTROL, S.A.
 	(c)Copyright (2024) All Rights Reserved
-	*)
-	/// &lt;/Header&gt;
+	-----------------------------------------------------------------------------
 	
-	/// &lt;Summary&gt;
-	(* 
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
 	Nombre:         FC15027_ZC_CONTADOR_MINUTOS
 	Descripcion:    Funcion contador de minutos.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        ZC_CONTADOR_MINUTOS
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    13.05.2024  (ABH)               Primera version
+	    
+	//=====================================================================================
 	*)
-	/// &lt;/Summary&gt;
-	
-	/// &lt;Remarks&gt; 
-	(*
-	Software:       TIA Portal 16
-	Restricciones:  PLC serie 1200/1500
-	*)
-	/// &lt;/Remarks&gt;
-	
-	/// &lt;Requires&gt;
-(*
-UDT: ZC_CONTADOR_MINUTOS
-*)
-/// &lt;/Requires&gt;
-	
-	/// &lt;Changelog&gt;
-	(*
-	
-	Version     Fecha       Tecnico a cargo     Descripcion
-	
-	01.00.00    13.05.2024  (ABH)               Primera version
-	*)
-	/// &lt;/Changelog&gt;
-	//==========================================================================================================
 	
 	
-	
-	//==========================================================================================================
-	/// &lt;RegionDoc&gt;
-	(* 
-	Este bloque se encarga de resetear el tiempo del contador
-	*)
-	/// &lt;/RegionDoc&gt;
 	REGION RESET_CONTADOR  
 	    
 	    IF #Reset OR #Contador.Minuto &gt;= #MAX_MINUTOS THEN
@@ -279,12 +200,6 @@ UDT: ZC_CONTADOR_MINUTOS
 	END_REGION
 	
 	
-	//==========================================================================================================
-	/// &lt;RegionDoc&gt;
-	(* 
-	Este bloque se encarga de gestionar el contaje del contador de minutos, incrementando mediante la entrada #Pulso1seg
-	*)
-	/// &lt;/RegionDoc&gt;
 	REGION GESTION_CONTADOR
 	    
 	    IF #Iniciar AND #Pulso1seg THEN

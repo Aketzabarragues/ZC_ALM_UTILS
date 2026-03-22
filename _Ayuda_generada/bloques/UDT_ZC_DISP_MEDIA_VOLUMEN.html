@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>UDT_ZC_DISP_MEDIA_VOLUMEN</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            UDT
+        </span>
+        UDT_ZC_DISP_MEDIA_VOLUMEN
+    </h1>
+
+    
+</div>
+
+
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        
+        <tr>
+            <td><strong>IniciarMedia</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Iniciar media</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Inicializar</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reinicializar Media</td>
+        </tr>
+        
+        <tr>
+            <td><strong>auxInicializar</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>P_TRIG Reinicializar Media</td>
+        </tr>
+        
+        <tr>
+            <td><strong>auxTiempo</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Indice Tiempo para generar pulso</td>
+        </tr>
+        
+        <tr>
+            <td><strong>auxValorMedia</strong></td>
+            <td>LReal</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Auxiliar valor media</td>
+        </tr>
+        
+        <tr>
+            <td><strong>auxAcumulado</strong></td>
+            <td>LReal</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Valor acumulado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>auxVolumen</strong></td>
+            <td>LReal</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Volumen acumulado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Media</strong></td>
+            <td>LReal</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Media Actual</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ValorMinimo</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Valor minimo ui</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ValorMaximo</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Valor maximo ui</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

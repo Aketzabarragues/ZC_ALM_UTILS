@@ -1,0 +1,38 @@
+﻿TYPE "UDT_ZC_DISP_FF_SEC"
+VERSION : 0.1
+   STRUCT
+      Estado_SalidaFlip1 : Bool;   // Salida Flip 1
+      Estado_SalidaFlip2 : Bool;   // Salida Flip 2
+      Estado_SalidaFlip3 : Bool;   // Salida Flip 3
+      Estado_SalidaFlip4 : Bool;   // Salida Flip 4
+      Estado_SalidaFlip5 : Bool;   // Salida Flip 5
+      Estado_SalidaFlip6 : Bool;   // Salida Flip 6
+      Estado_SalidaFlip7 : Bool;   // Salida Flip 7
+      Estado_SalidaFlip8 : Bool;   // Salida Flip 8
+      Estado_SalidaFlip9 : Bool;   // Salida Flip 9
+      Estado_SalidaFlip10 : Bool;   // Salida Flip 10
+      Estado_SalidaFlop : Bool;   // Salida Flop
+      Orden_Reset : Bool;   // Resetear estado de acumuladores
+      Orden_Activar : Bool;   // Orden Activacion
+      Orden_Pausa : Bool;   // Orden pausa
+      Aux_FlipActivo : Bool;   // Secuencia ON activada
+      Aux_FlopActivo : Bool;   // Secuencia OFF activada
+      Aux_Flanco : Bool;   // Flanco auxiliar
+      Config_SetPointTiempoFlip1 : Int := 2;   // Set Point Tiempo Flip 1
+      Config_SetPointTiempoFlip2 : Int := 2;   // Set Point Tiempo Flip 2
+      Config_SetPointTiempoFlip3 : Int := 2;   // Set Point Tiempo Flip 3
+      Config_SetPointTiempoFlip4 : Int := 2;   // Set Point Tiempo Flip 4
+      Config_SetPointTiempoFlip5 : Int := 2;   // Set Point Tiempo Flip 5
+      Config_SetPointTiempoFlip6 : Int := 2;   // Set Point Tiempo Flip 6
+      Config_SetPointTiempoFlip7 : Int := 2;   // Set Point Tiempo Flip 7
+      Config_SetPointTiempoFlip8 : Int := 2;   // Set Point Tiempo Flip 8
+      Config_SetPointTiempoFlip9 : Int := 2;   // Set Point Tiempo Flip 9
+      Config_SetPointTiempoFlip10 : Int := 2;   // Set Point Tiempo Flip 10
+      Config_SetPointTiempoFlop : Int := 20;   // Set Point Tiempo Flop
+      Aux_TiempoFlip : Int;   // Tiempo acumulador ON
+      Aux_TiempoFlop : Int;   // Tiempo acumulador OFF
+      Aux_TiempoFlipTotal : DInt := 20;   // Total de tiempo Flip activado
+   END_STRUCT;
+
+END_TYPE
+

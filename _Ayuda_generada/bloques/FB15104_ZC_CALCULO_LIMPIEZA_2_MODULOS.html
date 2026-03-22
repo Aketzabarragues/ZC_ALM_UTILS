@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FB15104_ZC_CALCULO_LIMPIEZA_2_MODULOS</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FB
+        </span>
+        FB15104_ZC_CALCULO_LIMPIEZA_2_MODULOS
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>EtapaRecirculacion</strong></td>
+            <td>Bool</td>
+            <td>En etapa de recirculacion</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>EtapaTiempoRestante</strong></td>
+            <td>Int</td>
+            <td>Tiempo de etapa restante</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SP_TiempoRecirculacion</strong></td>
+            <td>Int</td>
+            <td>Set Point tiempo de recirculacion</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SP_Modulo1</strong></td>
+            <td>Real</td>
+            <td>Set Point (%) tiempo limpieza modulo 1</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SP_Modulo2</strong></td>
+            <td>Real</td>
+            <td>Set Point (%) tiempo limpieza modulo 2</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>LimpiarSoloModulo1</strong></td>
+            <td>Bool</td>
+            <td>Orden limpiar solo modulo 1</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>LimpiarSoloModulo2</strong></td>
+            <td>Bool</td>
+            <td>Orden limpiar solo modulo 2</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>LimpiarTodosLosModulos</strong></td>
+            <td>Bool</td>
+            <td>Orden limpiar todos los modulos.</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_PorcentajeMinimoTodosModulos</strong></td>
+            <td>Real := 20.0</td>
+            <td>Set Point (%) minimo para limpieza de todos los modulos</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_PorcentajeModulo1</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_PorcentajeRestante</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_CalculoTiempoModulo2</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_TiempoModulo1</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: TRASPASO_PARAMETROS</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRASPASO_PARAMETROS
+    //  =====================================================================================
+    //  TRASPASO DE PARAMETROS DE PORCENTAJE
+    //  Se revisa los limites de los porcentajes metidos en pantalla
+    IF (#SP_Modulo1 + #SP_Modulo2) > (100.0 - #s_PorcentajeMinimoTodosModulos) THEN
+        #s_PorcentajeModulo1 := ((100.0 - #s_PorcentajeMinimoTodosModulos) / 2.0);
+        #s_PorcentajeModulo2 := #s_PorcentajeModulo1;
+    ELSE
+        #s_PorcentajeModulo1 := #SP_Modulo1;
+        #s_PorcentajeModulo2 := #SP_Modulo2;
+    END_IF;
+    #s_PorcentajeRestante := 100.0 - (#s_PorcentajeModulo1 + #s_PorcentajeModulo2);
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_1">
+        <h3>🔸 Lógica: CALCULOS</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CALCULOS
+    //  =====================================================================================
+    //  CALCULO DE TIEMPO DE PASO
+    //  MODULO 1
+    IF #s_PorcentajeModulo1 <> 0.0 THEN
+        #s_CalculoTiempoModulo1 := REAL_TO_INT((#s_PorcentajeModulo1 * #SP_TiempoRecirculacion) / 100.0);
+    END_IF;
+
+    //  MODULO 2 y 3
+    IF #s_PorcentajeModulo2 <> 0.0 THEN
+        #s_CalculoTiempoModulo2 := REAL_TO_INT((#s_PorcentajeModulo2 * #SP_TiempoRecirculacion) / 100.0);
+    END_IF;
+
+    //  TIEMPO RESTANTE
+    #s_CalculoTiempoRestante := #SP_TiempoRecirculacion - (#s_CalculoTiempoModulo1 + #s_CalculoTiempoModulo2);
+
+
+    #s_TiempoModulo1 := #SP_TiempoRecirculacion - #s_CalculoTiempoModulo1;
+    #s_TiempoModulo2 := #SP_TiempoRecirculacion - #s_CalculoTiempoModulo1 - #s_CalculoTiempoModulo2;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_2">
+        <h3>🔸 Lógica: SALIDAS</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION SALIDAS
+    #LimpiarSoloModulo1 := #LimpiarSoloModulo2 := #LimpiarTodosLosModulos := FALSE;
+
+    IF #EtapaRecirculacion THEN
+
+        IF (#s_PorcentajeModulo1 <> 0.0) AND #EtapaTiempoRestante <= #SP_TiempoRecirculacion AND #EtapaTiempoRestante > #s_TiempoModulo1 THEN
+            #LimpiarSoloModulo1 := TRUE;
+            #LimpiarSoloModulo2 := #LimpiarTodosLosModulos := FALSE;
+        ELSIF (#s_PorcentajeModulo2 <> 0.0) AND #EtapaTiempoRestante <= #s_TiempoModulo1 AND #EtapaTiempoRestante > #s_TiempoModulo2 THEN
+            #LimpiarSoloModulo2 := TRUE;
+            #LimpiarSoloModulo1 := #LimpiarTodosLosModulos := FALSE;
+        ELSE
+            #LimpiarTodosLosModulos := TRUE;
+            #LimpiarSoloModulo1 := #LimpiarSoloModulo2 := FALSE;
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION_BLOCK &#34;FB15104_ZC_CALCULO_LIMPIEZA_2_MODULOS&#34;
+TITLE = FB15104_ZC_CALCULO_LIMPIEZA_3_MODULOS
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para el calculo de limpiezas modulos (3 modulos).
+   VAR_INPUT 
+      EtapaRecirculacion : Bool;   // En etapa de recirculacion
+      EtapaTiempoRestante : Int;   // Tiempo de etapa restante
+      SP_TiempoRecirculacion : Int;   // Set Point tiempo de recirculacion
+      SP_Modulo1 : Real;   // Set Point (%) tiempo limpieza modulo 1
+      SP_Modulo2 : Real;   // Set Point (%) tiempo limpieza modulo 2
+   END_VAR
+
+   VAR_OUTPUT 
+      LimpiarSoloModulo1 : Bool;   // Orden limpiar solo modulo 1
+      LimpiarSoloModulo2 : Bool;   // Orden limpiar solo modulo 2
+      LimpiarTodosLosModulos : Bool;   // Orden limpiar todos los modulos.
+   END_VAR
+
+   VAR RETAIN
+      s_PorcentajeMinimoTodosModulos { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Real := 20.0;   // Set Point (%) minimo para limpieza de todos los modulos
+      s_PorcentajeModulo1 { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Real;
+      s_PorcentajeModulo2 { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Real;
+      s_PorcentajeRestante { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Real;
+      s_CalculoTiempoModulo1 { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Int;
+      s_CalculoTiempoModulo2 { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Int;
+      s_CalculoTiempoRestante { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Int;
+      s_TiempoModulo1 { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Int;
+      s_TiempoModulo2 { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15104_ZC_CALCULO_LIMPIEZA_2_MODULOS
+	Descripcion:    Bloque de funcion para el calculo de limpiezas modulos (2 modulos)
+	                Se puede utilizar tambien con 3 modulos ya que se limpian:
+	                    - Modulo 1.
+	                    - Modulo 2 y 3.
+	                    - Todos los modulos.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        -
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    12.09.2023  (ABH)               Primera version.
+	    01.00.01    17.11.2023  (HCR/ABH)           Cambio en nombre de parametro entrada EtapaTiempoActual por EtapaTiempoRestante.
+	                                                Se añade parametro estatico s_PorcentajeMinimoTodosModulos para limite de los SP de porcentaje 
+	                                                de tiempo de cada modulo para no sobrepasar el 100% del tiempo.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	REGION TRASPASO_PARAMETROS
+	    
+	    //  =====================================================================================
+	    //  TRASPASO DE PARAMETROS DE PORCENTAJE
+	    //  Se revisa los limites de los porcentajes metidos en pantalla
+	    IF (#SP_Modulo1 + #SP_Modulo2) &gt; (100.0 - #s_PorcentajeMinimoTodosModulos) THEN
+	        #s_PorcentajeModulo1 := ((100.0 - #s_PorcentajeMinimoTodosModulos) / 2.0);
+	        #s_PorcentajeModulo2 := #s_PorcentajeModulo1;
+	    ELSE
+	        #s_PorcentajeModulo1 := #SP_Modulo1;
+	        #s_PorcentajeModulo2 := #SP_Modulo2;
+	    END_IF;
+	    #s_PorcentajeRestante := 100.0 - (#s_PorcentajeModulo1 + #s_PorcentajeModulo2);
+	    
+	END_REGION
+	
+	
+	REGION CALCULOS
+	    
+	    //  =====================================================================================
+	    //  CALCULO DE TIEMPO DE PASO
+	    //  MODULO 1
+	    IF #s_PorcentajeModulo1 &lt;&gt; 0.0 THEN
+	        #s_CalculoTiempoModulo1 := REAL_TO_INT((#s_PorcentajeModulo1 * #SP_TiempoRecirculacion) / 100.0);
+	    END_IF;
+	    
+	    //  MODULO 2 y 3
+	    IF #s_PorcentajeModulo2 &lt;&gt; 0.0 THEN
+	        #s_CalculoTiempoModulo2 := REAL_TO_INT((#s_PorcentajeModulo2 * #SP_TiempoRecirculacion) / 100.0);
+	    END_IF;
+	    
+	    //  TIEMPO RESTANTE
+	    #s_CalculoTiempoRestante := #SP_TiempoRecirculacion - (#s_CalculoTiempoModulo1 + #s_CalculoTiempoModulo2);
+	    
+	    
+	    #s_TiempoModulo1 := #SP_TiempoRecirculacion - #s_CalculoTiempoModulo1;
+	    #s_TiempoModulo2 := #SP_TiempoRecirculacion - #s_CalculoTiempoModulo1 - #s_CalculoTiempoModulo2;
+	    
+	END_REGION
+	
+	
+	REGION SALIDAS
+	    
+	    #LimpiarSoloModulo1 := #LimpiarSoloModulo2 := #LimpiarTodosLosModulos := FALSE;
+	    
+	    IF #EtapaRecirculacion THEN
+	        
+	        IF (#s_PorcentajeModulo1 &lt;&gt; 0.0) AND #EtapaTiempoRestante &lt;= #SP_TiempoRecirculacion AND #EtapaTiempoRestante &gt; #s_TiempoModulo1 THEN
+	            #LimpiarSoloModulo1 := TRUE;
+	            #LimpiarSoloModulo2 := #LimpiarTodosLosModulos := FALSE;
+	        ELSIF (#s_PorcentajeModulo2 &lt;&gt; 0.0) AND #EtapaTiempoRestante &lt;= #s_TiempoModulo1 AND #EtapaTiempoRestante &gt; #s_TiempoModulo2 THEN
+	            #LimpiarSoloModulo2 := TRUE;
+	            #LimpiarSoloModulo1 := #LimpiarTodosLosModulos := FALSE;
+	        ELSE
+	            #LimpiarTodosLosModulos := TRUE;
+	            #LimpiarSoloModulo1 := #LimpiarSoloModulo2 := FALSE;
+	        END_IF;
+	        
+	    END_IF;
+	    
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

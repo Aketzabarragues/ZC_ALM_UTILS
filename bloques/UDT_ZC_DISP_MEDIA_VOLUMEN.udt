@@ -1,0 +1,17 @@
+﻿TYPE "UDT_ZC_DISP_MEDIA_VOLUMEN"
+VERSION : 0.0
+   STRUCT
+      IniciarMedia : Bool;   // Iniciar media
+      Inicializar : Bool;   // Reinicializar Media
+      auxInicializar : Bool;   // P_TRIG Reinicializar Media
+      auxTiempo : Int;   // Indice Tiempo para generar pulso
+      auxValorMedia : LReal;   // Auxiliar valor media
+      auxAcumulado : LReal;   // Valor acumulado
+      auxVolumen : LReal;   // Volumen acumulado
+      Media : LReal;   // Media Actual
+      ValorMinimo : Real;   // Valor minimo ui
+      ValorMaximo : Real;   // Valor maximo ui
+   END_STRUCT;
+
+END_TYPE
+

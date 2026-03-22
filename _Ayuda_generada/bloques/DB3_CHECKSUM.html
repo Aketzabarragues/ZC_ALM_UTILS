@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DB3_CHECKSUM</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            DB
+        </span>
+        DB3_CHECKSUM
+    </h1>
+
+    
+</div>
+
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

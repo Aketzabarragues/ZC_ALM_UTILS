@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC2927_ZC_FF_SEC_INDV</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC2927_ZC_FF_SEC_INDV
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1Seg</strong></td>
+            <td>Bool</td>
+            <td>Pulso 1 segundo</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_IN_OUT</span></td>
+            <td><strong>FF_SEC</strong></td>
+            <td>"UDT_ZC_DISP_FF_SEC"</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Flip_1</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Flip_3</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Flip_5</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Flip_7</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Flip_9</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: ARRANQUE_ACTIVACION_FLOP</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ARRANQUE_ACTIVACION_FLOP
+    //  EN EL ARRANQUE SE ACTIVA FLOP
+    IF #FF_SEC.Aux_Flanco = FALSE THEN
+        #FF_SEC.Aux_FlopActivo := TRUE;
+        #FF_SEC.Aux_FlipActivo := FALSE;
+        #FF_SEC.Aux_Flanco := TRUE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_1">
+        <h3>🔸 Lógica: CALCULO_TIEMPOS_FLIP</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CALCULO_TIEMPOS_FLIP
+    //  CALCULO DE ACTIVACIONES SECUENCIALES
+    #t_Flip_1 := #FF_SEC.Config_SetPointTiempoFlip1;
+    #t_Flip_2 := #t_Flip_1 + #FF_SEC.Config_SetPointTiempoFlip2;
+    #t_Flip_3 := #t_Flip_2 + #FF_SEC.Config_SetPointTiempoFlip3;
+    #t_Flip_4 := #t_Flip_3 + #FF_SEC.Config_SetPointTiempoFlip4;
+    #t_Flip_5 := #t_Flip_4 + #FF_SEC.Config_SetPointTiempoFlip5;
+    #t_Flip_6 := #t_Flip_5 + #FF_SEC.Config_SetPointTiempoFlip6;
+    #t_Flip_7 := #t_Flip_6 + #FF_SEC.Config_SetPointTiempoFlip7;
+    #t_Flip_8 := #t_Flip_7 + #FF_SEC.Config_SetPointTiempoFlip8;
+    #t_Flip_9 := #t_Flip_8 + #FF_SEC.Config_SetPointTiempoFlip9;
+    #t_Flip_10 := #t_Flip_9 + #FF_SEC.Config_SetPointTiempoFlip10;
+
+    //  CALCULO DE TIEMPO FLIP TOTAL
+    #FF_SEC.Aux_TiempoFlipTotal :=
+    #FF_SEC.Config_SetPointTiempoFlip1 +
+    #FF_SEC.Config_SetPointTiempoFlip2 +
+    #FF_SEC.Config_SetPointTiempoFlip3 +
+    #FF_SEC.Config_SetPointTiempoFlip4 +
+    #FF_SEC.Config_SetPointTiempoFlip5 +
+    #FF_SEC.Config_SetPointTiempoFlip6 +
+    #FF_SEC.Config_SetPointTiempoFlip7 +
+    #FF_SEC.Config_SetPointTiempoFlip8 +
+    #FF_SEC.Config_SetPointTiempoFlip9 +
+    #FF_SEC.Config_SetPointTiempoFlip10;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_2">
+        <h3>🔸 Lógica: ACTIVACION_FLIP_FLOP</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ACTIVACION_FLIP_FLOP
+    //  GESTION FLIP
+    IF #FF_SEC.Aux_TiempoFlip >= #FF_SEC.Aux_TiempoFlipTotal THEN
+
+        #FF_SEC.Aux_TiempoFlip := 0;
+        #FF_SEC.Aux_FlipActivo := FALSE;
+        #FF_SEC.Aux_FlopActivo := TRUE;
+
+    END_IF;
+
+    //  GESTION FLOP
+    IF #FF_SEC.Aux_TiempoFlop >= #FF_SEC.Config_SetPointTiempoFlop THEN
+
+        #FF_SEC.Aux_TiempoFlop := 0;
+        #FF_SEC.Aux_FlipActivo := TRUE;
+        #FF_SEC.Aux_FlopActivo := FALSE;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_3">
+        <h3>🔸 Lógica: CONTAJE_TIEMPOS_FLIP_FLOP</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CONTAJE_TIEMPOS_FLIP_FLOP
+    IF #Pulso1Seg AND NOT #FF_SEC.Orden_Pausa THEN
+
+        //  CUENTA FLIP
+        IF #FF_SEC.Aux_FlipActivo THEN
+            #FF_SEC.Aux_TiempoFlip += + 1;
+        END_IF;
+
+        //  CUENTA FLOP
+        IF #FF_SEC.Aux_FlopActivo THEN
+            #FF_SEC.Aux_TiempoFlop += + 1;
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_4">
+        <h3>🔸 Lógica: ACTIVACION_SALIDAS</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ACTIVACION_SALIDAS
+    // GESTION SALIDAS FLOP
+    IF #FF_SEC.Aux_FlopActivo THEN
+
+        #FF_SEC.Estado_SalidaFlop := TRUE;
+
+        #FF_SEC.Estado_SalidaFlip1 :=
+        #FF_SEC.Estado_SalidaFlip2 :=
+        #FF_SEC.Estado_SalidaFlip3 :=
+        #FF_SEC.Estado_SalidaFlip4 :=
+        #FF_SEC.Estado_SalidaFlip5 :=
+        #FF_SEC.Estado_SalidaFlip6 :=
+        #FF_SEC.Estado_SalidaFlip7 :=
+        #FF_SEC.Estado_SalidaFlip8 :=
+        #FF_SEC.Estado_SalidaFlip9 :=
+        #FF_SEC.Estado_SalidaFlip10 := FALSE;
+    END_IF;
+
+    // GESTION SALIDAS FLIP
+    IF #FF_SEC.Aux_FlipActivo THEN
+
+        //  ACTIVACION FLIP 1
+        IF #FF_SEC.Aux_TiempoFlip < #t_Flip_1 AND #FF_SEC.Config_SetPointTiempoFlip1 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip1 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip1 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 2
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_1 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_2 AND #FF_SEC.Config_SetPointTiempoFlip2 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip2 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip2 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 3
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_2 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_3 AND #FF_SEC.Config_SetPointTiempoFlip3 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip3 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip3 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 4
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_3 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_4 AND #FF_SEC.Config_SetPointTiempoFlip4 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip4 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip4 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 5
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_4 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_5 AND #FF_SEC.Config_SetPointTiempoFlip5 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip5 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip5 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 6
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_5 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_6 AND #FF_SEC.Config_SetPointTiempoFlip6 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip6 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip6 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 7
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_6 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_7 AND #FF_SEC.Config_SetPointTiempoFlip7 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip7 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip7 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 8
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_7 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_8 AND #FF_SEC.Config_SetPointTiempoFlip8 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip8 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip8 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 9
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_8 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_9 AND #FF_SEC.Config_SetPointTiempoFlip9 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip9 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip9 := FALSE;
+        END_IF;
+
+        //  ACTIVACION FLIP 10
+        IF #FF_SEC.Aux_TiempoFlip >= #t_Flip_9 AND #FF_SEC.Aux_TiempoFlip < #t_Flip_10 AND #FF_SEC.Config_SetPointTiempoFlip10 <> 0 THEN
+            #FF_SEC.Estado_SalidaFlip10 := TRUE;
+        ELSE
+            #FF_SEC.Estado_SalidaFlip10 := FALSE;
+        END_IF;
+
+
+        #FF_SEC.Estado_SalidaFlop := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC2927_ZC_FF_SEC_INDV&#34; : Void
+TITLE = FC2927_FF_SEC_INDV
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para gestion de Flip Flop secuencial individual.
+   VAR_INPUT 
+      Pulso1Seg : Bool;   // Pulso 1 segundo
+   END_VAR
+
+   VAR_IN_OUT 
+      FF_SEC : &#34;UDT_ZC_DISP_FF_SEC&#34;;
+   END_VAR
+
+   VAR_TEMP 
+      t_Flip_1 : Int;
+      t_Flip_2 : Int;
+      t_Flip_3 : Int;
+      t_Flip_4 : Int;
+      t_Flip_5 : Int;
+      t_Flip_6 : Int;
+      t_Flip_7 : Int;
+      t_Flip_8 : Int;
+      t_Flip_9 : Int;
+      t_Flip_10 : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC2927_FF_SEC_INDV
+	Descripcion:    Modelo de dispositivo Flip Flop Secuencial individual
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        ZC_DISP_FF_SEC
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    02.10.2023  (ABH)               Primera version 
+	    01.00.01    28.11.2023  (ABH)               Se añade condicion de activacion del Flip Flop a que algun SP sea mayor que 0.
+	    01.00.02    15.10.2025  (ABH)               Se añade orden pausa para dejar de contar.
+	
+	//=====================================================================================
+	*)
+	
+	
+	IF #FF_SEC.Orden_Activar AND
+	    (#FF_SEC.Config_SetPointTiempoFlip1 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip2 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip3 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip4 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip5 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip6 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip7 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip8 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip9 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlip10 &gt; 0
+	    OR #FF_SEC.Config_SetPointTiempoFlop &gt; 0)
+	THEN
+	    
+	        
+	        REGION ARRANQUE_ACTIVACION_FLOP
+	            
+	            //  EN EL ARRANQUE SE ACTIVA FLOP
+	            IF #FF_SEC.Aux_Flanco = FALSE THEN
+	                #FF_SEC.Aux_FlopActivo := TRUE;
+	                #FF_SEC.Aux_FlipActivo := FALSE;
+	                #FF_SEC.Aux_Flanco := TRUE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        REGION CALCULO_TIEMPOS_FLIP
+	            
+	            //  CALCULO DE ACTIVACIONES SECUENCIALES
+	            #t_Flip_1 := #FF_SEC.Config_SetPointTiempoFlip1;
+	            #t_Flip_2 := #t_Flip_1 + #FF_SEC.Config_SetPointTiempoFlip2;
+	            #t_Flip_3 := #t_Flip_2 + #FF_SEC.Config_SetPointTiempoFlip3;
+	            #t_Flip_4 := #t_Flip_3 + #FF_SEC.Config_SetPointTiempoFlip4;
+	            #t_Flip_5 := #t_Flip_4 + #FF_SEC.Config_SetPointTiempoFlip5;
+	            #t_Flip_6 := #t_Flip_5 + #FF_SEC.Config_SetPointTiempoFlip6;
+	            #t_Flip_7 := #t_Flip_6 + #FF_SEC.Config_SetPointTiempoFlip7;
+	            #t_Flip_8 := #t_Flip_7 + #FF_SEC.Config_SetPointTiempoFlip8;
+	            #t_Flip_9 := #t_Flip_8 + #FF_SEC.Config_SetPointTiempoFlip9;
+	            #t_Flip_10 := #t_Flip_9 + #FF_SEC.Config_SetPointTiempoFlip10;
+	            
+	            //  CALCULO DE TIEMPO FLIP TOTAL
+	            #FF_SEC.Aux_TiempoFlipTotal :=
+	            #FF_SEC.Config_SetPointTiempoFlip1 +
+	            #FF_SEC.Config_SetPointTiempoFlip2 +
+	            #FF_SEC.Config_SetPointTiempoFlip3 +
+	            #FF_SEC.Config_SetPointTiempoFlip4 +
+	            #FF_SEC.Config_SetPointTiempoFlip5 +
+	            #FF_SEC.Config_SetPointTiempoFlip6 +
+	            #FF_SEC.Config_SetPointTiempoFlip7 +
+	            #FF_SEC.Config_SetPointTiempoFlip8 +
+	            #FF_SEC.Config_SetPointTiempoFlip9 +
+	            #FF_SEC.Config_SetPointTiempoFlip10;
+	            
+	        END_REGION
+	        
+	        
+	        REGION ACTIVACION_FLIP_FLOP
+	            
+	            //  GESTION FLIP
+	            IF #FF_SEC.Aux_TiempoFlip &gt;= #FF_SEC.Aux_TiempoFlipTotal THEN
+	                
+	                #FF_SEC.Aux_TiempoFlip := 0;
+	                #FF_SEC.Aux_FlipActivo := FALSE;
+	                #FF_SEC.Aux_FlopActivo := TRUE;
+	                
+	            END_IF;
+	            
+	            //  GESTION FLOP
+	            IF #FF_SEC.Aux_TiempoFlop &gt;= #FF_SEC.Config_SetPointTiempoFlop THEN
+	                
+	                #FF_SEC.Aux_TiempoFlop := 0;
+	                #FF_SEC.Aux_FlipActivo := TRUE;
+	                #FF_SEC.Aux_FlopActivo := FALSE;
+	                
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        REGION CONTAJE_TIEMPOS_FLIP_FLOP
+	            
+	            IF #Pulso1Seg AND NOT #FF_SEC.Orden_Pausa THEN
+	                
+	                //  CUENTA FLIP
+	                IF #FF_SEC.Aux_FlipActivo THEN
+	                    #FF_SEC.Aux_TiempoFlip += + 1;
+	                END_IF;
+	                
+	                //  CUENTA FLOP
+	                IF #FF_SEC.Aux_FlopActivo THEN
+	                    #FF_SEC.Aux_TiempoFlop += + 1;
+	                END_IF;
+	                
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        REGION ACTIVACION_SALIDAS
+	            
+	            // GESTION SALIDAS FLOP
+	            IF #FF_SEC.Aux_FlopActivo THEN
+	                
+	                #FF_SEC.Estado_SalidaFlop := TRUE;
+	                
+	                #FF_SEC.Estado_SalidaFlip1 :=
+	                #FF_SEC.Estado_SalidaFlip2 :=
+	                #FF_SEC.Estado_SalidaFlip3 :=
+	                #FF_SEC.Estado_SalidaFlip4 :=
+	                #FF_SEC.Estado_SalidaFlip5 :=
+	                #FF_SEC.Estado_SalidaFlip6 :=
+	                #FF_SEC.Estado_SalidaFlip7 :=
+	                #FF_SEC.Estado_SalidaFlip8 :=
+	                #FF_SEC.Estado_SalidaFlip9 :=
+	                #FF_SEC.Estado_SalidaFlip10 := FALSE;
+	            END_IF;
+	            
+	            // GESTION SALIDAS FLIP
+	            IF #FF_SEC.Aux_FlipActivo THEN
+	                
+	                //  ACTIVACION FLIP 1
+	                IF #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_1 AND #FF_SEC.Config_SetPointTiempoFlip1 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip1 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip1 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 2
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_1 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_2 AND #FF_SEC.Config_SetPointTiempoFlip2 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip2 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip2 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 3
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_2 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_3 AND #FF_SEC.Config_SetPointTiempoFlip3 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip3 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip3 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 4
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_3 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_4 AND #FF_SEC.Config_SetPointTiempoFlip4 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip4 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip4 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 5
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_4 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_5 AND #FF_SEC.Config_SetPointTiempoFlip5 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip5 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip5 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 6
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_5 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_6 AND #FF_SEC.Config_SetPointTiempoFlip6 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip6 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip6 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 7
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_6 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_7 AND #FF_SEC.Config_SetPointTiempoFlip7 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip7 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip7 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 8
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_7 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_8 AND #FF_SEC.Config_SetPointTiempoFlip8 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip8 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip8 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 9
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_8 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_9 AND #FF_SEC.Config_SetPointTiempoFlip9 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip9 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip9 := FALSE;
+	                END_IF;
+	                
+	                //  ACTIVACION FLIP 10
+	                IF #FF_SEC.Aux_TiempoFlip &gt;= #t_Flip_9 AND #FF_SEC.Aux_TiempoFlip &lt; #t_Flip_10 AND #FF_SEC.Config_SetPointTiempoFlip10 &lt;&gt; 0 THEN
+	                    #FF_SEC.Estado_SalidaFlip10 := TRUE;
+	                ELSE
+	                    #FF_SEC.Estado_SalidaFlip10 := FALSE;
+	                END_IF;
+	                
+	                
+	                #FF_SEC.Estado_SalidaFlop := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	    ELSE
+	        
+	        #FF_SEC.Aux_TiempoFlip :=
+	        #FF_SEC.Aux_TiempoFlop := 0;
+	        
+	        #FF_SEC.Estado_SalidaFlop :=
+	        #FF_SEC.Estado_SalidaFlip1 :=
+	        #FF_SEC.Estado_SalidaFlip2 :=
+	        #FF_SEC.Estado_SalidaFlip3 :=
+	        #FF_SEC.Estado_SalidaFlip4 :=
+	        #FF_SEC.Estado_SalidaFlip5 :=
+	        #FF_SEC.Estado_SalidaFlip6 :=
+	        #FF_SEC.Estado_SalidaFlip7 :=
+	        #FF_SEC.Estado_SalidaFlip8 :=
+	        #FF_SEC.Estado_SalidaFlip9 :=
+	        #FF_SEC.Estado_SalidaFlip10 := FALSE;
+	        
+	        #FF_SEC.Aux_FlipActivo := FALSE;
+	        #FF_SEC.Aux_FlopActivo := TRUE;
+	        
+	        #FF_SEC.Aux_Flanco := FALSE;
+	        
+	    END_IF;
+	    
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

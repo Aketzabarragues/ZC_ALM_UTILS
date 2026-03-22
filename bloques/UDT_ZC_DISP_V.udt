@@ -1,0 +1,43 @@
+﻿TYPE "UDT_ZC_DISP_V"
+VERSION : 0.1
+   STRUCT
+      Hmi_Index : Int;   // Index para listas HMI
+      Hmi_Estado : Int;   // Visualizacion dispositivoHMI
+      Estado_AutoMan : Bool := FALSE;   // 0= Automatico / 1= Manual
+      Estado_Activado : Bool := FALSE;   // Estado válvula activada
+      Estado_Enclavado : Bool := FALSE;   // Enclavamiento del dispositivo
+      Estado_EntradaRetornoReposo : Bool := FALSE;   // Entrada retorno reposo
+      Estado_EntradaRetornoTrabajo : Bool := FALSE;   // Entrada retorno trabajo
+      Alarmas_Reposo : Bool := FALSE;   // Error chequeo retorno reposo
+      Alarmas_Trabajo : Bool := FALSE;   // Error chequeo retorno trabajo
+      Alarmas_Mantenimiento : Bool := FALSE;   // Ciclo para mantenimiento alcanzados
+      Alarmas_Doble : Bool := FALSE;   // Error en doble posicion / Ningun retorno
+      Alarmas_General : Bool := FALSE;   // Válvula en error
+      Orden_ActivarManual : Bool := FALSE;   // Orden activar manual
+      Orden_ActivarAuto : Bool := FALSE;   // Orden activar automático
+      Orden_ResetCiclos : Bool := FALSE;   // Reset contador de ciclos de activación
+      Config_Habilitar : Bool := FALSE;   // Activar tratamiento de dispositivo
+      Config_HabilitarRetornoReposo : Bool := TRUE;   // Activar chequeo de retorno reposo
+      Config_HabilitarInvertirReposo : Bool := FALSE;   // Invertir señal retorno reposo
+      Config_HabilitarRetornoTrabajo : Bool := TRUE;   // Activar chequeo de retorno trabajo
+      Config_HabilitarInvertirTrabajo : Bool := FALSE;   // Invertir señal retorno trabajo
+      Config_HabilitarMantenimiento : Bool := FALSE;   // Habilitar alarma ciclos mantenimiento
+      Aux_oldActivado : Bool;   // Estado anterior activado
+      Aux_oldAlarma : Bool;   // Estado anterior Alarma
+      Aux_oldAutoMan : Bool := false;   // Estado anterior Auto / Manual
+      Estado_SeguridadOk : Bool := TRUE;   // Estado seguridad OK
+      Config_GrupoAlarma : Int := 0;   // Grupo de alarma
+      Config_DireccionSalidaByte : Int := 0;   // Dirección salida digital Byte
+      Config_DireccionSalidaBit : Int := 0;   // Dirección salida digital Bit
+      Config_DireccionRetReposoByte : Int := 0;   // Dirección retorno reposo Byte
+      Config_DireccionRetReposoBit : Int := 0;   // Dirección retorno reposo Bit
+      Config_DireccionRetTrabajoByte : Int := 0;   // Dirección retorno trabajo Byte
+      Config_DireccionRetTrabajoBit : Int := 0;   // Dirección retorno trabajo Bit
+      Tiempos_SetPointTiempoAlarma : UInt := 10;   // Tiempo SP activación alarma
+      Tiempos_Alarma : UInt := 0;   // Tiempo activación alarma
+      Tiempos_SetPointCiclos : UDInt := 1000;   // Consigna alarma ciclos mantenimiento
+      Tiempos_Ciclos : UDInt := 0;   // Contador de ciclos
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>UDT_ZC_PRO_PROCESO</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            UDT
+        </span>
+        UDT_ZC_PRO_PROCESO
+    </h1>
+
+    
+</div>
+
+
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    <span style="color: #7f8c8d; font-family: monospace;">100</span>
+                
+            </td>
+            <td>Identificador Proceso</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EtapaActual</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Etapa Actual</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EtapaSiguiente</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Etapa Siguiente</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TipoProceso</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    <span style="color: #7f8c8d; font-family: monospace;">1</span>
+                
+            </td>
+            <td>0=DESHABILITADO / 1= PRODUCCION / 2 = CIP / 3= SIP / 4= STANDBY</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Arrancando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Arrancando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EnMarcha</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>EnMarcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>MarchaPausa</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>En Marcha o Pausa</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pausando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pausando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pausado</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pausado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reanudando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reanudando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Finalizando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Finalizando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Finalizado</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Finalizado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EnError</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>EnError</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Enclavado</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Enclavado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>AlgunError</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>AlgunError</td>
+        </tr>
+        
+        <tr>
+            <td><strong>AlgunAviso</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>AlgunAviso</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EntidadesCapturadas</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Entidades capturadas (libre programacion)</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_2</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reserva_2</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_3</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reserva_3</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_4</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reserva_4</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_5</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Reserva_5</td>
+        </tr>
+        
+        <tr>
+            <td><strong>CodEstado</strong></td>
+            <td>UInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Estado del proceso</td>
+        </tr>
+        
+        <tr>
+            <td><strong>BitMarcha</strong></td>
+            <td>UDT_ZC_MARCHA_PARO_SEC</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Bit de marcha retardados</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Numero de entidad</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Producto</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Codigo de producto</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Tipo</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>0= Captura desde arranque / 1= Captura Usuario</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EstadoDisponible</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Entidad disponible</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EstadoCapturada</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Entidad capturada por proceso</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenLiberar</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Liberar entidad</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenCapturar</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Capturar entidad</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenConProducto</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Entidad con producto</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenConAgua</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Entidad con agua</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenVacia</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Entidad vacia</td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_9</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_10</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_11</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_12</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_13</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_14</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_15</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>R_Bool_16</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Marcha</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de Marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Paro</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de Paro</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pausa</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de Pausa</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reanudar</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden  Reanudar</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ResetErrores</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden Reset Errores</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_1</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_2</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_3</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_4</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_5</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>SaltarEtapa</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>OrdenSaltarEtapa</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_7</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_8</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_9</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_10</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_11</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Marcha</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador Marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Paro</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador Paro</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Pausa</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador Pausa</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reanudar</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador Reanudar</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ResetErrores</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador Reset Errores</td>
+        </tr>
+        
+        <tr>
+            <td><strong>SaltoEtapa</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Pulsador Salto Etapa</td>
+        </tr>
+        
+        <tr>
+            <td><strong>NuevaEtapa</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Nueva etapa introducida desde HMI</td>
+        </tr>
+        
+        <tr>
+            <td><strong>CambioPosible</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>1= es posible realizar el cambio</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Enclavamiento</strong></td>
+            <td>Array[1..15] of Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Codigo</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Texto</strong></td>
+            <td>String[25]</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Sistema</strong></td>
+            <td>Array[1..8] of Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>AVISOS SISTEMA</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Usuario</strong></td>
+            <td>Array[1..8] of Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>AVISOS USUARIO</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Codigo</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Texto</strong></td>
+            <td>String[25]</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Sistema</strong></td>
+            <td>Array[1..8] of Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>ERROR SISTEMA</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Usuario</strong></td>
+            <td>Array[1..8] of Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>ERROR USUARIO</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Mostrar</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Mostrar emergente</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Aceptar</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Cancelar</strong></td>
+            <td>UDT_ZC_PULSADOR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Tipo</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>0= Aceptar-Cancelar // 1= Solo Aceptar // 2=Solo Cancelar</td>
+        </tr>
+        
+        <tr>
+            <td><strong>CodigoTexto1</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Texto Ventana</td>
+        </tr>
+        
+        <tr>
+            <td><strong>CodigoTexto2</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Texto Ventana</td>
+        </tr>
+        
+        <tr>
+            <td><strong>CodigoTextoAceptar</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Texto aceptar</td>
+        </tr>
+        
+        <tr>
+            <td><strong>CodigoTextoCancelar</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Texto cancelar</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoEtapa</strong></td>
+            <td>UDT_ZC_PRO_TIEMPO_ETAPA</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>LitrosEtapa</strong></td>
+            <td>UDT_ZC_PRO_LITROS_ETAPA</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>TON</strong></td>
+            <td>Array[1..2] of UDT_ZC_DISP_TON</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>TONR</strong></td>
+            <td>UDT_ZC_DISP_TONR</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>TONR Interno</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenIncio</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de guardar hora de fin</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenFin</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de guardar hora de inicio</td>
+        </tr>
+        
+        <tr>
+            <td><strong>OrdenMarcha</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de activar temporizador</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ResetMarcha</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de resetear el tiempo en marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ResetTotal</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Orden de resetear el tiempo total</td>
+        </tr>
+        
+        <tr>
+            <td><strong>HoraInicio</strong></td>
+            <td>UDT_ZC_FECHA</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Hora de inicio de marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>HoraFin</strong></td>
+            <td>UDT_ZC_FECHA</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Hora de fin de marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoMarcha</strong></td>
+            <td>UDT_ZC_CONTADOR_TIEMPO</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Tiempo de marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoTotal</strong></td>
+            <td>UDT_ZC_CONTADOR_TIEMPO</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Tiempo total de proceso no finalizado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>oldPrimerArranque</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>oldInformeInicio</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>oldInformeFin</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ParoOperador</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ErroresComprobados</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>EntidadesDisponibles</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>UnidadesDisponibles</td>
+        </tr>
+        
+        <tr>
+            <td><strong>EntidadesCargadas</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>UnidadesCargadas</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ProArrancadoOK</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ProParadoOK</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ProFinalizadoOK</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>oldEtapa</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoResetParoOp</strong></td>
+            <td>USInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>oldCodigoEstado</strong></td>
+            <td>UInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>SecuenciaArranque</strong></td>
+            <td>UInt</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_Arrancando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Arrancando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_EnMarcha</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco En Marcha</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_Pausando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Pausando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_Pausado</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Pausado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_Reanudando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Reanudando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_Finalizando</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Finalizando</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_Finalizado</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Finalizado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_EnError</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco En Error</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_InformeInicio</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Inicio Informe</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_InformeFin</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco Informe Fin</td>
+        </tr>
+        
+        <tr>
+            <td><strong>F_CambioEtapa</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Flanco cambio de etapa</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_12</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_13</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_14</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_15</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Reserva_16</strong></td>
+            <td>Bool</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿DATA_BLOCK "DB2025_TOT"
+TITLE = DB2025_TOT
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de datos de totalizadores.
+   STRUCT 
+      TOT { S7_SetPoint := 'False'} : Array[0.."N_MAX_DISP_TOT"] of "UDT_ZC_DISP_TOT";
+      Mux : Array[0.."N_MAX_MUX_DISP"] of "UDT_ZC_DISP_MUX_TOT";
+      TiempoCiclo { S7_SetPoint := 'False'} : "UDT_ZC_TIEMPO_CICLO";
+   END_STRUCT;
+
+
+BEGIN
+   TOT[0].Hmi_Estado := 0;
+   TOT[0].Estado_Pulso := FALSE;
+   TOT[0].Estado_Valor := 0.0;
+   TOT[0].Orden_Activar := FALSE;
+   TOT[0].Orden_ResetParcial := FALSE;
+   TOT[0].Orden_ResetTotal := FALSE;
+   TOT[0].Orden_ResetProceso := FALSE;
+   TOT[0].Config_Habilitar := FALSE;
+   TOT[0].Config_Tipo := FALSE;
+   TOT[0].Config_IncrDecr := FALSE;
+   TOT[0].Aux_oldActivado := FALSE;
+   TOT[0].Aux_oldAlarma := FALSE;
+   TOT[0].Estado_Total := 0.0;
+   TOT[0].Estado_Parcial := 0.0;
+   TOT[0].Estado_Proceso := 0.0;
+   TOT[0].Estado_DesbordeTotal := 0;
+   TOT[0].Estado_DesbordeParcial := 0;
+   TOT[0].Config_DireccionEntradaByte := 0;
+   TOT[0].Config_DireccionEntradaBit := 0;
+   TOT[0].Config_LitroXPulso := 0.0;
+   TOT[0].Aux_AcuTiempo := 0.0;
+   TOT[0].Aux_TotalizadorMem := 0.0;
+   TOT[1].Hmi_Estado := 0;
+   TOT[1].Estado_Pulso := FALSE;
+   TOT[1].Estado_Valor := 1.085069;
+   TOT[1].Orden_Activar := FALSE;
+   TOT[1].Orden_ResetParcial := FALSE;
+   TOT[1].Orden_ResetTotal := FALSE;
+   TOT[1].Orden_ResetProceso := FALSE;
+   TOT[1].Config_Habilitar := TRUE;
+   TOT[1].Config_Tipo := FALSE;
+   TOT[1].Config_IncrDecr := FALSE;
+   TOT[1].Aux_oldActivado := FALSE;
+   TOT[1].Aux_oldAlarma := FALSE;
+   TOT[1].Estado_Total := 4040.0;
+   TOT[1].Estado_Parcial := 4040.0;
+   TOT[1].Estado_Proceso := 246.0;
+   TOT[1].Estado_DesbordeTotal := 0;
+   TOT[1].Estado_DesbordeParcial := 0;
+   TOT[1].Config_DireccionEntradaByte := 115;
+   TOT[1].Config_DireccionEntradaBit := 3;
+   TOT[1].Config_LitroXPulso := 1.0;
+   TOT[1].Aux_AcuTiempo := 0.0;
+   TOT[1].Aux_TotalizadorMem := 4040.0;
+   Mux[0].Habilitar := TRUE;
+   Mux[0].ExisteCambio := FALSE;
+   Mux[0].MaxVisible := FALSE;
+   Mux[0].Index := 44;
+   Mux[0].oldIndex := 44;
+   Mux[0].TOT.Hmi_Estado := 0;
+   Mux[0].TOT.Estado_Pulso := TRUE;
+   Mux[0].TOT.Estado_Valor := 7.595486;
+   Mux[0].TOT.Orden_Activar := FALSE;
+   Mux[0].TOT.Orden_ResetParcial := FALSE;
+   Mux[0].TOT.Orden_ResetTotal := FALSE;
+   Mux[0].TOT.Orden_ResetProceso := FALSE;
+   Mux[0].TOT.Config_Habilitar := TRUE;
+   Mux[0].TOT.Config_Tipo := FALSE;
+   Mux[0].TOT.Config_IncrDecr := FALSE;
+   Mux[0].TOT.Aux_oldActivado := TRUE;
+   Mux[0].TOT.Aux_oldAlarma := FALSE;
+   Mux[0].TOT.Estado_Total := 3129.0;
+   Mux[0].TOT.Estado_Parcial := 3129.0;
+   Mux[0].TOT.Estado_Proceso := 250.0;
+   Mux[0].TOT.Estado_DesbordeTotal := 0;
+   Mux[0].TOT.Estado_DesbordeParcial := 0;
+   Mux[0].TOT.Config_DireccionEntradaByte := 609;
+   Mux[0].TOT.Config_DireccionEntradaBit := 7;
+   Mux[0].TOT.Config_LitroXPulso := 1.0;
+   Mux[0].TOT.Aux_AcuTiempo := 1.0;
+   Mux[0].TOT.Aux_TotalizadorMem := 3127.0;
+   Mux[1].Habilitar := TRUE;
+   Mux[1].ExisteCambio := FALSE;
+   Mux[1].MaxVisible := FALSE;
+   Mux[1].Index := 0;
+   Mux[1].oldIndex := 0;
+   Mux[1].TOT.Hmi_Estado := 0;
+   Mux[1].TOT.Estado_Pulso := FALSE;
+   Mux[1].TOT.Estado_Valor := 0.0;
+   Mux[1].TOT.Orden_Activar := FALSE;
+   Mux[1].TOT.Orden_ResetParcial := FALSE;
+   Mux[1].TOT.Orden_ResetTotal := FALSE;
+   Mux[1].TOT.Orden_ResetProceso := FALSE;
+   Mux[1].TOT.Config_Habilitar := FALSE;
+   Mux[1].TOT.Config_Tipo := FALSE;
+   Mux[1].TOT.Config_IncrDecr := FALSE;
+   Mux[1].TOT.Aux_oldActivado := FALSE;
+   Mux[1].TOT.Aux_oldAlarma := FALSE;
+   Mux[1].TOT.Estado_Total := 0.0;
+   Mux[1].TOT.Estado_Parcial := 0.0;
+   Mux[1].TOT.Estado_Proceso := 0.0;
+   Mux[1].TOT.Estado_DesbordeTotal := 0;
+   Mux[1].TOT.Estado_DesbordeParcial := 0;
+   Mux[1].TOT.Config_DireccionEntradaByte := 0;
+   Mux[1].TOT.Config_DireccionEntradaBit := 0;
+   Mux[1].TOT.Config_LitroXPulso := 0.0;
+   Mux[1].TOT.Aux_AcuTiempo := 0.0;
+   Mux[1].TOT.Aux_TotalizadorMem := 0.0;
+   TiempoCiclo.Actual := 28.50767;
+   TiempoCiclo.Min := 150.0;
+   TiempoCiclo.Max := 0.0;
+   TiempoCiclo.auxMem := 3.12728198846045E-308;
+   TiempoCiclo.Reset := FALSE;
+
+END_DATA_BLOCK
+

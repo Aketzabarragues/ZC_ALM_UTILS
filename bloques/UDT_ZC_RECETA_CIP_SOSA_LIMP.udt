@@ -1,0 +1,18 @@
+﻿TYPE "UDT_ZC_RECETA_CIP_SOSA_LIMP"
+VERSION : 0.1
+   STRUCT
+      TiempoEmpujeADestino : Int;   // SOSA LIMP. Tiempo de empuje a destino
+      TiempoMaxVaciadoDestino : Int;   // SOSA LIMP. Tiempo Max vaciado destino
+      TiempoEmpujeDestinoACCIP : Int;   // SOSA LIMP. Tiempoi empuje desde equipo a CIP
+      TiempoLimpieza : Int;   // SOSA LIMP. Tiempo Limpieza
+      ReservaInt_1 : Int;   // SOSA LIMP. 
+      ReservaInt_2 : Int;   // SOSA LIMP. 
+      TemperaturaLimpieza : Real;   // SOSA LIMP. Temperatura limpieza
+      TemperaturaHisteresis : Real;   // SOSA LIMP. Temperatura limpieza histeresis
+      ConductividadDrenaje : Real;   // SOSA LIMP. Conductividad para Drenaje
+      ConductividadLimpiezaOk : Real;   // SOSA LIMP. Conductividad limpieza Ok
+      TemperaturaLimpiezaOk : Real;   // SOSA LIMP. Temperatura limpieza Ok
+   END_STRUCT;
+
+END_TYPE
+

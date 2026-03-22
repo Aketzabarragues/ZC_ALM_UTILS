@@ -1,0 +1,61 @@
+﻿FUNCTION "FC2928_ZC_TON_INDV" : Void
+TITLE = FC2928_TON_INDV
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para gestion temporizador TON (Base 1 seg) individual
+   VAR_INPUT 
+      Pulso1seg : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      TON : "UDT_ZC_DISP_TON";
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC22028_TON
+	Descripcion:    Temporizadores TON individual
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        ZC_DISP_TON
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    02.10.2023  (ABH)               Primera version.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	// =============================================================================
+	//  GESTION DE TEMPORIZADOR TON
+	IF #TON.IN THEN
+	    IF #TON.ET >= #TON.SP THEN
+	        #TON.Q := TRUE;
+	    ELSE
+	        IF #Pulso1seg THEN
+	            #TON.ET += 1;
+	        END_IF;
+	    END_IF;
+	ELSE
+	    #TON.ET := 0;
+	    #TON.Q := FALSE;
+	END_IF;
+	
+END_FUNCTION
+

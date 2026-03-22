@@ -1,0 +1,4350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC5_ZC_GESTOR_PROCESO</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC5_ZC_GESTOR_PROCESO
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1Seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>FechaHoraActual</strong></td>
+            <td>DTL</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SeguridadOk</strong></td>
+            <td>Bool</td>
+            <td>Seguridad OK</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>HabilitacionErrores</strong></td>
+            <td>Bool</td>
+            <td>Habilita el chequeo de todos los errores de los procesos</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>HabilitacionErroresEntidades</strong></td>
+            <td>Bool</td>
+            <td>Habilita el chequeo de compatibilidad de entidades en uso</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>HabilitacionErroresDispositivos</strong></td>
+            <td>Bool</td>
+            <td>Habilita el chequeo de los errores/manualizaciones de válvula/motores</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>HabilitacionAbortarErrores</strong></td>
+            <td>Bool</td>
+            <td>Habilita abortar el proceso con errores</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>TiempoPulsadores</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_IN_OUT</span></td>
+            <td><strong>PRO</strong></td>
+            <td>"UDT_ZC_PRO_PROCESO"</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_DispNumero</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ErrorYaRegistrado</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_EntidadID</strong></td>
+            <td>String[10]</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>REANUDANDO</strong></td>
+            <td>USInt := 3</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>EN_MARCHA</strong></td>
+            <td>USInt := 5</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>PAUSADO</strong></td>
+            <td>USInt := 7</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>FINALIZADO</strong></td>
+            <td>USInt := 0</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>COMPROBACION_ERRORES</strong></td>
+            <td>USInt := 0</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>ARRANQUE_OK</strong></td>
+            <td>USInt := 2</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: PROCESO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_1" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_PULSOS_ESTADOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_PULSOS_ESTADOS
+    //  Flancos de estado de procesos
+    #PRO.Flanco.F_Arrancando := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND ((#PRO.EtapaActual <> 0) AND (#PRO.Aux.oldEtapa = 0)) AND (#PRO.Estado.CodEstado = #ARRANCANDO);
+    #PRO.Flanco.F_EnMarcha := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #EN_MARCHA);
+    #PRO.Flanco.F_Finalizado := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #FINALIZADO);
+    #PRO.Flanco.F_Finalizando := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #FINALIZANDO);
+    #PRO.Flanco.F_Pausado := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #PAUSADO);
+    #PRO.Flanco.F_Pausando := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #PAUSANDO);
+    #PRO.Flanco.F_Reanudando := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #REANUDANDO);
+    #PRO.Flanco.F_EnError := (#PRO.Estado.CodEstado <> #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #EN_ERROR);
+    #PRO.Flanco.F_InformeInicio := #PRO.Informe.OrdenIncio AND NOT #PRO.Aux.oldInformeInicio;
+    #PRO.Flanco.F_InformeFin := #PRO.Informe.OrdenFin AND NOT #PRO.Aux.oldInformeFin;
+    #PRO.Flanco.F_CambioEtapa := #PRO.EtapaActual <> #PRO.Aux.oldEtapa;
+
+    //  Actualizar Estado y Etapa Anterior
+    #PRO.Aux.oldEtapa := #PRO.EtapaActual;
+    #PRO.Aux.oldCodigoEstado := #PRO.Estado.CodEstado;
+    #PRO.Aux.oldInformeInicio := #PRO.Informe.OrdenIncio;
+    #PRO.Aux.oldInformeFin := #PRO.Informe.OrdenFin;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PULSADORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PULSADORES
+    //  PULSADOR MARCHA
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_MARCHA",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.Pulsadores.Marcha,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR PARO
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_PARO",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.Pulsadores.Paro,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR PAUSA
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_PAUSA",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.Pulsadores.Pausa,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR REANUDAR
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_REANUD",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.Pulsadores.Reanudar,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR RESET ERRORES
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_RST_ERR",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.Pulsadores.ResetErrores,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR SALTO ETAPA
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_SALTO_ETA",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.Pulsadores.SaltoEtapa,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR ACEPTAR VENTANA DE AVISOS
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_AVISO_ACEPTAR",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.VentanaAviso.Aceptar,
+                          SP_Tiempo := #TiempoPulsadores);
+
+    //  PULSADOR CANCELAR VENTANA DE AVISOS
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          Categoria := "TRZ_CAT_1_SYS",
+                          Codigo1 := #PRO.ID,
+                          Codigo2 := "TRZ_SYS_PUL_AVISO_CANCELAR",
+                          Codigo3 := 0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHoraActual,
+                          Pulsador := #PRO.VentanaAviso.Cancelar,
+                          SP_Tiempo := #TiempoPulsadores);
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: RESET_ORDENES_PREVIAS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION RESET_ORDENES_PREVIAS
+    IF NOT #HabilitacionAbortarErrores AND #PRO.Estado.AlgunError AND (#PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc) THEN
+        #PRO.Ordenes.Paro := FALSE;
+    END_IF;
+
+    //  Reset Orden Salto Etapa
+    IF NOT #PRO.Estado.EnMarcha THEN
+        #PRO.Ordenes.SaltarEtapa := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ENCLAVADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ENCLAVADO
+    //  Proceso enclavado
+    #PRO.Estado.Enclavado := FALSE;
+    FOR #for_i := 1 TO 15 DO
+
+        IF #PRO.Enclavamiento[#for_i] THEN
+            #PRO.Estado.Enclavado := TRUE;
+            EXIT;
+        END_IF;
+    END_FOR;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESTADOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_6" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PRIMER_ARRANQUE</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PRIMER_ARRANQUE
+    IF #PRO.EtapaActual > 0 AND #PrimerArranque THEN
+        #PRO.Error.Codigo := -1;
+        #PRO.Error.Texto := '';
+        #PRO.Error.Sistema[5] := TRUE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_7" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ENTRADA_SEGURIDAD</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ENTRADA_SEGURIDAD
+    IF NOT #SeguridadOk THEN
+        #PRO.Error.Codigo := -2;
+        #PRO.Error.Texto := '';
+        #PRO.Error.Sistema[4] := TRUE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: BITS_ESTADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION BITS_ESTADO
+    // Activación de bits de estado
+    #PRO.Estado.Finalizado := (#PRO.Estado.CodEstado = #FINALIZADO OR #PRO.Estado.CodEstado = 0);
+    #PRO.Estado.Arrancando := (#PRO.Estado.CodEstado = #ARRANCANDO);
+    #PRO.Estado.EnMarcha := (#PRO.Estado.CodEstado = #EN_MARCHA);
+    #PRO.Estado.Pausando := (#PRO.Estado.CodEstado = #PAUSANDO);
+    #PRO.Estado.Pausado := (#PRO.Estado.CodEstado = #PAUSADO);
+    #PRO.Estado.Reanudando := (#PRO.Estado.CodEstado = #REANUDANDO);
+    #PRO.Estado.Finalizando := (#PRO.Estado.CodEstado = #FINALIZANDO);
+    #PRO.Estado.EnError := (#PRO.Estado.CodEstado = #EN_ERROR);
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_9" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: FINALIZADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_10" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: RESET_VARIABLES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION RESET_VARIABLES
+    #PRO.Error.Codigo := 0;
+    #PRO.Error.Texto := '';
+    #PRO.Estado.CodEstado := 0;
+    #PRO.EtapaActual := 0;
+    #PRO.TiempoEtapa.Actual := 0;
+    #PRO.Informe.OrdenIncio := FALSE;
+    #PRO.Aux.oldInformeInicio := FALSE;
+    #PRO.Informe.OrdenFin := FALSE;
+    #PRO.Aux.oldInformeFin := FALSE;
+    #PRO.Informe.OrdenMarcha := FALSE;
+    #PRO.Aux.ProArrancadoOK := FALSE;
+    #PRO.Aux.ProParadoOK := FALSE;
+    #PRO.Aux.ProFinalizadoOK := FALSE;
+    #PRO.Aux.ErroresComprobados := FALSE;
+    #PRO.Aux.EntidadesCargadas := FALSE;
+    #PRO.Aux.EntidadesDisponibles := FALSE;
+    #PRO.Aux.SecuenciaArranque := 0;
+    #PRO.TiempoEtapa.SP := 0;
+
+    //  Reset aviso paro operador pasados 10 segundos
+    IF #PRO.Aviso.Sistema[2] THEN
+
+        IF #Pulso1Seg THEN
+
+            #PRO.Aux.TiempoResetParoOp += 1;
+
+            IF #PRO.Aux.TiempoResetParoOp >= 10 THEN
+                #PRO.Aviso.Sistema[2] := FALSE;
+                #PRO.Aux.TiempoResetParoOp := 0;
+            END_IF;
+
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_11" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: FINALIZADO_TO_ARRANCANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION FINALIZADO_TO_ARRANCANDO
+    IF NOT #PRO.#Estado.Enclavado
+        AND
+        (#PRO.Ordenes.Marcha OR #PRO.Pulsadores.Marcha.Plc)
+        AND
+        NOT #PRO.Estado.AlgunError
+    THEN
+
+        #PRO.Ordenes.Marcha := FALSE;
+        #PRO.Aux.ParoOperador := FALSE;
+        #PRO.Estado.CodEstado := #ARRANCANDO;
+        #PRO.EtapaSiguiente := 1;
+        GOTO FIN_ESTADOS;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_12" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ARRANCANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_13" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: SECUENCIA_ARRANQUE</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_14" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: COMPROBACION_ERRORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION COMPROBACION_ERRORES
+    IF NOT #PRO.Aux.ErroresComprobados THEN
+
+        IF #HabilitacionErrores AND #PRO.Estado.AlgunError THEN
+            #PRO.Estado.CodEstado := #PAUSANDO;
+            GOTO FIN_ESTADOS;
+        END_IF;
+
+    ELSE
+        #PRO.Aux.SecuenciaArranque := #COMPROBACION_ENTIDADES;
+    END_IF;
+
+    #PRO.Aux.ErroresComprobados := TRUE;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_15" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: COMPROBACION_ENTIDADES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION COMPROBACION_ENTIDADES
+    IF NOT #PRO.Estado.AlgunError THEN
+
+        //  Revisamos si las entidades estan disponibles, si es asi,
+        //  las capturamos y ponemos a TRUE el bit EntidadesCapturadas, de lo contrario ponemos
+        //  a FALSE el bit EntidadesDisponibles y vamos a etapa PAUSANDO.
+        //  
+        IF NOT #PRO.Aux.EntidadesCargadas THEN
+
+            //  Inicializamos el bit entidades Disponibles
+            #PRO.Aux.EntidadesDisponibles := TRUE;
+
+            FOR #for_i := 1 TO "N_MAX_ENTIDAD_PROCESO" DO
+
+                //  Comprobamos que está declarada la entidad y que esta configurada como captura al arranque
+                IF #PRO.Entidad[#for_i].ID <> 0 AND NOT #PRO.Entidad[#for_i].Tipo THEN
+
+                    //  Revisamos el estado de las entidades en el arranque
+                    "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                            TipoProceso := #PRO.TipoProceso,
+                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                            TipoError => #t_TipoError,
+                                            DispNumero => #t_DispNumero);
+
+                    // Si hay alguna entidad que no esta disponible, ponemos a FALSE el bit EntidadesDisponibles para irnos al etapa PAUSANDO
+                    IF NOT "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+                        #PRO.Aux.EntidadesDisponibles := FALSE;
+                        EXIT;
+                    END_IF;
+
+                END_IF;
+            END_FOR;
+        END_IF;
+
+    ELSE
+
+        //  En caso de algun error, vamos a pausando directamente.
+        #PRO.Estado.CodEstado := #PAUSANDO;
+        GOTO FIN_ESTADOS;
+
+    END_IF;
+
+    // =============================================================================
+    //  CAPTURA DE ENTIDADES
+    //  Si no estan disponibles pausamos la secuencia
+    //  Si estan disponible las capturamos
+    IF NOT #PRO.Aux.EntidadesDisponibles THEN
+
+        #t_EntidadID := "FC15001_ZC_INT_TO_STRING"("DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].ID);
+        #t_EntidadAsignacion := "FC15001_ZC_INT_TO_STRING"("DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion);
+
+        //  LA ENTIDAD ESTA EN ERROR O ESTA EN PRODUCCION O ESTA EN CIP O NO ESTA DISPONIBLE
+        IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Alarma.Dispositivo THEN
+            #PRO.Error.Codigo := -3;
+        ELSIF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Alarma.Manual THEN
+            #PRO.Error.Codigo := -4;
+        ELSIF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion THEN
+            #PRO.Error.Codigo := -5;
+        ELSIF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP THEN
+            #PRO.Error.Codigo := -6;
+        ELSIF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP THEN
+            #PRO.Error.Codigo := -7;
+        ELSIF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby THEN
+            #PRO.Error.Codigo := -8;
+        ELSIF NOT "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+            #PRO.Error.Codigo := -9;
+        END_IF;
+
+        //  GENERAMOS EL TEXTO SEGUN EL TIPO DE ERROR
+        CASE #PRO.Error.Codigo OF
+            -9..-5:
+                #t_TextoEntidad := CONCAT_STRING(IN1 := '(ID ',
+                                                 IN2 := #t_EntidadID,
+                                                 IN3 := ' - PRO. ',
+                                                 IN4 := #t_EntidadAsignacion,
+                                                 IN5 := ')');
+            ELSE
+                #t_TextoEntidad := '';
+        END_CASE;
+
+        #PRO.Error.Sistema[1] := TRUE;
+        #PRO.Error.Texto := #t_TextoEntidad;
+        #PRO.Estado.CodEstado := #PAUSANDO;
+        GOTO FIN_ESTADOS;
+
+    ELSE
+
+        #t_EntidadesCargadas := TRUE;
+
+        // =============================================================================
+        //  Captura de las entidades
+        FOR #for_i := 1 TO "N_MAX_ENTIDAD_PROCESO" DO
+
+            IF #PRO.Entidad[#for_i].ID <> 0 AND NOT #PRO.Entidad[#for_i].Tipo THEN
+                // =============================================================================
+                //  Asignamos entidad al proceso
+                "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion := #PRO.ID;
+                "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                        TipoProceso := #PRO.TipoProceso,
+                                        CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                        TipoError => #t_TipoError,
+                                        DispNumero => #t_DispNumero);
+                // =============================================================================
+                //  Marcar como capturada
+                IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion = #PRO.ID
+                    AND
+                    "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Capturada
+                THEN
+                    #PRO.Entidad[#for_i].EstadoCapturada := TRUE;
+                ELSE
+                    #PRO.Entidad[#for_i].EstadoCapturada := FALSE;
+                    #t_EntidadesCargadas := FALSE;
+                    EXIT;
+                END_IF;
+
+            END_IF;
+
+        END_FOR;
+
+        // =============================================================================
+        //  Comprobacion de entidades capturadas en el arranque
+        //  Si no estan todas capturamos ponemos error [2] y pausamos
+        IF #t_EntidadesCargadas THEN
+            #PRO.Aux.EntidadesCargadas := TRUE;
+            #PRO.Aux.SecuenciaArranque := #ARRANQUE_OK;
+        ELSE
+
+            FOR #for_i := 1 TO "N_MAX_ENTIDAD_PROCESO" DO
+
+                //  Si esta decladara la entidad
+                IF #PRO.Entidad[#for_i].ID <> 0 AND NOT #PRO.Entidad[#for_i].Tipo THEN
+                    // =============================================================================
+                    //  Asignamos entidad al proceso
+                    "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion := 0;
+                    "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                            TipoProceso := #PRO.TipoProceso,
+                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                            TipoError => #t_TipoError,
+                                            DispNumero => #t_DispNumero);
+                END_IF;
+
+            END_FOR;
+
+            #PRO.Aux.EntidadesDisponibles := FALSE;
+            #PRO.Error.Codigo := 0;
+            #PRO.Error.Texto := '';
+            #PRO.Error.Sistema[2] := TRUE;
+            #PRO.Estado.CodEstado := #PAUSANDO;
+            GOTO FIN_ESTADOS;
+
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_16" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ARRANQUE_OK</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ARRANQUE_OK
+    #PRO.Estado.CodEstado := #EN_MARCHA;
+    #PRO.Aux.ProArrancadoOK := TRUE;
+    GOTO FIN_ESTADOS;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_17" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_MARCHA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_18" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_MARCHA_A_PAUSANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION EN_MARCHA_A_PAUSANDO
+    IF #PRO.Ordenes.Pausa OR #PRO.Pulsadores.Pausa.Plc THEN
+        #PRO.Estado.CodEstado := #PAUSANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_19" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_MARCHA_A_PAUSANDO_POR_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION EN_MARCHA_A_PAUSANDO_POR_ERROR
+    //  Con algun error y si tenemos la habilitacion nos vamos a pausando
+    IF #HabilitacionErrores AND #PRO.Estado.AlgunError THEN
+        #PRO.Estado.CodEstado := #PAUSANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_20" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_MARCHA_A_FINALIZANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION EN_MARCHA_A_FINALIZANDO
+    IF #PRO.EtapaActual = -1 THEN
+        #PRO.Estado.CodEstado := #FINALIZANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_21" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PAUSANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_22" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PAUSANDO_A_PAUSADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PAUSANDO_A_PAUSADO
+    IF #PRO.Aux.ProArrancadoOK THEN
+
+        //  Esperamos a que el tiempo de pausa se cumpla
+        IF #PRO.BitMarcha.SecParoCompletada THEN
+            #PRO.Estado.CodEstado := #PAUSADO;
+            GOTO FIN_ESTADOS;
+        END_IF;
+
+    ELSE
+        #PRO.Estado.CodEstado := #PAUSADO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_23" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PAUSADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_24" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PAUSADO_A_EN_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PAUSADO_A_EN_ERROR
+    // Si hay algun error, vamos a etapa EN ERROR
+    IF #PRO.Estado.AlgunError THEN
+        #PRO.Estado.CodEstado := #EN_ERROR;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_25" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PAUSADO_A_REANUDANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PAUSADO_A_REANUDANDO
+    // Con orden de reanudar o pulsador reanudar nos vamos a estado reanudando
+    IF NOT #PRO.Estado.AlgunError
+        AND
+        (#PRO.Ordenes.Reanudar OR #PRO.Pulsadores.Reanudar.Plc)
+    THEN
+        #PRO.Estado.CodEstado := #REANUDANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_26" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: PAUSADO_A_FINALIZANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PAUSADO_A_FINALIZANDO
+    // =============================================================================
+    // Orden finalizar
+    IF #PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc
+    THEN
+        #PRO.Aux.ParoOperador := TRUE;
+        #PRO.Estado.CodEstado := #FINALIZANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_27" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: REANUDANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_28" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: REANUDANDO_A_EN_MARCHA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION REANUDANDO_A_EN_MARCHA
+    IF NOT #PRO.Estado.AlgunError AND #PRO.Aux.ProArrancadoOK THEN
+        #PRO.Estado.CodEstado := #EN_MARCHA;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_29" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: REANUDANDO_A_EN_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION REANUDANDO_A_EN_ERROR
+    IF #PRO.Estado.AlgunError THEN
+        #PRO.Estado.CodEstado := #EN_ERROR;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_30" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: REANUDANDO_A_ARRANCANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION REANUDANDO_A_ARRANCANDO
+    IF NOT #PRO.Estado.AlgunError AND NOT #PRO.Aux.ProArrancadoOK THEN
+        #PRO.Estado.CodEstado := #ARRANCANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_31" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: REANUDANDO_A_EN_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION REANUDANDO_A_EN_ERROR
+    IF #PRO.Estado.AlgunError THEN
+        #PRO.Estado.CodEstado := #EN_ERROR;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_32" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: FINALIZANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_33" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: FINALIZANDO_A_FINALIZADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION FINALIZANDO_A_FINALIZADO
+    IF #PRO.Aux.ProFinalizadoOK THEN
+        #PRO.Estado.CodEstado := #FINALIZADO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_34" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_35" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_ERROR_A_PAUSADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION EN_ERROR_A_PAUSADO
+    // Con orden de marcha y no hay error, Vamos a etapa REANUDANDO
+    IF NOT #PRO.Estado.AlgunError THEN
+        #PRO.Error.Codigo := 0;
+        #PRO.Error.Texto := '';
+        #PRO.Estado.CodEstado := #PAUSADO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_36" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: EN_ERROR_A_FINALIZANDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION EN_ERROR_A_FINALIZANDO
+    IF #PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc THEN
+        #PRO.Estado.CodEstado := #FINALIZANDO;
+        GOTO FIN_ESTADOS;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_37" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESTADO_DESCONOCIDO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESTADO_DESCONOCIDO
+    #PRO.Estado.CodEstado := #PAUSADO;
+    GOTO FIN_ESTADOS;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_38" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ENTIDADES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_39" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_DISPONIBILIDAD_Y_ESTADOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_DISPONIBILIDAD_Y_ESTADOS
+    IF NOT #PRO.Estado.Finalizado THEN
+
+        //  SI ESTA DECLARADA UNA ENTIDAD
+        FOR #for_i := 1 TO "N_MAX_ENTIDAD_PROCESO" DO
+            IF #PRO.Entidad[#for_i].ID <> 0 THEN
+
+                //  Actualizamos el estado de las entidades declaradas en el proceso
+                #PRO.Entidad[#for_i].EstadoDisponible := "FC4_ZC_DISPONIBILIDAD_ENTIDAD"(#PRO.Entidad[#for_i].ID);
+
+                // Estados y errores
+                IF NOT #PRO.Estado.Arrancando THEN
+
+                    //  LA ENTIDAD LA TIENE CAPTURADA EL PROCESO ACTUAL
+                    IF #PRO.Entidad[#for_i].EstadoCapturada THEN
+
+                        //  Actualizamos el estado de la entidad
+                        "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                                TipoProceso := #PRO.TipoProceso,
+                                                CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                                TipoError => #t_TipoError,
+                                                DispNumero => #t_DispNumero);
+
+
+                        IF #PRO.TipoProceso = 1 THEN    // Produccion
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := NOT #PRO.Aux.ProFinalizadoOK;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+
+                        ELSIF #PRO.TipoProceso = 2 THEN     // CIP
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := NOT #PRO.Aux.ProFinalizadoOK;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := NOT #PRO.Aux.ParoOperador;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+
+                        ELSIF #PRO.TipoProceso = 3 THEN     // SIP
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := TRUE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia AND NOT #PRO.Aux.ParoOperador;
+
+                        ELSIF #PRO.TipoProceso = 4 THEN     // STANDBY
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := TRUE;
+
+                            // No se gestionan los estados en standby, se mantienen con su ultimo estado
+
+                        END_IF;
+
+                        //  Asignacion de producto, agua, vacia
+                        IF #PRO.Entidad[#for_i].OrdenConProducto THEN
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.ConProducto := TRUE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.ConAgua := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Vacia := FALSE;
+                        END_IF;
+                        IF #PRO.Entidad[#for_i].OrdenConAgua THEN
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.ConProducto := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.ConAgua := TRUE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Vacia := FALSE;
+                        END_IF;
+                        IF #PRO.Entidad[#for_i].OrdenVacia THEN
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.ConProducto := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.ConAgua := FALSE;
+                            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Vacia := TRUE;
+                        END_IF;
+
+
+                        // Comprobacion de errores, solo revisamos el primer error que encontremos.
+                        IF #HabilitacionErroresDispositivos AND NOT #t_ErrorYaRegistrado THEN
+
+                            IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Alarma.Dispositivo THEN
+
+                                #PRO.Error.Sistema[3] := TRUE;
+                                #PRO.Error.Codigo := -3;
+
+                                #PRO.Error.Texto := '';
+                                #t_ErrorYaRegistrado := TRUE; // Bloqueamos futuros errores en este ciclo
+
+                            END_IF;
+
+                            IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Alarma.Manual THEN
+
+                                #PRO.Error.Sistema[3] := TRUE;
+                                #PRO.Error.Codigo := -4;
+
+                                #PRO.Error.Texto := '';
+                                #t_ErrorYaRegistrado := TRUE; // Bloqueamos futuros errores en este ciclo
+
+                            END_IF;
+
+                        END_IF;
+
+                    END_IF;
+
+                END_IF;
+
+            END_IF;
+
+        END_FOR;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_40" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CAPTURAR_LIBERAR_ENTIDADES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_41" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIBERAR_ENTIDAD</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIBERAR_ENTIDAD
+    // Liberar Entidad
+    IF #PRO.Entidad[#for_i].EstadoCapturada
+        AND
+        (#PRO.Entidad[#for_i].OrdenLiberar OR #PRO.Flanco.F_Finalizado)
+    THEN
+
+        "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion := 0;
+
+        IF #PRO.TipoProceso = 1 THEN    // Produccion
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := FALSE;
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+        ELSIF #PRO.TipoProceso = 2 THEN     // CIP 
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := NOT #PRO.Aux.ParoOperador;
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+        ELSIF #PRO.TipoProceso = 3 THEN     // SIP 
+            // Los estados de limpia y sucio no se gestionan en esterilizacion, se mantienen con su ultimo estado.
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia AND NOT #PRO.Aux.ParoOperador;
+        ELSIF #PRO.TipoProceso = 4 THEN     // STANDBY 
+            // No se gestionan los estados en standby, se mantienen con su ultimo estado
+            ;
+        END_IF;
+
+        //  Reset estados produccion, CIP, SIP, Standby
+        "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+        "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+        "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+        "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+
+        "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                TipoProceso := #PRO.TipoProceso,
+                                CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                TipoError => #t_TipoError,
+                                DispNumero => #t_DispNumero);
+
+        IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+            #PRO.Entidad[#for_i].EstadoCapturada := FALSE;
+            #PRO.Entidad[#for_i].ID := 0;
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_42" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CAPTURAR_ENTIDAD</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CAPTURAR_ENTIDAD
+    // Capturar Entidad
+    IF NOT #PRO.Entidad[#for_i].EstadoCapturada AND #PRO.Entidad[#for_i].OrdenCapturar THEN
+        "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                TipoProceso := #PRO.TipoProceso,
+                                CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                TipoError => #t_TipoError,
+                                DispNumero => #t_DispNumero);
+
+        IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+
+            //  Asignamos la entidad al proceso
+            "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion := #PRO.ID;
+
+        END_IF;
+
+        "FC6_ZC_ESTADO_ENTIDAD"(Entidad := #PRO.Entidad[#for_i].ID,
+                                TipoProceso := #PRO.TipoProceso,
+                                CodigoProducto := #PRO.Entidad[#for_i].Producto,
+                                TipoError => #t_TipoError,
+                                DispNumero => #t_DispNumero);
+
+        //  Si la entidad ha sido capturada correctamente por el proceso, la marcamos como capturada
+        IF "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Asignacion = #PRO.ID AND "DB6_ENTIDAD".ENT[#PRO.Entidad[#for_i].ID].Estado.Capturada THEN
+            #PRO.Entidad[#for_i].EstadoCapturada := TRUE;
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_43" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ERRORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_44" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ALGUN_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ALGUN_ERROR
+    //=====================================================================================
+    // Algun error de proceso
+    IF #HabilitacionErrores AND NOT #PRO.Estado.Finalizado THEN
+        FOR #for_i := 1 TO 8 DO
+            IF #PRO.Error.Sistema[#for_i] OR #PRO.Error.Usuario[#for_i] THEN
+                #PRO.Estado.AlgunError := TRUE;
+            END_IF;
+        END_FOR;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_45" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: RECONOCER_ERRORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION RECONOCER_ERRORES
+    //=====================================================================================
+    //  Reconocer errores
+    IF (#PRO.Estado.EnError AND (#PRO.Pulsadores.ResetErrores.Plc OR #PRO.Ordenes.ResetErrores))
+        OR
+        #PRO.Estado.Finalizado
+    THEN
+        FOR #for_i := 1 TO 8 DO
+            #PRO.Error.Usuario[#for_i] := #PRO.Error.Sistema[#for_i] := #PRO.Estado.AlgunError := FALSE;
+        END_FOR;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_46" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ENCLAVAMIENTOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ENCLAVAMIENTOS
+    #PRO.Estado.Enclavado := FALSE;
+
+    FOR #for_i := 1 TO 15 DO
+        IF #PRO.Enclavamiento[#for_i] THEN
+            #PRO.Estado.Enclavado := TRUE;
+        END_IF;
+    END_FOR;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_47" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: AVISOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION AVISOS
+    //  Proceso enclavado
+    #PRO.Aviso.Sistema[1] := FALSE;
+
+    IF #PRO.Estado.Finalizado THEN
+
+        IF #PRO.Estado.Enclavado THEN
+            #PRO.Aviso.Sistema[1] := TRUE;
+            #PRO.Aviso.Codigo := -2;
+            #PRO.Aviso.Texto := '';
+        END_IF;
+
+    END_IF;
+
+    //  Paro por operador
+    IF #PRO.Aviso.Sistema[2] THEN
+        #PRO.Aviso.Codigo := -1;
+        #PRO.Aviso.Texto := '';
+    END_IF;
+
+    //  Algun aviso
+    #PRO.Estado.AlgunAviso := FALSE;
+
+    IF #PRO.VentanaAviso.Mostrar THEN
+        #PRO.Estado.AlgunAviso := TRUE;
+    END_IF;
+
+    FOR #for_i := 1 TO 8 DO
+
+        IF #PRO.Aviso.Sistema[#for_i] OR #PRO.Aviso.Usuario[#for_i] THEN
+            #PRO.Estado.AlgunAviso := TRUE;
+        END_IF;
+
+    END_FOR;
+
+    //  Limpiamos los textos de avisos cuando no los hay
+    IF NOT #PRO.Estado.AlgunAviso THEN
+        #PRO.Aviso.Codigo := 0;
+        #PRO.Aviso.Texto := '';
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_48" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: VENTANA_DE_AVISOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION VENTANA_DE_AVISOS
+    IF NOT #PRO.Estado.EnMarcha THEN
+        #PRO.VentanaAviso.Mostrar := FALSE;
+    END_IF;
+
+    //  Gestion de ventana de avisos
+    IF NOT #PRO.VentanaAviso.Mostrar THEN
+        #PRO.VentanaAviso.Tipo := 0;
+        #PRO.VentanaAviso.CodigoTexto1 := 0;
+        #PRO.VentanaAviso.CodigoTexto2 := 0;
+        #PRO.VentanaAviso.CodigoTextoAceptar := 0;
+        #PRO.VentanaAviso.CodigoTextoCancelar := 0;
+    ELSE
+
+        CASE #PRO.VentanaAviso.Tipo OF
+            0:  //  0 = Aceptar/Cancelar
+                #PRO.VentanaAviso.Aceptar.Permiso := TRUE;
+                #PRO.VentanaAviso.Cancelar.Permiso := TRUE;
+            1:  //  1 = Solo Aceptar
+                #PRO.VentanaAviso.Aceptar.Permiso := TRUE;
+                #PRO.VentanaAviso.Cancelar.Permiso := FALSE;
+            2:  // 2 = Solo Cancelar    
+                #PRO.VentanaAviso.Aceptar.Permiso := FALSE;
+                #PRO.VentanaAviso.Cancelar.Permiso := TRUE;
+        END_CASE;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_49" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CAMBIO_ETAPA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CAMBIO_ETAPA
+    //  Permiso boton salto de etapa
+    #PRO.Pulsadores.SaltoEtapa.Permiso := #PRO.SaltoEtapa.CambioPosible AND #PRO.SaltoEtapa.NuevaEtapa <> 0;
+
+    //  Cambio de etapa desde HMI
+    IF #PRO.SaltoEtapa.NuevaEtapa <> 0 THEN
+
+        //  Forzamos campo de etapa
+        IF #PRO.SaltoEtapa.CambioPosible AND
+            #PRO.Pulsadores.SaltoEtapa.Plc
+        THEN
+            "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                    Registrar := 1,
+                                    Categoria := "TRZ_CAT_1_SYS",
+                                    User := 'Sistema',
+                                    Codigo1 := #PRO.ID,
+                                    Codigo2 := "TRZ_SYS_PRO_SALTO_ETA",
+                                    Codigo3 := 0,
+                                    Texto := "FC15001_ZC_INT_TO_STRING"(#PRO.SaltoEtapa.NuevaEtapa));
+            #PRO.EtapaSiguiente := #PRO.SaltoEtapa.NuevaEtapa;
+
+            #PRO.SaltoEtapa.CambioPosible := FALSE;
+            #PRO.SaltoEtapa.NuevaEtapa := 0;
+        END_IF;
+
+    END_IF;
+
+    //  Cambio de etapa
+    IF #PRO.EtapaSiguiente <> 0 THEN
+
+        #PRO.EtapaActual := #PRO.EtapaSiguiente;
+        #PRO.EtapaSiguiente := 0;
+        #PRO.Ordenes.SaltarEtapa := FALSE;
+        #PRO.TiempoEtapa.Actual := 0;
+        #PRO.TiempoEtapa.Cumplido := FALSE;
+        #PRO.TiempoEtapa.Activar := FALSE;
+        #PRO.LitrosEtapa.Actual := 0;
+        #PRO.LitrosEtapa.Cumplido := FALSE;
+        #PRO.LitrosEtapa.Activar := FALSE;
+        #PRO.TON[1].IN :=
+        #PRO.TON[2].IN :=
+        #PRO.TON[1].Q :=
+        #PRO.TON[2].Q := FALSE;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_50" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TIEMPO_ETAPA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TIEMPO_ETAPA
+    //  Proceso en estado parado
+    IF #PRO.Estado.Finalizado THEN
+        #PRO.TiempoEtapa.Actual := 0;
+        #PRO.TiempoEtapa.Activar := FALSE;
+        #PRO.TiempoEtapa.Cumplido := FALSE;
+    END_IF;
+
+    //  Salto de etapa
+    IF #PRO.Flanco.F_CambioEtapa THEN
+        #PRO.TiempoEtapa.Activar := FALSE;
+        #PRO.TiempoEtapa.Cumplido := FALSE;
+        #PRO.TiempoEtapa.Actual := 0;
+    END_IF;
+
+    //  Temporizador activo
+    IF #PRO.Estado.EnMarcha
+        AND
+        #PRO.TiempoEtapa.Activar
+    THEN
+
+        IF #Pulso1Seg
+            AND
+            (#PRO.TiempoEtapa.Actual < #PRO.TiempoEtapa.SP)
+        THEN
+            #PRO.TiempoEtapa.Actual += 1;
+        END_IF;
+
+        //  Reiniciar tiempo etapa cumplido para esperar condicion
+        #PRO.TiempoEtapa.Cumplido := FALSE;
+
+        //  Tiempo etapa cumplido 
+        IF #PRO.TiempoEtapa.Actual >= #PRO.TiempoEtapa.SP AND #PRO.TiempoEtapa.Activar THEN
+            #PRO.TiempoEtapa.Cumplido := TRUE;
+        END_IF;
+
+        //  Tiempo restante
+        #PRO.TiempoEtapa.Restante := #PRO.TiempoEtapa.SP - #PRO.TiempoEtapa.Actual;
+
+    END_IF;
+
+    //  Reiniciar tiempo etapa
+    IF #PRO.TiempoEtapa.Reset THEN
+        #PRO.TiempoEtapa.Actual := 0;
+        #PRO.TiempoEtapa.Cumplido := FALSE;
+        #PRO.TiempoEtapa.Reset := FALSE;
+    END_IF;
+
+    //  Tiempo restante
+    #PRO.TiempoEtapa.Restante := #PRO.TiempoEtapa.SP - #PRO.TiempoEtapa.Actual;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_51" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LITROS_ETAPA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LITROS_ETAPA
+    //  Proceso en estado parado
+    IF #PRO.Estado.Finalizado THEN
+        #PRO.LitrosEtapa.Actual := 0.0;
+        #PRO.LitrosEtapa.Activar := FALSE;
+        #PRO.LitrosEtapa.Cumplido := FALSE;
+    END_IF;
+
+    //  Salto de etapa
+    IF #PRO.Flanco.F_CambioEtapa THEN
+        #PRO.LitrosEtapa.Activar := FALSE;
+        #PRO.LitrosEtapa.Cumplido := FALSE;
+        #PRO.LitrosEtapa.Actual := 0.0;
+    END_IF;
+
+    //  Contaje de litros activo
+    IF NOT #PRO.Estado.Finalizado
+        AND
+        #PRO.LitrosEtapa.Activar
+    THEN
+
+        //  Reiniciar litros etapa cumplido para esperar condicion
+        #PRO.LitrosEtapa.Cumplido := FALSE;
+
+        //  Litros etapa cumplido 
+        IF #PRO.LitrosEtapa.Actual >= #PRO.LitrosEtapa.SP THEN
+            #PRO.LitrosEtapa.Cumplido := TRUE;
+        END_IF;
+
+    END_IF;
+
+    //  Reiniciar tiempo etapa
+    IF #PRO.LitrosEtapa.Reset THEN
+        #PRO.LitrosEtapa.Actual := 0.0;
+        #PRO.LitrosEtapa.Cumplido := FALSE;
+        #PRO.LitrosEtapa.Reset := FALSE;
+    END_IF;
+
+    //  Tiempo restante
+    #PRO.LitrosEtapa.Restante := #PRO.LitrosEtapa.SP - #PRO.LitrosEtapa.Actual;
+    IF #PRO.LitrosEtapa.Restante < 0.0 THEN
+        #PRO.LitrosEtapa.Restante := 0.0;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_52" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TEMPORIZADORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TEMPORIZADORES
+    //  Gestion de reset temporizadores al cambio de etapa.
+    IF #PRO.Flanco.F_CambioEtapa THEN
+        #PRO.TON[1].IN :=
+        #PRO.TON[2].IN :=
+        #PRO.TONR.IN := FALSE;
+        #PRO.TONR.RESET := TRUE;
+    END_IF;
+
+    //  Gestion temporizadores
+    "FC2928_ZC_TON_INDV"(Pulso1seg := #Pulso1Seg,
+                         TON := #PRO.TON[1]);
+    "FC2928_ZC_TON_INDV"(Pulso1seg := #Pulso1Seg,
+                         TON := #PRO.TON[2]);
+    "FC2930_ZC_TONR_INDV"(Pulso1seg := #Pulso1Seg,
+                          TONR := #PRO.TONR);
+
+    //  Reset ordenes para poder usar como SET en proceso
+    #PRO.TON[1].IN :=
+    #PRO.TON[2].IN :=
+    #PRO.TONR.IN := FALSE;
+
+    //  Gestion reset TONR. En caso de que este finalizado, se pone a 1 para que se reseteen.
+    IF #PRO.Estado.Finalizado THEN
+        #PRO.TONR.RESET := TRUE;
+    ELSE
+        #PRO.TONR.RESET := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_53" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: INFORME</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION INFORME
+    //  INFORME (Hora de inicio)
+    IF #PRO.Flanco.F_InformeInicio THEN
+
+        //  Datos informe inicio
+        #PRO.Informe.HoraInicio.Ano := #FechaHoraActual.YEAR;
+        #PRO.Informe.HoraInicio.Mes := #FechaHoraActual.MONTH;
+        #PRO.Informe.HoraInicio.Dia := #FechaHoraActual.DAY;
+        #PRO.Informe.HoraInicio.Hora := #FechaHoraActual.HOUR;
+        #PRO.Informe.HoraInicio.Minuto := #FechaHoraActual.MINUTE;
+        #PRO.Informe.HoraInicio.Segundo := #FechaHoraActual.SECOND;
+
+        //  Reset informe fin
+        #PRO.Informe.HoraFin.Ano := 0;
+        #PRO.Informe.HoraFin.Mes := 0;
+        #PRO.Informe.HoraFin.Dia := 0;
+        #PRO.Informe.HoraFin.Hora := 0;
+        #PRO.Informe.HoraFin.Minuto := 0;
+        #PRO.Informe.HoraFin.Segundo := 0;
+
+    END_IF;
+
+    //  INFORME (Hora de fin)
+    IF #PRO.Flanco.F_InformeFin THEN
+
+        //  Datos informe fin
+        #PRO.Informe.HoraFin.Ano := #FechaHoraActual.YEAR;
+        #PRO.Informe.HoraFin.Mes := #FechaHoraActual.MONTH;
+        #PRO.Informe.HoraFin.Dia := #FechaHoraActual.DAY;
+        #PRO.Informe.HoraFin.Hora := #FechaHoraActual.HOUR;
+        #PRO.Informe.HoraFin.Minuto := #FechaHoraActual.MINUTE;
+        #PRO.Informe.HoraFin.Segundo := #FechaHoraActual.SECOND;
+
+    END_IF;
+
+    //  INFORME (Tiempo en marcha)
+    "FC15025_ZC_CONTADOR_TIEMPO"(Pulso1seg := #Pulso1Seg,
+                                 Iniciar := #PRO.Estado.EnMarcha AND #PRO.Informe.OrdenMarcha,
+                                 Reset := #PRO.Informe.ResetMarcha OR #PRO.Flanco.F_InformeInicio,
+                                 Contador := #PRO.Informe.TiempoMarcha);
+
+    //  INFORME (Tiempo Total)
+    "FC15025_ZC_CONTADOR_TIEMPO"(Pulso1seg := #Pulso1Seg,
+                                 Iniciar := NOT #PRO.Estado.Arrancando AND NOT #PRO.Estado.Finalizando AND NOT #PRO.Estado.Finalizado,
+                                 Reset := #PRO.Informe.ResetTotal OR #PRO.Flanco.F_InformeInicio,
+                                 Contador := #PRO.Informe.TiempoTotal);
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_54" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: BIT_M</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION BIT_M
+    //  Gestion de bits de marcha/paro secuencial
+    "FC15151_ZC_MARCHA_PARO_SEC"(Pulso1Seg := #Pulso1Seg,
+                                 Seguridad := #SeguridadOk,
+                                 Marcha := #PRO.Estado.Arrancando OR #PRO.Estado.EnMarcha OR #PRO.Estado.Reanudando,
+                                 MP_SEC := #PRO.BitMarcha);
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_55" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZABILIDAD</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_56" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZA_INICIO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZA_INICIO
+    IF #PRO.Flanco.F_Arrancando THEN
+
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_1_SYS",
+                                User := 'Sistema',
+                                Codigo1 := #PRO.ID,
+                                Codigo2 := "TRZ_SYS_PRO_INICIO",
+                                Codigo3 := 0,
+                                Texto := '');
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_57" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZA_PAUSA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZA_PAUSA
+    IF #PRO.Flanco.F_Pausado THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_1_SYS",
+                                User := 'Sistema',
+                                Codigo1 := #PRO.ID,
+                                Codigo2 := "TRZ_SYS_PRO_PAUSA",
+                                Codigo3 := 0,
+                                Texto := '');
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_58" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZA_REANUDAR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZA_REANUDAR
+    IF #PRO.Flanco.F_Reanudando THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_1_SYS",
+                                User := 'Sistema',
+                                Codigo1 := #PRO.ID,
+                                Codigo2 := "TRZ_SYS_PRO_REANUDAR",
+                                Codigo3 := 0,
+                                Texto := '');
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_59" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZA_ERROR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZA_ERROR
+    IF #PRO.Flanco.F_EnError THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_1_SYS",
+                                User := 'Sistema',
+                                Codigo1 := #PRO.ID,
+                                Codigo2 := "TRZ_SYS_PRO_ERROR",
+                                Codigo3 := #PRO.Error.Codigo,
+                                Texto := #PRO.Error.Texto);
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_60" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZA_FIN</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZA_FIN
+    IF #PRO.Flanco.F_Finalizado THEN
+        IF #PRO.Aux.ParoOperador THEN
+            "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                    Registrar := 1,
+                                    Categoria := "TRZ_CAT_1_SYS",
+                                    User := 'Sistema',
+                                    Codigo1 := #PRO.ID,
+                                    Codigo2 := "TRZ_SYS_PRO_FIN_OPER",
+                                    Codigo3 := 0,
+                                    Texto := '');
+            //  Aviso paro operador
+            #PRO.Aviso.Sistema[2] := TRUE;
+        ELSE
+            "FC8_ZC_TRAZA_REGISTRO"(FechaHora := #FechaHoraActual,
+                                    Registrar := 1,
+                                    Categoria := "TRZ_CAT_1_SYS",
+                                    User := 'Sistema',
+                                    Codigo1 := #PRO.ID,
+                                    Codigo2 := "TRZ_SYS_PRO_FIN",
+                                    Codigo3 := 0,
+                                    Texto := '');
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+        </div>
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC5_ZC_GESTOR_PROCESO&#34; : Void
+TITLE = FC5_ZC_GESTOR_PROCESO
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ZeusControl
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para gestion de procesos
+   VAR_INPUT 
+      Pulso1Seg : Bool;
+      Usuario : String;
+      FechaHoraActual {InstructionName := &#39;DTL&#39;; LibVersion := &#39;1.0&#39;} : DTL;
+      PrimerArranque : Bool;
+      SeguridadOk : Bool;   // Seguridad OK
+      HabilitacionErrores : Bool;   // Habilita el chequeo de todos los errores de los procesos
+      HabilitacionErroresEntidades : Bool;   // Habilita el chequeo de compatibilidad de entidades en uso
+      HabilitacionErroresDispositivos : Bool;   // Habilita el chequeo de los errores/manualizaciones de válvula/motores
+      HabilitacionAbortarErrores : Bool;   // Habilita abortar el proceso con errores
+      TiempoPulsadores : Int;
+   END_VAR
+
+   VAR_IN_OUT 
+      PRO : &#34;UDT_ZC_PRO_PROCESO&#34;;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      t_TipoError : Int;
+      t_DispNumero : Int;
+      t_EntidadesCargadas : Bool;
+      t_ErrorYaRegistrado : Bool;
+      t_TextoEntidad : String[80];
+      t_EntidadID : String[10];
+      t_EntidadAsignacion : String[10];
+   END_VAR
+
+   VAR CONSTANT 
+      REANUDANDO : USInt := 3;
+      ARRANCANDO : USInt := 4;
+      EN_MARCHA : USInt := 5;
+      PAUSANDO : USInt := 6;
+      PAUSADO : USInt := 7;
+      FINALIZANDO : USInt := 8;
+      FINALIZADO : USInt := 0;
+      EN_ERROR : USInt := 10;
+      COMPROBACION_ERRORES : USInt := 0;
+      COMPROBACION_ENTIDADES : USInt := 1;
+      ARRANQUE_OK : USInt := 2;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC5_ZC_GESTOR_PROCESO
+	Descripcion:    Gestor de procesos
+	
+	Dependencias:
+	    FC:         FC15026_ZC_PULSADOR
+	                FC8_TRAZA_REGISTRO
+	                FC6_ZC_ESTADO_ENTIDAD
+	    FB:         -
+	    DB:         -
+	    UDT:        ZC_PROCESO
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    01.01.2018  (ZC)                Primera version. Antiguo FC20 y DB20 (Ver 21029 Gullon).
+	    01.00.01    15.10.2020  (ABH)               Segunda version. (Ver 21115 Da Veiga).
+	    01.00.02    27.07.2021  (ABH)               Se deja sin resetear el mensaje de error para que a la hora de generar las alarmas se
+	                                                generen adecuadamente. En HMI/SCADA el mensaje va condicionado al bit EnError del proceso
+	                                                para mostrar el texto. 
+	    01.00.03    15.10.2020  (HCR)               Cambio de logica de gestor. En vez de recorrer todo el bucle de procesos ahora cada proceso tendra su 
+	                                                propio DB.
+	    01.00.04    15.10.2020  (HCR)               Cambio en lógica de pulsadores
+	    01.00.05    08.11.2022  (ABH)               Se modifica la logica de la marca de tiempo de paso cumplido y el tiempo de paso 
+	                                                cuando se cambia de paso.
+	    01.00.06    12.12.2022  (ABH)               Se depura el tipo de dato ZC_PROCESO para estandarizar.   
+	                                                Se modifica la secuencia de los bits Marcha/Paro secuencial a traves del FC15151_ZC_MARCHA_PARO_SEC.
+	                                                Se añade trazabilidad de proceso.
+	    01.00.07    18.09.2023  (ABH)               Se añade ID de asignacion de la entidad al texto de error al capturar la entidad.
+	    01.00.08    23.10.2023  (ABH/HCR)           Se corrige logica de secuencia de arranque, ya que si al arrancar hay algun error activo, comprueba las entidades con indice
+	                                                a 0, lo que da lugar a un error de acceso al DB al no existir dicha posicion en el array.
+	    01.00.09    29.08.2024  (ABH)               Se cambia el texto de error al capturar entidades ya que no entra en el String.
+	    01.00.10    13.01.2025  (ABH)               Se modifica reset estado entidades produccion/CIP/SIP. Al liberar se resetean todos los estados para evitar errores.
+	    01.00.11    13.01.2025  (ABH)               Se modifica UDT para añadir ordenes ConProducto, ConAgua y Vacia en las entidades.
+	                                                Se añade logica de asignacion con entidades capturadas.
+	    01.00.12    27.01.2025  (ABH)               Se añade condicion de algun error en el grafcet del proceso. En caso de estar en reanudando, no tener la secuencia de arranque OK y tener algun error,
+	                                                vamos a estado EnError.
+	    01.00.13    07.03.2025  (ABH)               Se añade litros etapa directamente en el proceso. La gestion se realiza al estilo de tiempo de etapa.
+	    01.00.14    10.03.2025  (ABH)               Se añade gestion de codigo de producto a las entidades.
+	    01.00.15    12.03.2025  (ABH)               Se añade modifica estructura entidad del proceso para añadir tipo 4 Standby
+	                                                En este estado no se gestionan las marcas de sucio/limpio/esterilizado
+	                                                Se añade gestion de entidades tipo SIP y STANDBY
+	                                                Se añaden temporizadores al proceso
+	                                                Se añade tiempo total de proceso en marcha independientemente de si esta en marcha o no.
+	                                                Se modifica gestion de entidades en proceso, para saber si la entidad declarada esta disponible o no.        
+	    01.00.16    24.04.2025  (HCR)               Se añade gestion de idioma   
+	    01.00.17    11.09.2025  (ABH)               Se eliminan las constantes de idioma dentro del FC. Se utilizan constantes globales para
+	                                                facilitar su traduccion.
+	    01.00.18    05.11.2025  (ABH)               Se integra la gestion de salto de etapa directamente en el FC de proceso.
+	    02.00.00    04.12.2025  (ABH)               Se eliminan los string del proceso. Solo se mantiene un string auxiliar para poder generar dinamicamente los textos de entidades,
+	                                                o para su uso en programa (No recomendado).
+	                                                Se refactoriza gestion entidades para realizarla de forma eficiente. Se fusionan bucles FOR para optimizacion de tiempo de ciclo.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	REGION PROCESO
+	    
+	    //  Proceso habilitado
+	    IF #PRO.TipoProceso &lt;&gt; 0 THEN
+	        
+	        REGION GESTION_PULSOS_ESTADOS
+	            
+	            //  Flancos de estado de procesos
+	            #PRO.Flanco.F_Arrancando := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND ((#PRO.EtapaActual &lt;&gt; 0) AND (#PRO.Aux.oldEtapa = 0)) AND (#PRO.Estado.CodEstado = #ARRANCANDO);
+	            #PRO.Flanco.F_EnMarcha := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #EN_MARCHA);
+	            #PRO.Flanco.F_Finalizado := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #FINALIZADO);
+	            #PRO.Flanco.F_Finalizando := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #FINALIZANDO);
+	            #PRO.Flanco.F_Pausado := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #PAUSADO);
+	            #PRO.Flanco.F_Pausando := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #PAUSANDO);
+	            #PRO.Flanco.F_Reanudando := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #REANUDANDO);
+	            #PRO.Flanco.F_EnError := (#PRO.Estado.CodEstado &lt;&gt; #PRO.Aux.oldCodigoEstado) AND (#PRO.Estado.CodEstado = #EN_ERROR);
+	            #PRO.Flanco.F_InformeInicio := #PRO.Informe.OrdenIncio AND NOT #PRO.Aux.oldInformeInicio;
+	            #PRO.Flanco.F_InformeFin := #PRO.Informe.OrdenFin AND NOT #PRO.Aux.oldInformeFin;
+	            #PRO.Flanco.F_CambioEtapa := #PRO.EtapaActual &lt;&gt; #PRO.Aux.oldEtapa;
+	            
+	            //  Actualizar Estado y Etapa Anterior
+	            #PRO.Aux.oldEtapa := #PRO.EtapaActual;
+	            #PRO.Aux.oldCodigoEstado := #PRO.Estado.CodEstado;
+	            #PRO.Aux.oldInformeInicio := #PRO.Informe.OrdenIncio;
+	            #PRO.Aux.oldInformeFin := #PRO.Informe.OrdenFin;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  GESTION DE PULSADORES
+	        REGION PULSADORES
+	            
+	            //  PULSADOR MARCHA
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_MARCHA&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.Pulsadores.Marcha,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR PARO
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_PARO&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.Pulsadores.Paro,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR PAUSA
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_PAUSA&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.Pulsadores.Pausa,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR REANUDAR
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_REANUD&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.Pulsadores.Reanudar,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR RESET ERRORES
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_RST_ERR&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.Pulsadores.ResetErrores,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR SALTO ETAPA
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_SALTO_ETA&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.Pulsadores.SaltoEtapa,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR ACEPTAR VENTANA DE AVISOS
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_AVISO_ACEPTAR&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.VentanaAviso.Aceptar,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	            //  PULSADOR CANCELAR VENTANA DE AVISOS
+	            &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                                  Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                  Codigo1 := #PRO.ID,
+	                                  Codigo2 := &#34;TRZ_SYS_PUL_AVISO_CANCELAR&#34;,
+	                                  Codigo3 := 0,
+	                                  Usuario := #Usuario,
+	                                  FechaHoraActual := #FechaHoraActual,
+	                                  Pulsador := #PRO.VentanaAviso.Cancelar,
+	                                  SP_Tiempo := #TiempoPulsadores);
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  RESET ORDENES CONDICIONADAS PREVIAS A GESTION DE ESTADO DEL PROCESO
+	        REGION RESET_ORDENES_PREVIAS
+	            
+	            
+	            IF NOT #HabilitacionAbortarErrores AND #PRO.Estado.AlgunError AND (#PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc) THEN
+	                #PRO.Ordenes.Paro := FALSE;
+	            END_IF;
+	            
+	            //  Reset Orden Salto Etapa
+	            IF NOT #PRO.Estado.EnMarcha THEN
+	                #PRO.Ordenes.SaltarEtapa := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  GESTION ENCLAVAMIENTO DEL PROCESO
+	        REGION ENCLAVADO
+	            
+	            //  Proceso enclavado
+	            #PRO.Estado.Enclavado := FALSE;
+	            FOR #for_i := 1 TO 15 DO
+	                
+	                IF #PRO.Enclavamiento[#for_i] THEN
+	                    #PRO.Estado.Enclavado := TRUE;
+	                    EXIT;
+	                END_IF;
+	            END_FOR;
+	            
+	        END_REGION
+	        
+	        // =============================================================================
+	        //  ESTADOS
+	        REGION ESTADOS
+	            
+	            // =============================================================================
+	            //  GESTION PRIMER ARRANQUE
+	            REGION PRIMER_ARRANQUE
+	                
+	                IF #PRO.EtapaActual &gt; 0 AND #PrimerArranque THEN
+	                    #PRO.Error.Codigo := -1;
+	                    #PRO.Error.Texto := &#39;&#39;;
+	                    #PRO.Error.Sistema[5] := TRUE;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	            //  GESTION ENTRADA DE SEGURIDAD
+	            REGION ENTRADA_SEGURIDAD
+	                
+	                IF NOT #SeguridadOk THEN
+	                    #PRO.Error.Codigo := -2;
+	                    #PRO.Error.Texto := &#39;&#39;;
+	                    #PRO.Error.Sistema[4] := TRUE;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	            //  ACTIVACION DE BITS DE ESTADO
+	            REGION BITS_ESTADO
+	                
+	                // Activación de bits de estado
+	                #PRO.Estado.Finalizado := (#PRO.Estado.CodEstado = #FINALIZADO OR #PRO.Estado.CodEstado = 0);
+	                #PRO.Estado.Arrancando := (#PRO.Estado.CodEstado = #ARRANCANDO);
+	                #PRO.Estado.EnMarcha := (#PRO.Estado.CodEstado = #EN_MARCHA);
+	                #PRO.Estado.Pausando := (#PRO.Estado.CodEstado = #PAUSANDO);
+	                #PRO.Estado.Pausado := (#PRO.Estado.CodEstado = #PAUSADO);
+	                #PRO.Estado.Reanudando := (#PRO.Estado.CodEstado = #REANUDANDO);
+	                #PRO.Estado.Finalizando := (#PRO.Estado.CodEstado = #FINALIZANDO);
+	                #PRO.Estado.EnError := (#PRO.Estado.CodEstado = #EN_ERROR);
+	                
+	            END_REGION
+	            
+	            
+	            CASE #PRO.Estado.CodEstado OF
+	                #FINALIZADO:
+	                    // =============================================================================
+	                    //  ESTADO FINALIZADO
+	                    REGION FINALIZADO
+	                        
+	                        // =============================================================================
+	                        //  RESET VARIABLES
+	                        REGION RESET_VARIABLES
+	                            
+	                            #PRO.Error.Codigo := 0;
+	                            #PRO.Error.Texto := &#39;&#39;;
+	                            #PRO.Estado.CodEstado := 0;
+	                            #PRO.EtapaActual := 0;
+	                            #PRO.TiempoEtapa.Actual := 0;
+	                            #PRO.Informe.OrdenIncio := FALSE;
+	                            #PRO.Aux.oldInformeInicio := FALSE;
+	                            #PRO.Informe.OrdenFin := FALSE;
+	                            #PRO.Aux.oldInformeFin := FALSE;
+	                            #PRO.Informe.OrdenMarcha := FALSE;
+	                            #PRO.Aux.ProArrancadoOK := FALSE;
+	                            #PRO.Aux.ProParadoOK := FALSE;
+	                            #PRO.Aux.ProFinalizadoOK := FALSE;
+	                            #PRO.Aux.ErroresComprobados := FALSE;
+	                            #PRO.Aux.EntidadesCargadas := FALSE;
+	                            #PRO.Aux.EntidadesDisponibles := FALSE;
+	                            #PRO.Aux.SecuenciaArranque := 0;
+	                            #PRO.TiempoEtapa.SP := 0;
+	                            
+	                            //  Reset aviso paro operador pasados 10 segundos
+	                            IF #PRO.Aviso.Sistema[2] THEN
+	                                
+	                                IF #Pulso1Seg THEN
+	                                    
+	                                    #PRO.Aux.TiempoResetParoOp += 1;
+	                                    
+	                                    IF #PRO.Aux.TiempoResetParoOp &gt;= 10 THEN
+	                                        #PRO.Aviso.Sistema[2] := FALSE;
+	                                        #PRO.Aux.TiempoResetParoOp := 0;
+	                                    END_IF;
+	                                    
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        
+	                        // =============================================================================
+	                        //  PROCESO FINALIZADO.
+	                        //  Si el proceso no está enclavado no tiene alarma, con pulsador u orden de marcha arrancamos el proceso
+	                        REGION FINALIZADO_TO_ARRANCANDO
+	                            
+	                            IF NOT #PRO.#Estado.Enclavado
+	                                AND
+	                                (#PRO.Ordenes.Marcha OR #PRO.Pulsadores.Marcha.Plc)
+	                                AND
+	                                NOT #PRO.Estado.AlgunError
+	                            THEN
+	                                
+	                                #PRO.Ordenes.Marcha := FALSE;
+	                                #PRO.Aux.ParoOperador := FALSE;
+	                                #PRO.Estado.CodEstado := #ARRANCANDO;
+	                                #PRO.EtapaSiguiente := 1;
+	                                GOTO FIN_ESTADOS;
+	                                
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                #ARRANCANDO:
+	                    // =============================================================================
+	                    //  ESTADO ARRANCANDO
+	                    REGION ARRANCANDO
+	                        
+	                        //  Reset aviso paro operador
+	                        #PRO.Aviso.Sistema[2] := FALSE;
+	                        #PRO.Aux.TiempoResetParoOp := 0;
+	                        
+	                        // Con orden de finalizar, vamos a etapa FINALIZANDO
+	                        IF #PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc THEN
+	                            #PRO.Aux.ParoOperador := TRUE;
+	                            #PRO.Estado.CodEstado := #FINALIZANDO;
+	                            GOTO FIN_ESTADOS;
+	                        END_IF;
+	                        
+	                        // Con orden de pausar, vamos a etapa PAUSANDO
+	                        IF #PRO.Ordenes.Pausa OR #PRO.Pulsadores.Pausa.Plc THEN
+	                            #PRO.Estado.CodEstado := #PAUSANDO;
+	                            GOTO FIN_ESTADOS;
+	                        END_IF;
+	                        
+	                        // =============================================================================
+	                        //  SECUENCIA DE ARRANQUE
+	                        REGION SECUENCIA_ARRANQUE
+	                            
+	                            CASE #PRO.Aux.SecuenciaArranque OF
+	                                    
+	                                #COMPROBACION_ERRORES:
+	                                    // =============================================================================
+	                                    //  COMPROBACION DE ERRORES
+	                                    // En el arranque, primero esperamos un ciclo de SCAN del plc para comprobar los errores
+	                                    REGION COMPROBACION_ERRORES
+	                                        
+	                                        IF NOT #PRO.Aux.ErroresComprobados THEN
+	                                            
+	                                            IF #HabilitacionErrores AND #PRO.Estado.AlgunError THEN
+	                                                #PRO.Estado.CodEstado := #PAUSANDO;
+	                                                GOTO FIN_ESTADOS;
+	                                            END_IF;
+	                                            
+	                                        ELSE
+	                                            #PRO.Aux.SecuenciaArranque := #COMPROBACION_ENTIDADES;
+	                                        END_IF;
+	                                        
+	                                        #PRO.Aux.ErroresComprobados := TRUE;
+	                                        
+	                                    END_REGION
+	                                    
+	                                #COMPROBACION_ENTIDADES:
+	                                    // =============================================================================
+	                                    //  COMPROBACION ENTIDADES
+	                                    //  Conmprobamos que no existe ningun error
+	                                    REGION COMPROBACION_ENTIDADES
+	                                        
+	                                        IF NOT #PRO.Estado.AlgunError THEN
+	                                            
+	                                            //  Revisamos si las entidades estan disponibles, si es asi,
+	                                            //  las capturamos y ponemos a TRUE el bit EntidadesCapturadas, de lo contrario ponemos
+	                                            //  a FALSE el bit EntidadesDisponibles y vamos a etapa PAUSANDO.
+	                                            //  
+	                                            IF NOT #PRO.Aux.EntidadesCargadas THEN
+	                                                
+	                                                //  Inicializamos el bit entidades Disponibles
+	                                                #PRO.Aux.EntidadesDisponibles := TRUE;
+	                                                
+	                                                FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	                                                    
+	                                                    //  Comprobamos que está declarada la entidad y que esta configurada como captura al arranque
+	                                                    IF #PRO.Entidad[#for_i].ID &lt;&gt; 0 AND NOT #PRO.Entidad[#for_i].Tipo THEN
+	                                                        
+	                                                        //  Revisamos el estado de las entidades en el arranque
+	                                                        &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                                                TipoProceso := #PRO.TipoProceso,
+	                                                                                CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                                                TipoError =&gt; #t_TipoError,
+	                                                                                DispNumero =&gt; #t_DispNumero);
+	                                                        
+	                                                        // Si hay alguna entidad que no esta disponible, ponemos a FALSE el bit EntidadesDisponibles para irnos al etapa PAUSANDO
+	                                                        IF NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+	                                                            #PRO.Aux.EntidadesDisponibles := FALSE;
+	                                                            EXIT;
+	                                                        END_IF;
+	                                                        
+	                                                    END_IF;
+	                                                END_FOR;
+	                                            END_IF;
+	                                            
+	                                        ELSE
+	                                            
+	                                            //  En caso de algun error, vamos a pausando directamente.
+	                                            #PRO.Estado.CodEstado := #PAUSANDO;
+	                                            GOTO FIN_ESTADOS;
+	                                            
+	                                        END_IF;
+	                                        
+	                                        // =============================================================================
+	                                        //  CAPTURA DE ENTIDADES
+	                                        //  Si no estan disponibles pausamos la secuencia
+	                                        //  Si estan disponible las capturamos
+	                                        IF NOT #PRO.Aux.EntidadesDisponibles THEN
+	                                            
+	                                            #t_EntidadID := &#34;FC15001_ZC_INT_TO_STRING&#34;(&#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].ID);
+	                                            #t_EntidadAsignacion := &#34;FC15001_ZC_INT_TO_STRING&#34;(&#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion);
+	                                            
+	                                            //  LA ENTIDAD ESTA EN ERROR O ESTA EN PRODUCCION O ESTA EN CIP O NO ESTA DISPONIBLE
+	                                            IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Alarma.Dispositivo THEN
+	                                                #PRO.Error.Codigo := -3;
+	                                            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Alarma.Manual THEN
+	                                                #PRO.Error.Codigo := -4;
+	                                            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion THEN
+	                                                #PRO.Error.Codigo := -5;
+	                                            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP THEN
+	                                                #PRO.Error.Codigo := -6;
+	                                            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP THEN
+	                                                #PRO.Error.Codigo := -7;
+	                                            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby THEN
+	                                                #PRO.Error.Codigo := -8;
+	                                            ELSIF NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+	                                                #PRO.Error.Codigo := -9;
+	                                            END_IF;
+	                                            
+	                                            //  GENERAMOS EL TEXTO SEGUN EL TIPO DE ERROR
+	                                            CASE #PRO.Error.Codigo OF
+	                                                -9..-5:
+	                                                    #t_TextoEntidad := CONCAT_STRING(IN1 := &#39;(ID &#39;,
+	                                                                                     IN2 := #t_EntidadID,
+	                                                                                     IN3 := &#39; - PRO. &#39;,
+	                                                                                     IN4 := #t_EntidadAsignacion,
+	                                                                                     IN5 := &#39;)&#39;);
+	                                                ELSE
+	                                                    #t_TextoEntidad := &#39;&#39;;
+	                                            END_CASE;
+	                                            
+	                                            #PRO.Error.Sistema[1] := TRUE;
+	                                            #PRO.Error.Texto := #t_TextoEntidad;
+	                                            #PRO.Estado.CodEstado := #PAUSANDO;
+	                                            GOTO FIN_ESTADOS;
+	                                            
+	                                        ELSE
+	                                            
+	                                            #t_EntidadesCargadas := TRUE;
+	                                            
+	                                            // =============================================================================
+	                                            //  Captura de las entidades
+	                                            FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	                                                
+	                                                IF #PRO.Entidad[#for_i].ID &lt;&gt; 0 AND NOT #PRO.Entidad[#for_i].Tipo THEN
+	                                                    // =============================================================================
+	                                                    //  Asignamos entidad al proceso
+	                                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion := #PRO.ID;
+	                                                    &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                                            TipoProceso := #PRO.TipoProceso,
+	                                                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                                            TipoError =&gt; #t_TipoError,
+	                                                                            DispNumero =&gt; #t_DispNumero);
+	                                                    // =============================================================================
+	                                                    //  Marcar como capturada
+	                                                    IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion = #PRO.ID
+	                                                        AND
+	                                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Capturada
+	                                                    THEN
+	                                                        #PRO.Entidad[#for_i].EstadoCapturada := TRUE;
+	                                                    ELSE
+	                                                        #PRO.Entidad[#for_i].EstadoCapturada := FALSE;
+	                                                        #t_EntidadesCargadas := FALSE;
+	                                                        EXIT;
+	                                                    END_IF;
+	                                                    
+	                                                END_IF;
+	                                                
+	                                            END_FOR;
+	                                            
+	                                            // =============================================================================
+	                                            //  Comprobacion de entidades capturadas en el arranque
+	                                            //  Si no estan todas capturamos ponemos error [2] y pausamos
+	                                            IF #t_EntidadesCargadas THEN
+	                                                #PRO.Aux.EntidadesCargadas := TRUE;
+	                                                #PRO.Aux.SecuenciaArranque := #ARRANQUE_OK;
+	                                            ELSE
+	                                                
+	                                                FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	                                                    
+	                                                    //  Si esta decladara la entidad
+	                                                    IF #PRO.Entidad[#for_i].ID &lt;&gt; 0 AND NOT #PRO.Entidad[#for_i].Tipo THEN
+	                                                        // =============================================================================
+	                                                        //  Asignamos entidad al proceso
+	                                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion := 0;
+	                                                        &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                                                TipoProceso := #PRO.TipoProceso,
+	                                                                                CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                                                TipoError =&gt; #t_TipoError,
+	                                                                                DispNumero =&gt; #t_DispNumero);
+	                                                    END_IF;
+	                                                    
+	                                                END_FOR;
+	                                                
+	                                                #PRO.Aux.EntidadesDisponibles := FALSE;
+	                                                #PRO.Error.Codigo := 0;
+	                                                #PRO.Error.Texto := &#39;&#39;;
+	                                                #PRO.Error.Sistema[2] := TRUE;
+	                                                #PRO.Estado.CodEstado := #PAUSANDO;
+	                                                GOTO FIN_ESTADOS;
+	                                                
+	                                            END_IF;
+	                                            
+	                                        END_IF;
+	                                        
+	                                    END_REGION
+	                                    
+	                                #ARRANQUE_OK:
+	                                    // =============================================================================
+	                                    //  ARRANQUE OK
+	                                    REGION ARRANQUE_OK
+	                                        
+	                                        #PRO.Estado.CodEstado := #EN_MARCHA;
+	                                        #PRO.Aux.ProArrancadoOK := TRUE;
+	                                        GOTO FIN_ESTADOS;
+	                                        
+	                                    END_REGION
+	                                    
+	                                ELSE
+	                                    
+	                                    #PRO.Estado.CodEstado := #FINALIZANDO;
+	                                    
+	                            END_CASE;
+	                            
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                #EN_MARCHA:
+	                    // =============================================================================
+	                    //  ESTADO EN MARCHA
+	                    REGION EN_MARCHA
+	                        
+	                        // =============================================================================
+	                        //  EN MARCHA A PAUSANDO
+	                        //  Con orden de pausa o boton pausar nos vamos a estado pausando
+	                        REGION EN_MARCHA_A_PAUSANDO
+	                            
+	                            IF #PRO.Ordenes.Pausa OR #PRO.Pulsadores.Pausa.Plc THEN
+	                                #PRO.Estado.CodEstado := #PAUSANDO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        
+	                        // =============================================================================
+	                        //  ESTADO EN MARCHA A PAUSANDO POR ERROR
+	                        REGION EN_MARCHA_A_PAUSANDO_POR_ERROR
+	                            
+	                            //  Con algun error y si tenemos la habilitacion nos vamos a pausando
+	                            IF #HabilitacionErrores AND #PRO.Estado.AlgunError THEN
+	                                #PRO.Estado.CodEstado := #PAUSANDO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        
+	                        // =============================================================================
+	                        //  EN MARCHA A FINALIZANDO
+	                        REGION EN_MARCHA_A_FINALIZANDO
+	                            
+	                            IF #PRO.EtapaActual = -1 THEN
+	                                #PRO.Estado.CodEstado := #FINALIZANDO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                #PAUSANDO:
+	                    // =============================================================================
+	                    //  ESTADO PAUSANDO
+	                    REGION PAUSANDO        
+	                        
+	                        // =============================================================================
+	                        //  PAUSANDO A PAUSADO
+	                        REGION PAUSANDO_A_PAUSADO
+	                            
+	                            IF #PRO.Aux.ProArrancadoOK THEN
+	                                
+	                                //  Esperamos a que el tiempo de pausa se cumpla
+	                                IF #PRO.BitMarcha.SecParoCompletada THEN
+	                                    #PRO.Estado.CodEstado := #PAUSADO;
+	                                    GOTO FIN_ESTADOS;
+	                                END_IF;
+	                                
+	                            ELSE
+	                                #PRO.Estado.CodEstado := #PAUSADO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                #PAUSADO:
+	                    // =============================================================================
+	                    //  ESTADO PAUSADO
+	                    REGION PAUSADO
+	                        
+	                        // =============================================================================
+	                        //  PAUSADO A EN ERROR
+	                        REGION PAUSADO_A_EN_ERROR
+	                            
+	                            // Si hay algun error, vamos a etapa EN ERROR
+	                            IF #PRO.Estado.AlgunError THEN
+	                                #PRO.Estado.CodEstado := #EN_ERROR;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        // =============================================================================
+	                        //  PAUSADO A REANUDANDO
+	                        REGION PAUSADO_A_REANUDANDO
+	                            
+	                            // Con orden de reanudar o pulsador reanudar nos vamos a estado reanudando
+	                            IF NOT #PRO.Estado.AlgunError
+	                                AND
+	                                (#PRO.Ordenes.Reanudar OR #PRO.Pulsadores.Reanudar.Plc)
+	                            THEN
+	                                #PRO.Estado.CodEstado := #REANUDANDO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        // =============================================================================
+	                        //  PAUSADO A FINALIZANDO
+	                        REGION PAUSADO_A_FINALIZANDO
+	                            // =============================================================================
+	                            // Orden finalizar
+	                            IF #PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc
+	                            THEN
+	                                #PRO.Aux.ParoOperador := TRUE;
+	                                #PRO.Estado.CodEstado := #FINALIZANDO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                #REANUDANDO:
+	                    // =============================================================================
+	                    //  ESTADO REANUDANDO
+	                    REGION REANUDANDO
+	                        
+	                        IF #PRO.Aux.ProArrancadoOK THEN
+	                            
+	                            //  Esperamos a que el tiempo de reanudar se cumpla
+	                            IF #PRO.BitMarcha.SecMarchaCompletada THEN
+	                                
+	                                // =============================================================================
+	                                //  REANUDANDO A EN MARCHA
+	                                REGION REANUDANDO_A_EN_MARCHA
+	                                    
+	                                    IF NOT #PRO.Estado.AlgunError AND #PRO.Aux.ProArrancadoOK THEN
+	                                        #PRO.Estado.CodEstado := #EN_MARCHA;
+	                                        GOTO FIN_ESTADOS;
+	                                    END_IF;
+	                                    
+	                                END_REGION
+	                                
+	                            ELSE
+	                                // =============================================================================
+	                                //  REANUDANDO A EN ERROR
+	                                //  Si no se ha cumplido el tiempo de reanudar, miramos si salta algun error para ir a pausando
+	                                REGION REANUDANDO_A_EN_ERROR
+	                                    
+	                                    IF #PRO.Estado.AlgunError THEN
+	                                        #PRO.Estado.CodEstado := #EN_ERROR;
+	                                        GOTO FIN_ESTADOS;
+	                                    END_IF;
+	                                    
+	                                END_REGION
+	                                
+	                            END_IF;
+	                            
+	                        ELSE
+	                            // =============================================================================
+	                            //  REANUDANDO A ARRANCANDO
+	                            REGION REANUDANDO_A_ARRANCANDO
+	                                
+	                                IF NOT #PRO.Estado.AlgunError AND NOT #PRO.Aux.ProArrancadoOK THEN
+	                                    #PRO.Estado.CodEstado := #ARRANCANDO;
+	                                    GOTO FIN_ESTADOS;
+	                                END_IF;
+	                                
+	                            END_REGION
+	                            
+	                            
+	                            // =============================================================================
+	                            //  REANUDANDO A EN ERROR
+	                            //  Si no se ha cumplido el tiempo de reanudar, miramos si salta algun error para ir a pausando
+	                            REGION REANUDANDO_A_EN_ERROR
+	                                
+	                                IF #PRO.Estado.AlgunError THEN
+	                                    #PRO.Estado.CodEstado := #EN_ERROR;
+	                                    GOTO FIN_ESTADOS;
+	                                END_IF;
+	                                
+	                            END_REGION
+	                            
+	                        END_IF;
+	                        
+	                    END_REGION
+	                    
+	                #FINALIZANDO:
+	                    // =============================================================================
+	                    //  ESTADO FINALIZANDO
+	                    REGION FINALIZANDO
+	                        
+	                        #PRO.Aux.ProFinalizadoOK := TRUE;
+	                        
+	                        // =============================================================================
+	                        //  LIBERAR ENTIDADES
+	                        FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	                            
+	                            //  Si tenemos entidad declara en proceso
+	                            IF #PRO.Entidad[#for_i].ID &lt;&gt; 0 THEN
+	                                
+	                                IF #PRO.Entidad[#for_i].EstadoCapturada OR &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion = #PRO.ID THEN
+	                                    
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion := 0;
+	                                    
+	                                    IF #PRO.TipoProceso = 1 THEN    // Produccion
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+	                                    ELSIF #PRO.TipoProceso = 2 THEN     // CIP 
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := NOT #PRO.Aux.ParoOperador;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+	                                    ELSIF #PRO.TipoProceso = 3 THEN     // SIP 
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := NOT #PRO.Aux.ParoOperador;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := NOT #PRO.Aux.ParoOperador;
+	                                    ELSIF #PRO.TipoProceso = 4 THEN     // STANDBY
+	                                        ;   //  No se gestiona en modo standby. Se gestiona libremente.
+	                                    END_IF;
+	                                    
+	                                    //  Reset estados produccion, CIP, SIP.
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+	                                    &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                            TipoProceso := #PRO.TipoProceso,
+	                                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                            TipoError =&gt; #t_TipoError,
+	                                                            DispNumero =&gt; #t_DispNumero);
+	                                    
+	                                    #PRO.Entidad[#for_i].EstadoCapturada := FALSE;
+	                                    
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                            IF #PRO.Entidad[#for_i].EstadoCapturada THEN
+	                                #PRO.Aux.ProFinalizadoOK := FALSE;
+	                            END_IF;
+	                            
+	                        END_FOR;
+	                        
+	                        // =============================================================================
+	                        //  FINALIZANDO A FINALIZADO
+	                        REGION FINALIZANDO_A_FINALIZADO
+	                            
+	                            IF #PRO.Aux.ProFinalizadoOK THEN
+	                                #PRO.Estado.CodEstado := #FINALIZADO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                #EN_ERROR:
+	                    // =============================================================================
+	                    //  ESTADO EN ERROR
+	                    REGION EN_ERROR
+	                        
+	                        // =============================================================================
+	                        //  EEN ERROR A PAUSADO
+	                        REGION EN_ERROR_A_PAUSADO
+	                            
+	                            // Con orden de marcha y no hay error, Vamos a etapa REANUDANDO
+	                            IF NOT #PRO.Estado.AlgunError THEN
+	                                #PRO.Error.Codigo := 0;
+	                                #PRO.Error.Texto := &#39;&#39;;
+	                                #PRO.Estado.CodEstado := #PAUSADO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        
+	                        // =============================================================================
+	                        //  EN ERROR A FINALIZANDO
+	                        REGION EN_ERROR_A_FINALIZANDO
+	                            
+	                            IF #PRO.Ordenes.Paro OR #PRO.Pulsadores.Paro.Plc THEN
+	                                #PRO.Estado.CodEstado := #FINALIZANDO;
+	                                GOTO FIN_ESTADOS;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                    END_REGION
+	                    
+	                ELSE
+	                    // =============================================================================
+	                    //  ESTADO DESCONOCIDO
+	                    REGION ESTADO_DESCONOCIDO
+	                        
+	                        #PRO.Estado.CodEstado := #PAUSADO;
+	                        GOTO FIN_ESTADOS;
+	                        
+	                    END_REGION
+	                    
+	            END_CASE;
+	            
+	        END_REGION
+	    FIN_ESTADOS:
+	        
+	        
+	        // =============================================================================
+	        //  ENTIDADES
+	        REGION ENTIDADES
+	            
+	            // Inicializamos bandera de error para este ciclo
+	            #t_ErrorYaRegistrado := FALSE;
+	            
+	            // =============================================================================
+	            //  ESTADOS Y DISPONIBILIDAD ENTIDADES CAPTURADAS POR EL PROCESO
+	            REGION GESTION_DISPONIBILIDAD_Y_ESTADOS
+	                
+	                IF NOT #PRO.Estado.Finalizado THEN
+	                    
+	                    //  SI ESTA DECLARADA UNA ENTIDAD
+	                    FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	                        IF #PRO.Entidad[#for_i].ID &lt;&gt; 0 THEN
+	                            
+	                            //  Actualizamos el estado de las entidades declaradas en el proceso
+	                            #PRO.Entidad[#for_i].EstadoDisponible := &#34;FC4_ZC_DISPONIBILIDAD_ENTIDAD&#34;(#PRO.Entidad[#for_i].ID);
+	                            
+	                            // Estados y errores
+	                            IF NOT #PRO.Estado.Arrancando THEN
+	                                
+	                                //  LA ENTIDAD LA TIENE CAPTURADA EL PROCESO ACTUAL
+	                                IF #PRO.Entidad[#for_i].EstadoCapturada THEN
+	                                    
+	                                    //  Actualizamos el estado de la entidad
+	                                    &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                            TipoProceso := #PRO.TipoProceso,
+	                                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                            TipoError =&gt; #t_TipoError,
+	                                                            DispNumero =&gt; #t_DispNumero);
+	                                    
+	                                    
+	                                    IF #PRO.TipoProceso = 1 THEN    // Produccion
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := NOT #PRO.Aux.ProFinalizadoOK;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+	                                        
+	                                    ELSIF #PRO.TipoProceso = 2 THEN     // CIP
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := NOT #PRO.Aux.ProFinalizadoOK;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := NOT #PRO.Aux.ParoOperador;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+	                                        
+	                                    ELSIF #PRO.TipoProceso = 3 THEN     // SIP
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := TRUE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia AND NOT #PRO.Aux.ParoOperador;
+	                                        
+	                                    ELSIF #PRO.TipoProceso = 4 THEN     // STANDBY
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := TRUE;
+	                                        
+	                                        // No se gestionan los estados en standby, se mantienen con su ultimo estado
+	                                        
+	                                    END_IF;
+	                                    
+	                                    //  Asignacion de producto, agua, vacia
+	                                    IF #PRO.Entidad[#for_i].OrdenConProducto THEN
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.ConProducto := TRUE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.ConAgua := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Vacia := FALSE;
+	                                    END_IF;
+	                                    IF #PRO.Entidad[#for_i].OrdenConAgua THEN
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.ConProducto := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.ConAgua := TRUE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Vacia := FALSE;
+	                                    END_IF;
+	                                    IF #PRO.Entidad[#for_i].OrdenVacia THEN
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.ConProducto := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.ConAgua := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Vacia := TRUE;
+	                                    END_IF;
+	                                    
+	                                    
+	                                    // Comprobacion de errores, solo revisamos el primer error que encontremos.
+	                                    IF #HabilitacionErroresDispositivos AND NOT #t_ErrorYaRegistrado THEN
+	                                        
+	                                        IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Alarma.Dispositivo THEN
+	                                            
+	                                            #PRO.Error.Sistema[3] := TRUE;
+	                                            #PRO.Error.Codigo := -3;
+	                                            
+	                                            #PRO.Error.Texto := &#39;&#39;;
+	                                            #t_ErrorYaRegistrado := TRUE; // Bloqueamos futuros errores en este ciclo
+	                                            
+	                                        END_IF;
+	                                        
+	                                        IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Alarma.Manual THEN
+	                                            
+	                                            #PRO.Error.Sistema[3] := TRUE;
+	                                            #PRO.Error.Codigo := -4;
+	                                            
+	                                            #PRO.Error.Texto := &#39;&#39;;
+	                                            #t_ErrorYaRegistrado := TRUE; // Bloqueamos futuros errores en este ciclo
+	                                            
+	                                        END_IF;
+	                                        
+	                                    END_IF;
+	                                    
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                        END_IF;
+	                        
+	                    END_FOR;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            // =============================================================================
+	            //  CAPTURAR Y LIBERAR ENTIDADES
+	            REGION CAPTURAR_LIBERAR_ENTIDADES
+	                
+	                IF (NOT #PRO.Estado.Finalizado
+	                    AND
+	                    NOT #PRO.Estado.Pausando
+	                    AND
+	                    NOT #PRO.Estado.Reanudando
+	                    AND
+	                    NOT #PRO.Estado.Arrancando)
+	                    OR #PRO.Flanco.F_Finalizado
+	                THEN
+	                    
+	                    FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	                        
+	                        // Comprobar si esta declarada en el proceso
+	                        IF #PRO.Entidad[#for_i].ID &lt;&gt; 0 THEN
+	                            
+	                            // =============================================================================
+	                            //  LIBERAR ENTIDAD
+	                            REGION LIBERAR_ENTIDAD
+	                                
+	                                // Liberar Entidad
+	                                IF #PRO.Entidad[#for_i].EstadoCapturada
+	                                    AND
+	                                    (#PRO.Entidad[#for_i].OrdenLiberar OR #PRO.Flanco.F_Finalizado)
+	                                THEN
+	                                    
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion := 0;
+	                                    
+	                                    IF #PRO.TipoProceso = 1 THEN    // Produccion
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := FALSE;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+	                                    ELSIF #PRO.TipoProceso = 2 THEN     // CIP 
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia := NOT #PRO.Aux.ParoOperador;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Sucia := NOT &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia;
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := FALSE;
+	                                    ELSIF #PRO.TipoProceso = 3 THEN     // SIP 
+	                                        // Los estados de limpia y sucio no se gestionan en esterilizacion, se mantienen con su ultimo estado.
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Esterilizada := &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Limpia AND NOT #PRO.Aux.ParoOperador;
+	                                    ELSIF #PRO.TipoProceso = 4 THEN     // STANDBY 
+	                                        // No se gestionan los estados en standby, se mantienen con su ultimo estado
+	                                        ;
+	                                    END_IF;
+	                                    
+	                                    //  Reset estados produccion, CIP, SIP, Standby
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnProduccion := FALSE;
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnCIP := FALSE;
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnSIP := FALSE;
+	                                    &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.EnStandby := FALSE;
+	                                    
+	                                    &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                            TipoProceso := #PRO.TipoProceso,
+	                                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                            TipoError =&gt; #t_TipoError,
+	                                                            DispNumero =&gt; #t_DispNumero);
+	                                    
+	                                    IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+	                                        #PRO.Entidad[#for_i].EstadoCapturada := FALSE;
+	                                        #PRO.Entidad[#for_i].ID := 0;
+	                                    END_IF;
+	                                    
+	                                END_IF;
+	                                
+	                            END_REGION
+	                            
+	                            
+	                            // =============================================================================
+	                            //  CAPTURAR ENTIDAD
+	                            REGION CAPTURAR_ENTIDAD
+	                                
+	                                // Capturar Entidad
+	                                IF NOT #PRO.Entidad[#for_i].EstadoCapturada AND #PRO.Entidad[#for_i].OrdenCapturar THEN
+	                                    &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                            TipoProceso := #PRO.TipoProceso,
+	                                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                            TipoError =&gt; #t_TipoError,
+	                                                            DispNumero =&gt; #t_DispNumero);
+	                                    
+	                                    IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Disponible THEN
+	                                        
+	                                        //  Asignamos la entidad al proceso
+	                                        &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion := #PRO.ID;
+	                                        
+	                                    END_IF;
+	                                    
+	                                    &#34;FC6_ZC_ESTADO_ENTIDAD&#34;(Entidad := #PRO.Entidad[#for_i].ID,
+	                                                            TipoProceso := #PRO.TipoProceso,
+	                                                            CodigoProducto := #PRO.Entidad[#for_i].Producto,
+	                                                            TipoError =&gt; #t_TipoError,
+	                                                            DispNumero =&gt; #t_DispNumero);
+	                                    
+	                                    //  Si la entidad ha sido capturada correctamente por el proceso, la marcamos como capturada
+	                                    IF &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Asignacion = #PRO.ID AND &#34;DB6_ENTIDAD&#34;.ENT[#PRO.Entidad[#for_i].ID].Estado.Capturada THEN
+	                                        #PRO.Entidad[#for_i].EstadoCapturada := TRUE;
+	                                    END_IF;
+	                                    
+	                                END_IF;
+	                                
+	                            END_REGION
+	                            
+	                        END_IF;
+	                        
+	                    END_FOR;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  ERRORES
+	        REGION ERRORES
+	            
+	            REGION ALGUN_ERROR
+	                
+	                //=====================================================================================
+	                // Algun error de proceso
+	                IF #HabilitacionErrores AND NOT #PRO.Estado.Finalizado THEN
+	                    FOR #for_i := 1 TO 8 DO
+	                        IF #PRO.Error.Sistema[#for_i] OR #PRO.Error.Usuario[#for_i] THEN
+	                            #PRO.Estado.AlgunError := TRUE;
+	                        END_IF;
+	                    END_FOR;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            REGION RECONOCER_ERRORES
+	                
+	                //=====================================================================================
+	                //  Reconocer errores
+	                IF (#PRO.Estado.EnError AND (#PRO.Pulsadores.ResetErrores.Plc OR #PRO.Ordenes.ResetErrores))
+	                    OR
+	                    #PRO.Estado.Finalizado
+	                THEN
+	                    FOR #for_i := 1 TO 8 DO
+	                        #PRO.Error.Usuario[#for_i] := #PRO.Error.Sistema[#for_i] := #PRO.Estado.AlgunError := FALSE;
+	                    END_FOR;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  ENCLAVAMIENTOS
+	        REGION ENCLAVAMIENTOS
+	            
+	            #PRO.Estado.Enclavado := FALSE;
+	            
+	            FOR #for_i := 1 TO 15 DO
+	                IF #PRO.Enclavamiento[#for_i] THEN
+	                    #PRO.Estado.Enclavado := TRUE;
+	                END_IF;
+	            END_FOR;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  AVISOS
+	        REGION AVISOS
+	            
+	            //  Proceso enclavado
+	            #PRO.Aviso.Sistema[1] := FALSE;
+	            
+	            IF #PRO.Estado.Finalizado THEN
+	                
+	                IF #PRO.Estado.Enclavado THEN
+	                    #PRO.Aviso.Sistema[1] := TRUE;
+	                    #PRO.Aviso.Codigo := -2;
+	                    #PRO.Aviso.Texto := &#39;&#39;;
+	                END_IF;
+	                
+	            END_IF;
+	            
+	            //  Paro por operador
+	            IF #PRO.Aviso.Sistema[2] THEN
+	                #PRO.Aviso.Codigo := -1;
+	                #PRO.Aviso.Texto := &#39;&#39;;
+	            END_IF;
+	            
+	            //  Algun aviso
+	            #PRO.Estado.AlgunAviso := FALSE;
+	            
+	            IF #PRO.VentanaAviso.Mostrar THEN
+	                #PRO.Estado.AlgunAviso := TRUE;
+	            END_IF;
+	            
+	            FOR #for_i := 1 TO 8 DO
+	                
+	                IF #PRO.Aviso.Sistema[#for_i] OR #PRO.Aviso.Usuario[#for_i] THEN
+	                    #PRO.Estado.AlgunAviso := TRUE;
+	                END_IF;
+	                
+	            END_FOR;
+	            
+	            //  Limpiamos los textos de avisos cuando no los hay
+	            IF NOT #PRO.Estado.AlgunAviso THEN
+	                #PRO.Aviso.Codigo := 0;
+	                #PRO.Aviso.Texto := &#39;&#39;;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  VENTANA DE AVISOS
+	        REGION VENTANA_DE_AVISOS
+	            
+	            IF NOT #PRO.Estado.EnMarcha THEN
+	                #PRO.VentanaAviso.Mostrar := FALSE;
+	            END_IF;
+	            
+	            //  Gestion de ventana de avisos
+	            IF NOT #PRO.VentanaAviso.Mostrar THEN
+	                #PRO.VentanaAviso.Tipo := 0;
+	                #PRO.VentanaAviso.CodigoTexto1 := 0;
+	                #PRO.VentanaAviso.CodigoTexto2 := 0;
+	                #PRO.VentanaAviso.CodigoTextoAceptar := 0;
+	                #PRO.VentanaAviso.CodigoTextoCancelar := 0;
+	            ELSE
+	                
+	                CASE #PRO.VentanaAviso.Tipo OF
+	                    0:  //  0 = Aceptar/Cancelar
+	                        #PRO.VentanaAviso.Aceptar.Permiso := TRUE;
+	                        #PRO.VentanaAviso.Cancelar.Permiso := TRUE;
+	                    1:  //  1 = Solo Aceptar
+	                        #PRO.VentanaAviso.Aceptar.Permiso := TRUE;
+	                        #PRO.VentanaAviso.Cancelar.Permiso := FALSE;
+	                    2:  // 2 = Solo Cancelar    
+	                        #PRO.VentanaAviso.Aceptar.Permiso := FALSE;
+	                        #PRO.VentanaAviso.Cancelar.Permiso := TRUE;
+	                END_CASE;
+	                
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  CAMBIO DE ETAPA
+	        REGION CAMBIO_ETAPA
+	            
+	            //  Permiso boton salto de etapa
+	            #PRO.Pulsadores.SaltoEtapa.Permiso := #PRO.SaltoEtapa.CambioPosible AND #PRO.SaltoEtapa.NuevaEtapa &lt;&gt; 0;
+	            
+	            //  Cambio de etapa desde HMI
+	            IF #PRO.SaltoEtapa.NuevaEtapa &lt;&gt; 0 THEN
+	                
+	                //  Forzamos campo de etapa
+	                IF #PRO.SaltoEtapa.CambioPosible AND
+	                    #PRO.Pulsadores.SaltoEtapa.Plc
+	                THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                            User := &#39;Sistema&#39;,
+	                                            Codigo1 := #PRO.ID,
+	                                            Codigo2 := &#34;TRZ_SYS_PRO_SALTO_ETA&#34;,
+	                                            Codigo3 := 0,
+	                                            Texto := &#34;FC15001_ZC_INT_TO_STRING&#34;(#PRO.SaltoEtapa.NuevaEtapa));
+	                    #PRO.EtapaSiguiente := #PRO.SaltoEtapa.NuevaEtapa;
+	                    
+	                    #PRO.SaltoEtapa.CambioPosible := FALSE;
+	                    #PRO.SaltoEtapa.NuevaEtapa := 0;
+	                END_IF;
+	                
+	            END_IF;
+	            
+	            //  Cambio de etapa
+	            IF #PRO.EtapaSiguiente &lt;&gt; 0 THEN
+	                
+	                #PRO.EtapaActual := #PRO.EtapaSiguiente;
+	                #PRO.EtapaSiguiente := 0;
+	                #PRO.Ordenes.SaltarEtapa := FALSE;
+	                #PRO.TiempoEtapa.Actual := 0;
+	                #PRO.TiempoEtapa.Cumplido := FALSE;
+	                #PRO.TiempoEtapa.Activar := FALSE;
+	                #PRO.LitrosEtapa.Actual := 0;
+	                #PRO.LitrosEtapa.Cumplido := FALSE;
+	                #PRO.LitrosEtapa.Activar := FALSE;
+	                #PRO.TON[1].IN :=
+	                #PRO.TON[2].IN :=
+	                #PRO.TON[1].Q :=
+	                #PRO.TON[2].Q := FALSE;
+	                
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  TIEMPO DE ETAPA
+	        REGION TIEMPO_ETAPA
+	            
+	            //  Proceso en estado parado
+	            IF #PRO.Estado.Finalizado THEN
+	                #PRO.TiempoEtapa.Actual := 0;
+	                #PRO.TiempoEtapa.Activar := FALSE;
+	                #PRO.TiempoEtapa.Cumplido := FALSE;
+	            END_IF;
+	            
+	            //  Salto de etapa
+	            IF #PRO.Flanco.F_CambioEtapa THEN
+	                #PRO.TiempoEtapa.Activar := FALSE;
+	                #PRO.TiempoEtapa.Cumplido := FALSE;
+	                #PRO.TiempoEtapa.Actual := 0;
+	            END_IF;
+	            
+	            //  Temporizador activo
+	            IF #PRO.Estado.EnMarcha
+	                AND
+	                #PRO.TiempoEtapa.Activar
+	            THEN
+	                
+	                IF #Pulso1Seg
+	                    AND
+	                    (#PRO.TiempoEtapa.Actual &lt; #PRO.TiempoEtapa.SP)
+	                THEN
+	                    #PRO.TiempoEtapa.Actual += 1;
+	                END_IF;
+	                
+	                //  Reiniciar tiempo etapa cumplido para esperar condicion
+	                #PRO.TiempoEtapa.Cumplido := FALSE;
+	                
+	                //  Tiempo etapa cumplido 
+	                IF #PRO.TiempoEtapa.Actual &gt;= #PRO.TiempoEtapa.SP AND #PRO.TiempoEtapa.Activar THEN
+	                    #PRO.TiempoEtapa.Cumplido := TRUE;
+	                END_IF;
+	                
+	                //  Tiempo restante
+	                #PRO.TiempoEtapa.Restante := #PRO.TiempoEtapa.SP - #PRO.TiempoEtapa.Actual;
+	                
+	            END_IF;
+	            
+	            //  Reiniciar tiempo etapa
+	            IF #PRO.TiempoEtapa.Reset THEN
+	                #PRO.TiempoEtapa.Actual := 0;
+	                #PRO.TiempoEtapa.Cumplido := FALSE;
+	                #PRO.TiempoEtapa.Reset := FALSE;
+	            END_IF;
+	            
+	            //  Tiempo restante
+	            #PRO.TiempoEtapa.Restante := #PRO.TiempoEtapa.SP - #PRO.TiempoEtapa.Actual;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  LITROS DE ETAPA
+	        REGION LITROS_ETAPA
+	            
+	            //  Proceso en estado parado
+	            IF #PRO.Estado.Finalizado THEN
+	                #PRO.LitrosEtapa.Actual := 0.0;
+	                #PRO.LitrosEtapa.Activar := FALSE;
+	                #PRO.LitrosEtapa.Cumplido := FALSE;
+	            END_IF;
+	            
+	            //  Salto de etapa
+	            IF #PRO.Flanco.F_CambioEtapa THEN
+	                #PRO.LitrosEtapa.Activar := FALSE;
+	                #PRO.LitrosEtapa.Cumplido := FALSE;
+	                #PRO.LitrosEtapa.Actual := 0.0;
+	            END_IF;
+	            
+	            //  Contaje de litros activo
+	            IF NOT #PRO.Estado.Finalizado
+	                AND
+	                #PRO.LitrosEtapa.Activar
+	            THEN
+	                
+	                //  Reiniciar litros etapa cumplido para esperar condicion
+	                #PRO.LitrosEtapa.Cumplido := FALSE;
+	                
+	                //  Litros etapa cumplido 
+	                IF #PRO.LitrosEtapa.Actual &gt;= #PRO.LitrosEtapa.SP THEN
+	                    #PRO.LitrosEtapa.Cumplido := TRUE;
+	                END_IF;
+	                
+	            END_IF;
+	            
+	            //  Reiniciar tiempo etapa
+	            IF #PRO.LitrosEtapa.Reset THEN
+	                #PRO.LitrosEtapa.Actual := 0.0;
+	                #PRO.LitrosEtapa.Cumplido := FALSE;
+	                #PRO.LitrosEtapa.Reset := FALSE;
+	            END_IF;
+	            
+	            //  Tiempo restante
+	            #PRO.LitrosEtapa.Restante := #PRO.LitrosEtapa.SP - #PRO.LitrosEtapa.Actual;
+	            IF #PRO.LitrosEtapa.Restante &lt; 0.0 THEN
+	                #PRO.LitrosEtapa.Restante := 0.0;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  TEMPORIZADORES
+	        REGION TEMPORIZADORES
+	            
+	            //  Gestion de reset temporizadores al cambio de etapa.
+	            IF #PRO.Flanco.F_CambioEtapa THEN
+	                #PRO.TON[1].IN :=
+	                #PRO.TON[2].IN :=
+	                #PRO.TONR.IN := FALSE;
+	                #PRO.TONR.RESET := TRUE;
+	            END_IF;
+	            
+	            //  Gestion temporizadores
+	            &#34;FC2928_ZC_TON_INDV&#34;(Pulso1seg := #Pulso1Seg,
+	                                 TON := #PRO.TON[1]);
+	            &#34;FC2928_ZC_TON_INDV&#34;(Pulso1seg := #Pulso1Seg,
+	                                 TON := #PRO.TON[2]);
+	            &#34;FC2930_ZC_TONR_INDV&#34;(Pulso1seg := #Pulso1Seg,
+	                                  TONR := #PRO.TONR);
+	            
+	            //  Reset ordenes para poder usar como SET en proceso
+	            #PRO.TON[1].IN :=
+	            #PRO.TON[2].IN :=
+	            #PRO.TONR.IN := FALSE;
+	            
+	            //  Gestion reset TONR. En caso de que este finalizado, se pone a 1 para que se reseteen.
+	            IF #PRO.Estado.Finalizado THEN
+	                #PRO.TONR.RESET := TRUE;
+	            ELSE
+	                #PRO.TONR.RESET := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  INFORME
+	        REGION INFORME
+	            
+	            //  INFORME (Hora de inicio)
+	            IF #PRO.Flanco.F_InformeInicio THEN
+	                
+	                //  Datos informe inicio
+	                #PRO.Informe.HoraInicio.Ano := #FechaHoraActual.YEAR;
+	                #PRO.Informe.HoraInicio.Mes := #FechaHoraActual.MONTH;
+	                #PRO.Informe.HoraInicio.Dia := #FechaHoraActual.DAY;
+	                #PRO.Informe.HoraInicio.Hora := #FechaHoraActual.HOUR;
+	                #PRO.Informe.HoraInicio.Minuto := #FechaHoraActual.MINUTE;
+	                #PRO.Informe.HoraInicio.Segundo := #FechaHoraActual.SECOND;
+	                
+	                //  Reset informe fin
+	                #PRO.Informe.HoraFin.Ano := 0;
+	                #PRO.Informe.HoraFin.Mes := 0;
+	                #PRO.Informe.HoraFin.Dia := 0;
+	                #PRO.Informe.HoraFin.Hora := 0;
+	                #PRO.Informe.HoraFin.Minuto := 0;
+	                #PRO.Informe.HoraFin.Segundo := 0;
+	                
+	            END_IF;
+	            
+	            //  INFORME (Hora de fin)
+	            IF #PRO.Flanco.F_InformeFin THEN
+	                
+	                //  Datos informe fin
+	                #PRO.Informe.HoraFin.Ano := #FechaHoraActual.YEAR;
+	                #PRO.Informe.HoraFin.Mes := #FechaHoraActual.MONTH;
+	                #PRO.Informe.HoraFin.Dia := #FechaHoraActual.DAY;
+	                #PRO.Informe.HoraFin.Hora := #FechaHoraActual.HOUR;
+	                #PRO.Informe.HoraFin.Minuto := #FechaHoraActual.MINUTE;
+	                #PRO.Informe.HoraFin.Segundo := #FechaHoraActual.SECOND;
+	                
+	            END_IF;
+	            
+	            //  INFORME (Tiempo en marcha)
+	            &#34;FC15025_ZC_CONTADOR_TIEMPO&#34;(Pulso1seg := #Pulso1Seg,
+	                                         Iniciar := #PRO.Estado.EnMarcha AND #PRO.Informe.OrdenMarcha,
+	                                         Reset := #PRO.Informe.ResetMarcha OR #PRO.Flanco.F_InformeInicio,
+	                                         Contador := #PRO.Informe.TiempoMarcha);
+	            
+	            //  INFORME (Tiempo Total)
+	            &#34;FC15025_ZC_CONTADOR_TIEMPO&#34;(Pulso1seg := #Pulso1Seg,
+	                                         Iniciar := NOT #PRO.Estado.Arrancando AND NOT #PRO.Estado.Finalizando AND NOT #PRO.Estado.Finalizado,
+	                                         Reset := #PRO.Informe.ResetTotal OR #PRO.Flanco.F_InformeInicio,
+	                                         Contador := #PRO.Informe.TiempoTotal);
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  BIT DE MARCHA
+	        REGION BIT_M
+	            
+	            //  Gestion de bits de marcha/paro secuencial
+	            &#34;FC15151_ZC_MARCHA_PARO_SEC&#34;(Pulso1Seg := #Pulso1Seg,
+	                                         Seguridad := #SeguridadOk,
+	                                         Marcha := #PRO.Estado.Arrancando OR #PRO.Estado.EnMarcha OR #PRO.Estado.Reanudando,
+	                                         MP_SEC := #PRO.BitMarcha);
+	            
+	        END_REGION
+	        
+	        
+	        // =============================================================================
+	        //  RESET ORDENES INCONDICIONALES
+	        #PRO.Ordenes.Marcha :=
+	        #PRO.Ordenes.Pausa :=
+	        #PRO.Ordenes.Paro :=
+	        #PRO.Ordenes.Reanudar :=
+	        #PRO.Ordenes.ResetErrores :=
+	        #PRO.Ordenes.SaltarEtapa :=
+	        #PRO.Informe.OrdenIncio :=
+	        #PRO.Informe.OrdenFin :=
+	        #PRO.Informe.OrdenMarcha :=
+	        #PRO.Informe.ResetMarcha :=
+	        #PRO.Informe.ResetTotal := FALSE;
+	        
+	        FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_PROCESO&#34; DO
+	            #PRO.Entidad[#for_i].OrdenCapturar :=
+	            #PRO.Entidad[#for_i].OrdenLiberar :=
+	            #PRO.Entidad[#for_i].OrdenVacia :=
+	            #PRO.Entidad[#for_i].OrdenConAgua :=
+	            #PRO.Entidad[#for_i].OrdenConProducto := FALSE;
+	            #PRO.Entidad[#for_i].Producto := 0;
+	        END_FOR;
+	        
+	        // =============================================================================
+	        //  RESET DE TODOS LOS ERRORES DE USUARIO PARA QUE SE PUEDAN VOLVER A GENERAR
+	        FOR #for_i := 1 TO 8 DO
+	            #PRO.Error.Usuario[#for_i] := FALSE;
+	        END_FOR;
+	        
+	        // =============================================================================
+	        //  TRAZABILIDAD
+	        REGION TRAZABILIDAD
+	            
+	            // =============================================================================
+	            //  TRAZA DEL INICIO DEL PROCESO
+	            REGION TRAZA_INICIO
+	                
+	                IF #PRO.Flanco.F_Arrancando THEN
+	                    
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                            User := &#39;Sistema&#39;,
+	                                            Codigo1 := #PRO.ID,
+	                                            Codigo2 := &#34;TRZ_SYS_PRO_INICIO&#34;,
+	                                            Codigo3 := 0,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            // =============================================================================
+	            //  TRAZA DE PAUSA DEL PROCESO
+	            REGION TRAZA_PAUSA
+	                
+	                IF #PRO.Flanco.F_Pausado THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                            User := &#39;Sistema&#39;,
+	                                            Codigo1 := #PRO.ID,
+	                                            Codigo2 := &#34;TRZ_SYS_PRO_PAUSA&#34;,
+	                                            Codigo3 := 0,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            // =============================================================================
+	            //  TRAZA DEL INICIO DEL PROCESO
+	            REGION TRAZA_REANUDAR
+	                
+	                IF #PRO.Flanco.F_Reanudando THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                            User := &#39;Sistema&#39;,
+	                                            Codigo1 := #PRO.ID,
+	                                            Codigo2 := &#34;TRZ_SYS_PRO_REANUDAR&#34;,
+	                                            Codigo3 := 0,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            // =============================================================================
+	            //  TRAZA ERROR
+	            REGION TRAZA_ERROR
+	                
+	                IF #PRO.Flanco.F_EnError THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                            User := &#39;Sistema&#39;,
+	                                            Codigo1 := #PRO.ID,
+	                                            Codigo2 := &#34;TRZ_SYS_PRO_ERROR&#34;,
+	                                            Codigo3 := #PRO.Error.Codigo,
+	                                            Texto := #PRO.Error.Texto);
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            // =============================================================================
+	            //  TRAZA DEL INICIO DEL PROCESO
+	            REGION TRAZA_FIN
+	                
+	                IF #PRO.Flanco.F_Finalizado THEN
+	                    IF #PRO.Aux.ParoOperador THEN
+	                        &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                                Registrar := 1,
+	                                                Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                                User := &#39;Sistema&#39;,
+	                                                Codigo1 := #PRO.ID,
+	                                                Codigo2 := &#34;TRZ_SYS_PRO_FIN_OPER&#34;,
+	                                                Codigo3 := 0,
+	                                                Texto := &#39;&#39;);
+	                        //  Aviso paro operador
+	                        #PRO.Aviso.Sistema[2] := TRUE;
+	                    ELSE
+	                        &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := #FechaHoraActual,
+	                                                Registrar := 1,
+	                                                Categoria := &#34;TRZ_CAT_1_SYS&#34;,
+	                                                User := &#39;Sistema&#39;,
+	                                                Codigo1 := #PRO.ID,
+	                                                Codigo2 := &#34;TRZ_SYS_PRO_FIN&#34;,
+	                                                Codigo3 := 0,
+	                                                Texto := &#39;&#39;);
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        END_REGION
+	        
+	    END_IF;
+	    
+	END_REGION
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

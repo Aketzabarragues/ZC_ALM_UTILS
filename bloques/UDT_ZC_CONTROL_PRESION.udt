@@ -1,0 +1,12 @@
+﻿TYPE "UDT_ZC_CONTROL_PRESION"
+VERSION : 0.1
+   STRUCT
+      PasoFino : Real := -150.0;   // Paso a fino
+      Deadband : Real := -10.0;   // Banda muerta
+      Minima : Real := -100.0;   // Presion minima
+      Aviso : Real := -250.0;   // Aviso
+      Alarma : Real := -350.0;   // Alarma
+   END_STRUCT;
+
+END_TYPE
+

@@ -23,155 +23,10 @@
     </h1>
 
     
-        <h3>Descripción General</h3>
-        <p style="white-space: pre-wrap;">Nombre:         FC8_TRAZA_REGISTRO
-Descripcion:    Funcion para gestion de los estados de las entidades.
-Comprueba si los dispositivos físicos de una entidad tienen error o están en manual,
-bloquea la disponibilidad de la entidad y calcula su código de estado y producto.</p>
-        
-        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
-            <strong>Notas y Restricciones:</strong>
-            <p style="white-space: pre-wrap; margin-bottom: 0;">Software:       TIA Portal 16
-Restricciones:  PLC serie 1200/1500</p>
-        </div>
-        
-    
-</div>
-
-
-<div class="doc-section" id="dependencias">
-    <h3>Dependencias</h3>
-    <table>
-        <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
-        
-            
-                <tr>
-                    <td><strong>DB</strong></td>
-                    <td>
-                        
-                            DB6_ENTIDAD, DB2010_V, DB2015_M, DB2016_M_VF
-                        
-                    </td>
-                </tr>
-            
-        
-            
-                <tr>
-                    <td><strong>UDT</strong></td>
-                    <td>
-                        
-                            ZC_ENTIDAD
-                        
-                    </td>
-                </tr>
-            
-        
-    </table>
 </div>
 
 
 
-<div class="doc-section" id="changelog">
-    <h3>Historial de Cambios (Changelog)</h3>
-    <table>
-        <tr>
-        
-            <th>Version</th>
-        
-            <th>Fecha</th>
-        
-            <th>Tecnico a cargo</th>
-        
-            <th>Descripcion</th>
-        
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.00</td>
-            
-            <td>15.10.2020</td>
-            
-            <td>(ABH)</td>
-            
-            <td>Primera version.</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.01</td>
-            
-            <td>02.02.2021</td>
-            
-            <td>(ABH)</td>
-            
-            <td>Modificado para uso como funcion. Se elimina el bucle que recorria todo el array de entidades, para revisar solamente la entidad que se le pasa como entrada.</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.02</td>
-            
-            <td>02.12.2022</td>
-            
-            <td>(ABH)</td>
-            
-            <td>Se modifica el UDT para estandarizacion.</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.03</td>
-            
-            <td>02.12.2022</td>
-            
-            <td>(HCR)</td>
-            
-            <td>Se modifica el UDT para Dispositivos en distintos DBs.</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.04</td>
-            
-            <td>15.10.2020</td>
-            
-            <td>(ABH)</td>
-            
-            <td>Se añade gestion de codigo de estado.</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.05</td>
-            
-            <td>10.03.2025</td>
-            
-            <td>(ABH)</td>
-            
-            <td>Se añade gestion de codigo de producto a las entidades.</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.06</td>
-            
-            <td>10.03.2025</td>
-            
-            <td>(HCR)</td>
-            
-            <td>Se integra la gestión de idioma para los textos de error.</td>
-            
-        </tr>
-        
-    </table>
-</div>
 
 
 
@@ -182,127 +37,36 @@ Restricciones:  PLC serie 1200/1500</p>
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
-            <td><strong>Entidad</strong></td>
-            <td>Int</td>
-            <td>Numero de entidad a gestionar</td>
+            <td><strong>FechaHora</strong></td>
+            <td>DTL</td>
+            <td></td>
         </tr>
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
-            <td><strong>TipoProceso</strong></td>
+            <td><strong>Categoria</strong></td>
             <td>Int</td>
-            <td>Tipo de proceso</td>
+            <td></td>
         </tr>
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
-            <td><strong>CodigoProducto</strong></td>
+            <td><strong>Codigo1</strong></td>
             <td>Int</td>
-            <td>Codigo de producto</td>
+            <td></td>
         </tr>
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
-            <td><strong>Idioma</strong></td>
-            <td>Int</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
-            <td><strong>TextoError</strong></td>
-            <td>String</td>
-            <td>Texto de error</td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>for_i</strong></td>
+            <td><strong>Codigo3</strong></td>
             <td>Int</td>
             <td></td>
         </tr>
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>t_DispManual</strong></td>
-            <td>Bool</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>t_TextoErrorDisp</strong></td>
-            <td>String</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>t_ValvulaDesviadora</strong></td>
-            <td>String</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>t_Sinamics</strong></td>
-            <td>String</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>t_Fallo</strong></td>
-            <td>String</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>VALVULA_ES</strong></td>
-            <td>String := 'VALVULA '</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>VARIADOR_ES</strong></td>
-            <td>String := 'VARIADOR '</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>MOTOR_ES</strong></td>
-            <td>String := 'MOTOR '</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>MANUAL_ES</strong></td>
-            <td>String := ' EN MODO MANUAL'</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>VALVULA_DESVIADORA_EN</strong></td>
-            <td>String := 'DIVERTER VALVE  '</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>SINAMICS_EN</strong></td>
-            <td>String := 'SINAMICS '</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR</span></td>
-            <td><strong>FALLO_EN</strong></td>
-            <td>String := 'FAILURE IN '</td>
+            <td><strong>t_dummy</strong></td>
+            <td>Int</td>
             <td></td>
         </tr>
         
@@ -312,648 +76,92 @@ Restricciones:  PLC serie 1200/1500</p>
 
 
 
-    
-    
-    
-    
-    
-        <div class="doc-section" id="region_0">
-        <h3>🔸 Lógica: IDIOMA</h3>
-    
-    
-    
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Asigna los textos correspondientes a los tipos de dispositivos y prefijos de error
-dependiendo del idioma seleccionado en la entrada del bloque (1=ES, 2=EN, 3=DE).
-Si el idioma no está definido, por defecto carga Español.</p>
-    
-    
-    
-        <pre class="scl-code" style="margin-bottom: 0;">REGION IDIOMA
-    CASE #Idioma OF
-            // =============================================================================
-            // ESPAÑOL
-        1:
-            #t_Valvula := #VALVULA_ES;
-            #t_ValvulaDesviadora := #VALVULA_DESVIADORA_ES;
-            #t_Variador := #VARIADOR_ES;
-            #t_Sinamics := #SINAMICS_ES;
-            #t_Motor := #MOTOR_ES;
-            #t_Fallo := #FALLO_ES;
-            #t_Manual := #MANUAL_ES;
-            // =============================================================================
-            // INGLES
-        2:
-            #t_Valvula := #VALVULA_EN;
-            #t_ValvulaDesviadora := #VALVULA_DESVIADORA_EN;
-            #t_Variador := #VARIADOR_EN;
-            #t_Sinamics := #SINAMICS_EN;
-            #t_Motor := #MOTOR_EN;
-            #t_Fallo := #FALLO_EN;
-            #t_Manual := #MANUAL_EN;
-            // =============================================================================
-            // ALEMAN
-        3:
-            ;
-        ELSE
-            #t_Valvula := #VALVULA_ES;
-            #t_ValvulaDesviadora := #VALVULA_DESVIADORA_ES;
-            #t_Variador := #VARIADOR_ES;
-            #t_Sinamics := #SINAMICS_ES;
-            #t_Motor := #MOTOR_ES;
-            #t_Fallo := #FALLO_ES;
-            #t_Manual := #MANUAL_ES;
-    END_CASE;
-END_REGION</pre>
-    
-    
-    
 
-    
-    
-    
-        
-        
-            </div>
-        
-    
-    
-    
-        <div class="doc-section" id="region_1">
-        <h3>🔸 Lógica: GESTION_ENTIDADES</h3>
-    
-    
-    
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Lógica central de monitorización de la Entidad:
-- Verifica si la entidad está habilitada (Habilitar = TRUE).
-- Recorre en bucle todos los dispositivos asignados a la entidad.
-- Dependiendo del tipo (Válvula, Motor, Variador...), lee su DB correspondiente para ver si está en Manual o tiene Error.
-- Si hay un error, desactiva la disponibilidad de la Entidad y extrae el texto exacto del fallo.
-- Finalmente, recalcula el Código de Estado (Ej. 1000 = EnProduccion) y asigna el Código de Producto.</p>
-    
-    
-    
-        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_ENTIDADES
-    IF "DB6_ENTIDAD".ENT[#Entidad].Habilitar THEN
-        // =============================================================================
-        //  ASIGNACION DE BIT CAPTURADA DE LAS ENTIDADES
-        "DB6_ENTIDAD".ENT[#Entidad].Estado.Capturada := "DB6_ENTIDAD".ENT[#Entidad].Asignacion <> 0;
-
-        //  Reset de estados
-        "DB6_ENTIDAD".ENT[#Entidad].Alarma.Dispositivo := "DB6_ENTIDAD".ENT[#Entidad].Alarma.Manual := #t_DispError := #t_DispManual := FALSE;
-
-        //  COMPROBACION DE ESTADO DE LOS DISPOSITIVOS DECLARADOS
-        FOR #for_i := 1 TO "N_MAX_ENTIDAD_DISPOSITIVOS" DO
-
-            // TIPO DE DISPOSITIVO
-            // 0 = Sin declarar
-            // 1 = Valvula
-            // 2 = Valvula desv.
-            // 3 = Motor
-            // 4 = Motor Inv.
-            // 5 = Sinamics
-            // 6 = Motor Variador
-            IF "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Tipo <> 0 AND "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num <> 0 THEN
-
-                CASE "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Tipo OF
-
-                        // 1 = Valvula
-                    1:
-
-                        IF "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num <= "N_MAX_DISP_V" THEN
-
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 50)  
-                            #t_DispError := "DB2010_V".V["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := "DB2010_V".V["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Valvula;
-                                #t_TextoErrorNombre := "DB2010_V".V["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-
-                        END_IF;
-
-
-                        // 2 = Valvula desv.    
-                    2:
-                        ;
-    (* IF "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num <= "N_MAX_DISP_VD" THEN
-
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 52)  
-                            #t_DispError := "DB42_DISP_VD".VD["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].ALM.General;
-                            #t_DispManual := "DB42_DISP_VD".VD["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].EST.ManualAutomatico;
-
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_ValvulaDesviadora;
-                                #t_TextoErrorNombre := "DB42_DISP_VD".VD["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].HMI.Nombre;
-                            END_IF;
-
-                        END_IF; *)
-
-
-                        // 3 = Motor    
-                    3:
-
-                        IF "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num <= "N_MAX_DISP_M" THEN
-
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 60)  
-                            #t_DispError := "DB2015_M".M["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := "DB2015_M".M["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Motor;
-                                #t_TextoErrorNombre := "DB2015_M".M["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-
-                        END_IF;
-
-                        // 5 = Sinamics    
-                    5:
-
-    (* IF "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num <= "N_MAX_DISP_M_SINA" THEN
-
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 62)  
-                            #t_DispError := "DB2017_M_SINA".SINA["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := "DB2017_M_SINA".SINA["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Sinamics;
-                                #t_TextoErrorNombre := "DB2017_M_SINA".SINA["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-
-                        END_IF; *)
-                        ;
-
-
-                        // 6 = Motor Variador
-                    6:
-                        IF "DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num <= "N_MAX_DISP_M_VF" THEN
-
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 63)  
-                            #t_DispError := "DB2016_M_VF".M_VF["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := "DB2016_M_VF".M_VF["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Variador;
-                                #t_TextoErrorNombre := "DB2016_M_VF".M_VF["DB6_ENTIDAD".ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-
-                        END_IF;
-
-                    ELSE
-                        #t_DispError := #t_DispManual := FALSE;
-                END_CASE;
-
-            END_IF;
-
-
-            IF #t_DispError THEN
-
-                // =============================================================================
-                //  ACTIVACION DE BIT DE ERROR
-                "DB6_ENTIDAD".ENT[#Entidad].Alarma.Dispositivo := TRUE;
-
-                #TextoError := CONCAT_STRING(IN1 := #t_Fallo, IN2 := #t_TextoErrorDisp, IN3 := #t_TextoErrorNombre);
-
-                EXIT;
-
-            ELSIF #t_DispManual THEN
-
-                // =============================================================================
-                //  ACTIVACION DE BIT DE MANUAL
-                "DB6_ENTIDAD".ENT[#Entidad].Alarma.Manual := TRUE;
-                #TextoError := CONCAT_STRING(IN1 := #t_TextoErrorDisp, IN2 := #t_TextoErrorNombre, IN3 := #t_Manual);
-
-                EXIT;
-
-            END_IF;
-
-        END_FOR;
-
-            // =============================================================================
-            //  ASIGNACION DE BIT DISPONIBLE DE LAS ENTIDADES
-            "DB6_ENTIDAD".ENT[#Entidad].Estado.Disponible :=
-            ("DB6_ENTIDAD".ENT[#Entidad].Asignacion = 0)
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Alarma.Dispositivo
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Alarma.Manual
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Estado.EnProduccion
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Estado.EnCIP
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Estado.EnSIP
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Estado.EnStandby
-            AND NOT "DB6_ENTIDAD".ENT[#Entidad].Estado.Capturada;
-
-            // =============================================================================
-            //  ASIGNACION DE CODIGO DE ESTADO
-            "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 0;
-            IF "DB6_ENTIDAD".ENT[#Entidad].Estado.EnProduccion THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 1000;
-            ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.EnCIP THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 2000;
-            ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.EnSIP THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 3000;
-            ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.EnStandby THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 4000;
-            ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.Sucia THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 10000;
-            ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.Limpia THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 11000;
-            ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.Esterilizada THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 12000;
-            END_IF;
-
-            IF (*"DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado >= 1000 AND *)"DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado <= 4999 THEN
-                IF "DB6_ENTIDAD".ENT[#Entidad].Estado.ConProducto THEN
-                    "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado + 10;
-                ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.ConAgua THEN
-                    "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado + 20;
-                ELSIF "DB6_ENTIDAD".ENT[#Entidad].Estado.Vacia THEN
-                    "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado + 30;
-                END_IF;
-            END_IF;
-
-            // =============================================================================
-            //  ASIGNACION DE CODIGO DE PRODUCTO
-            IF "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado <> 0 THEN
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.Producto := #CodigoProducto;
-            ELSE
-                "DB6_ENTIDAD".ENT[#Entidad].Estado.CodEstado := 0;
-            END_IF;
-
-        ELSE
-            "DB6_ENTIDAD".ENT[#Entidad].Estado.Disponible := FALSE;
-            "DB6_ENTIDAD".ENT[#Entidad].Asignacion := 0;
-
-        END_IF;
-END_REGION</pre>
-    
-    
-    
-
-
-
-    
-        </div>
-    
 
 
 
 <div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
     <h3>Código Fuente Completo</h3>
     <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC8_ZC_TRAZA_REGISTRO&#34; : Void
-TITLE = FC8_ZC_TRAZA_REGISTRO
+TITLE = FC8_TRAZA_REGISTRO
 { S7_Optimized_Access := &#39;TRUE&#39; }
 AUTHOR : AketzaBarragues
 FAMILY : ZeusControl
 VERSION : 1.0
-//Funcion para gestion de estados de entidades.
+//Funcion para almacenar una traza en el buffer de trazas.
    VAR_INPUT 
-      Entidad : Int;   // Numero de entidad a gestionar
-      TipoProceso : Int;   // Tipo de proceso
-      CodigoProducto : Int;   // Codigo de producto
-      Idioma : Int;
-   END_VAR
-
-   VAR_OUTPUT 
-      TextoError : String;   // Texto de error
+      FechaHora {InstructionName := &#39;DTL&#39;; LibVersion := &#39;1.0&#39;} : DTL;
+      Registrar : USInt;
+      Categoria : Int;
+      User : String;
+      Codigo1 : Int;
+      Codigo2 : Int;
+      Codigo3 : Int;
+      Texto : String;
    END_VAR
 
    VAR_TEMP 
-      for_i : Int;
-      t_DispError : Bool;
-      t_DispManual : Bool;
-      t_TextoErrorNombre : String;
-      t_TextoErrorDisp : String;
-      t_Valvula : String;
-      t_ValvulaDesviadora : String;
-      t_Variador : String;
-      t_Sinamics : String;
-      t_Motor : String;
-      t_Fallo : String;
-      t_Manual : String;
+      t_dummy : Int;
+      t_TimeStamp : String[25];
    END_VAR
 
-   VAR CONSTANT 
-      VALVULA_ES : String := &#39;VALVULA &#39;;
-      VALVULA_DESVIADORA_ES : String := &#39;VALVULA DESVIADORA &#39;;
-      VARIADOR_ES : String := &#39;VARIADOR &#39;;
-      SINAMICS_ES : String := &#39;SINAMICS &#39;;
-      MOTOR_ES : String := &#39;MOTOR &#39;;
-      FALLO_ES : String := &#39;FALLO EN &#39;;
-      MANUAL_ES : String := &#39; EN MODO MANUAL&#39;;
-      VALVULA_EN : String := &#39;VALVE &#39;;
-      VALVULA_DESVIADORA_EN : String := &#39;DIVERTER VALVE  &#39;;
-      VARIADOR_EN : String := &#39;FREQUENCY VARIATOR &#39;;
-      SINAMICS_EN : String := &#39;SINAMICS &#39;;
-      MOTOR_EN : String := &#39;MOTOR &#39;;
-      FALLO_EN : String := &#39;FAILURE IN &#39;;
-      MANUAL_EN : String := &#39; IN MANUAL MODE &#39;;
-   END_VAR
 
 BEGIN
-/// &lt;Header&gt;
-(* ZEUS CONTROL, S.A.
-(c)Copyright (2023) All Rights Reserved
---------------------------------------------------------------------------------------
-*)
-/// &lt;/Header&gt;
-
-/// &lt;Summary&gt;
-(*
-Nombre:         FC8_TRAZA_REGISTRO
-Descripcion:    Funcion para gestion de los estados de las entidades.
-                Comprueba si los dispositivos físicos de una entidad tienen error o están en manual, 
-                bloquea la disponibilidad de la entidad y calcula su código de estado y producto.
-*)
-/// &lt;/Summary&gt;
-
-/// &lt;Remarks&gt;
-(*
-Software:       TIA Portal 16
-Restricciones:  PLC serie 1200/1500
-*)
-/// &lt;/Remarks&gt;
-
-/// &lt;Requires&gt;
-(*
-DB:  DB6_ENTIDAD, DB2010_V, DB2015_M, DB2016_M_VF
-UDT: ZC_ENTIDAD
-*)
-/// &lt;/Requires&gt;
-
-/// &lt;Changelog&gt;
-(*
-Version     Fecha       Tecnico a cargo     Descripcion
-01.00.00    15.10.2020  (ABH)               Primera version.
-01.00.01    02.02.2021  (ABH)               Modificado para uso como funcion. Se elimina el bucle que recorria todo el array de entidades, para revisar solamente la entidad que se le pasa como entrada.
-01.00.02    02.12.2022  (ABH)               Se modifica el UDT para estandarizacion.
-01.00.03    02.12.2022  (HCR)               Se modifica el UDT para Dispositivos en distintos DBs.
-01.00.04    15.10.2020  (ABH)               Se añade gestion de codigo de estado.
-01.00.05    10.03.2025  (ABH)               Se añade gestion de codigo de producto a las entidades.
-01.00.06    10.03.2025  (HCR)               Se integra la gestión de idioma para los textos de error.
-*)
-/// &lt;/Changelog&gt;
-
-/// &lt;RegionDoc&gt;
-(*
-Asigna los textos correspondientes a los tipos de dispositivos y prefijos de error
-dependiendo del idioma seleccionado en la entrada del bloque (1=ES, 2=EN, 3=DE).
-Si el idioma no está definido, por defecto carga Español.
-*)
-/// &lt;/RegionDoc&gt;
-REGION IDIOMA
-    CASE #Idioma OF
-            // =============================================================================
-            // ESPAÑOL
-        1:
-            #t_Valvula := #VALVULA_ES;
-            #t_ValvulaDesviadora := #VALVULA_DESVIADORA_ES;
-            #t_Variador := #VARIADOR_ES;
-            #t_Sinamics := #SINAMICS_ES;
-            #t_Motor := #MOTOR_ES;
-            #t_Fallo := #FALLO_ES;
-            #t_Manual := #MANUAL_ES;
-            // =============================================================================
-            // INGLES
-        2:
-            #t_Valvula := #VALVULA_EN;
-            #t_ValvulaDesviadora := #VALVULA_DESVIADORA_EN;
-            #t_Variador := #VARIADOR_EN;
-            #t_Sinamics := #SINAMICS_EN;
-            #t_Motor := #MOTOR_EN;
-            #t_Fallo := #FALLO_EN;
-            #t_Manual := #MANUAL_EN;
-            // =============================================================================
-            // ALEMAN
-        3:
-            ;
-        ELSE
-            #t_Valvula := #VALVULA_ES;
-            #t_ValvulaDesviadora := #VALVULA_DESVIADORA_ES;
-            #t_Variador := #VARIADOR_ES;
-            #t_Sinamics := #SINAMICS_ES;
-            #t_Motor := #MOTOR_ES;
-            #t_Fallo := #FALLO_ES;
-            #t_Manual := #MANUAL_ES;
-    END_CASE;
-END_REGION
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2022) All Rights Reserved
+	--------------------------------------------------------------------------------------
 	
-/// &lt;RegionDoc&gt;
-(*
-Lógica central de monitorización de la Entidad:
-- Verifica si la entidad está habilitada (Habilitar = TRUE).
-- Recorre en bucle todos los dispositivos asignados a la entidad.
-- Dependiendo del tipo (Válvula, Motor, Variador...), lee su DB correspondiente para ver si está en Manual o tiene Error.
-- Si hay un error, desactiva la disponibilidad de la Entidad y extrae el texto exacto del fallo.
-- Finalmente, recalcula el Código de Estado (Ej. 1000 = EnProduccion) y asigna el Código de Producto.
-*)
-/// &lt;/RegionDoc&gt;
-REGION GESTION_ENTIDADES
-    
-    IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Habilitar THEN
-        // =============================================================================
-        //  ASIGNACION DE BIT CAPTURADA DE LAS ENTIDADES
-        &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Capturada := &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Asignacion &lt;&gt; 0;
-        
-        //  Reset de estados
-        &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Alarma.Dispositivo := &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Alarma.Manual := #t_DispError := #t_DispManual := FALSE;
-        
-        //  COMPROBACION DE ESTADO DE LOS DISPOSITIVOS DECLARADOS
-        FOR #for_i := 1 TO &#34;N_MAX_ENTIDAD_DISPOSITIVOS&#34; DO
-            
-            // TIPO DE DISPOSITIVO
-            // 0 = Sin declarar
-            // 1 = Valvula
-            // 2 = Valvula desv.
-            // 3 = Motor
-            // 4 = Motor Inv.
-            // 5 = Sinamics
-            // 6 = Motor Variador
-            IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Tipo &lt;&gt; 0 AND &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num &lt;&gt; 0 THEN
-                
-                CASE &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Tipo OF
-                        
-                        // 1 = Valvula
-                    1:
-                        
-                        IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num &lt;= &#34;N_MAX_DISP_V&#34; THEN
-                            
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 50)  
-                            #t_DispError := &#34;DB2010_V&#34;.V[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := &#34;DB2010_V&#34;.V[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-                            
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Valvula;
-                                #t_TextoErrorNombre := &#34;DB2010_V&#34;.V[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-                            
-                        END_IF;
-                        
-                        
-                        // 2 = Valvula desv.    
-                    2:
-                        ;
-    (* IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num &lt;= &#34;N_MAX_DISP_VD&#34; THEN
-                            
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 52)  
-                            #t_DispError := &#34;DB42_DISP_VD&#34;.VD[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].ALM.General;
-                            #t_DispManual := &#34;DB42_DISP_VD&#34;.VD[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].EST.ManualAutomatico;
-                            
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_ValvulaDesviadora;
-                                #t_TextoErrorNombre := &#34;DB42_DISP_VD&#34;.VD[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].HMI.Nombre;
-                            END_IF;
-                            
-                        END_IF; *)
-                        
-                        
-                        // 3 = Motor    
-                    3:
-                        
-                        IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num &lt;= &#34;N_MAX_DISP_M&#34; THEN
-                            
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 60)  
-                            #t_DispError := &#34;DB2015_M&#34;.M[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := &#34;DB2015_M&#34;.M[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-                            
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Motor;
-                                #t_TextoErrorNombre := &#34;DB2015_M&#34;.M[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-                            
-                        END_IF;
-                        
-                        // 5 = Sinamics    
-                    5:
-                        
-    (* IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num &lt;= &#34;N_MAX_DISP_M_SINA&#34; THEN
-                            
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 62)  
-                            #t_DispError := &#34;DB2017_M_SINA&#34;.SINA[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := &#34;DB2017_M_SINA&#34;.SINA[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-                            
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Sinamics;
-                                #t_TextoErrorNombre := &#34;DB2017_M_SINA&#34;.SINA[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-                            
-                        END_IF; *)
-                        ;
-                        
-                        
-                        // 6 = Motor Variador
-                    6:
-                        IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num &lt;= &#34;N_MAX_DISP_M_VF&#34; THEN
-                            
-                            // =============================================================================
-                            //  COMPROBACION DE ERRORES O DISPOSITIVO EN MANUAL (DB 63)  
-                            #t_DispError := &#34;DB2016_M_VF&#34;.M_VF[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Alarmas_General;
-                            #t_DispManual := &#34;DB2016_M_VF&#34;.M_VF[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Estado_AutoMan;
-                            
-                            IF #t_DispError OR #t_DispManual THEN
-                                #t_TextoErrorDisp := #t_Variador;
-                                #t_TextoErrorNombre := &#34;DB2016_M_VF&#34;.M_VF[&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Dispositivo[#for_i].Num].Hmi_Nombre;
-                            END_IF;
-                            
-                        END_IF;
-                        
-                    ELSE
-                        #t_DispError := #t_DispManual := FALSE;
-                END_CASE;
-                
-            END_IF;
-            
-            
-            IF #t_DispError THEN
-                
-                // =============================================================================
-                //  ACTIVACION DE BIT DE ERROR
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Alarma.Dispositivo := TRUE;
-                
-                #TextoError := CONCAT_STRING(IN1 := #t_Fallo, IN2 := #t_TextoErrorDisp, IN3 := #t_TextoErrorNombre);
-                
-                EXIT;
-                
-            ELSIF #t_DispManual THEN
-                
-                // =============================================================================
-                //  ACTIVACION DE BIT DE MANUAL
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Alarma.Manual := TRUE;
-                #TextoError := CONCAT_STRING(IN1 := #t_TextoErrorDisp, IN2 := #t_TextoErrorNombre, IN3 := #t_Manual);
-                
-                EXIT;
-                
-            END_IF;
-            
-        END_FOR;
-            
-            // =============================================================================
-            //  ASIGNACION DE BIT DISPONIBLE DE LAS ENTIDADES
-            &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Disponible :=
-            (&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Asignacion = 0)
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Alarma.Dispositivo
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Alarma.Manual
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnProduccion
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnCIP
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnSIP
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnStandby
-            AND NOT &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Capturada;
-            
-            // =============================================================================
-            //  ASIGNACION DE CODIGO DE ESTADO
-            &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 0;
-            IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnProduccion THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 1000;
-            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnCIP THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 2000;
-            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnSIP THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 3000;
-            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.EnStandby THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 4000;
-            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Sucia THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 10000;
-            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Limpia THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 11000;
-            ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Esterilizada THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 12000;
-            END_IF;
-            
-            IF (*&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado &gt;= 1000 AND *)&#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado &lt;= 4999 THEN
-                IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.ConProducto THEN
-                    &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado + 10;
-                ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.ConAgua THEN
-                    &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado + 20;
-                ELSIF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Vacia THEN
-                    &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado + 30;
-                END_IF;
-            END_IF;
-            
-            // =============================================================================
-            //  ASIGNACION DE CODIGO DE PRODUCTO
-            IF &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado &lt;&gt; 0 THEN
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Producto := #CodigoProducto;
-            ELSE
-                &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.CodEstado := 0;
-            END_IF;
-            
-        ELSE
-            &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Estado.Disponible := FALSE;
-            &#34;DB6_ENTIDAD&#34;.ENT[#Entidad].Asignacion := 0;
-            
-        END_IF;
-        
-        
-    END_REGION
-    
-    
-END_FUNCTION</pre>
+	Software:       TIA Portal 15.1
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC8_TRAZA_REGISTRO
+	Descripcion:    Función para TRACEAR los hitos de los distintos procesos del programa
+	
+	Dependencias:
+	    FC:         FC15006_ZC_DTL_TO_STRING
+	    FB:         -
+	    DB:         DB7_TRAZA
+	    UDT:        -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    31.08.2022  (ABH)               Primera version
+	    
+	    
+	//=====================================================================================
+	*)
+	
+	
+	IF &#34;DB7_TRAZA&#34;.Gestion.HabilitacionGeneral THEN
+	    // =============================================================================
+	    //  DESPLAZAMOS LOS DATOS DEL BUFFER UNA POSICION HACIA ABAJO
+	    #t_dummy := MOVE_BLK_VARIANT(SRC := &#34;DB7_TRAZA&#34;.Buffer, COUNT := INT_TO_UDINT((&#34;N_MAX_TRAZA_BUFFER&#34; )), SRC_INDEX := 0, DEST_INDEX := 1, DEST =&gt;&#34;DB7_TRAZA&#34;.Buffer);
+	        // =============================================================================
+	    //  CONVERTIMOS LA FECHA Y HORA ACTUAL A STRING
+	    #t_TimeStamp := &#34;FC15006_ZC_DTL_TO_STRING&#34;(FechaDTL := #FechaHora,
+	                                                  Formato := 0);
+	    // =============================================================================
+	    //  GRABAMOS EL NUEVO REGISTRO
+	       &#34;DB7_TRAZA&#34;.Buffer[0].Registrar := #Registrar;
+	       &#34;DB7_TRAZA&#34;.Buffer[0].TimeStamp := #t_TimeStamp;
+	       &#34;DB7_TRAZA&#34;.Buffer[0].Categoria := #Categoria;
+	       &#34;DB7_TRAZA&#34;.Buffer[0].Codigo1 := #Codigo1;
+	       &#34;DB7_TRAZA&#34;.Buffer[0].Codigo2 := #Codigo2;
+	       &#34;DB7_TRAZA&#34;.Buffer[0].Codigo3 := #Codigo3;
+	    IF #User = &#39;&#39; THEN
+	        &#34;DB7_TRAZA&#34;.Buffer[0].User := &#39;    &#39;;
+	    ELSE
+	        &#34;DB7_TRAZA&#34;.Buffer[0].User := #User;
+	    END_IF;
+	    &#34;DB7_TRAZA&#34;.Buffer[0].Texto := #Texto;
+	END_IF;
+	
+END_FUNCTION
+
+</pre>
 </div>
 
             <div style="height: 500px;"></div>

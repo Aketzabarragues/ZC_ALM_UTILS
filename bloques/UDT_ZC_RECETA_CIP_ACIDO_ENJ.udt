@@ -1,0 +1,20 @@
+﻿TYPE "UDT_ZC_RECETA_CIP_ACIDO_ENJ"
+VERSION : 0.1
+   STRUCT
+      TiempoEmpujeADestino : Int;   // ACIDO ENJ. Tiempo de empuje a destino
+      TiempoMaxVaciadoDestino : Int;   // ACIDO ENJ. Tiempo Max vaciado destino
+      TiempoEmpujeDestinoACIP : Int;   // ACIDO ENJ. Tiempoi empuje desde equipo a CIP
+      TiempoMaxEnjuague : Int;   // ACIDO ENJ.  Tiempo Maximo Enjuague
+      TiempoEnjuagueConConductividad : Int;   // ACIDO ENJ. Tiempo enjuague con conductividad
+      ReservaInt_1 : Int;   // ACIDO ENJ. 
+      ReservaInt_2 : Int;   // ACIDO ENJ. 
+      TemperaturaEnjuague : Real;   // ACIDO ENJ. Temperatura Enjuague
+      TemperaturaHisteresis : Real;   // ACIDO ENJ. Temperatura Enjuague Histeresis
+      ConductividadDrenaje : Real;   // ACIDO ENJ. Conductividad para Drenaje
+      ConductividadEnjuagueOk : Real;   // ACIDO ENJ. Conductividad para Enjuague OK
+      ConductividadDrenajeAguaRecup : Real;   // ACIDO ENJ. Conductividad para drenaje/agua recup.
+      ProcentajeEnvioDQO : Real;   // ACIDO ENJ. Porcentaje de tiempo de envio a DQO
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,294 @@
+﻿FUNCTION "FC12_ZC_INFORME_REGISTRO" : Void
+TITLE = FC12_ZC_INFORME_REGISTRO
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para almacenar una traza en el buffer de informes
+   VAR_INPUT 
+      Registrar : USInt;
+      Tipo : Int;
+      Codigo : String;
+      Fecha_1_Ano : UInt;
+      Fecha_1_Mes : USInt;
+      Fecha_1_Dia : USInt;
+      Fecha_1_DiaSemana : USInt;
+      Fecha_1_Hora : USInt;
+      Fecha_1_Minuto : USInt;
+      Fecha_1_Segundo : USInt;
+      Fecha_1_NanoSegundo : UDInt;
+      Fecha_2_Ano : UInt;
+      Fecha_2_Mes : USInt;
+      Fecha_2_Dia : USInt;
+      Fecha_2_DiaSemana : USInt;
+      Fecha_2_Hora : USInt;
+      Fecha_2_Minuto : USInt;
+      Fecha_2_Segundo : USInt;
+      Fecha_2_NanoSegundo : UDInt;
+      Fecha_3_Ano : UInt;
+      Fecha_3_Mes : USInt;
+      Fecha_3_Dia : USInt;
+      Fecha_3_DiaSemana : USInt;
+      Fecha_3_Hora : USInt;
+      Fecha_3_Minuto : USInt;
+      Fecha_3_Segundo : USInt;
+      Fecha_3_NanoSegundo : UDInt;
+      String_1 : String;
+      String_2 : String;
+      String_3 : String;
+      String_4 : String;
+      String_5 : String;
+      String_6 : String;
+      String_7 : String;
+      String_8 : String;
+      String_9 : String;
+      String_10 : String;
+      Bool_1 : Bool;
+      Bool_2 : Bool;
+      Bool_3 : Bool;
+      Bool_4 : Bool;
+      Bool_5 : Bool;
+      Bool_6 : Bool;
+      Bool_7 : Bool;
+      Bool_8 : Bool;
+      Bool_9 : Bool;
+      Bool_10 : Bool;
+      Bool_11 : Bool;
+      Bool_12 : Bool;
+      Bool_13 : Bool;
+      Bool_14 : Bool;
+      Bool_15 : Bool;
+      Bool_16 : Bool;
+      Bool_17 : Bool;
+      Bool_18 : Bool;
+      Bool_19 : Bool;
+      Bool_20 : Bool;
+      Bool_21 : Bool;
+      Bool_22 : Bool;
+      Bool_23 : Bool;
+      Bool_24 : Bool;
+      Bool_25 : Bool;
+      Bool_26 : Bool;
+      Bool_27 : Bool;
+      Bool_28 : Bool;
+      Bool_29 : Bool;
+      Bool_30 : Bool;
+      Bool_31 : Bool;
+      Bool_32 : Bool;
+      Real_1 : Real;
+      Real_2 : Real;
+      Real_3 : Real;
+      Real_4 : Real;
+      Real_5 : Real;
+      Real_6 : Real;
+      Real_7 : Real;
+      Real_8 : Real;
+      Real_9 : Real;
+      Real_10 : Real;
+      Real_11 : Real;
+      Real_12 : Real;
+      Real_13 : Real;
+      Real_14 : Real;
+      Real_15 : Real;
+      Real_16 : Real;
+      Real_17 : Real;
+      Real_18 : Real;
+      Real_19 : Real;
+      Real_20 : Real;
+      Int_1 : Int;
+      Int_2 : Int;
+      Int_3 : Int;
+      Int_4 : Int;
+      Int_5 : Int;
+      Int_6 : Int;
+      Int_7 : Int;
+      Int_8 : Int;
+      Int_9 : Int;
+      Int_10 : Int;
+      Int_11 : Int;
+      Int_12 : Int;
+      Int_13 : Int;
+      Int_14 : Int;
+      Int_15 : Int;
+      Int_16 : Int;
+      Int_17 : Int;
+      Int_18 : Int;
+      Int_19 : Int;
+      Int_20 : Int;
+   END_VAR
+
+   VAR_TEMP 
+      t_dummy : Int;
+      t_fecha_vacia {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2024) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	Nombre:         FC12_ZC_INFORME_REGISTRO
+	Descripcion:    Función para añadir registreo de informe
+	Dependencias:
+	    FC:         FC8_ZC_TRAZA_REGISTRO
+	    FB:         -
+	    DB:         DB11_INFORMES
+	    UDT:        -
+	Change log:
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    01.00.00    30.07.2024  (ABH)               Primera version
+	    01.00.01    11.09.2024  (ABH)               Se elimina la generacion de ID. Ahora es el Gestos el que se encarga de generarlo,
+	                                                para evitar el problema de generar dos informes en el mismo ciclo de PLC, ya que el
+	                                                ID al ser la fecha actual seria la misma y daria problemas.
+	    01.00.02    06.11.2025  (ABH)               Se corrige la escritura de hora si año seleccionado es 0.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	IF "DB11_INFORMES".Gestion.HabilitacionGeneral THEN
+	    
+	    // =============================================================================
+	    //  Desplazamos los datos del buffer una posicion hacia abajo
+	    #t_dummy := MOVE_BLK_VARIANT(SRC := "DB11_INFORMES".Buffer, COUNT := INT_TO_UDINT(("N_MAX_INF_BUFFER")), SRC_INDEX := 0, DEST_INDEX := 1, DEST => "DB11_INFORMES".Buffer);
+	    
+	    // =============================================================================
+	    //  Grabamos el nuevo registro
+	    "DB11_INFORMES".Buffer[0].Registrar := #Registrar;
+	    "DB11_INFORMES".Buffer[0].Id := "FC15006_ZC_DTL_TO_STRING"(FechaDTL := "DB1_SYS".FechaHoraActual, Formato := 3);
+	    "DB11_INFORMES".Buffer[0].Tipo := #Tipo;
+	    "DB11_INFORMES".Buffer[0].Codigo := #Codigo;
+	    IF #Fecha_1_Ano = 0 THEN
+	        "DB11_INFORMES".Buffer[0].Fecha_1.Ano := 1970;
+	        "DB11_INFORMES".Buffer[0].Fecha_1.Mes := 1;
+	        "DB11_INFORMES".Buffer[0].Fecha_1.Dia := 1;
+	        "DB11_INFORMES".Buffer[0].Fecha_1.DiaSemana := 5;
+	    ELSE
+	        "DB11_INFORMES".Buffer[0].Fecha_1.Ano := #Fecha_1_Ano;
+	        "DB11_INFORMES".Buffer[0].Fecha_1.Mes := #Fecha_1_Mes;
+	        "DB11_INFORMES".Buffer[0].Fecha_1.Dia := #Fecha_1_Dia;
+	        "DB11_INFORMES".Buffer[0].Fecha_1.DiaSemana := #Fecha_1_DiaSemana;
+	    END_IF;
+	    "DB11_INFORMES".Buffer[0].Fecha_1.Hora := #Fecha_1_Hora;
+	    "DB11_INFORMES".Buffer[0].Fecha_1.Minuto := #Fecha_1_Minuto;
+	    "DB11_INFORMES".Buffer[0].Fecha_1.Segundo := #Fecha_1_Segundo;
+	    "DB11_INFORMES".Buffer[0].Fecha_1.NanoSegundo := #Fecha_1_NanoSegundo;
+	    IF #Fecha_2_Ano = 0 THEN
+	        "DB11_INFORMES".Buffer[0].Fecha_2.Ano := 1970;
+	        "DB11_INFORMES".Buffer[0].Fecha_2.Mes := 1;
+	        "DB11_INFORMES".Buffer[0].Fecha_2.Dia := 1;
+	        "DB11_INFORMES".Buffer[0].Fecha_2.DiaSemana := 5;
+	    ELSE
+	        "DB11_INFORMES".Buffer[0].Fecha_2.Ano := #Fecha_2_Ano;
+	        "DB11_INFORMES".Buffer[0].Fecha_2.Mes := #Fecha_2_Mes;
+	        "DB11_INFORMES".Buffer[0].Fecha_2.Dia := #Fecha_2_Dia;
+	        "DB11_INFORMES".Buffer[0].Fecha_2.DiaSemana := #Fecha_2_DiaSemana;
+	    END_IF;
+	    "DB11_INFORMES".Buffer[0].Fecha_2.Hora := #Fecha_2_Hora;
+	    "DB11_INFORMES".Buffer[0].Fecha_2.Minuto := #Fecha_2_Minuto;
+	    "DB11_INFORMES".Buffer[0].Fecha_2.Segundo := #Fecha_2_Segundo;
+	    "DB11_INFORMES".Buffer[0].Fecha_2.NanoSegundo := #Fecha_2_NanoSegundo;
+	    IF #Fecha_3_Ano = 0 THEN
+	        "DB11_INFORMES".Buffer[0].Fecha_3.Ano := 1970;
+	        "DB11_INFORMES".Buffer[0].Fecha_3.Mes := 1;
+	        "DB11_INFORMES".Buffer[0].Fecha_3.Dia := 1;
+	        "DB11_INFORMES".Buffer[0].Fecha_3.DiaSemana := 5;
+	    ELSE
+	        "DB11_INFORMES".Buffer[0].Fecha_3.Ano := #Fecha_3_Ano;
+	        "DB11_INFORMES".Buffer[0].Fecha_3.Mes := #Fecha_3_Mes;
+	        "DB11_INFORMES".Buffer[0].Fecha_3.Dia := #Fecha_3_Dia;
+	        "DB11_INFORMES".Buffer[0].Fecha_3.DiaSemana := #Fecha_3_DiaSemana;
+	    END_IF;
+	    "DB11_INFORMES".Buffer[0].Fecha_3.Hora := #Fecha_3_Hora;
+	    "DB11_INFORMES".Buffer[0].Fecha_3.Minuto := #Fecha_3_Minuto;
+	    "DB11_INFORMES".Buffer[0].Fecha_3.Segundo := #Fecha_3_Segundo;
+	    "DB11_INFORMES".Buffer[0].Fecha_3.NanoSegundo := #Fecha_3_NanoSegundo;
+	    "DB11_INFORMES".Buffer[0].String_1 := #String_1;
+	    "DB11_INFORMES".Buffer[0].String_2 := #String_2;
+	    "DB11_INFORMES".Buffer[0].String_3 := #String_3;
+	    "DB11_INFORMES".Buffer[0].String_4 := #String_4;
+	    "DB11_INFORMES".Buffer[0].String_5 := #String_5;
+	    "DB11_INFORMES".Buffer[0].String_6 := #String_6;
+	    "DB11_INFORMES".Buffer[0].String_7 := #String_7;
+	    "DB11_INFORMES".Buffer[0].String_8 := #String_8;
+	    "DB11_INFORMES".Buffer[0].String_9 := #String_9;
+	    "DB11_INFORMES".Buffer[0].String_10 := #String_10;
+	    "DB11_INFORMES".Buffer[0].Bool_1 := #Bool_1;
+	    "DB11_INFORMES".Buffer[0].Bool_2 := #Bool_2;
+	    "DB11_INFORMES".Buffer[0].Bool_3 := #Bool_3;
+	    "DB11_INFORMES".Buffer[0].Bool_4 := #Bool_4;
+	    "DB11_INFORMES".Buffer[0].Bool_5 := #Bool_5;
+	    "DB11_INFORMES".Buffer[0].Bool_6 := #Bool_6;
+	    "DB11_INFORMES".Buffer[0].Bool_7 := #Bool_7;
+	    "DB11_INFORMES".Buffer[0].Bool_8 := #Bool_8;
+	    "DB11_INFORMES".Buffer[0].Bool_9 := #Bool_9;
+	    "DB11_INFORMES".Buffer[0].Bool_10 := #Bool_10;
+	    "DB11_INFORMES".Buffer[0].Bool_11 := #Bool_11;
+	    "DB11_INFORMES".Buffer[0].Bool_12 := #Bool_12;
+	    "DB11_INFORMES".Buffer[0].Bool_13 := #Bool_13;
+	    "DB11_INFORMES".Buffer[0].Bool_14 := #Bool_14;
+	    "DB11_INFORMES".Buffer[0].Bool_15 := #Bool_15;
+	    "DB11_INFORMES".Buffer[0].Bool_16 := #Bool_16;
+	    "DB11_INFORMES".Buffer[0].Bool_17 := #Bool_17;
+	    "DB11_INFORMES".Buffer[0].Bool_18 := #Bool_18;
+	    "DB11_INFORMES".Buffer[0].Bool_19 := #Bool_19;
+	    "DB11_INFORMES".Buffer[0].Bool_20 := #Bool_20;
+	    "DB11_INFORMES".Buffer[0].Bool_21 := #Bool_21;
+	    "DB11_INFORMES".Buffer[0].Bool_22 := #Bool_22;
+	    "DB11_INFORMES".Buffer[0].Bool_23 := #Bool_23;
+	    "DB11_INFORMES".Buffer[0].Bool_24 := #Bool_24;
+	    "DB11_INFORMES".Buffer[0].Bool_25 := #Bool_25;
+	    "DB11_INFORMES".Buffer[0].Bool_26 := #Bool_26;
+	    "DB11_INFORMES".Buffer[0].Bool_27 := #Bool_27;
+	    "DB11_INFORMES".Buffer[0].Bool_28 := #Bool_28;
+	    "DB11_INFORMES".Buffer[0].Bool_29 := #Bool_29;
+	    "DB11_INFORMES".Buffer[0].Bool_30 := #Bool_30;
+	    "DB11_INFORMES".Buffer[0].Bool_31 := #Bool_31;
+	    "DB11_INFORMES".Buffer[0].Bool_32 := #Bool_32;
+	    "DB11_INFORMES".Buffer[0].Real_1 := #Real_1;
+	    "DB11_INFORMES".Buffer[0].Real_2 := #Real_2;
+	    "DB11_INFORMES".Buffer[0].Real_3 := #Real_3;
+	    "DB11_INFORMES".Buffer[0].Real_4 := #Real_4;
+	    "DB11_INFORMES".Buffer[0].Real_5 := #Real_5;
+	    "DB11_INFORMES".Buffer[0].Real_6 := #Real_6;
+	    "DB11_INFORMES".Buffer[0].Real_7 := #Real_7;
+	    "DB11_INFORMES".Buffer[0].Real_8 := #Real_8;
+	    "DB11_INFORMES".Buffer[0].Real_9 := #Real_9;
+	    "DB11_INFORMES".Buffer[0].Real_10 := #Real_10;
+	    "DB11_INFORMES".Buffer[0].Real_11 := #Real_11;
+	    "DB11_INFORMES".Buffer[0].Real_12 := #Real_12;
+	    "DB11_INFORMES".Buffer[0].Real_13 := #Real_13;
+	    "DB11_INFORMES".Buffer[0].Real_14 := #Real_14;
+	    "DB11_INFORMES".Buffer[0].Real_15 := #Real_15;
+	    "DB11_INFORMES".Buffer[0].Real_16 := #Real_16;
+	    "DB11_INFORMES".Buffer[0].Real_17 := #Real_17;
+	    "DB11_INFORMES".Buffer[0].Real_18 := #Real_18;
+	    "DB11_INFORMES".Buffer[0].Real_19 := #Real_19;
+	    "DB11_INFORMES".Buffer[0].Real_20 := #Real_20;
+	    "DB11_INFORMES".Buffer[0].Int_1 := #Int_1;
+	    "DB11_INFORMES".Buffer[0].Int_2 := #Int_2;
+	    "DB11_INFORMES".Buffer[0].Int_3 := #Int_3;
+	    "DB11_INFORMES".Buffer[0].Int_4 := #Int_4;
+	    "DB11_INFORMES".Buffer[0].Int_5 := #Int_5;
+	    "DB11_INFORMES".Buffer[0].Int_6 := #Int_6;
+	    "DB11_INFORMES".Buffer[0].Int_7 := #Int_7;
+	    "DB11_INFORMES".Buffer[0].Int_8 := #Int_8;
+	    "DB11_INFORMES".Buffer[0].Int_9 := #Int_9;
+	    "DB11_INFORMES".Buffer[0].Int_10 := #Int_10;
+	    "DB11_INFORMES".Buffer[0].Int_11 := #Int_11;
+	    "DB11_INFORMES".Buffer[0].Int_12 := #Int_12;
+	    "DB11_INFORMES".Buffer[0].Int_13 := #Int_13;
+	    "DB11_INFORMES".Buffer[0].Int_14 := #Int_14;
+	    "DB11_INFORMES".Buffer[0].Int_15 := #Int_15;
+	    "DB11_INFORMES".Buffer[0].Int_16 := #Int_16;
+	    "DB11_INFORMES".Buffer[0].Int_17 := #Int_17;
+	    "DB11_INFORMES".Buffer[0].Int_18 := #Int_18;
+	    "DB11_INFORMES".Buffer[0].Int_19 := #Int_19;
+	    "DB11_INFORMES".Buffer[0].Int_20 := #Int_20;
+	END_IF;
+	
+END_FUNCTION
+

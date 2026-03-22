@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>UDT_ZC_RECETA_CIP_SOSA_LIMP</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            UDT
+        </span>
+        UDT_ZC_RECETA_CIP_SOSA_LIMP
+    </h1>
+
+    
+</div>
+
+
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoEmpujeADestino</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Tiempo de empuje a destino</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoMaxVaciadoDestino</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Tiempo Max vaciado destino</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoEmpujeDestinoACCIP</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Tiempoi empuje desde equipo a CIP</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoLimpieza</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Tiempo Limpieza</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ReservaInt_1</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP.</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ReservaInt_2</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP.</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TemperaturaLimpieza</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Temperatura limpieza</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TemperaturaHisteresis</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Temperatura limpieza histeresis</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ConductividadDrenaje</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Conductividad para Drenaje</td>
+        </tr>
+        
+        <tr>
+            <td><strong>ConductividadLimpiezaOk</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Conductividad limpieza Ok</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TemperaturaLimpiezaOk</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>SOSA LIMP. Temperatura limpieza Ok</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

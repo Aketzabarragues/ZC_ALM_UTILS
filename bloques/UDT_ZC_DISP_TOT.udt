@@ -1,0 +1,29 @@
+﻿TYPE "UDT_ZC_DISP_TOT"
+VERSION : 0.1
+   STRUCT
+      Hmi_Estado : Int;   // Visualizacion dispositivoHMI
+      Estado_Pulso : Bool := FALSE;   // Señal leída pulso
+      Estado_Valor : Real := 0.0;   // Valor instantáneo entrada
+      Orden_Activar : Bool := FALSE;   // Orden de activar del totalizador
+      Orden_ResetParcial : Bool := FALSE;   // Reset totalizador Parcial
+      Orden_ResetTotal : Bool := FALSE;   // Reset totalizador Total
+      Orden_ResetProceso : Bool := FALSE;   // Reset totalizador Proceso
+      Config_Habilitar : Bool := FALSE;   // Activar tratamiento de dispositivo
+      Config_Tipo : Bool := FALSE;   // Selector caudal: por pulsos (0) por EA (1)
+      Config_IncrDecr : Bool := FALSE;   // Selector: (0) Incremental / (1) Decremental
+      Aux_oldActivado : Bool;   // Estado anterior activado
+      Aux_oldAlarma : Bool;   // Estado anterior Alarma
+      Estado_Total : LReal := 0.0;   // Acumulador Total
+      Estado_Parcial : LReal := 0.0;   // Acumulador Parcial
+      Estado_Proceso : LReal := 0.0;   // Acumulador Proceso
+      Estado_DesbordeTotal : Int;   // Número de desborde Acumulador Total
+      Estado_DesbordeParcial : Int;   // Número de desborde Acumulador Parcial
+      Config_DireccionEntradaByte : Int := 0;   // Dirección de entrada del pulso (byte)
+      Config_DireccionEntradaBit : Int := 0;   // Dirección de entrada del pulso (bit)
+      Config_LitroXPulso : Real := 0.0;   // Pulso: parámetro litros por pulso
+      Aux_AcuTiempo : Real;   // Acumulador tiempo
+      Aux_TotalizadorMem : LReal;   // Memoria totalizador
+   END_STRUCT;
+
+END_TYPE
+

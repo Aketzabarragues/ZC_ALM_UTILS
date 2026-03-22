@@ -1,0 +1,92 @@
+﻿FUNCTION_BLOCK "FB15992_ZC_FAT_AI"
+TITLE = FB15992_ZC_FAT_AI
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para pruebas de entradas analogicas
+   VAR_INPUT 
+      ByteEntrada { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : DInt := 0;   // Direccion Byte entrada
+      Area { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Int := 0;   // 0= Input / 1= Output / 2= Marcas / 3= DB / 4= Periferia
+   END_VAR
+
+   VAR_OUTPUT 
+      Input_Raw { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : DInt;   // Valor bruto del canal
+      Input_0_100 { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Real;   // Valor porcentaje
+   END_VAR
+
+   VAR_TEMP 
+      t_Area : Byte;
+      t_Input : DInt;
+   END_VAR
+
+   VAR CONSTANT 
+      INPUT : Byte := 16#81;   // Input
+      OUTPUT : Byte := 16#82;   // Output
+      MARCAS : Byte := 16#83;   // Marcas
+      "DB" : Byte := 16#84;   // DB
+      PERIFERIA : Byte := 16#1;   // Entrada de periferia (solo S7-1500)
+      VALOR_MAX_TARJETA : Real := 27648.0;   // Valor maximo de tarjeta
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15992_ZC_FAT_AI
+	Descripcion:    Bloque de funcion para pruebas de entradas analogicas.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        -
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    12.09.2023  (ABH)               Primera version.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	//  ===============================================================================================================
+	//  Gestion de tipo de entradas
+	CASE #Area OF
+	    0:  
+	        #t_Area := #INPUT;
+	    1:  
+	        #t_Area := #OUTPUT;
+	    2:
+	        #t_Area := #MARCAS;
+	    3:
+	        #t_Area := #DB;
+	    4:
+	        #t_Area := #PERIFERIA;
+	        
+	    ELSE
+	        #t_Area := #INPUT;
+	END_CASE;
+	
+	
+	//  ===============================================================================================================
+	//  Lectura de entrada analogica
+	#t_Input := WORD_TO_INT(PEEK_WORD(area := #t_Area, dbNumber := 0, byteOffset := #ByteEntrada));
+	
+	
+	
+	//  ===============================================================================================================
+	//  Gestion de salidas
+	#Input_Raw := #t_Input;
+	#Input_0_100 := (DINT_TO_REAL(#t_Input) * 100) / #VALOR_MAX_TARJETA;
+	
+END_FUNCTION_BLOCK
+

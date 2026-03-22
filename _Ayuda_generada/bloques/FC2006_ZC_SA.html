@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC2006_ZC_SA</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC2006_ZC_SA
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Arranque</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SeguridadesOK</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_mux</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_X1</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Y1</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ValorSalida</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_TextoValorNuevo</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Index</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: MULTIPLEXADO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_1" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITES
+    //  ===========================================================================================================
+    //  Limites
+    IF "DB2006_SA".Mux[#for_mux].Index < 0 THEN
+        "DB2006_SA".Mux[#for_mux].Index := 0;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].Index > "N_MAX_DISP_SA" THEN
+        "DB2006_SA".Mux[#for_mux].Index := "N_MAX_DISP_SA";
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].Index >= "N_MAX_DISP_SA" THEN
+        "DB2006_SA".Mux[#for_mux].MaxVisible := TRUE;
+    ELSE
+        "DB2006_SA".Mux[#for_mux].MaxVisible := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CARGA_INICIAL</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CARGA_INICIAL
+    //  ===========================================================================================================
+    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+    IF #t_Index <> #t_oldIndex THEN
+        "DB2006_SA".Mux[#for_mux].SA := "DB2006_SA".SA[#t_Index];
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_LECTURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_LECTURA
+    //  ===========================================================================================================
+    //  Movimiento de datos gestionados en FC
+    "DB2006_SA".Mux[#for_mux].SA.Hmi_Estado := "DB2006_SA".SA[#t_Index].Hmi_Estado;
+    "DB2006_SA".Mux[#for_mux].SA.Estado_SeguridadOk := "DB2006_SA".SA[#for_i].Estado_SeguridadOk;
+    IF NOT "DB2006_SA".SA[#t_Index].Estado_AutoMan THEN
+        "DB2006_SA".Mux[#for_mux].SA.Orden_ConsignaManual := "DB2006_SA".SA[#t_Index].Orden_ConsignaManual;
+    END_IF;
+    "DB2006_SA".Mux[#for_mux].SA.Hmi_Index := "DB2006_SA".SA[#t_Index].Hmi_Index;
+    "DB2006_SA".Mux[#for_mux].SA.Estado_ValorIngenieria := "DB2006_SA".SA[#t_Index].Estado_ValorIngenieria;
+    "DB2006_SA".Mux[#for_mux].SA.Estado_ValorTarjeta := "DB2006_SA".SA[#t_Index].Estado_ValorTarjeta;
+    "DB2006_SA".Mux[#for_mux].SA.Estado_Enclavado := "DB2006_SA".SA[#t_Index].Estado_Enclavado;
+    "DB2006_SA".Mux[#for_mux].SA.Alarmas_Escritura := "DB2006_SA".SA[#t_Index].Alarmas_Escritura;
+    "DB2006_SA".Mux[#for_mux].SA.Alarmas_General := "DB2006_SA".SA[#t_Index].Alarmas_General;
+    "DB2006_SA".Mux[#for_mux].SA.Alarmas_Max := "DB2006_SA".SA[#t_Index].Alarmas_Max;
+    "DB2006_SA".Mux[#for_mux].SA.Alarmas_Min := "DB2006_SA".SA[#t_Index].Alarmas_Min;
+    "DB2006_SA".Mux[#for_mux].SA.Alarmas_Parametros := "DB2006_SA".SA[#t_Index].Alarmas_Parametros;
+    "DB2006_SA".Mux[#for_mux].SA.Orden_ConsignaAuto := "DB2006_SA".SA[#t_Index].Orden_ConsignaAuto;
+    "DB2006_SA".Mux[#for_mux].SA.Aux_Estado := "DB2006_SA".SA[#t_Index].Aux_Estado;
+    "DB2006_SA".Mux[#for_mux].SA.Aux_oldAlarma := "DB2006_SA".SA[#t_Index].Aux_oldAlarma;
+    "DB2006_SA".Mux[#for_mux].SA.Aux_oldAutoMan := "DB2006_SA".SA[#t_Index].Aux_oldAutoMan;
+    "DB2006_SA".Mux[#for_mux].SA.Config_GrupoAlarma := "DB2006_SA".SA[#t_Index].Config_GrupoAlarma;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_ESCRITURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_ESCRITURA
+    //  ===========================================================================================================
+    //  Reinicializamos valor existe cambio
+    "DB2006_SA".Mux[#for_mux].ExisteCambio := false;
+
+    //  ===========================================================================================================
+    //  Estado auto/manual
+    IF "DB2006_SA".Mux[#for_mux].SA.Estado_AutoMan <> "DB2006_SA".SA[#t_Index].Estado_AutoMan THEN
+        "DB2006_SA".SA[#t_Index].Estado_AutoMan := "DB2006_SA".Mux[#for_mux].SA.Estado_AutoMan;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Ordenes
+    IF "DB2006_SA".Mux[#for_mux].SA.Orden_ConsignaManual <> "DB2006_SA".SA[#t_Index].Orden_ConsignaManual THEN
+        "DB2006_SA".SA[#t_Index].Orden_ConsignaManual := "DB2006_SA".Mux[#for_mux].SA.Orden_ConsignaManual;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Orden_ConsignaEnclavado <> "DB2006_SA".SA[#t_Index].Orden_ConsignaEnclavado THEN
+        "DB2006_SA".SA[#t_Index].Orden_ConsignaEnclavado := "DB2006_SA".Mux[#for_mux].SA.Orden_ConsignaEnclavado;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Configuracion
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_DireccionSalidaByte <> "DB2006_SA".SA[#t_Index].Config_DireccionSalidaByte THEN
+        "DB2006_SA".SA[#t_Index].Config_DireccionSalidaByte := "DB2006_SA".Mux[#for_mux].SA.Config_DireccionSalidaByte;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_ErrorMaxIngenieria <> "DB2006_SA".SA[#t_Index].Config_ErrorMaxIngenieria THEN
+        "DB2006_SA".SA[#t_Index].Config_ErrorMaxIngenieria := "DB2006_SA".Mux[#for_mux].SA.Config_ErrorMaxIngenieria;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_ErrorMinIngenieria <> "DB2006_SA".SA[#t_Index].Config_ErrorMinIngenieria THEN
+        "DB2006_SA".SA[#t_Index].Config_ErrorMinIngenieria := "DB2006_SA".Mux[#for_mux].SA.Config_ErrorMinIngenieria;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMaxIngenieria <> "DB2006_SA".SA[#t_Index].Config_EscaladoMaxIngenieria THEN
+        "DB2006_SA".SA[#t_Index].Config_EscaladoMaxIngenieria := "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMaxIngenieria;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMaxTarjeta <> "DB2006_SA".SA[#t_Index].Config_EscaladoMaxTarjeta THEN
+        "DB2006_SA".SA[#t_Index].Config_EscaladoMaxTarjeta := "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMaxTarjeta;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMinIngenieria <> "DB2006_SA".SA[#t_Index].Config_EscaladoMinIngenieria THEN
+        "DB2006_SA".SA[#t_Index].Config_EscaladoMinIngenieria := "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMinIngenieria;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMinTarjeta <> "DB2006_SA".SA[#t_Index].Config_EscaladoMinTarjeta THEN
+        "DB2006_SA".SA[#t_Index].Config_EscaladoMinTarjeta := "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoMinTarjeta;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoOffset <> "DB2006_SA".SA[#t_Index].Config_EscaladoOffset THEN
+        "DB2006_SA".SA[#t_Index].Config_EscaladoOffset := "DB2006_SA".Mux[#for_mux].SA.Config_EscaladoOffset;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_Habilitar <> "DB2006_SA".SA[#t_Index].Config_Habilitar THEN
+        "DB2006_SA".SA[#t_Index].Config_Habilitar := "DB2006_SA".Mux[#for_mux].SA.Config_Habilitar;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_HabilitarAlarmaMax <> "DB2006_SA".SA[#t_Index].Config_HabilitarAlarmaMax THEN
+        "DB2006_SA".SA[#t_Index].Config_HabilitarAlarmaMax := "DB2006_SA".Mux[#for_mux].SA.Config_HabilitarAlarmaMax;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2006_SA".Mux[#for_mux].SA.Config_HabilitarAlarmaMin <> "DB2006_SA".SA[#t_Index].Config_HabilitarAlarmaMin THEN
+        "DB2006_SA".SA[#t_Index].Config_HabilitarAlarmaMin := "DB2006_SA".Mux[#for_mux].SA.Config_HabilitarAlarmaMin;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_CAMBIOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_CAMBIOS
+    //  ===========================================================================================================
+    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+    //  en caso de que este abierto el mismo dispositivo.
+    IF "DB2006_SA".Mux[#for_mux].ExisteCambio THEN
+
+        //  Recorremos todos los multiplexados
+        FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
+
+            //  No miramos el multiplexado actual
+            IF #for_mux_cambios <> #for_mux THEN
+
+                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+                //  correspondiente
+                IF #t_Index = "DB2006_SA".Mux[#for_mux_cambios].Index THEN
+                    "DB2006_SA".Mux[#for_mux_cambios].SA := "DB2006_SA".SA[#t_Index];
+                END_IF;
+
+            END_IF;
+
+        END_FOR;
+        "DB2006_SA".Mux[#for_mux].ExisteCambio := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_6">
+        <h3>🔸 Lógica: LOGICA_DEL_DISPOSITIVO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_7" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITE_GRUPO_ALARMA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITE_GRUPO_ALARMA
+    IF "DB2006_SA".SA[#for_i].Config_GrupoAlarma < 0 THEN
+        "DB2006_SA".SA[#for_i].Config_GrupoAlarma := 0;
+    END_IF;
+    IF "DB2006_SA".SA[#for_i].Config_GrupoAlarma > "N_MAX_DISP_AGRUP" THEN
+        "DB2006_SA".SA[#for_i].Config_GrupoAlarma := "N_MAX_DISP_AGRUP";
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: MODOS_DE_TRABAJO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION MODOS_DE_TRABAJO
+    // =============================================================================
+    // MODO MANUAL
+    IF "DB2006_SA".SA[#for_i].Estado_AutoMan THEN
+        "DB2006_SA".Agrup["DB2006_SA".SA[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+        "DB2006_SA".SA[#for_i].Estado_ValorIngenieria := "DB2006_SA".SA[#for_i].Orden_ConsignaManual;
+    ELSE
+        "DB2006_SA".SA[#for_i].Estado_ValorIngenieria := "DB2006_SA".SA[#for_i].Orden_ConsignaAuto;
+        "DB2006_SA".SA[#for_i].Orden_ConsignaManual := "DB2006_SA".SA[#for_i].Orden_ConsignaAuto;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_9" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ERRORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ERRORES
+    // =============================================================================
+    //  LIMITE INFERIOR
+    IF "DB2006_SA".SA[#for_i].Estado_ValorIngenieria <= "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria THEN
+        "DB2006_SA".SA[#for_i].Estado_ValorIngenieria := "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria;
+    END_IF;
+
+    // =============================================================================
+    //  LIMITE SUPERIOR
+    IF "DB2006_SA".SA[#for_i].Estado_ValorIngenieria >= "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria THEN
+        "DB2006_SA".SA[#for_i].Estado_ValorIngenieria := "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria;
+    END_IF;
+
+    // =============================================================================
+    //  ERROR MÍNIMO
+    IF "DB2006_SA".SA[#for_i].Config_HabilitarAlarmaMin AND
+        "DB2006_SA".SA[#for_i].Estado_ValorIngenieria < "DB2006_SA".SA[#for_i].Config_ErrorMinIngenieria THEN
+        "DB2006_SA".SA[#for_i].Alarmas_Min := TRUE;
+    ELSE
+        "DB2006_SA".SA[#for_i].Alarmas_Min := FALSE;
+    END_IF;
+
+    // =============================================================================
+    //  ERROR MÁXIMO
+    IF "DB2006_SA".SA[#for_i].Config_HabilitarAlarmaMax AND
+        "DB2006_SA".SA[#for_i].Estado_ValorIngenieria > "DB2006_SA".SA[#for_i].Config_ErrorMaxIngenieria THEN
+        "DB2006_SA".SA[#for_i].Alarmas_Max := TRUE;
+    ELSE
+        "DB2006_SA".SA[#for_i].Alarmas_Max := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_10" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESCRITURA_SALIDA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESCRITURA_SALIDA
+    IF NOT "DB2006_SA".SA[#for_i].Estado_Enclavado AND #SeguridadesOK AND "DB2006_SA".SA[#for_i].Estado_SeguridadOk THEN
+
+        // =============================================================================
+        //  CONVERSIÓN DE VALORES
+        #t_Y0 := INT_TO_REAL("DB2006_SA".SA[#for_i].Config_EscaladoMinTarjeta);
+        #t_Y1 := INT_TO_REAL("DB2006_SA".SA[#for_i].Config_EscaladoMaxTarjeta);
+        #X := "DB2006_SA".SA[#for_i].Estado_ValorIngenieria;
+        #t_X0 := "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria;
+        #t_X1 := "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria;
+
+        // =============================================================================
+        //  ESCALADO Y = (X-x0)*((y1-y0)/(x1-x0)) + y0
+        IF "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria > "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria AND
+            "DB2006_SA".SA[#for_i].Config_EscaladoMaxTarjeta > "DB2006_SA".SA[#for_i].Config_EscaladoMinTarjeta THEN
+
+            #t_ValorSalida := ((#X - #t_X0) * ((#t_Y1 - #t_Y0) / (#t_X1 - #t_X0))) + #t_Y0;
+            "DB2006_SA".SA[#for_i].Alarmas_Parametros := FALSE;
+            #t_ValorSalida := #t_ValorSalida + "DB2006_SA".SA[#for_i].Config_EscaladoOffset;
+        ELSE
+            #t_ValorSalida := "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria;
+            "DB2006_SA".SA[#for_i].Alarmas_Parametros := TRUE;
+        END_IF;
+
+    ELSE
+
+        // =============================================================================
+        //  AJUSTE LIMITES CONSIGNA ENCLAVADO
+        IF "DB2006_SA".SA[#for_i].Orden_ConsignaEnclavado > "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria THEN
+            "DB2006_SA".SA[#for_i].Orden_ConsignaEnclavado := "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria;
+        END_IF;
+        IF "DB2006_SA".SA[#for_i].Orden_ConsignaEnclavado < "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria THEN
+            "DB2006_SA".SA[#for_i].Orden_ConsignaEnclavado := "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria;
+        END_IF;
+
+        // =============================================================================
+        //  ESCRITURA SALIDA ENCLAVADA
+
+        // =============================================================================
+        //  CONVERSIÓN DE VALORES
+        #t_Y0 := INT_TO_REAL("DB2006_SA".SA[#for_i].Config_EscaladoMinTarjeta);
+        #t_Y1 := INT_TO_REAL("DB2006_SA".SA[#for_i].Config_EscaladoMaxTarjeta);
+        #X := "DB2006_SA".SA[#for_i].Orden_ConsignaEnclavado;
+        #t_X0 := "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria;
+        #t_X1 := "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria;
+
+        // =============================================================================
+        //  ESCALADO Y = (X-x0)*((y1-y0)/(x1-x0)) + y0
+        IF "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria > "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria AND
+            "DB2006_SA".SA[#for_i].Config_EscaladoMaxTarjeta > "DB2006_SA".SA[#for_i].Config_EscaladoMinTarjeta THEN
+
+            #t_ValorSalida := ((#X - #t_X0) * ((#t_Y1 - #t_Y0) / (#t_X1 - #t_X0))) + #t_Y0;
+            "DB2006_SA".SA[#for_i].Alarmas_Parametros := FALSE;
+        ELSE
+            #t_ValorSalida := "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria;
+            "DB2006_SA".SA[#for_i].Alarmas_Parametros := TRUE;
+        END_IF;
+
+    END_IF;
+
+
+    // =============================================================================
+    //ESCRITURA DEL CANAL - POKE (area) 16#2 para CPU 1500 ; 16#82 para CPU 1200
+
+
+    IF "DB2006_SA".SA[#for_i].Config_DireccionSalidaByte > 0 THEN
+
+        "DB2006_SA".SA[#for_i].Estado_ValorTarjeta := REAL_TO_INT(#t_ValorSalida);
+
+        POKE(area := 16#82,
+             dbNumber := 0,
+             byteOffset := "DB2006_SA".SA[#for_i].Config_DireccionSalidaByte,
+             value := INT_TO_WORD("DB2006_SA".SA[#for_i].Estado_ValorTarjeta));
+
+        "DB2006_SA".SA[#for_i].Estado_Escritura := GET_ERR_ID();
+        IF "DB2006_SA".SA[#for_i].Estado_Escritura <> 0 THEN
+            "DB2006_SA".SA[#for_i].Alarmas_Escritura := TRUE;
+        ELSE
+            "DB2006_SA".SA[#for_i].Alarmas_Escritura := FALSE;
+        END_IF;
+
+    ELSE
+
+        "DB2006_SA".SA[#for_i].Estado_ValorTarjeta := 0;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_11" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESTADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESTADO
+    "DB2006_SA".SA[#for_i].Aux_Estado := 1;   //  Señal normal
+
+    IF "DB2006_SA".SA[#for_i].Estado_ValorIngenieria < "DB2006_SA".SA[#for_i].Config_ErrorMinIngenieria AND
+        "DB2006_SA".SA[#for_i].Config_HabilitarAlarmaMin THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 4;  //  Límites alcanzados
+    END_IF;
+
+    IF "DB2006_SA".SA[#for_i].Estado_ValorIngenieria >= "DB2006_SA".SA[#for_i].Config_ErrorMaxIngenieria AND
+        "DB2006_SA".SA[#for_i].Config_HabilitarAlarmaMax THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 5;  //  Límites alcanzados
+    END_IF;
+
+    IF "DB2006_SA".SA[#for_i].Estado_AutoMan THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 2;   //  Señal forzada   
+    END_IF;
+    IF "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria > "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria AND
+        "DB2006_SA".SA[#for_i].Config_EscaladoMaxTarjeta > "DB2006_SA".SA[#for_i].Config_EscaladoMinTarjeta AND
+        "DB2006_SA".SA[#for_i].Estado_Enclavado THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 9;  //  Enclavado
+    END_IF;
+
+    IF "DB2006_SA".SA[#for_i].Config_EscaladoMaxIngenieria <= "DB2006_SA".SA[#for_i].Config_EscaladoMinIngenieria OR
+        "DB2006_SA".SA[#for_i].Config_EscaladoMaxTarjeta <= "DB2006_SA".SA[#for_i].Config_EscaladoMinTarjeta THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 6;  //  Error parametros
+    END_IF;
+
+    IF "DB2006_SA".SA[#for_i].Estado_Escritura <> 0 THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 10;  //  Error de escritura
+    END_IF;
+
+    IF "DB2006_SA".SA[#for_i].Config_DireccionSalidaByte <= 0 THEN
+        "DB2006_SA".SA[#for_i].Aux_Estado := 8; // EA no direccionada
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_12" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZABILIDAD</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZABILIDAD
+    IF "DB2006_SA".SA[#for_i].Estado_AutoMan AND NOT "DB2006_SA".SA[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_SA",
+                                Codigo2 := "DB2006_SA".SA[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_MAN",
+                                Texto := '');
+    END_IF;
+
+    IF NOT "DB2006_SA".SA[#for_i].Estado_AutoMan AND "DB2006_SA".SA[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_SA",
+                                Codigo2 := "DB2006_SA".SA[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_AUTO",
+                                Texto := '');
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_13" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_HMI</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_HMI
+    // =============================================================================
+    //  GESTION BITS PARA VISUALIZACION
+    //  Bit     0   Habilitacion
+    //  Bit     1   ManualAutomatico
+    //  Bit     2   Reserva
+    //  Bit     3   Reserva
+    //  Bit     4   Enclavado
+    //  Bit     5   Reserva
+    //  Bit     6   Reserva
+    //  Bit     7   Reserva
+    //  Bit     8   Alarma General
+    //  Bit     9   Alarma 1
+    //  Bit     10  Alarma 2
+    //  Bit     11  Alarma 3
+    //  Bit     12  Alarma 4
+    //  Bit     13  Alarma 5
+    //  Bit     14  Reserva
+    //  Bit     15  Reserva
+    "DB2006_SA".SA[#for_i].Hmi_Estado.%X0 := "DB2006_SA".SA[#for_i].Config_Habilitar;
+    "DB2006_SA".SA[#for_i].Hmi_Estado.%X1 := "DB2006_SA".SA[#for_i].Estado_AutoMan;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X2 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X3 := FALSE;
+    "DB2006_SA".SA[#for_i].Hmi_Estado.%X4 := "DB2006_SA".SA[#for_i].Estado_Enclavado;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X5 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X6 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X7 := FALSE;
+    "DB2006_SA".SA[#for_i].Hmi_Estado.%X8 := "DB2006_SA".SA[#for_i].Alarmas_General;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X9 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X10 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X11 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X12 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X13 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X14 := FALSE;
+    // "DB2034_TMF1_DISP_SA".SA[#i].Hmi_Estado_%X15 := FALSE;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_14" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_NUEVA_ALARMA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_NUEVA_ALARMA
+    // =============================================================================
+    //  DETECCION DE NUEVA ALARMA
+    IF "DB2006_SA".SA[#for_i].Alarmas_General AND NOT "DB2006_SA".SA[#for_i].Aux_oldAlarma THEN
+        "DB2006_SA".Agrup["DB2006_SA".SA[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+    END_IF;
+
+    //  Estado anterior de las alarmas
+    "DB2006_SA".SA[#for_i].Aux_oldAlarma := "DB2006_SA".SA[#for_i].Alarmas_General;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC2006_ZC_SA&#34; : Void
+TITLE = FC2006_SA
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Modelo de dispositivo salida analogica
+   VAR_INPUT 
+      Pulso1seg : Bool;
+      Simulacion : Bool;
+      Arranque : Bool;
+      Ack : Bool;
+      SeguridadesOK : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      for_mux_cambios : Int;
+      for_mux : Int;
+      t_X0 : Real;
+      t_X1 : Real;
+      t_Y0 : Real;
+      t_Y1 : Real;
+      X : Real;
+      t_ValorSalida : Real;
+      t_Word : Word;
+      t_TextoValorNuevo : String;
+      t_TextoValorAnterior : String;
+      t_Index : Int;
+      t_oldIndex : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         DISPOSITIVO SA
+	Descripcion:    Modelo de dispositivo salida analogica
+	
+	Dependencias:
+	    FC:         FC8_ZC_TRAZA_REGISTRO
+	                FC15003_ZC_REAL_TO_STRING
+	    FB:         -
+	    DB:         DB2006_DISP_SA
+	                DB1_SYS
+	    UDT:        ZC_DISP_SA
+	                ZC_DISP_MUX_SA
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    15.10.2020  (ABH)               Primera version.
+	    01.00.01    06.05.2021  (ABH)               Añadido bit de enclavamiento. Cuando Estado_Enclavado este a TRUE,
+	                                                la salida tiene el valor de Config_ConsignaEnclavado.
+	    01.00.02    27.07.2021  (ABH)               Se añade que si la direccion de salida es igual a 0, no realiza ningun calculo
+	                                                ni intenta escribir la salida para que no salten errores. Se añade variable aux
+	                                                para almacenar el mensaje de error, para que a la hora de generar las alarmas se
+	                                                generen adecuadamente.
+	    01.00.03    26.04.2022  (HCR)               Cambio en la organizacion del UDT. Se organiza en estructuras en base al tipo de funcion que realizan los datos.
+	                                                Se gestionan los BITs de visibilidad para Hmi_
+	    01.00.04    27.04.2022  (ABH)               Se añaden auxiliares de estado anterior del modo manual y automatico para poder 
+	                                                registrar las trazas.  
+	    01.00.05    28.04.2022  (HCR)               Se mantiene la salida al pasar a modo manual.
+	    01.00.06    29.04.2022  (HCR)               Cambio del estado de la señal por prioridades.
+	                                                Cambio de las condiciones de para error de configuración, poniendo parámetros de ingenería y de tarjeta.
+	                                                Cambio en Alarmas_
+	    01.00.07    17.05.2022  (BRM)               Cambio en escritura canal - Funcion POKE area: 16#82 para CPU 1200.
+	    01.00.08    08.11.2022  (ABH)               Se añade trazabilidad manualizaciones.
+	    01.00.09    27.07.2023  (ABH)               Se añade trazabilidad cambio parametros.
+	    01.00.10    18.09.2023  (ABH)               Se añade reset de valor SP auto al final de la gestion del dispositivo.
+	    01.00.11    22.02.2024  (ABH)               Se añade gestion multiplexado para Scada (no indexado)
+	    01.00.12    08.01.2025  (ABH)               Se añade entrada de primer arranque del PLC para resetear indices de multiplexado
+	                                                Se añade movimiento de SA[0] a multiplexado en caso de que el indice sea 0. 
+	    01.00.12    24.01.2025  (ABH)               Se modifica la logica del multiplexado, la asignacion de oldindex se cambia de sitio ya que de vez en cuando (dependiendo de cuando el HMI
+	                                                realiza la comunicacion asincrona con el PLC) no detectaba el cambio y se machacaban valores.
+	    01.00.13    26.03.2025  (ABH)               Se añade variable grupo de alarma para separar los nuevos avisos por cuadro.
+	    01.00.14    24.04.2025  (HCR)               Se añade gestion de idioma 
+	    01.00.15    11.09.2025  (ABH)               Se eliminan las constantes de idioma dentro del FC. Se utilizan constantes globales para
+	                                                facilitar su traduccion.
+	    02.00.00    17.12.2025  (ABH)               Se eliminan los idiomas. Se utiliza codigos para trazabilidad. Se elimina entrada &#34;Idioma&#34;. Se elimina nombre de UDT.Se elimina nombre de UDT. Se elimina nombre de UDT. Se añade indexHMI para lista de 
+	                                                texto en sistemas de supervision.
+	
+	//=====================================================================================
+	*)
+	
+	
+	REGION MULTIPLEXADO
+	    
+	    //  ===========================================================================================================
+	    //  Al arranque del PLC, ponemos a 0 todos los indices de los multiplexados y salimos del bloque sin gestionarlo
+	    IF #Arranque THEN
+	        FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	            &#34;DB2006_SA&#34;.Mux[#for_mux].Index :=
+	            &#34;DB2006_SA&#34;.Mux[#for_mux].oldIndex := 0;
+	        END_FOR;
+	        RETURN;
+	    END_IF;
+	    
+	    //  ===========================================================================================================
+	    //  Gestion de multiplexado
+	    FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	        
+	        //  ===============================================================================================================
+	        //  Antes de iniciar la logica del multiplexado, revisamos los limites
+	        REGION LIMITES
+	            
+	            //  ===========================================================================================================
+	            //  Limites
+	            IF &#34;DB2006_SA&#34;.Mux[#for_mux].Index &lt; 0 THEN
+	                &#34;DB2006_SA&#34;.Mux[#for_mux].Index := 0;
+	            END_IF;
+	            IF &#34;DB2006_SA&#34;.Mux[#for_mux].Index &gt; &#34;N_MAX_DISP_SA&#34; THEN
+	                &#34;DB2006_SA&#34;.Mux[#for_mux].Index := &#34;N_MAX_DISP_SA&#34;;
+	            END_IF;
+	            IF &#34;DB2006_SA&#34;.Mux[#for_mux].Index &gt;= &#34;N_MAX_DISP_SA&#34; THEN
+	                &#34;DB2006_SA&#34;.Mux[#for_mux].MaxVisible := TRUE;
+	            ELSE
+	                &#34;DB2006_SA&#34;.Mux[#for_mux].MaxVisible := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        //  Pasamos el indice a variable temporal para evisar cambios no deseados
+	        #t_Index := &#34;DB2006_SA&#34;.Mux[#for_mux].Index;
+	        #t_oldIndex := &#34;DB2006_SA&#34;.Mux[#for_mux].oldIndex;
+	        
+	        //  ===========================================================================================================
+	        //  Valor anterior del indice
+	        &#34;DB2006_SA&#34;.Mux[#for_mux].oldIndex := #t_Index;
+	        
+	        IF &#34;DB2006_SA&#34;.Mux[#for_mux].Habilitar THEN
+	            
+	            //  ===========================================================================================================
+	            //  Gestionamos solo los tipos 
+	            IF #t_Index &gt; 0 THEN
+	                
+	                REGION CARGA_INICIAL
+	                    
+	                    //  ===========================================================================================================
+	                    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+	                    IF #t_Index &lt;&gt; #t_oldIndex THEN
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].SA := &#34;DB2006_SA&#34;.SA[#t_Index];
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                
+	                REGION DATOS_LECTURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Movimiento de datos gestionados en FC
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Hmi_Estado := &#34;DB2006_SA&#34;.SA[#t_Index].Hmi_Estado;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Estado_SeguridadOk := &#34;DB2006_SA&#34;.SA[#for_i].Estado_SeguridadOk;
+	                    IF NOT &#34;DB2006_SA&#34;.SA[#t_Index].Estado_AutoMan THEN
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Orden_ConsignaManual := &#34;DB2006_SA&#34;.SA[#t_Index].Orden_ConsignaManual;
+	                    END_IF;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Hmi_Index := &#34;DB2006_SA&#34;.SA[#t_Index].Hmi_Index;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Estado_ValorIngenieria := &#34;DB2006_SA&#34;.SA[#t_Index].Estado_ValorIngenieria;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Estado_ValorTarjeta := &#34;DB2006_SA&#34;.SA[#t_Index].Estado_ValorTarjeta;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Estado_Enclavado := &#34;DB2006_SA&#34;.SA[#t_Index].Estado_Enclavado;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Alarmas_Escritura := &#34;DB2006_SA&#34;.SA[#t_Index].Alarmas_Escritura;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Alarmas_General := &#34;DB2006_SA&#34;.SA[#t_Index].Alarmas_General;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Alarmas_Max := &#34;DB2006_SA&#34;.SA[#t_Index].Alarmas_Max;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Alarmas_Min := &#34;DB2006_SA&#34;.SA[#t_Index].Alarmas_Min;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Alarmas_Parametros := &#34;DB2006_SA&#34;.SA[#t_Index].Alarmas_Parametros;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Orden_ConsignaAuto := &#34;DB2006_SA&#34;.SA[#t_Index].Orden_ConsignaAuto;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Aux_Estado := &#34;DB2006_SA&#34;.SA[#t_Index].Aux_Estado;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Aux_oldAlarma := &#34;DB2006_SA&#34;.SA[#t_Index].Aux_oldAlarma;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Aux_oldAutoMan := &#34;DB2006_SA&#34;.SA[#t_Index].Aux_oldAutoMan;
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_GrupoAlarma := &#34;DB2006_SA&#34;.SA[#t_Index].Config_GrupoAlarma;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION DATOS_ESCRITURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Reinicializamos valor existe cambio
+	                    &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := false;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Estado auto/manual
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Estado_AutoMan &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Estado_AutoMan THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Estado_AutoMan := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Estado_AutoMan;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Ordenes
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Orden_ConsignaManual &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Orden_ConsignaManual THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Orden_ConsignaManual := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Orden_ConsignaManual;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Orden_ConsignaEnclavado &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Orden_ConsignaEnclavado THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Orden_ConsignaEnclavado := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Orden_ConsignaEnclavado;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Configuracion
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_DireccionSalidaByte &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_DireccionSalidaByte THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_DireccionSalidaByte := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_DireccionSalidaByte;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_ErrorMaxIngenieria &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_ErrorMaxIngenieria THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_ErrorMaxIngenieria := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_ErrorMaxIngenieria;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_ErrorMinIngenieria &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_ErrorMinIngenieria THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_ErrorMinIngenieria := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_ErrorMinIngenieria;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMaxIngenieria &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMaxIngenieria THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMaxIngenieria := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMaxIngenieria;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMaxTarjeta &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMaxTarjeta THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMaxTarjeta := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMaxTarjeta;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMinIngenieria &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMinIngenieria THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMinIngenieria := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMinIngenieria;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMinTarjeta &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMinTarjeta THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoMinTarjeta := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoMinTarjeta;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoOffset &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoOffset THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_EscaladoOffset := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_EscaladoOffset;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_Habilitar &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_Habilitar THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_Habilitar := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_Habilitar;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_HabilitarAlarmaMax &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_HabilitarAlarmaMax THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_HabilitarAlarmaMax := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_HabilitarAlarmaMax;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_HabilitarAlarmaMin &lt;&gt; &#34;DB2006_SA&#34;.SA[#t_Index].Config_HabilitarAlarmaMin THEN
+	                        &#34;DB2006_SA&#34;.SA[#t_Index].Config_HabilitarAlarmaMin := &#34;DB2006_SA&#34;.Mux[#for_mux].SA.Config_HabilitarAlarmaMin;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION GESTION_CAMBIOS
+	                    
+	                    //  ===========================================================================================================
+	                    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+	                    //  en caso de que este abierto el mismo dispositivo.
+	                    IF &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio THEN
+	                        
+	                        //  Recorremos todos los multiplexados
+	                        FOR #for_mux_cambios := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	                            
+	                            //  No miramos el multiplexado actual
+	                            IF #for_mux_cambios &lt;&gt; #for_mux THEN
+	                                
+	                                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+	                                //  correspondiente
+	                                IF #t_Index = &#34;DB2006_SA&#34;.Mux[#for_mux_cambios].Index THEN
+	                                    &#34;DB2006_SA&#34;.Mux[#for_mux_cambios].SA := &#34;DB2006_SA&#34;.SA[#t_Index];
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                        END_FOR;
+	                        &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	            ELSE
+	                
+	                //  ===========================================================================================================
+	                //  En caso de que el indice sea 0, movemos el valor de la SA[0] que no se usa para escribir el index.
+	                &#34;DB2006_SA&#34;.Mux[#for_mux].SA := &#34;DB2006_SA&#34;.SA[0];
+	                
+	            END_IF;
+	            
+	        ELSE
+	            
+	            &#34;DB2006_SA&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	            &#34;DB2006_SA&#34;.Mux[#for_mux].Index :=
+	            &#34;DB2006_SA&#34;.Mux[#for_mux].oldIndex := 0;
+	            
+	        END_IF;
+	        
+	    END_FOR;
+	    
+	END_REGION
+	
+	
+	REGION LOGICA_DEL_DISPOSITIVO
+	    
+	    // =============================================================================
+	    // Resetear todas las alarmas para que se vuelvan a generar
+	    FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	        &#34;DB2006_SA&#34;.Agrup[#for_i].AlgunaAlarma := FALSE;
+	        &#34;DB2006_SA&#34;.Agrup[#for_i].AlgunaEnManual := FALSE;
+	    END_FOR;
+	    
+	    FOR #for_i := 1 TO &#34;N_MAX_DISP_SA&#34; DO
+	        
+	        &#34;DB2006_SA&#34;.SA[#t_Index].Hmi_Index := #for_i + &#34;DISP_OFFSET_SA&#34;;
+	        
+	        // =============================================================================
+	        // DISPOSITIVO HABILITADO
+	        // =============================================================================
+	        IF &#34;DB2006_SA&#34;.SA[#for_i].Config_Habilitar THEN
+	            
+	            REGION LIMITE_GRUPO_ALARMA
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma &lt; 0 THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma := 0;
+	                END_IF;
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma &gt; &#34;N_MAX_DISP_AGRUP&#34; THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma := &#34;N_MAX_DISP_AGRUP&#34;;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            REGION MODOS_DE_TRABAJO
+	                
+	                // =============================================================================
+	                // MODO MANUAL
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan THEN
+	                    &#34;DB2006_SA&#34;.Agrup[&#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria := &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaManual;
+	                ELSE
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria := &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaAuto;
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaManual := &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaAuto;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            REGION ERRORES
+	                
+	                // =============================================================================
+	                //  LIMITE INFERIOR
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria &lt;= &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  LIMITE SUPERIOR
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria &gt;= &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  ERROR MÍNIMO
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_HabilitarAlarmaMin AND
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria &lt; &#34;DB2006_SA&#34;.SA[#for_i].Config_ErrorMinIngenieria THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Min := TRUE;
+	                ELSE
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Min := FALSE;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  ERROR MÁXIMO
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_HabilitarAlarmaMax AND
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_ErrorMaxIngenieria THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Max := TRUE;
+	                ELSE
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Max := FALSE;
+	                END_IF;
+	                
+	                
+	            END_REGION
+	            
+	            
+	            REGION ESCRITURA_SALIDA
+	                
+	                
+	                IF NOT &#34;DB2006_SA&#34;.SA[#for_i].Estado_Enclavado AND #SeguridadesOK AND &#34;DB2006_SA&#34;.SA[#for_i].Estado_SeguridadOk THEN
+	                    
+	                    // =============================================================================
+	                    //  CONVERSIÓN DE VALORES
+	                    #t_Y0 := INT_TO_REAL(&#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinTarjeta);
+	                    #t_Y1 := INT_TO_REAL(&#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxTarjeta);
+	                    #X := &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria;
+	                    #t_X0 := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria;
+	                    #t_X1 := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria;
+	                    
+	                    // =============================================================================
+	                    //  ESCALADO Y = (X-x0)*((y1-y0)/(x1-x0)) + y0
+	                    IF &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria AND
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxTarjeta &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinTarjeta THEN
+	                        
+	                        #t_ValorSalida := ((#X - #t_X0) * ((#t_Y1 - #t_Y0) / (#t_X1 - #t_X0))) + #t_Y0;
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Parametros := FALSE;
+	                        #t_ValorSalida := #t_ValorSalida + &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoOffset;
+	                    ELSE
+	                        #t_ValorSalida := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria;
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Parametros := TRUE;
+	                    END_IF;
+	                    
+	                ELSE
+	                    
+	                    // =============================================================================
+	                    //  AJUSTE LIMITES CONSIGNA ENCLAVADO
+	                    IF &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaEnclavado &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria THEN
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaEnclavado := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria;
+	                    END_IF;
+	                    IF &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaEnclavado &lt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria THEN
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaEnclavado := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria;
+	                    END_IF;
+	                    
+	                    // =============================================================================
+	                    //  ESCRITURA SALIDA ENCLAVADA
+	                    
+	                    // =============================================================================
+	                    //  CONVERSIÓN DE VALORES
+	                    #t_Y0 := INT_TO_REAL(&#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinTarjeta);
+	                    #t_Y1 := INT_TO_REAL(&#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxTarjeta);
+	                    #X := &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaEnclavado;
+	                    #t_X0 := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria;
+	                    #t_X1 := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria;
+	                    
+	                    // =============================================================================
+	                    //  ESCALADO Y = (X-x0)*((y1-y0)/(x1-x0)) + y0
+	                    IF &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria AND
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxTarjeta &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinTarjeta THEN
+	                        
+	                        #t_ValorSalida := ((#X - #t_X0) * ((#t_Y1 - #t_Y0) / (#t_X1 - #t_X0))) + #t_Y0;
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Parametros := FALSE;
+	                    ELSE
+	                        #t_ValorSalida := &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria;
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Parametros := TRUE;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	                
+	                // =============================================================================
+	                //ESCRITURA DEL CANAL - POKE (area) 16#2 para CPU 1500 ; 16#82 para CPU 1200
+	                
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_DireccionSalidaByte &gt; 0 THEN
+	                    
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorTarjeta := REAL_TO_INT(#t_ValorSalida);
+	                    
+	                    POKE(area := 16#82,
+	                         dbNumber := 0,
+	                         byteOffset := &#34;DB2006_SA&#34;.SA[#for_i].Config_DireccionSalidaByte,
+	                         value := INT_TO_WORD(&#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorTarjeta));
+	                    
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_Escritura := GET_ERR_ID();
+	                    IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_Escritura &lt;&gt; 0 THEN
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Escritura := TRUE;
+	                    ELSE
+	                        &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Escritura := FALSE;
+	                    END_IF;
+	                    
+	                ELSE
+	                    
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorTarjeta := 0;
+	                    
+	                END_IF;
+	                
+	                
+	            END_REGION
+	            
+	            REGION ESTADO
+	                
+	                &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 1;   //  Señal normal
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria &lt; &#34;DB2006_SA&#34;.SA[#for_i].Config_ErrorMinIngenieria AND
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Config_HabilitarAlarmaMin THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 4;  //  Límites alcanzados
+	                END_IF;
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria &gt;= &#34;DB2006_SA&#34;.SA[#for_i].Config_ErrorMaxIngenieria AND
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Config_HabilitarAlarmaMax THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 5;  //  Límites alcanzados
+	                END_IF;
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 2;   //  Señal forzada   
+	                END_IF;
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria AND
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxTarjeta &gt; &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinTarjeta AND
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Estado_Enclavado THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 9;  //  Enclavado
+	                END_IF;
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxIngenieria &lt;= &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinIngenieria OR
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMaxTarjeta &lt;= &#34;DB2006_SA&#34;.SA[#for_i].Config_EscaladoMinTarjeta THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 6;  //  Error parametros
+	                END_IF;
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_Escritura &lt;&gt; 0 THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 10;  //  Error de escritura
+	                END_IF;
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Config_DireccionSalidaByte &lt;= 0 THEN
+	                    &#34;DB2006_SA&#34;.SA[#for_i].Aux_Estado := 8; // EA no direccionada
+	                END_IF;
+	                
+	                
+	            END_REGION
+	            
+	            &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_General := FALSE;
+	            IF &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Max OR
+	                &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Min OR
+	                &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Parametros OR
+	                &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Escritura
+	            THEN
+	                &#34;DB2006_SA&#34;.Agrup[&#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma].AlgunaAlarma := TRUE;
+	                &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_General := TRUE;
+	            END_IF;
+	            
+	            REGION TRAZABILIDAD
+	                
+	                IF &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan AND NOT &#34;DB2006_SA&#34;.SA[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_SA&#34;,
+	                                            Codigo2 := &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_MAN&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	                IF NOT &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan AND &#34;DB2006_SA&#34;.SA[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_SA&#34;,
+	                                            Codigo2 := &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_AUTO&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	            //  Estado anterior manual/automatico
+	            &#34;DB2006_SA&#34;.SA[#for_i].Aux_oldAutoMan := &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan;
+	            
+	            
+	            // =============================================================================
+	            //  Reset de orden automatica
+	            &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaAuto := 0.0;
+	            
+	        ELSE
+	            
+	            // =============================================================================
+	            // DISPOSITIVO NO HABILITADO
+	            // =============================================================================
+	            &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorTarjeta := 0;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Estado := 0;   //  Canal deshabilitado
+	            &#34;DB2006_SA&#34;.SA[#for_i].Estado_ValorIngenieria := 0.0;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaAuto := 0.0;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Orden_ConsignaManual := 0.0;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan := FALSE;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_General := FALSE;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Max := FALSE;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_Min := FALSE;
+	            
+	        END_IF;
+	        
+	        REGION GESTION_HMI
+	            
+	            // =============================================================================
+	            //  GESTION BITS PARA VISUALIZACION
+	            //  Bit     0   Habilitacion
+	            //  Bit     1   ManualAutomatico
+	            //  Bit     2   Reserva
+	            //  Bit     3   Reserva
+	            //  Bit     4   Enclavado
+	            //  Bit     5   Reserva
+	            //  Bit     6   Reserva
+	            //  Bit     7   Reserva
+	            //  Bit     8   Alarma General
+	            //  Bit     9   Alarma 1
+	            //  Bit     10  Alarma 2
+	            //  Bit     11  Alarma 3
+	            //  Bit     12  Alarma 4
+	            //  Bit     13  Alarma 5
+	            //  Bit     14  Reserva
+	            //  Bit     15  Reserva
+	            &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Estado.%X0 := &#34;DB2006_SA&#34;.SA[#for_i].Config_Habilitar;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Estado.%X1 := &#34;DB2006_SA&#34;.SA[#for_i].Estado_AutoMan;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X2 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X3 := FALSE;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Estado.%X4 := &#34;DB2006_SA&#34;.SA[#for_i].Estado_Enclavado;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X5 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X6 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X7 := FALSE;
+	            &#34;DB2006_SA&#34;.SA[#for_i].Hmi_Estado.%X8 := &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_General;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X9 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X10 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X11 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X12 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X13 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X14 := FALSE;
+	            // &#34;DB2034_TMF1_DISP_SA&#34;.SA[#i].Hmi_Estado_%X15 := FALSE;
+	            
+	        END_REGION
+	        
+	        REGION GESTION_NUEVA_ALARMA
+	            
+	            // =============================================================================
+	            //  DETECCION DE NUEVA ALARMA
+	            IF &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_General AND NOT &#34;DB2006_SA&#34;.SA[#for_i].Aux_oldAlarma THEN
+	                &#34;DB2006_SA&#34;.Agrup[&#34;DB2006_SA&#34;.SA[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+	            END_IF;
+	            
+	            //  Estado anterior de las alarmas
+	            &#34;DB2006_SA&#34;.SA[#for_i].Aux_oldAlarma := &#34;DB2006_SA&#34;.SA[#for_i].Alarmas_General;
+	            
+	        END_REGION
+	        
+	        
+	    END_FOR;
+	    
+	    
+	    // =============================================================================
+	    //  ACUSE DE NUEVAS ALARMAS
+	    IF #Ack THEN
+	        FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	            &#34;DB2006_SA&#34;.Agrup[#for_i].NuevaAlarma := FALSE;
+	        END_FOR;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿TYPE "UDT_ZC_INF_LIMP_MAQ"
+VERSION : 0.1
+   STRUCT
+      FechaInicio : "UDT_ZC_FECHA";   // Fecha de inicio
+      FechaFin { S7_SetPoint := 'False'} : "UDT_ZC_FECHA";   // Fecha de fin
+      TipoLimpieza : Int;   // 1=Estandar 2=Corta 3=Enzimatica
+      TempBasica1 : LReal;   // Temperatura recirculacion Basica 1 o Enzimática
+      CTLimpBasica1 : LReal;   // Conductividad recirculacion Basica 1 o Enzimática
+      TiempoRecircBasica1 : Int;   // Tiempo recirculacion Basica 1 o Enzimática
+      CTEnjBasica1 : LReal;   // Conductividad enjuague Basica 1 o Enzimática
+      PorcentajeQRefBasica1 : LReal;   // Porciento caudal referencia Basica 1 o Enzimática
+      TempAcida : LReal;   // Temperatura recirculacion Acida 
+      CTLimpAcida : LReal;   // Conductividad recirculacion Acida 
+      TiempoRecircAcida : Int;   // Tiempo recirculacion Acida 
+      CTEnjAcida : LReal;   // Conductividad enjuague Acida 
+      PorcentajeQRefAcida : LReal;   // Porciento caudal referencia Acida 
+      TempBasica2 : LReal;   // Temperatura recirculacion Basica 2 o Corta
+      CTLimpBasica2 : LReal;   // Conductividad recirculacion Basica 2 o Corta
+      TiempoRecircBasica2 : Int;   // Tiempo recirculacion Basica 2 o Corta
+      CTEnjBasica2 : LReal;   // Conductividad enjuague Basica 2 o Corta
+      PorcentajeQRefBasica2 : LReal;   // Porciento caudal referencia Basica 2 o Corta
+      TiempoLimpieza { S7_SetPoint := 'False'} : "UDT_ZC_CONTADOR_TIEMPO";   // Tiempo en limpieza
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC2025_ZC_TOT</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC2025_ZC_TOT
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Arranque</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Offset_l_h</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_mux</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_RT_Dummy</strong></td>
+            <td>LReal</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_oldIndex</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>VALOR_MAXIMO_CONTADORES</strong></td>
+            <td>Real := 1000000.0</td>
+            <td>VALOR MÁXIMO DE ACUMULADOR</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>NUMERO_MAXIMO_DESBORDE</strong></td>
+            <td>Int := 32000</td>
+            <td>VALOR MÁXIMO NUMERO DE DESBORDE</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: MULTIPLEXADO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_1" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITES
+    //  ===========================================================================================================
+    //  Limites
+    IF "DB2025_TOT".Mux[#for_mux].Index < 0 THEN
+        "DB2025_TOT".Mux[#for_mux].Index := 0;
+    END_IF;
+    IF "DB2025_TOT".Mux[#for_mux].Index > "N_MAX_DISP_TOT" THEN
+        "DB2025_TOT".Mux[#for_mux].Index := "N_MAX_DISP_TOT";
+    END_IF;
+    IF "DB2025_TOT".Mux[#for_mux].Index >= "N_MAX_DISP_TOT" THEN
+        "DB2025_TOT".Mux[#for_mux].MaxVisible := TRUE;
+    ELSE
+        "DB2025_TOT".Mux[#for_mux].MaxVisible := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CARGA_INICIAL</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CARGA_INICIAL
+    //  ===========================================================================================================
+    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+    IF #t_Index <> #t_oldIndex THEN
+        "DB2025_TOT".Mux[#for_mux].TOT := "DB2025_TOT".TOT[#t_Index];
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_LECTURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_LECTURA
+     //  ===========================================================================================================
+     //  Movimiento de datos gestionados en FC
+     //  Variables HMI
+     "DB2025_TOT".Mux[#for_mux].TOT.Hmi_Estado := "DB2025_TOT".TOT[#t_Index].Hmi_Estado;
+     //  Variables ESTADO
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_Pulso := "DB2025_TOT".TOT[#t_Index].Estado_Pulso;
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_Valor := "DB2025_TOT".TOT[#t_Index].Estado_Valor;
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_Total := "DB2025_TOT".TOT[#t_Index].Estado_Total;
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_Parcial := "DB2025_TOT".TOT[#t_Index].Estado_Parcial;
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_Proceso := "DB2025_TOT".TOT[#t_Index].Estado_Proceso;
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_DesbordeTotal := "DB2025_TOT".TOT[#t_Index].Estado_DesbordeTotal;
+     "DB2025_TOT".Mux[#for_mux].TOT.Estado_DesbordeParcial := "DB2025_TOT".TOT[#t_Index].Estado_DesbordeParcial;
+     //  Variables ORDENES
+     "DB2025_TOT".Mux[#for_mux].TOT.Orden_Activar := "DB2025_TOT".TOT[#t_Index].Orden_Activar;
+     //"DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetParcial := "DB2025_TOT".TOT[#t_Index].Orden_ResetParcial;
+    // "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetTotal := "DB2025_TOT".TOT[#t_Index].Orden_ResetTotal;
+     //"DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetProceso := "DB2025_TOT".TOT[#t_Index].Orden_ResetProceso;
+     //  Variables AUXILIARES
+     "DB2025_TOT".Mux[#for_mux].TOT.Aux_oldActivado := "DB2025_TOT".TOT[#t_Index].Aux_oldActivado;
+     "DB2025_TOT".Mux[#for_mux].TOT.Aux_oldAlarma := "DB2025_TOT".TOT[#t_Index].Aux_oldAlarma;
+     "DB2025_TOT".Mux[#for_mux].TOT.Aux_AcuTiempo := "DB2025_TOT".TOT[#t_Index].Aux_AcuTiempo;
+     "DB2025_TOT".Mux[#for_mux].TOT.Aux_TotalizadorMem := "DB2025_TOT".TOT[#t_Index].Aux_TotalizadorMem;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_ESCRITURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_ESCRITURA
+    //  ===========================================================================================================
+    //  Reinicializamos valor existe cambio
+    "DB2025_TOT".Mux[#for_mux].ExisteCambio := FALSE;
+
+    //  ===========================================================================================================
+    //  Ordenes
+    IF "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetParcial <> "DB2025_TOT".TOT[#t_Index].Orden_ResetParcial THEN
+        "DB2025_TOT".TOT[#t_Index].Orden_ResetParcial := "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetParcial;
+        "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetParcial := FALSE;
+        "DB2025_TOT".Mux[#for_mux].ExisteCambio := TRUE;
+    END_IF;
+    IF "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetTotal <> "DB2025_TOT".TOT[#t_Index].Orden_ResetTotal THEN
+        "DB2025_TOT".TOT[#t_Index].Orden_ResetTotal := "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetTotal;
+        "DB2025_TOT".TOT[#t_Index].Orden_ResetTotal := FALSE;
+        "DB2025_TOT".Mux[#for_mux].ExisteCambio := TRUE;
+    END_IF;
+    // IF "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetProceso <> "DB2025_TOT".TOT[#t_Index].Orden_ResetProceso THEN
+    //     "DB2025_TOT".TOT[#t_Index].Orden_ResetProceso := "DB2025_TOT".Mux[#for_mux].TOT.Orden_ResetProceso;
+    //     "DB2025_TOT".Mux[#for_mux].ExisteCambio := true;
+    // END_IF;
+
+    //  ===========================================================================================================
+    //  Configuracion
+    IF (("DB2025_TOT".Mux[#for_mux].TOT.Config_Habilitar <> "DB2025_TOT".TOT[#t_Index].Config_Habilitar) OR
+        ("DB2025_TOT".Mux[#for_mux].TOT.Config_Tipo <> "DB2025_TOT".TOT[#t_Index].Config_Tipo) OR
+        ("DB2025_TOT".Mux[#for_mux].TOT.Config_IncrDecr <> "DB2025_TOT".TOT[#t_Index].Config_IncrDecr) OR
+        ("DB2025_TOT".Mux[#for_mux].TOT.Config_DireccionEntradaByte <> "DB2025_TOT".TOT[#t_Index].Config_DireccionEntradaByte) OR
+        ("DB2025_TOT".Mux[#for_mux].TOT.Config_DireccionEntradaBit <> "DB2025_TOT".TOT[#t_Index].Config_DireccionEntradaBit) OR
+        ("DB2025_TOT".Mux[#for_mux].TOT.Config_LitroXPulso <> "DB2025_TOT".TOT[#t_Index].Config_LitroXPulso)
+        )
+    THEN
+        "DB2025_TOT".TOT[#t_Index].Config_Habilitar := "DB2025_TOT".Mux[#for_mux].TOT.Config_Habilitar;
+        "DB2025_TOT".TOT[#t_Index].Config_Tipo := "DB2025_TOT".Mux[#for_mux].TOT.Config_Tipo;
+        "DB2025_TOT".TOT[#t_Index].Config_IncrDecr := "DB2025_TOT".Mux[#for_mux].TOT.Config_IncrDecr;
+        "DB2025_TOT".TOT[#t_Index].Config_DireccionEntradaByte := "DB2025_TOT".Mux[#for_mux].TOT.Config_DireccionEntradaByte;
+        "DB2025_TOT".TOT[#t_Index].Config_DireccionEntradaBit := "DB2025_TOT".Mux[#for_mux].TOT.Config_DireccionEntradaBit;
+        "DB2025_TOT".TOT[#t_Index].Config_LitroXPulso := "DB2025_TOT".Mux[#for_mux].TOT.Config_LitroXPulso;
+        "DB2025_TOT".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_CAMBIOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_CAMBIOS
+    //  ===========================================================================================================
+    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+    //  en caso de que este abierto el mismo dispositivo.
+    IF "DB2025_TOT".Mux[#for_mux].ExisteCambio THEN
+
+        //  Recorremos todos los multiplexados
+        FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
+
+            //  No miramos el multiplexado actual
+            IF #for_mux_cambios <> #for_mux THEN
+
+                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+                //  correspondiente
+                IF #t_Index = "DB2025_TOT".Mux[#for_mux_cambios].Index THEN
+                    "DB2025_TOT".Mux[#for_mux_cambios].TOT := "DB2025_TOT".TOT[#t_Index];
+                END_IF;
+
+            END_IF;
+
+        END_FOR;
+        "DB2025_TOT".Mux[#for_mux].ExisteCambio := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_6">
+        <h3>🔸 Lógica: TIEMPO_CICLO_INTEGRACION</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TIEMPO_CICLO_INTEGRACION
+    // =============================================================================
+    //  Tiempo ciclo para integración EA
+    "DB2025_TOT".TiempoCiclo.Actual := LREAL_TO_REAL(RUNTIME("DB2025_TOT".TiempoCiclo.auxMem));
+    "DB2025_TOT".TiempoCiclo.Actual := ("DB2025_TOT".TiempoCiclo.Actual * 1000.0);
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_7">
+        <h3>🔸 Lógica: LOGICA_DEL_DISPOSITIVO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: MODO_TRABAJO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_9" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LECTURA_VALORES_DE_LA_TARJETA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LECTURA_VALORES_DE_LA_TARJETA
+    IF NOT #Simulacion THEN
+        //  Caudalímetro por Pulsos - Contar pulsos
+        IF "DB2025_TOT".TOT[#for_i].Config_DireccionEntradaByte > 0 THEN
+
+            // =============================================================================
+            //  LECTURA ENTRADA DIGITAL
+            "DB2025_TOT".TOT[#for_i].Estado_Pulso := PEEK_BOOL(area := 16#81,
+                                                               dbNumber := 0,
+                                                               byteOffset := "DB2025_TOT".TOT[#for_i].Config_DireccionEntradaByte,
+                                                               bitOffset := "DB2025_TOT".TOT[#for_i].Config_DireccionEntradaBit);
+        END_IF;
+    ELSE
+        "DB2025_TOT".TOT[#for_i].Estado_Pulso := #Pulso1seg;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_10" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DIAGNOSIS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DIAGNOSIS
+    // =============================================================================
+    //  RESET DEL TOTALIZADOR PARCIAL
+    IF "DB2025_TOT".TOT[#for_i].Orden_ResetParcial OR "DB2025_TOT".TOT[#for_i].Estado_DesbordeParcial = #NUMERO_MAXIMO_DESBORDE THEN
+        "DB2025_TOT".TOT[#for_i].Estado_Parcial := 0.0;
+        "DB2025_TOT".TOT[#for_i].Estado_DesbordeParcial := 0;
+        "DB2025_TOT".TOT[#for_i].Orden_ResetParcial := FALSE;
+    END_IF;
+
+    // =============================================================================
+    //  RESET DEL TOTALIZADOR TOTAL
+    IF "DB2025_TOT".TOT[#for_i].Orden_ResetTotal OR "DB2025_TOT".TOT[#for_i].Estado_DesbordeTotal = #NUMERO_MAXIMO_DESBORDE THEN
+        "DB2025_TOT".TOT[#for_i].Estado_Total := 0.0;
+        "DB2025_TOT".TOT[#for_i].Estado_DesbordeTotal := 0;
+        "DB2025_TOT".TOT[#for_i].Orden_ResetTotal := FALSE;
+    END_IF;
+
+    // =============================================================================
+    //  RESET DEL TOTALIZADOR AUXILIAR (PARA UTILIZAR EN PROCESO)
+    IF "DB2025_TOT".TOT[#for_i].Orden_ResetProceso THEN
+        "DB2025_TOT".TOT[#for_i].Estado_Proceso := 0.0;
+        "DB2025_TOT".TOT[#for_i].Orden_ResetProceso := FALSE;
+    END_IF;
+
+    // =============================================================================
+    //  RESET DEL TOTALIZADOR TOTAL POR DESBORDAMIENTO
+    IF "DB2025_TOT".TOT[#for_i].Estado_Total >= #VALOR_MAXIMO_CONTADORES THEN
+        "DB2025_TOT".TOT[#for_i].Estado_DesbordeTotal += 1;
+        "DB2025_TOT".TOT[#for_i].Estado_Total := 0.0;
+    END_IF;
+
+    // =============================================================================
+    //  RESET DEL TOTALIZADOR PARCIAL POR DESBORDAMIENTO
+    IF "DB2025_TOT".TOT[#for_i].Estado_Parcial >= #VALOR_MAXIMO_CONTADORES THEN
+        "DB2025_TOT".TOT[#for_i].Estado_DesbordeParcial += 1;
+        "DB2025_TOT".TOT[#for_i].Estado_Parcial := 0.0;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_11">
+        <h3>🔸 Lógica: TIEMPO_DE_CICLO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TIEMPO_DE_CICLO
+    #t_RT_Dummy := RUNTIME("DB2025_TOT".TiempoCiclo.auxMem);
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC2025_ZC_TOT&#34; : Void
+TITLE = FC2025_TOT
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para gestion de totalizadores.
+   VAR_INPUT 
+      Pulso1seg : Bool;
+      Simulacion : Bool;
+      Arranque : Bool;
+      Ack : Bool;
+      Offset_l_h : Real;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      for_mux_cambios : Int;
+      for_mux : Int;
+      t_LReal : LReal;
+      t_RT_Dummy : LReal;
+      t_Index : Int;
+      t_oldIndex : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      VALOR_MAXIMO_CONTADORES : Real := 1000000.0;   // VALOR MÁXIMO DE ACUMULADOR
+      NUMERO_MAXIMO_DESBORDE : Int := 32000;   // VALOR MÁXIMO NUMERO DE DESBORDE
+   END_VAR
+
+
+BEGIN
+	(* 
+	=============================================================================
+	ZEUS CONTROL, S.A.
+	 (c)Copyright (2022) All Rights Reserved
+	 -----------------------------------------------------------------------------
+	
+	 Software:        TIA Portal 15.1
+	 Restricciones:   PLC serie 1200/1500
+	
+	
+	 Nombre:         DISPOSITIVO TOTALIZADOR
+	 Descripcion:    Modelo de dispositivo totalizador (Pulsos/EA)
+	 
+	 Dependencias:
+	    FC:         FC2025_DISP_TOT
+	    FB:         -
+	    DB:         DB2025_DISP_TOT
+	                DB1_SYS
+	    UDT:        ZC_DISP_TOT
+	                ZC_MUX
+	
+	 Change log:
+	 Version     Fecha       Tecnico a cargo
+	
+	    Version     Fecha       Tecnico a cargo     Observaciones
+	    
+	    01.00.00    15.10.2020  (ABH)               Primera version.
+	    01.00.01    28.01.2022  (HCR)               Se añade corrección.
+	    01.00.02    05.09.2023  (HCR)               Se añade contador por desborde 
+	    01.00.03    18.09.2023  (ABH)               Se estandariza nombre variables para gestion de tiempo de ciclo
+	                                                para integracion de EA.
+	    01.00.04    28.02.2024  (ABH)               Se añade gestion multiplexado para Scada (no indexado)
+	    01.00.05    08.01.2025  (ABH)               Se añade entrada de primer arranque del PLC para resetear indices de multiplexado
+	                                                Se añade movimiento de TOT[0] a multiplexado en caso de que el indice sea 0.    
+	    01.00.06    24.01.2025  (ABH)               Se modifica la logica del multiplexado, la asignacion de oldindex se cambia de sitio ya que de vez en cuando (dependiendo de cuando el HMI
+	                                                realiza la comunicacion asincrona con el PLC) no detectaba el cambio y se machacaban valores.
+	    01.00.07    28.07.2025  (ABH)               Se corrige reset de ordenes reset totalizadores en multiplexado.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	REGION MULTIPLEXADO
+	    
+	    //  ===========================================================================================================
+	    //  Al arranque del PLC, ponemos a 0 todos los indices de los multiplexados y salimos del bloque sin gestionarlo
+	    IF #Arranque THEN
+	        FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	            &#34;DB2025_TOT&#34;.Mux[#for_mux].Index :=
+	            &#34;DB2025_TOT&#34;.Mux[#for_mux].oldIndex := 0;
+	        END_FOR;
+	        RETURN;
+	    END_IF;
+	    
+	    //  ===========================================================================================================
+	    //  Gestion de multiplexado
+	    FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	        
+	        //  ===============================================================================================================
+	        //  Antes de iniciar la logica del multiplexado, revisamos los limites
+	        REGION LIMITES
+	            
+	            //  ===========================================================================================================
+	            //  Limites
+	            IF &#34;DB2025_TOT&#34;.Mux[#for_mux].Index &lt; 0 THEN
+	                &#34;DB2025_TOT&#34;.Mux[#for_mux].Index := 0;
+	            END_IF;
+	            IF &#34;DB2025_TOT&#34;.Mux[#for_mux].Index &gt; &#34;N_MAX_DISP_TOT&#34; THEN
+	                &#34;DB2025_TOT&#34;.Mux[#for_mux].Index := &#34;N_MAX_DISP_TOT&#34;;
+	            END_IF;
+	            IF &#34;DB2025_TOT&#34;.Mux[#for_mux].Index &gt;= &#34;N_MAX_DISP_TOT&#34; THEN
+	                &#34;DB2025_TOT&#34;.Mux[#for_mux].MaxVisible := TRUE;
+	            ELSE
+	                &#34;DB2025_TOT&#34;.Mux[#for_mux].MaxVisible := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        //  Pasamos el indice a variable temporal para evisar cambios no deseados
+	        #t_Index := &#34;DB2025_TOT&#34;.Mux[#for_mux].Index;
+	        #t_oldIndex := &#34;DB2025_TOT&#34;.Mux[#for_mux].oldIndex;
+	        
+	        //  ===========================================================================================================
+	        //  Valor anterior del indice
+	        &#34;DB2025_TOT&#34;.Mux[#for_mux].oldIndex := #t_Index;
+	        
+	        IF &#34;DB2025_TOT&#34;.Mux[#for_mux].Habilitar THEN
+	            
+	            //  ===========================================================================================================
+	            //  Gestionamos solo los tipos 
+	            IF #t_Index &gt; 0 THEN
+	                
+	                REGION CARGA_INICIAL
+	                    
+	                    //  ===========================================================================================================
+	                    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+	                    IF #t_Index &lt;&gt; #t_oldIndex THEN
+	                        &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT := &#34;DB2025_TOT&#34;.TOT[#t_Index];
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	
+	                
+	                REGION DATOS_LECTURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Movimiento de datos gestionados en FC
+	                    //  Variables HMI
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Hmi_Estado := &#34;DB2025_TOT&#34;.TOT[#t_Index].Hmi_Estado;
+	                    //  Variables ESTADO
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_Pulso := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_Pulso;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_Valor := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_Valor;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_Total := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_Total;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_Parcial := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_Parcial;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_Proceso := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_Proceso;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_DesbordeTotal := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_DesbordeTotal;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Estado_DesbordeParcial := &#34;DB2025_TOT&#34;.TOT[#t_Index].Estado_DesbordeParcial;
+	                    //  Variables ORDENES
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_Activar := &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_Activar;
+	                    //&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetParcial := &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetParcial;
+	                   // &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetTotal := &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetTotal;
+	                    //&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetProceso := &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetProceso;
+	                    //  Variables AUXILIARES
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Aux_oldActivado := &#34;DB2025_TOT&#34;.TOT[#t_Index].Aux_oldActivado;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Aux_oldAlarma := &#34;DB2025_TOT&#34;.TOT[#t_Index].Aux_oldAlarma;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Aux_AcuTiempo := &#34;DB2025_TOT&#34;.TOT[#t_Index].Aux_AcuTiempo;
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Aux_TotalizadorMem := &#34;DB2025_TOT&#34;.TOT[#t_Index].Aux_TotalizadorMem;
+	                    
+	                    
+	                END_REGION
+	                
+	                
+	                REGION DATOS_ESCRITURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Reinicializamos valor existe cambio
+	                    &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Ordenes
+	                    IF &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetParcial &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetParcial THEN
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetParcial := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetParcial;
+	                        &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetParcial := FALSE;
+	                        &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := TRUE;
+	                    END_IF;
+	                    IF &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetTotal &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetTotal THEN
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetTotal := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetTotal;
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetTotal := FALSE;
+	                        &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := TRUE;
+	                    END_IF;
+	                    // IF &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetProceso &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetProceso THEN
+	                    //     &#34;DB2025_TOT&#34;.TOT[#t_Index].Orden_ResetProceso := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Orden_ResetProceso;
+	                    //     &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    // END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Configuracion
+	                    IF ((&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_Habilitar &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_Habilitar) OR
+	                        (&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_Tipo &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_Tipo) OR
+	                        (&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_IncrDecr &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_IncrDecr) OR
+	                        (&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_DireccionEntradaByte &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_DireccionEntradaByte) OR
+	                        (&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_DireccionEntradaBit &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_DireccionEntradaBit) OR
+	                        (&#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_LitroXPulso &lt;&gt; &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_LitroXPulso)
+	                        )
+	                    THEN
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_Habilitar := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_Habilitar;
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_Tipo := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_Tipo;
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_IncrDecr := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_IncrDecr;
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_DireccionEntradaByte := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_DireccionEntradaByte;
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_DireccionEntradaBit := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_DireccionEntradaBit;
+	                        &#34;DB2025_TOT&#34;.TOT[#t_Index].Config_LitroXPulso := &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT.Config_LitroXPulso;
+	                        &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION GESTION_CAMBIOS
+	                    
+	                    //  ===========================================================================================================
+	                    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+	                    //  en caso de que este abierto el mismo dispositivo.
+	                    IF &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio THEN
+	                        
+	                        //  Recorremos todos los multiplexados
+	                        FOR #for_mux_cambios := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	                            
+	                            //  No miramos el multiplexado actual
+	                            IF #for_mux_cambios &lt;&gt; #for_mux THEN
+	                                
+	                                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+	                                //  correspondiente
+	                                IF #t_Index = &#34;DB2025_TOT&#34;.Mux[#for_mux_cambios].Index THEN
+	                                    &#34;DB2025_TOT&#34;.Mux[#for_mux_cambios].TOT := &#34;DB2025_TOT&#34;.TOT[#t_Index];
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                        END_FOR;
+	                        &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	            ELSE
+	                
+	                //  ===========================================================================================================
+	                //  En caso de que el indice sea 0, movemos el valor de la TOT[0] que no se usa para escribir el index.
+	                &#34;DB2025_TOT&#34;.Mux[#for_mux].TOT := &#34;DB2025_TOT&#34;.TOT[0];
+	                
+	            END_IF;
+	            
+	        ELSE
+	            
+	            &#34;DB2025_TOT&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	            &#34;DB2025_TOT&#34;.Mux[#for_mux].Index := 
+	            &#34;DB2025_TOT&#34;.Mux[#for_mux].oldIndex := 0;
+	            
+	        END_IF;
+	        
+	    END_FOR;
+	    
+	END_REGION
+	
+	
+	REGION TIEMPO_CICLO_INTEGRACION
+	    
+	    
+	    // =============================================================================
+	    //  Tiempo ciclo para integración EA
+	    &#34;DB2025_TOT&#34;.TiempoCiclo.Actual := LREAL_TO_REAL(RUNTIME(&#34;DB2025_TOT&#34;.TiempoCiclo.auxMem));
+	    &#34;DB2025_TOT&#34;.TiempoCiclo.Actual := (&#34;DB2025_TOT&#34;.TiempoCiclo.Actual * 1000.0);
+	    
+	    
+	END_REGION
+	
+	
+	REGION LOGICA_DEL_DISPOSITIVO
+	    
+	    
+	    FOR #for_i := 1 TO &#34;N_MAX_DISP_TOT&#34; DO
+	        
+	        // =============================================================================
+	        // DISPOSITIVO HABILITADO
+	        IF &#34;DB2025_TOT&#34;.TOT[#for_i].Config_Habilitar THEN
+	            
+	            
+	            REGION MODO_TRABAJO
+	                
+	                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_Activar THEN
+	                    // =============================================================================
+	                    // 0 = TOTALIZADOR POR PULSOS
+	                    // 1 = TOTALIZADOR POR EA
+	                    IF NOT &#34;DB2025_TOT&#34;.TOT[#for_i].Config_Tipo THEN    //  Caudalímetro por Pulso
+	                        
+	                        REGION LECTURA_VALORES_DE_LA_TARJETA
+	                            
+	                            IF NOT #Simulacion THEN
+	                                //  Caudalímetro por Pulsos - Contar pulsos
+	                                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Config_DireccionEntradaByte &gt; 0 THEN
+	                                    
+	                                    // =============================================================================
+	                                    //  LECTURA ENTRADA DIGITAL
+	                                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Pulso := PEEK_BOOL(area := 16#81,
+	                                                                                       dbNumber := 0,
+	                                                                                       byteOffset := &#34;DB2025_TOT&#34;.TOT[#for_i].Config_DireccionEntradaByte,
+	                                                                                       bitOffset := &#34;DB2025_TOT&#34;.TOT[#for_i].Config_DireccionEntradaBit);
+	                                END_IF;
+	                            ELSE
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Pulso := #Pulso1seg;
+	                            END_IF;
+	                            
+	                        END_REGION
+	                        
+	                        
+	                        IF &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Pulso AND NOT &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_oldActivado THEN
+	                            
+	                            IF NOT &#34;DB2025_TOT&#34;.TOT[#for_i].Config_IncrDecr THEN
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial += &#34;DB2025_TOT&#34;.TOT[#for_i].Config_LitroXPulso;
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total += &#34;DB2025_TOT&#34;.TOT[#for_i].Config_LitroXPulso;
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Proceso += &#34;DB2025_TOT&#34;.TOT[#for_i].Config_LitroXPulso;
+	                            ELSE
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial -= &#34;DB2025_TOT&#34;.TOT[#for_i].Config_LitroXPulso;
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total -= &#34;DB2025_TOT&#34;.TOT[#for_i].Config_LitroXPulso;
+	                                &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Proceso -= &#34;DB2025_TOT&#34;.TOT[#for_i].Config_LitroXPulso;
+	                            END_IF;
+	                            
+	                        END_IF;
+	                        
+	                        // =============================================================================
+	                        // CALCULO TEORICO L/H
+	                        IF #Pulso1seg THEN
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_AcuTiempo += 1;
+	                        END_IF;
+	                        
+	                        IF &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_AcuTiempo &gt; 2 THEN
+	                            #t_LReal := &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total - &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_TotalizadorMem;
+	                            
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Valor := LREAL_TO_REAL(#t_LReal) * 3600.0 / &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_AcuTiempo;
+	                            
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_AcuTiempo := 0;
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_TotalizadorMem := &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total;
+	                        END_IF;
+	                        
+	                    ELSE
+	                        //Totalizador por EA
+	                        #t_LReal := ((&#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Valor / 3600000.0 * &#34;DB2025_TOT&#34;.TiempoCiclo.Actual));
+	                        #t_LReal := #t_LReal + (#&#34;Offset_l_h&#34; / 3600000.0 * &#34;DB2025_TOT&#34;.TiempoCiclo.Actual);
+	                        
+	                        IF NOT &#34;DB2025_TOT&#34;.TOT[#for_i].Config_IncrDecr THEN
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial += #t_LReal;
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total += #t_LReal;
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Proceso += #t_LReal;
+	                        ELSE
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial -= #t_LReal;
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total -= #t_LReal;
+	                            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Proceso -= #t_LReal;
+	                        END_IF;
+	                        
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	                &#34;DB2025_TOT&#34;.TOT[#for_i].Aux_oldActivado := &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Pulso;
+	                //Tiempo ciclo para integración EA
+	                
+	            END_REGION
+	            
+	            
+	            REGION DIAGNOSIS
+	                
+	                // =============================================================================
+	                //  RESET DEL TOTALIZADOR PARCIAL
+	                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_ResetParcial OR &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_DesbordeParcial = #NUMERO_MAXIMO_DESBORDE THEN
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial := 0.0;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_DesbordeParcial := 0;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_ResetParcial := FALSE;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  RESET DEL TOTALIZADOR TOTAL
+	                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_ResetTotal OR &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_DesbordeTotal = #NUMERO_MAXIMO_DESBORDE THEN
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total := 0.0;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_DesbordeTotal := 0;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_ResetTotal := FALSE;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  RESET DEL TOTALIZADOR AUXILIAR (PARA UTILIZAR EN PROCESO)
+	                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_ResetProceso THEN
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Proceso := 0.0;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Orden_ResetProceso := FALSE;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  RESET DEL TOTALIZADOR TOTAL POR DESBORDAMIENTO
+	                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total &gt;= #VALOR_MAXIMO_CONTADORES THEN
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_DesbordeTotal += 1;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total := 0.0;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  RESET DEL TOTALIZADOR PARCIAL POR DESBORDAMIENTO
+	                IF &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial &gt;= #VALOR_MAXIMO_CONTADORES THEN
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_DesbordeParcial += 1;
+	                    &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial := 0.0;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	        ELSE
+	            
+	            // =============================================================================
+	            // DISPOSITIVO NO HABILITADO
+	            // =============================================================================
+	            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Valor := 0.0;
+	            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Parcial := 0.0;
+	            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Total := 0.0;
+	            &#34;DB2025_TOT&#34;.TOT[#for_i].Estado_Proceso := 0.0;
+	            
+	        END_IF;
+	        
+	    END_FOR;
+	    
+	    
+	    
+	END_REGION
+	
+	
+	REGION TIEMPO_DE_CICLO
+	    
+	    #t_RT_Dummy := RUNTIME(&#34;DB2025_TOT&#34;.TiempoCiclo.auxMem);
+	    
+	END_REGION
+	
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

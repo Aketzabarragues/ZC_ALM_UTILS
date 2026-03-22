@@ -1,0 +1,38 @@
+﻿DATA_BLOCK "DB2037_MEDIA"
+TITLE = DB2037_MEDIA
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+NON_RETAIN
+//Bloque de datos medias
+   VAR RETAIN
+      Mux { S7_SetPoint := 'False'} : "UDT_ZC_MUX";
+      MEDIA { S7_SetPoint := 'False'} : Array[0.."N_MAX_DISP_MEDIA"] of "UDT_ZC_DISP_MEDIA";
+   END_VAR
+
+
+BEGIN
+   Mux.Index := 1;
+   Mux.MaxVisible := FALSE;
+   MEDIA[0].IniciarMedia := FALSE;
+   MEDIA[0].Inicializar := FALSE;
+   MEDIA[0].auxInicializar := FALSE;
+   MEDIA[0].auxTiempo := 0;
+   MEDIA[0].auxIndice := 0;
+   MEDIA[0].auxAcumulado := 0.0;
+   MEDIA[0].Media := 0.0;
+   MEDIA[0].ValorMinimo := 0.0;
+   MEDIA[0].ValorMaximo := 0.0;
+   MEDIA[1].IniciarMedia := FALSE;
+   MEDIA[1].Inicializar := FALSE;
+   MEDIA[1].auxInicializar := FALSE;
+   MEDIA[1].auxTiempo := 0;
+   MEDIA[1].auxIndice := 123;
+   MEDIA[1].auxAcumulado := 615.0;
+   MEDIA[1].Media := 5.0;
+   MEDIA[1].ValorMinimo := 5.0;
+   MEDIA[1].ValorMaximo := 5.0;
+
+END_DATA_BLOCK
+

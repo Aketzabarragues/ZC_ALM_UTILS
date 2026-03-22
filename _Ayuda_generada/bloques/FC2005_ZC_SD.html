@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC2005_ZC_SD</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC2005_ZC_SD
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Arranque</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SeguridadesOK</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_mux</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_oldIndex</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ActivarConRetardo</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: MULTIPLEXADO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_1" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITES
+    //  ===========================================================================================================
+    //  Limites
+    IF "DB2005_SD".Mux[#for_mux].Index > "N_MAX_DISP_SD" THEN
+        "DB2005_SD".Mux[#for_mux].Index := "N_MAX_DISP_SD";
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].Index >= "N_MAX_DISP_SD" THEN
+        "DB2005_SD".Mux[#for_mux].MaxVisible := TRUE;
+    ELSE
+        "DB2005_SD".Mux[#for_mux].MaxVisible := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CARGA_INICIAL</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CARGA_INICIAL
+    //  ===========================================================================================================
+    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+    IF #t_Index <> #t_oldIndex THEN
+        "DB2005_SD".Mux[#for_mux].SD := "DB2005_SD".SD[#t_Index];
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_LECTURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_LECTURA
+    //  ===========================================================================================================
+    //  Movimiento de datos gestionados en FC
+    "DB2005_SD".Mux[#for_mux].SD.Hmi_Estado := "DB2005_SD".SD[#t_Index].Hmi_Estado;
+    IF NOT "DB2005_SD".SD[#t_Index].Estado_AutoMan THEN
+        "DB2005_SD".Mux[#for_mux].SD.Orden_ActivarManual := "DB2005_SD".SD["DB2005_SD".Mux[#for_mux].Index].Orden_ActivarManual;
+    END_IF;
+    "DB2005_SD".Mux[#for_mux].SD.Hmi_Index := "DB2005_SD".SD[#t_Index].Hmi_Index;
+    "DB2005_SD".Mux[#for_mux].SD.Estado_Activado := "DB2005_SD".SD[#t_Index].Estado_Activado;
+    "DB2005_SD".Mux[#for_mux].SD.Estado_Enclavado := "DB2005_SD".SD[#t_Index].Estado_Enclavado;
+    "DB2005_SD".Mux[#for_mux].SD.Orden_ActivarAuto := "DB2005_SD".SD[#t_Index].Orden_ActivarAuto;
+    "DB2005_SD".Mux[#for_mux].SD.Tiempos_TiempoAct := "DB2005_SD".SD[#t_Index].Tiempos_TiempoAct;
+    "DB2005_SD".Mux[#for_mux].SD.Tiempos_TiempoDes := "DB2005_SD".SD[#t_Index].Tiempos_TiempoDes;
+    "DB2005_SD".Mux[#for_mux].SD.Aux_oldActivado := "DB2005_SD".SD[#t_Index].Aux_oldActivado;
+    "DB2005_SD".Mux[#for_mux].SD.Aux_oldAutoMan := "DB2005_SD".SD[#t_Index].Aux_oldAutoMan;
+    "DB2005_SD".Mux[#for_mux].SD.Config_GrupoAlarma := "DB2005_SD".SD[#t_Index].Config_GrupoAlarma;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_ESCRITURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_ESCRITURA
+    //  ===========================================================================================================
+    //  Reinicializamos valor existe cambio
+    "DB2005_SD".Mux[#for_mux].ExisteCambio := false;
+
+    //  ===========================================================================================================
+    //  Estado auto/manual
+    IF "DB2005_SD".Mux[#for_mux].SD.Estado_AutoMan <> "DB2005_SD".SD[#t_Index].Estado_AutoMan THEN
+        "DB2005_SD".SD[#t_Index].Estado_AutoMan := "DB2005_SD".Mux[#for_mux].SD.Estado_AutoMan;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Ordenes
+    IF "DB2005_SD".Mux[#for_mux].SD.Orden_ActivarAuto <> "DB2005_SD".SD[#t_Index].Orden_ActivarAuto THEN
+        "DB2005_SD".SD[#t_Index].Orden_ActivarAuto := "DB2005_SD".Mux[#for_mux].SD.Orden_ActivarAuto;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].SD.Orden_ActivarManual <> "DB2005_SD".SD[#t_Index].Orden_ActivarManual THEN
+        "DB2005_SD".SD[#t_Index].Orden_ActivarManual := "DB2005_SD".Mux[#for_mux].SD.Orden_ActivarManual;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Configuracion
+    IF "DB2005_SD".Mux[#for_mux].SD.Config_DireccionSalidaBit <> "DB2005_SD".SD[#t_Index].Config_DireccionSalidaBit THEN
+        "DB2005_SD".SD[#t_Index].Config_DireccionSalidaBit := "DB2005_SD".Mux[#for_mux].SD.Config_DireccionSalidaBit;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].SD.Config_DireccionSalidaByte <> "DB2005_SD".SD[#t_Index].Config_DireccionSalidaByte THEN
+        "DB2005_SD".SD[#t_Index].Config_DireccionSalidaByte := "DB2005_SD".Mux[#for_mux].SD.Config_DireccionSalidaByte;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].SD.Config_Habilitar <> "DB2005_SD".SD[#t_Index].Config_Habilitar THEN
+        "DB2005_SD".SD[#t_Index].Config_Habilitar := "DB2005_SD".Mux[#for_mux].SD.Config_Habilitar;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].SD.Config_HabilitarInvertir <> "DB2005_SD".SD[#t_Index].Config_HabilitarInvertir THEN
+        "DB2005_SD".SD[#t_Index].Config_HabilitarInvertir := "DB2005_SD".Mux[#for_mux].SD.Config_HabilitarInvertir;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].SD.Config_HabilitarRetardoAct <> "DB2005_SD".SD[#t_Index].Config_HabilitarRetardoAct THEN
+        "DB2005_SD".SD[#t_Index].Config_HabilitarRetardoAct := "DB2005_SD".Mux[#for_mux].SD.Config_HabilitarRetardoAct;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2005_SD".Mux[#for_mux].SD.Config_HabilitarRetardoDes <> "DB2005_SD".SD[#t_Index].Config_HabilitarRetardoDes THEN
+        "DB2005_SD".SD[#t_Index].Config_HabilitarRetardoDes := "DB2005_SD".Mux[#for_mux].SD.Config_HabilitarRetardoDes;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Tiempos
+    IF "DB2005_SD".Mux[#for_mux].SD.Tiempos_SetPointTiempoAct <> "DB2005_SD".SD[#t_Index].Tiempos_SetPointTiempoAct THEN
+        "DB2005_SD".SD[#t_Index].Tiempos_SetPointTiempoAct := "DB2005_SD".Mux[#for_mux].SD.Tiempos_SetPointTiempoAct;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    IF "DB2005_SD".Mux[#for_mux].SD.Tiempos_SetPointTiempoDes <> "DB2005_SD".SD[#t_Index].Tiempos_SetPointTiempoDes THEN
+        "DB2005_SD".SD[#t_Index].Tiempos_SetPointTiempoDes := "DB2005_SD".Mux[#for_mux].SD.Tiempos_SetPointTiempoDes;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_CAMBIOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_CAMBIOS
+    //  ===========================================================================================================
+    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+    //  en caso de que este abierto el mismo dispositivo.
+    IF "DB2005_SD".Mux[#for_mux].ExisteCambio THEN
+
+        //  Recorremos todos los multiplexados
+        FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
+
+            //  No miramos el multiplexado actual
+            IF #for_mux_cambios <> #for_mux THEN
+
+                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+                //  correspondiente
+                IF #t_Index = "DB2005_SD".Mux[#for_mux_cambios].Index THEN
+                    "DB2005_SD".Mux[#for_mux_cambios].SD := "DB2005_SD".SD[#t_Index];
+                END_IF;
+
+            END_IF;
+
+        END_FOR;
+        "DB2005_SD".Mux[#for_mux].ExisteCambio := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_6">
+        <h3>🔸 Lógica: LOGICA_DEL_DISPOSITIVO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_7" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITE_GRUPO_ALARMA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITE_GRUPO_ALARMA
+    IF "DB2005_SD".SD[#for_i].Config_GrupoAlarma < 0 THEN
+        "DB2005_SD".SD[#for_i].Config_GrupoAlarma := 0;
+    END_IF;
+    IF "DB2005_SD".SD[#for_i].Config_GrupoAlarma > "N_MAX_DISP_AGRUP" THEN
+        "DB2005_SD".SD[#for_i].Config_GrupoAlarma := "N_MAX_DISP_AGRUP";
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: MODOS_DE_TRABAJO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION MODOS_DE_TRABAJO
+    // =============================================================================
+    //  MANUAL
+    IF "DB2005_SD".SD[#for_i].Estado_AutoMan THEN
+
+        "DB2005_SD".Agrup["DB2005_SD".SD[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+        #t_Activar := "DB2005_SD".SD[#for_i].Orden_ActivarManual AND NOT "DB2005_SD".SD[#for_i].Estado_Enclavado AND #SeguridadesOK AND "DB2005_SD".SD[#for_i].Estado_SeguridadOk;
+
+    ELSE
+        // =============================================================================
+        //  AUTO
+        "DB2005_SD".SD[#for_i].Orden_ActivarManual := FALSE;
+
+        IF "DB2005_SD".SD[#for_i].Config_HabilitarInvertir THEN
+            #t_Activar := NOT "DB2005_SD".SD[#for_i].Orden_ActivarAuto AND NOT "DB2005_SD".SD[#for_i].Estado_Enclavado AND #SeguridadesOK AND "DB2005_SD".SD[#for_i].Estado_SeguridadOk;
+        ELSE
+            #t_Activar := "DB2005_SD".SD[#for_i].Orden_ActivarAuto AND NOT "DB2005_SD".SD[#for_i].Estado_Enclavado AND #SeguridadesOK AND "DB2005_SD".SD[#for_i].Estado_SeguridadOk;
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_9" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESTADO_DEL_DISPOSITIVO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESTADO_DEL_DISPOSITIVO
+    // =============================================================================
+    //  SALIDA SIMULADA
+    IF NOT #Simulacion THEN
+        IF "DB2005_SD".SD[#for_i].Orden_ActivarManual = TRUE THEN
+            #t_Activar := TRUE;
+        ELSE
+            #t_Activar := FALSE;
+        END_IF;
+    END_IF;
+
+
+    IF NOT "DB2005_SD".SD[#for_i].Estado_AutoMan AND NOT #Simulacion THEN
+
+        // =============================================================================
+        //  RETARDO A LA ACTIVACIÓN AUTOMÁTICO
+        IF #t_Activar AND "DB2005_SD".SD[#for_i].Config_HabilitarRetardoAct THEN
+
+            IF #Pulso1seg AND "DB2005_SD".SD[#for_i].Tiempos_TiempoAct < "DB2005_SD".SD[#for_i].Tiempos_SetPointTiempoAct THEN
+                "DB2005_SD".SD[#for_i].Tiempos_TiempoAct += 1;
+            END_IF;
+
+            IF "DB2005_SD".SD[#for_i].Tiempos_TiempoAct >= "DB2005_SD".SD[#for_i].Tiempos_SetPointTiempoAct THEN
+                #t_ActivarConRetardo := TRUE;
+            ELSE
+                #t_ActivarConRetardo := FALSE;
+            END_IF;
+
+        ELSIF #t_Activar THEN
+            #t_ActivarConRetardo := TRUE;
+        ELSE
+            "DB2005_SD".SD[#for_i].Tiempos_TiempoAct := 0;
+        END_IF;
+
+        // =============================================================================
+        //  RETARDO A LA DESACTIVACIÓN AUTOMÁTICO
+        IF NOT #t_Activar AND "DB2005_SD".SD[#for_i].Config_HabilitarRetardoDes THEN
+
+            IF #Pulso1seg AND "DB2005_SD".SD[#for_i].Tiempos_TiempoDes < "DB2005_SD".SD[#for_i].Tiempos_SetPointTiempoDes THEN
+                "DB2005_SD".SD[#for_i].Tiempos_TiempoDes += 1;
+            END_IF;
+
+            IF "DB2005_SD".SD[#for_i].Tiempos_TiempoDes >= "DB2005_SD".SD[#for_i].Tiempos_SetPointTiempoDes THEN
+                #t_ActivarConRetardo := FALSE;
+            ELSE
+                #t_ActivarConRetardo := TRUE;
+            END_IF;
+
+        ELSIF NOT #t_Activar THEN
+            #t_ActivarConRetardo := FALSE;
+        ELSE
+            "DB2005_SD".SD[#for_i].Tiempos_TiempoDes := 0;
+        END_IF;
+
+    ELSE
+
+        #t_ActivarConRetardo := #t_Activar;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_10" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESCRITURA_SALIDA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESCRITURA_SALIDA
+    // =============================================================================
+    //  ESCRITURA VALORES DE LA TARJETA
+    IF "DB2005_SD".SD[#for_i].Config_DireccionSalidaByte >= 0 THEN
+        IF #t_ActivarConRetardo OR #t_Activar THEN
+            "DB2005_SD".SD[#for_i].Estado_Activado := TRUE;
+            POKE_BOOL(area := 16#82,
+                      dbNumber := 0,
+                      byteOffset := "DB2005_SD".SD[#for_i].Config_DireccionSalidaByte,
+                      bitOffset := "DB2005_SD".SD[#for_i].Config_DireccionSalidaBit,
+                      value := TRUE);
+        ELSE
+            "DB2005_SD".SD[#for_i].Estado_Activado := FALSE;
+            POKE_BOOL(area := 16#82,
+                      dbNumber := 0,
+                      byteOffset := "DB2005_SD".SD[#for_i].Config_DireccionSalidaByte,
+                      bitOffset := "DB2005_SD".SD[#for_i].Config_DireccionSalidaBit,
+                      value := FALSE);
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_11" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZABILIDAD_MANUALIZACION</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZABILIDAD_MANUALIZACION
+    IF "DB2005_SD".SD[#for_i].Estado_AutoMan AND NOT "DB2005_SD".SD[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_SD",
+                                Codigo2 := "DB2005_SD".SD[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_MAN",
+                                Texto := '');
+    END_IF;
+
+    IF NOT "DB2005_SD".SD[#for_i].Estado_AutoMan AND "DB2005_SD".SD[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_SD",
+                                Codigo2 := "DB2005_SD".SD[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_AUTO",
+                                Texto := '');
+    END_IF;
+
+    IF "DB2005_SD".SD[#for_i].Estado_AutoMan AND "DB2005_SD".SD[#for_i].Estado_Activado AND NOT "DB2005_SD".SD[#for_i].Aux_oldActivado THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_SD",
+                                Codigo2 := "DB2005_SD".SD[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_MAN_ON",
+                                Texto := '');
+    END_IF;
+
+    IF "DB2005_SD".SD[#for_i].Estado_AutoMan AND NOT "DB2005_SD".SD[#for_i].Estado_Activado AND "DB2005_SD".SD[#for_i].Aux_oldActivado THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_SD",
+                                Codigo2 := "DB2005_SD".SD[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_MAN_OFF",
+                                Texto := '');
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_12" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_HMI</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_HMI
+    // =============================================================================
+    //  GESTION BITS PARA VISUALIZACION
+    //  Bit     0   Habilitacion
+    //  Bit     1   ManualAutomatico
+    //  Bit     2   Enclavado
+    //  Bit     3   Activado 1
+    //  Bit     4   Activado 2
+    //  Bit     5   Reserva
+    //  Bit     6   Reserva
+    //  Bit     7   Reserva
+    //  Bit     8   Alarma General
+    //  Bit     9   Alarma 1
+    //  Bit     10  Alarma 2
+    //  Bit     11  Alarma 3
+    //  Bit     12  Alarma 4
+    //  Bit     13  Alarma Mantenimiento
+    //  Bit     14  Reserva
+    //  Bit     15  Reserva
+    "DB2005_SD".SD[#for_i].Hmi_Estado.%X0 := "DB2005_SD".SD[#for_i].Config_Habilitar;
+    "DB2005_SD".SD[#for_i].Hmi_Estado.%X1 := "DB2005_SD".SD[#for_i].Estado_AutoMan;
+    "DB2005_SD".SD[#for_i].Hmi_Estado.%X2 := "DB2005_SD".SD[#for_i].Estado_Enclavado;
+    "DB2005_SD".SD[#for_i].Hmi_Estado.%X3 := "DB2005_SD".SD[#for_i].Estado_Activado;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X4 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X5 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X6 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X7 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X8 := FALSE;;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X9 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X10 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X11 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X12 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X13 := FALSE;;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X14 := FALSE;
+    //"DB2005_DISP_SD".SD[#i].Hmi_Estado.%X15 := FALSE;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC2005_ZC_SD&#34; : Void
+TITLE = FC2005_SD
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Modelo de dispositivo salida digital
+   VAR_INPUT 
+      Pulso1seg : Bool;
+      Simulacion : Bool;
+      Arranque : Bool;
+      Ack : Bool;
+      SeguridadesOK : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      for_mux_cambios : Int;
+      for_mux : Int;
+      t_Index : Int;
+      t_oldIndex : Int;
+      t_Activar : Bool;
+      t_ActivarConRetardo : Bool;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         DISPOSITIVO SALIDA DIGITAL
+	Descripcion:    Modelo de dispositivo salida digital
+	
+	Dependencias:
+	    FC:         FC8_ZC_TRAZA_REGISTRO
+	    FB:         -
+	    DB:         DB2005_DISP_SD
+	                DB1_SYS
+	    UDT:        ZC_DISP_SD
+	                ZC_DISP_MUX_SD
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    15.10.2020  (ABH)               Primera version.
+	    01.00.01    26.04.2022  (HCR)               Cambio en la organizacion del UDT. Se organiza en estructuras en base al tipo de funcion que realizan los datos.
+	    01.00.02    27.04.2022  (ABH)               Se añaden auxiliares de estado anterior del modo manual y automatico para poder 
+	                                                registrar las trazas.
+	    01.00.03    22.02.2024  (ABH)               Se añade gestion multiplexado para Scada (no indexado)
+	    01.00.04    08.01.2025  (ABH)               Se añade entrada de primer arranque del PLC para resetear indices de multiplexado
+	                                                Se añade movimiento de SD[0] a multiplexado en caso de que el indice sea 0.   
+	    01.00.05    24.01.2025  (ABH)               Se modifica la logica del multiplexado, la asignacion de oldindex se cambia de sitio ya que de vez en cuando (dependiendo de cuando el HMI
+	                                                realiza la comunicacion asincrona con el PLC) no detectaba el cambio y se machacaban valores.
+	    01.00.06    26.03.2025  (ABH)               Se añade variable grupo de alarma para separar los nuevos avisos por cuadro.
+	    01.00.07    24.04.2025  (HCR)               Se añade gestion de idioma 
+	    01.00.08    11.09.2025  (ABH)               Se eliminan las constantes de idioma dentro del FC. Se utilizan constantes globales para
+	                                                facilitar su traduccion.
+	    02.00.00    17.12.2025  (ABH)               Se eliminan los idiomas. Se utiliza codigos para trazabilidad. Se elimina entrada &#34;Idioma&#34;. Se elimina nombre de UDT. Se elimina nombre de UDT. Se añade indexHMI para lista de 
+	                                                texto en sistemas de supervision.
+	
+	//=====================================================================================
+	*)
+	
+	
+	REGION MULTIPLEXADO
+	    
+	    //  ===========================================================================================================
+	    //  Al arranque del PLC, ponemos a 0 todos los indices de los multiplexados y salimos del bloque sin gestionarlo
+	    IF #Arranque THEN
+	        FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	            &#34;DB2005_SD&#34;.Mux[#for_mux].Index :=
+	            &#34;DB2005_SD&#34;.Mux[#for_mux].oldIndex := 0;
+	        END_FOR;
+	        RETURN;
+	    END_IF;
+	    
+	    //  ===========================================================================================================
+	    //  Gestion de multiplexado
+	    FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	        
+	        //  ===============================================================================================================
+	        //  Antes de iniciar la logica del multiplexado, revisamos los limites
+	        REGION LIMITES
+	            
+	            //  ===========================================================================================================
+	            //  Limites
+	            IF &#34;DB2005_SD&#34;.Mux[#for_mux].Index &gt; &#34;N_MAX_DISP_SD&#34; THEN
+	                &#34;DB2005_SD&#34;.Mux[#for_mux].Index := &#34;N_MAX_DISP_SD&#34;;
+	            END_IF;
+	            IF &#34;DB2005_SD&#34;.Mux[#for_mux].Index &gt;= &#34;N_MAX_DISP_SD&#34; THEN
+	                &#34;DB2005_SD&#34;.Mux[#for_mux].MaxVisible := TRUE;
+	            ELSE
+	                &#34;DB2005_SD&#34;.Mux[#for_mux].MaxVisible := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        //  Pasamos el indice a variable temporal para evisar cambios no deseados
+	        #t_Index := &#34;DB2005_SD&#34;.Mux[#for_mux].Index;
+	        #t_oldIndex := &#34;DB2005_SD&#34;.Mux[#for_mux].oldIndex;
+	        
+	        //  ===========================================================================================================
+	        //  Valor anterior del indice
+	        &#34;DB2005_SD&#34;.Mux[#for_mux].oldIndex := #t_Index;
+	        
+	        IF &#34;DB2005_SD&#34;.Mux[#for_mux].Habilitar THEN
+	            
+	            //  ===========================================================================================================
+	            //  Gestionamos solo los tipos 
+	            IF #t_Index &gt; 0 THEN
+	                
+	                REGION CARGA_INICIAL
+	                    
+	                    //  ===========================================================================================================
+	                    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+	                    IF #t_Index &lt;&gt; #t_oldIndex THEN
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].SD := &#34;DB2005_SD&#34;.SD[#t_Index];
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION DATOS_LECTURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Movimiento de datos gestionados en FC
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Hmi_Estado := &#34;DB2005_SD&#34;.SD[#t_Index].Hmi_Estado;
+	                    IF NOT &#34;DB2005_SD&#34;.SD[#t_Index].Estado_AutoMan THEN
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Orden_ActivarManual := &#34;DB2005_SD&#34;.SD[&#34;DB2005_SD&#34;.Mux[#for_mux].Index].Orden_ActivarManual;
+	                    END_IF;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Hmi_Index := &#34;DB2005_SD&#34;.SD[#t_Index].Hmi_Index;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Estado_Activado := &#34;DB2005_SD&#34;.SD[#t_Index].Estado_Activado;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Estado_Enclavado := &#34;DB2005_SD&#34;.SD[#t_Index].Estado_Enclavado;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Orden_ActivarAuto := &#34;DB2005_SD&#34;.SD[#t_Index].Orden_ActivarAuto;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Tiempos_TiempoAct := &#34;DB2005_SD&#34;.SD[#t_Index].Tiempos_TiempoAct;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Tiempos_TiempoDes := &#34;DB2005_SD&#34;.SD[#t_Index].Tiempos_TiempoDes;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Aux_oldActivado := &#34;DB2005_SD&#34;.SD[#t_Index].Aux_oldActivado;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Aux_oldAutoMan := &#34;DB2005_SD&#34;.SD[#t_Index].Aux_oldAutoMan;
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_GrupoAlarma := &#34;DB2005_SD&#34;.SD[#t_Index].Config_GrupoAlarma;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION DATOS_ESCRITURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Reinicializamos valor existe cambio
+	                    &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := false;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Estado auto/manual
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Estado_AutoMan &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Estado_AutoMan THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Estado_AutoMan := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Estado_AutoMan;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Ordenes
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Orden_ActivarAuto &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Orden_ActivarAuto THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Orden_ActivarAuto := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Orden_ActivarAuto;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Orden_ActivarManual &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Orden_ActivarManual THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Orden_ActivarManual := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Orden_ActivarManual;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Configuracion
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_DireccionSalidaBit &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Config_DireccionSalidaBit THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Config_DireccionSalidaBit := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_DireccionSalidaBit;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_DireccionSalidaByte &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Config_DireccionSalidaByte THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Config_DireccionSalidaByte := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_DireccionSalidaByte;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_Habilitar &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Config_Habilitar THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Config_Habilitar := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_Habilitar;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_HabilitarInvertir &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Config_HabilitarInvertir THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Config_HabilitarInvertir := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_HabilitarInvertir;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_HabilitarRetardoAct &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Config_HabilitarRetardoAct THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Config_HabilitarRetardoAct := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_HabilitarRetardoAct;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_HabilitarRetardoDes &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Config_HabilitarRetardoDes THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Config_HabilitarRetardoDes := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Config_HabilitarRetardoDes;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Tiempos
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Tiempos_SetPointTiempoAct &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Tiempos_SetPointTiempoAct THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Tiempos_SetPointTiempoAct := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Tiempos_SetPointTiempoAct;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Tiempos_SetPointTiempoDes &lt;&gt; &#34;DB2005_SD&#34;.SD[#t_Index].Tiempos_SetPointTiempoDes THEN
+	                        &#34;DB2005_SD&#34;.SD[#t_Index].Tiempos_SetPointTiempoDes := &#34;DB2005_SD&#34;.Mux[#for_mux].SD.Tiempos_SetPointTiempoDes;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION GESTION_CAMBIOS
+	                    
+	                    //  ===========================================================================================================
+	                    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+	                    //  en caso de que este abierto el mismo dispositivo.
+	                    IF &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio THEN
+	                        
+	                        //  Recorremos todos los multiplexados
+	                        FOR #for_mux_cambios := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	                            
+	                            //  No miramos el multiplexado actual
+	                            IF #for_mux_cambios &lt;&gt; #for_mux THEN
+	                                
+	                                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+	                                //  correspondiente
+	                                IF #t_Index = &#34;DB2005_SD&#34;.Mux[#for_mux_cambios].Index THEN
+	                                    &#34;DB2005_SD&#34;.Mux[#for_mux_cambios].SD := &#34;DB2005_SD&#34;.SD[#t_Index];
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                        END_FOR;
+	                        &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	            ELSE
+	                
+	                //  ===========================================================================================================
+	                //  En caso de que el indice sea 0, movemos el valor de la SD[0] que no se usa para escribir el index.
+	                &#34;DB2005_SD&#34;.Mux[#for_mux].SD := &#34;DB2005_SD&#34;.SD[0];
+	                
+	            END_IF;
+	            
+	        ELSE
+	            
+	            &#34;DB2005_SD&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	            &#34;DB2005_SD&#34;.Mux[#for_mux].Index :=
+	            &#34;DB2005_SD&#34;.Mux[#for_mux].oldIndex := 0;
+	            
+	        END_IF;
+	        
+	    END_FOR;
+	    
+	END_REGION
+	
+	
+	REGION LOGICA_DEL_DISPOSITIVO
+	    
+	    // =============================================================================
+	    // Resetear todas las alarmas para que se vuelvan a generar
+	    FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	        &#34;DB2005_SD&#34;.Agrup[#for_i].AlgunaAlarma := FALSE;
+	        &#34;DB2005_SD&#34;.Agrup[#for_i].AlgunaEnManual := FALSE;
+	    END_FOR;
+	    
+	    FOR #for_i := 1 TO &#34;N_MAX_DISP_SD&#34; DO
+	        
+	        &#34;DB2005_SD&#34;.SD[#t_Index].Hmi_Index := #for_i + &#34;DISP_OFFSET_SD&#34;;
+	        
+	        // =============================================================================
+	        // DISPOSITIVO HABILITADO
+	        // =============================================================================
+	        IF &#34;DB2005_SD&#34;.SD[#for_i].Config_Habilitar THEN
+	            
+	            REGION LIMITE_GRUPO_ALARMA
+	                
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Config_GrupoAlarma &lt; 0 THEN
+	                    &#34;DB2005_SD&#34;.SD[#for_i].Config_GrupoAlarma := 0;
+	                END_IF;
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Config_GrupoAlarma &gt; &#34;N_MAX_DISP_AGRUP&#34; THEN
+	                    &#34;DB2005_SD&#34;.SD[#for_i].Config_GrupoAlarma := &#34;N_MAX_DISP_AGRUP&#34;;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            REGION MODOS_DE_TRABAJO
+	                
+	                // =============================================================================
+	                //  MANUAL
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan THEN
+	                    
+	                    &#34;DB2005_SD&#34;.Agrup[&#34;DB2005_SD&#34;.SD[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+	                    #t_Activar := &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarManual AND NOT &#34;DB2005_SD&#34;.SD[#for_i].Estado_Enclavado AND #SeguridadesOK AND &#34;DB2005_SD&#34;.SD[#for_i].Estado_SeguridadOk;
+	                    
+	                ELSE
+	                    // =============================================================================
+	                    //  AUTO
+	                    &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarManual := FALSE;
+	                    
+	                    IF &#34;DB2005_SD&#34;.SD[#for_i].Config_HabilitarInvertir THEN
+	                        #t_Activar := NOT &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarAuto AND NOT &#34;DB2005_SD&#34;.SD[#for_i].Estado_Enclavado AND #SeguridadesOK AND &#34;DB2005_SD&#34;.SD[#for_i].Estado_SeguridadOk;
+	                    ELSE
+	                        #t_Activar := &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarAuto AND NOT &#34;DB2005_SD&#34;.SD[#for_i].Estado_Enclavado AND #SeguridadesOK AND &#34;DB2005_SD&#34;.SD[#for_i].Estado_SeguridadOk;
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            REGION ESTADO_DEL_DISPOSITIVO
+	                
+	                // =============================================================================
+	                //  SALIDA SIMULADA
+	                IF NOT #Simulacion THEN
+	                    IF &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarManual = TRUE THEN
+	                        #t_Activar := TRUE;
+	                    ELSE
+	                        #t_Activar := FALSE;
+	                    END_IF;
+	                END_IF;
+	                
+	                
+	                IF NOT &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan AND NOT #Simulacion THEN
+	                    
+	                    // =============================================================================
+	                    //  RETARDO A LA ACTIVACIÓN AUTOMÁTICO
+	                    IF #t_Activar AND &#34;DB2005_SD&#34;.SD[#for_i].Config_HabilitarRetardoAct THEN
+	                        
+	                        IF #Pulso1seg AND &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoAct &lt; &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_SetPointTiempoAct THEN
+	                            &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoAct += 1;
+	                        END_IF;
+	                        
+	                        IF &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoAct &gt;= &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_SetPointTiempoAct THEN
+	                            #t_ActivarConRetardo := TRUE;
+	                        ELSE
+	                            #t_ActivarConRetardo := FALSE;
+	                        END_IF;
+	                        
+	                    ELSIF #t_Activar THEN
+	                        #t_ActivarConRetardo := TRUE;
+	                    ELSE
+	                        &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoAct := 0;
+	                    END_IF;
+	                    
+	                    // =============================================================================
+	                    //  RETARDO A LA DESACTIVACIÓN AUTOMÁTICO
+	                    IF NOT #t_Activar AND &#34;DB2005_SD&#34;.SD[#for_i].Config_HabilitarRetardoDes THEN
+	                        
+	                        IF #Pulso1seg AND &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoDes &lt; &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_SetPointTiempoDes THEN
+	                            &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoDes += 1;
+	                        END_IF;
+	                        
+	                        IF &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoDes &gt;= &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_SetPointTiempoDes THEN
+	                            #t_ActivarConRetardo := FALSE;
+	                        ELSE
+	                            #t_ActivarConRetardo := TRUE;
+	                        END_IF;
+	                        
+	                    ELSIF NOT #t_Activar THEN
+	                        #t_ActivarConRetardo := FALSE;
+	                    ELSE
+	                        &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoDes := 0;
+	                    END_IF;
+	                    
+	                ELSE
+	                    
+	                    #t_ActivarConRetardo := #t_Activar;
+	                    
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            REGION ESCRITURA_SALIDA
+	                
+	                // =============================================================================
+	                //  ESCRITURA VALORES DE LA TARJETA
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Config_DireccionSalidaByte &gt;= 0 THEN
+	                    IF #t_ActivarConRetardo OR #t_Activar THEN
+	                        &#34;DB2005_SD&#34;.SD[#for_i].Estado_Activado := TRUE;
+	                        POKE_BOOL(area := 16#82,
+	                                  dbNumber := 0,
+	                                  byteOffset := &#34;DB2005_SD&#34;.SD[#for_i].Config_DireccionSalidaByte,
+	                                  bitOffset := &#34;DB2005_SD&#34;.SD[#for_i].Config_DireccionSalidaBit,
+	                                  value := TRUE);
+	                    ELSE
+	                        &#34;DB2005_SD&#34;.SD[#for_i].Estado_Activado := FALSE;
+	                        POKE_BOOL(area := 16#82,
+	                                  dbNumber := 0,
+	                                  byteOffset := &#34;DB2005_SD&#34;.SD[#for_i].Config_DireccionSalidaByte,
+	                                  bitOffset := &#34;DB2005_SD&#34;.SD[#for_i].Config_DireccionSalidaBit,
+	                                  value := FALSE);
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	            //  RESET ORDEN ACTIVAR EN AUTO
+	            &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarAuto := FALSE;
+	            
+	            
+	            REGION TRAZABILIDAD_MANUALIZACION
+	                
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan AND NOT &#34;DB2005_SD&#34;.SD[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_SD&#34;,
+	                                            Codigo2 := &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_MAN&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	                IF NOT &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan AND &#34;DB2005_SD&#34;.SD[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_SD&#34;,
+	                                            Codigo2 := &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_AUTO&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan AND &#34;DB2005_SD&#34;.SD[#for_i].Estado_Activado AND NOT &#34;DB2005_SD&#34;.SD[#for_i].Aux_oldActivado THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_SD&#34;,
+	                                            Codigo2 := &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_MAN_ON&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	                IF &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan AND NOT &#34;DB2005_SD&#34;.SD[#for_i].Estado_Activado AND &#34;DB2005_SD&#34;.SD[#for_i].Aux_oldActivado THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_SD&#34;,
+	                                            Codigo2 := &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_MAN_OFF&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	                
+	                
+	            END_REGION
+	            
+	            
+	            // =============================================================================
+	            // Estado anterior manual/automatico
+	            &#34;DB2005_SD&#34;.SD[#for_i].Aux_oldAutoMan := &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan;
+	            
+	        ELSE
+	            
+	            // =============================================================================
+	            // DISPOSITIVO HABILITADO
+	            // =============================================================================
+	            &#34;DB2005_SD&#34;.SD[#for_i].Orden_ActivarAuto := FALSE;
+	            &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoAct := 0;
+	            &#34;DB2005_SD&#34;.SD[#for_i].Tiempos_TiempoDes := 0;
+	            
+	        END_IF;
+	        
+	        
+	        REGION GESTION_HMI
+	            
+	            // =============================================================================
+	            //  GESTION BITS PARA VISUALIZACION
+	            //  Bit     0   Habilitacion
+	            //  Bit     1   ManualAutomatico
+	            //  Bit     2   Enclavado
+	            //  Bit     3   Activado 1
+	            //  Bit     4   Activado 2
+	            //  Bit     5   Reserva
+	            //  Bit     6   Reserva
+	            //  Bit     7   Reserva
+	            //  Bit     8   Alarma General
+	            //  Bit     9   Alarma 1
+	            //  Bit     10  Alarma 2
+	            //  Bit     11  Alarma 3
+	            //  Bit     12  Alarma 4
+	            //  Bit     13  Alarma Mantenimiento
+	            //  Bit     14  Reserva
+	            //  Bit     15  Reserva
+	            &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Estado.%X0 := &#34;DB2005_SD&#34;.SD[#for_i].Config_Habilitar;
+	            &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Estado.%X1 := &#34;DB2005_SD&#34;.SD[#for_i].Estado_AutoMan;
+	            &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Estado.%X2 := &#34;DB2005_SD&#34;.SD[#for_i].Estado_Enclavado;
+	            &#34;DB2005_SD&#34;.SD[#for_i].Hmi_Estado.%X3 := &#34;DB2005_SD&#34;.SD[#for_i].Estado_Activado;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X4 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X5 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X6 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X7 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X8 := FALSE;;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X9 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X10 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X11 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X12 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X13 := FALSE;;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X14 := FALSE;
+	            //&#34;DB2005_DISP_SD&#34;.SD[#i].Hmi_Estado.%X15 := FALSE;
+	            
+	        END_REGION
+	        
+	        
+	    END_FOR;
+	    
+	END_REGION
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

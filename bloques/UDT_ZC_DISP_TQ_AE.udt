@@ -1,0 +1,42 @@
+﻿TYPE "UDT_ZC_DISP_TQ_AE"
+VERSION : 0.1
+   STRUCT
+      Hmi_Index : Int;   // Index para listas HMI
+      Estado_AutoMan : Bool := FALSE;   // 0= Automatico / 1= Manual
+      Orden_Manual : Bool := FALSE;   // Orden activar manual 0= Despresurizar / 1= Presurizar
+      Orden_CIP : Bool;
+      Orden_Produccion : Bool;
+      Orden_Vaciado : Bool;
+      Alarma_PresionAlta : Bool;
+      Alarma_PresionBaja : Bool;
+      Alarma_Configuracion : Bool;
+      Salida_ValvulaVenteo : Bool;
+      Salida_ValvulaEsteril : Bool;
+      Salida_ValvulaDucha : Bool;
+      Aux_DuchaFlipActivo : Bool := FALSE;
+      Aux_DuchaFlopActivo : Bool := TRUE;
+      Aux_DuchaFlanco : Bool := FALSE;
+      Aux_DuchaSalidaFlip : Bool;
+      Aux_DuchaSalidaFlop : Bool;
+      Config_Habilitar : Bool;
+      Config_HabilitarAlarmas : Bool;
+      Aux_oldOrdenManual : Bool;
+      Aux_oldAutoMan : Bool;
+      Config_GrupoAlarma : Int := 0;   // Grupo de alarma
+      Estado_ValorPresion : Real;
+      Config_PresionMaxTrabajo : Real;
+      Config_PresionMinTrabajo : Real;
+      Config_PresionMaxAlarma : Real;
+      Config_PresionMinAlarma : Real;
+      Tiempos_SetPointAlarmaMaxPresion : Int;
+      Tiempos_SetPointAlarmaMinPresion : Int;
+      Tiempos_AlarmaMaxPresion : Int;
+      Tiempos_AlarmaMinPresion : Int;
+      Tiempos_SetPointFlipDucha : Int;
+      Tiempos_SetPointFlopDucha : Int;
+      Tiempos_DuchaTiempoFlip : Int := 0;
+      Tiempos_DuchaTiempoFlop : Int := 0;
+   END_STRUCT;
+
+END_TYPE
+

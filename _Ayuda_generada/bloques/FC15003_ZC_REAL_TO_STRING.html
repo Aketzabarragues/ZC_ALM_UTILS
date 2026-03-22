@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC15003_ZC_REAL_TO_STRING</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC15003_ZC_REAL_TO_STRING
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Valor</strong></td>
+            <td>Real</td>
+            <td>Valor REAL</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_String</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC15003_ZC_REAL_TO_STRING&#34; : String
+TITLE = FC15003_ZC_REAL_TO_STRING
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : HCR
+FAMILY : ZeusControl
+VERSION : 1.1
+//Funcion para convertir REAL a TRING
+   VAR_INPUT 
+      Valor : Real;   // Valor REAL
+   END_VAR
+
+   VAR_TEMP 
+      t_String : String;
+      t_Posición : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC15003_ZC_REAL_TO_STRING
+	Descripcion:    Funcion para conversion de INT a STRING
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    15.10.2022  (HCR)               Primera version
+	    01.00.01    25.07.2023  (ABH)               Cambio FC de Void a Funcion. Cambio en nombre de variables para 
+	                                                estandarizacion.
+	    
+	    
+	//=====================================================================================
+	*)
+	
+	
+	// =============================================================================
+	//  Conversion de real a string
+	VAL_STRG(IN := #Valor,
+	         SIZE := 10,
+	         PREC := 1,
+	         FORMAT := 16#0004,
+	         P := 16,
+	         OUT =&gt; #t_String);
+	
+	
+	// =============================================================================
+	//  Se añade signo en base a valor
+	IF #Valor &gt;= 0.0 THEN
+	    #t_Posición := FIND(IN1 := #t_String, IN2 := &#39;+&#39;);
+	END_IF;
+	IF #Valor &lt; 0.0 THEN
+	    #t_Posición := FIND(IN1 := #t_String, IN2 := &#39;-&#39;);
+	END_IF;
+	
+	
+	// =============================================================================
+	//  Borrado de caracteres antes del signo
+	#FC15003_ZC_REAL_TO_STRING := DELETE(IN := #t_String, L := #t_Posición - 1, P := 1);
+	
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

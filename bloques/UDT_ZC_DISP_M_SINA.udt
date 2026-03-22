@@ -1,0 +1,49 @@
+﻿TYPE "UDT_ZC_DISP_M_SINA"
+VERSION : 0.1
+   STRUCT
+      Hmi_Index : Int;   // Index para listas HMI
+      Hmi_Estado : Int;   // Visualizacion dispositivoHMI
+      Estado_VelocidadLectura : Real;   // Lectura de Velocidad (desde Variador)
+      Estado_AutoMan : Bool;   // 0= Automatico / 1= Manual
+      Estado_Activado : Bool;   // Estado motor activado
+      Estado_Enclavado : Bool;   // Enclavamiento del dispositivo
+      Estado_PermisoInvertirSentido : Bool;   // Permisivo para invertir el sentido de Giro
+      Estado_RetornoTermico : Bool;   // Entrada magnetotérmico
+      Estado_EjeBloqueado : Bool;   // Eje bloqueado (lectura de sinaspeed)
+      Estado_EjeHabilitado : Bool;   // Eje habilitado (lectura de sinaspeed)
+      Alarmas_Termico : Bool;   // Error chequeo magnetotérmico
+      Alarmas_SinaSpeed : Bool;   // Error SinaSpeed
+      Alarmas_Mantenimiento : Bool;   // Horas para mantenimiento alcanzados
+      Alarmas_General : Bool;   // Motor en error
+      Orden_ActivarManual : Bool;   // Orden activar manual
+      Orden_ActivarAuto : Bool;   // Orden activar automático
+      Orden_ResetHoras : Bool;   // Reset contador de horas de activación
+      Orden_ResetFallos : Bool;   // Reset Fallos Variador
+      Orden_SeleccionInverso : Bool;   // Selección inverso
+      Config_Habilitar : Bool := FALSE;   // Activar tratamiento de dispositivo
+      Config_HabilitarRetornoTermico : Bool := TRUE;   // Activar chequeo magnetotérmico
+      Config_HabilitarInvertirTermico : Bool := TRUE;   // Invertir señal magnetotérmico
+      Config_HabilitarMantenimiento : Bool := FALSE;   // Habilitar alarma Horas mantenimiento
+      Aux_oldActivado : Bool;   // Estado anterior activado
+      Aux_oldAlarma : Bool;   // Estado anterior Alarma
+      Aux_oldAutoMan : Bool;   // Estado anterior Auto / Manual
+      Estado_SeguridadOk : Bool := TRUE;   // Estado seguridad OK
+      Config_GrupoAlarma : Int := 0;   // Grupo de alarma
+      Estado_VelocidadSalida : Real;   // Velocidad actual
+      Estado_Estado : Word;   // Estado (lectura de sinaspeed)
+      Estado_CodigoFallo : Word;   // Codigo de fallo DiagID (lectura de sinaspeed)
+      Orden_ConsignaManual : Real;   // Velocidad en manual
+      Orden_ConsignaAuto : Real;   // Velocidad en automatico
+      Config_DireccionRetTermicoByte : Int := 0;   // Dirección magnetotérmico Byte
+      Config_DireccionRetTermicoBit : Int := 0;   // Dirección magnetotérmico Bit
+      Config_VelocidadMin : Real := 0.0;   // Valor minimo en unidades de ingenieria
+      Config_VelocidadMax : Real := 0.0;   // Valor maximo en unidades de ingenieria
+      Config_K_Velocidad : Real := 50.0;   // K para cálculo de Velocidad (100 si vamos en %, p2000 en RPM)
+      Tiempos_SetPointTiempoAlarma : UInt := 10;   // Consigna activación alarmas
+      Tiempos_Alarma : UInt := 0;   // Tiempo activación alarmas
+      Tiempos_SetPointMantenimiento : Real := 2000.0;   // Consigna alarma tiempo mantenimiento
+      Tiempos_Mantenimiento : Real;   // Contador tiempo de funcionamiento
+   END_STRUCT;
+
+END_TYPE
+

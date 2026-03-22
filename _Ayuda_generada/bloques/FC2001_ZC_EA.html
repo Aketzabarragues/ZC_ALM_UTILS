@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC2001_ZC_EA</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC2001_ZC_EA
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Arranque</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Ack</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_mux</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_x1</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_y1</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ValorTarjeta</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Word</strong></td>
+            <td>Word</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_SubError</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_TextoValorAnterior</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_oldIndex</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: MULTIPLEXADO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_1" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITES
+    //  ===========================================================================================================
+    //  Limites
+    IF "DB2001_EA".Mux[#for_mux].Index < 0 THEN
+        "DB2001_EA".Mux[#for_mux].Index := 0;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].Index > "N_MAX_DISP_EA" THEN
+        "DB2001_EA".Mux[#for_mux].Index := "N_MAX_DISP_EA";
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].Index >= "N_MAX_DISP_EA" THEN
+        "DB2001_EA".Mux[#for_mux].MaxVisible := TRUE;
+    ELSE
+        "DB2001_EA".Mux[#for_mux].MaxVisible := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CARGA_INICIAL</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CARGA_INICIAL
+    //  ===========================================================================================================
+    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+    IF #t_Index <> #t_oldIndex THEN
+        "DB2001_EA".Mux[#for_mux].EA := "DB2001_EA".EA[#t_Index];
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_LECTURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_LECTURA
+    //  ===========================================================================================================
+    //  Movimiento de datos gestionados en FC
+    "DB2001_EA".Mux[#for_mux].EA.Hmi_Estado := "DB2001_EA".EA[#t_Index].Hmi_Estado;
+    IF NOT "DB2001_EA".EA[#t_Index].Estado_AutoMan THEN
+        "DB2001_EA".Mux[#for_mux].EA.Orden_ConsignaManual := "DB2001_EA".EA[#t_Index].Orden_ConsignaManual;
+    END_IF;
+    "DB2001_EA".Mux[#for_mux].EA.Hmi_Index := "DB2001_EA".EA[#t_Index].Hmi_Index;
+    "DB2001_EA".Mux[#for_mux].EA.Estado_ValorIngenieria := "DB2001_EA".EA[#t_Index].Estado_ValorIngenieria;
+    "DB2001_EA".Mux[#for_mux].EA.Estado_ValorTarjeta := "DB2001_EA".EA[#t_Index].Estado_ValorTarjeta;
+    "DB2001_EA".Mux[#for_mux].EA.Alarmas_General := "DB2001_EA".EA[#t_Index].Alarmas_General;
+    "DB2001_EA".Mux[#for_mux].EA.Alarmas_HiloRoto := "DB2001_EA".EA[#t_Index].Alarmas_HiloRoto;
+    "DB2001_EA".Mux[#for_mux].EA.Alarmas_Lectura := "DB2001_EA".EA[#t_Index].Alarmas_Lectura;
+    "DB2001_EA".Mux[#for_mux].EA.Alarmas_Max := "DB2001_EA".EA[#t_Index].Alarmas_Max;
+    "DB2001_EA".Mux[#for_mux].EA.Alarmas_Min := "DB2001_EA".EA[#t_Index].Alarmas_Min;
+    "DB2001_EA".Mux[#for_mux].EA.Alarmas_Parametros := "DB2001_EA".EA[#t_Index].Alarmas_Parametros;
+    "DB2001_EA".Mux[#for_mux].EA.Aux_Estado := "DB2001_EA".EA[#t_Index].Aux_Estado;
+    "DB2001_EA".Mux[#for_mux].EA.Aux_oldAlarma := "DB2001_EA".EA[#t_Index].Aux_oldAlarma;
+    "DB2001_EA".Mux[#for_mux].EA.Aux_oldAutoMan := "DB2001_EA".EA[#t_Index].Aux_oldAutoMan;
+    "DB2001_EA".Mux[#for_mux].EA.Config_GrupoAlarma := "DB2001_EA".EA[#t_Index].Config_GrupoAlarma;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: DATOS_ESCRITURA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION DATOS_ESCRITURA
+    //  ===========================================================================================================
+    //  Reinicializamos valor existe cambio
+    "DB2001_EA".Mux[#for_mux].ExisteCambio := false;
+
+    //  ===========================================================================================================
+    //  Estado auto/manual
+    IF "DB2001_EA".Mux[#for_mux].EA.Estado_AutoMan <> "DB2001_EA".EA[#t_Index].Estado_AutoMan THEN
+        "DB2001_EA".EA[#t_Index].Estado_AutoMan := "DB2001_EA".Mux[#for_mux].EA.Estado_AutoMan;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Ordenes
+    IF "DB2001_EA".Mux[#for_mux].EA.Orden_ConsignaManual <> "DB2001_EA".EA[#t_Index].Orden_ConsignaManual THEN
+        "DB2001_EA".EA[#t_Index].Orden_ConsignaManual := "DB2001_EA".Mux[#for_mux].EA.Orden_ConsignaManual;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+
+    //  ===========================================================================================================
+    //  Configuracion
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_DireccionEntradaByte <> "DB2001_EA".EA[#t_Index].Config_DireccionEntradaByte THEN
+        "DB2001_EA".EA[#t_Index].Config_DireccionEntradaByte := "DB2001_EA".Mux[#for_mux].EA.Config_DireccionEntradaByte;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMaxHisteresis <> "DB2001_EA".EA[#t_Index].Config_ErrorMaxHisteresis THEN
+        "DB2001_EA".EA[#t_Index].Config_ErrorMaxHisteresis := "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMaxHisteresis;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMaxIngenieria <> "DB2001_EA".EA[#t_Index].Config_ErrorMaxIngenieria THEN
+        "DB2001_EA".EA[#t_Index].Config_ErrorMaxIngenieria := "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMaxIngenieria;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMinHisteresis <> "DB2001_EA".EA[#t_Index].Config_ErrorMinHisteresis THEN
+        "DB2001_EA".EA[#t_Index].Config_ErrorMinHisteresis := "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMinHisteresis;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMinIngenieria <> "DB2001_EA".EA[#t_Index].Config_ErrorMinIngenieria THEN
+        "DB2001_EA".EA[#t_Index].Config_ErrorMinIngenieria := "DB2001_EA".Mux[#for_mux].EA.Config_ErrorMinIngenieria;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMaxIngenieria <> "DB2001_EA".EA[#t_Index].Config_EscaladoMaxIngenieria THEN
+        "DB2001_EA".EA[#t_Index].Config_EscaladoMaxIngenieria := "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMaxIngenieria;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMaxTarjeta <> "DB2001_EA".EA[#t_Index].Config_EscaladoMaxTarjeta THEN
+        "DB2001_EA".EA[#t_Index].Config_EscaladoMaxTarjeta := "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMaxTarjeta;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMinIngenieria <> "DB2001_EA".EA[#t_Index].Config_EscaladoMinIngenieria THEN
+        "DB2001_EA".EA[#t_Index].Config_EscaladoMinIngenieria := "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMinIngenieria;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMinTarjeta <> "DB2001_EA".EA[#t_Index].Config_EscaladoMinTarjeta THEN
+        "DB2001_EA".EA[#t_Index].Config_EscaladoMinTarjeta := "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoMinTarjeta;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoOffset <> "DB2001_EA".EA[#t_Index].Config_EscaladoOffset THEN
+        "DB2001_EA".EA[#t_Index].Config_EscaladoOffset := "DB2001_EA".Mux[#for_mux].EA.Config_EscaladoOffset;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_Habilitar <> "DB2001_EA".EA[#t_Index].Config_Habilitar THEN
+        "DB2001_EA".EA[#t_Index].Config_Habilitar := "DB2001_EA".Mux[#for_mux].EA.Config_Habilitar;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_HabilitarAlarmaMax <> "DB2001_EA".EA[#t_Index].Config_HabilitarAlarmaMax THEN
+        "DB2001_EA".EA[#t_Index].Config_HabilitarAlarmaMax := "DB2001_EA".Mux[#for_mux].EA.Config_HabilitarAlarmaMax;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_HabilitarAlarmaMin <> "DB2001_EA".EA[#t_Index].Config_HabilitarAlarmaMin THEN
+        "DB2001_EA".EA[#t_Index].Config_HabilitarAlarmaMin := "DB2001_EA".Mux[#for_mux].EA.Config_HabilitarAlarmaMin;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_HabilitarEscalado <> "DB2001_EA".EA[#t_Index].Config_HabilitarEscalado THEN
+        "DB2001_EA".EA[#t_Index].Config_HabilitarEscalado := "DB2001_EA".Mux[#for_mux].EA.Config_HabilitarEscalado;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+    IF "DB2001_EA".Mux[#for_mux].EA.Config_HisteresisTipo <> "DB2001_EA".EA[#t_Index].Config_HisteresisTipo THEN
+        "DB2001_EA".EA[#t_Index].Config_HisteresisTipo := "DB2001_EA".Mux[#for_mux].EA.Config_HisteresisTipo;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := true;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_CAMBIOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_CAMBIOS
+    //  ===========================================================================================================
+    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+    //  en caso de que este abierto el mismo dispositivo.
+    IF "DB2001_EA".Mux[#for_mux].ExisteCambio THEN
+
+        //  Recorremos todos los multiplexados
+        FOR #for_mux_cambios := 0 TO "N_MAX_MUX_DISP" DO
+
+            //  No miramos el multiplexado actual
+            IF #for_mux_cambios <> #for_mux THEN
+
+                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+                //  correspondiente
+                IF #t_Index = "DB2001_EA".Mux[#for_mux_cambios].Index THEN
+                    "DB2001_EA".Mux[#for_mux_cambios].EA := "DB2001_EA".EA[#t_Index];
+                END_IF;
+
+            END_IF;
+
+        END_FOR;
+        "DB2001_EA".Mux[#for_mux].ExisteCambio := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_6">
+        <h3>🔸 Lógica: LOGICA_DEL_DISPOSITIVO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_7" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LIMITE_GRUPO_ALARMA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LIMITE_GRUPO_ALARMA
+    IF "DB2001_EA".EA[#for_i].Config_GrupoAlarma < 0 THEN
+        "DB2001_EA".EA[#for_i].Config_GrupoAlarma := 0;
+    END_IF;
+    IF "DB2001_EA".EA[#for_i].Config_GrupoAlarma > "N_MAX_DISP_AGRUP" THEN
+        "DB2001_EA".EA[#for_i].Config_GrupoAlarma := "N_MAX_DISP_AGRUP";
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: LECTURA_VALORES_DE_LA_TARJETA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION LECTURA_VALORES_DE_LA_TARJETA
+    IF "DB2001_EA".EA[#for_i].Config_DireccionEntradaByte > 0 THEN
+
+        // =============================================================================
+        //  LECTURA DE LA SEÑAL DE ENTRADA - PEEK_WORD (area) 16#1 para CPU 1500; 16#81 para CPU 1200
+        #t_ValorTarjeta := WORD_TO_INT(PEEK_WORD(area := 16#81, dbNumber := 0, byteOffset := "DB2001_EA".EA[#for_i].Config_DireccionEntradaByte));
+        // =============================================================================
+        //  COMPROBAMOS LOCALARMASENTE LA LECTURA CORRECTA DE LA ENTRADA ANALOGICA
+        //  Descripcion de GET_ERR_ID()
+        (* La instrucción "Consultar ID de error locALARMASente" consulta si se han producido errores en un bloque. Suele tratarse de un error de acceso. 
+    Si al ejecutar el bloque el sistema notifica errores de ejecución desde que se ejecutó la instrucción por última vez, la instrucción emite la ID del primer error ocurrido.
+    La ID de error solo se puede guardar en operandos del tipo de datos WORD. Si se producen varios errores en el bloque, la instrucción soluciona el primer error ocurrido,
+    y solo entonces la instrucción emite la ID de error del siguiente error ocurrido.
+    0      0  Ningún error
+    2503 9475 Puntero no válido
+    2520 9504 STRING no válido
+    2522 9506 Error de lectura: operando fuera del rango válido
+    2523 9507 Error de escritura: operando fuera del rango válido
+    2524 9508 Error de lectura: operando no válido
+    2525 9509 Error de escritura: operando no válido
+    2528 9512 Error de lectura: alineación de datos
+    2529 9513 Error de escritura: alineación de datos
+    252C 9516 Puntero no válido
+    2530 9520 Error de escritura: Bloque de datos
+    2533 9523 Referencia usada no válida
+    2538 9528 Error de acceso: el DB no existe
+    2539 9529 Error de acceso: se ha utilizado un DB incorrecto
+    253A 9530 El bloque de datos global no existe
+    253C 9532 Indicación errónea o la función no existe
+    253D 9533 La función de sistema no existe
+    253E 9534 Indicación errónea o el bloque de función no existe
+    253F 9535 El bloque de sistema no existe
+    2550 9552 Error de acceso: el DB no existe
+    2551 9553 Error de acceso: se ha utilizado un DB incorrecto
+    2575 9589 Error en la profundidad de anidamiento del programa
+    2576 9590 Error en la distribución de datos locales
+    2577 9591 La propiedad de bloque "Alimentación de parámetros a través de registros" no está activada.
+    25A0 9632 Error interno en TP
+    25A1 9633 Variable protegida contra escritura
+    25A2 9634 Valor numérico no válido de la variable
+    2942 10562 Error de lectura: entrada
+    2943 10563 Error de escritura: salida*)
+        "DB2001_EA".EA[#for_i].Estado_Lectura := GET_ERR_ID();
+        #t_LecturaRealizada := ("DB2001_EA".EA[#for_i].Estado_Lectura = 0);
+        "DB2001_EA".EA[#for_i].Estado_ValorTarjeta := #t_ValorTarjeta;
+    ELSE
+
+        "DB2001_EA".EA[#for_i].Estado_ValorTarjeta := 0;
+        #t_LecturaRealizada := TRUE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_9" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: CALCULO_VALOR</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION CALCULO_VALOR
+    IF "DB2001_EA".EA[#for_i].Config_DireccionEntradaByte > 0 THEN
+
+        IF "DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria > "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria AND
+            "DB2001_EA".EA[#for_i].Config_EscaladoMaxTarjeta > "DB2001_EA".EA[#for_i].Config_EscaladoMinTarjeta THEN
+
+            #t_x0 := INT_TO_REAL("DB2001_EA".EA[#for_i].Config_EscaladoMinTarjeta);
+            #t_x1 := INT_TO_REAL("DB2001_EA".EA[#for_i].Config_EscaladoMaxTarjeta);
+            #t_x := DINT_TO_REAL("DB2001_EA".EA[#for_i].Estado_ValorTarjeta);
+            #t_y0 := "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria;
+            #t_y1 := "DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria;
+
+            // =============================================================================
+            //  DETECCIÓN DE FALLO EN EL CANAL
+            IF ("DB2001_EA".EA[#for_i].Estado_ValorTarjeta > -32768) AND ("DB2001_EA".EA[#for_i].Estado_ValorTarjeta < 32767) AND #t_LecturaRealizada THEN
+
+                IF ("DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria <> "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria)
+                    AND
+                    ("DB2001_EA".EA[#for_i].Config_EscaladoMaxTarjeta <> "DB2001_EA".EA[#for_i].Config_EscaladoMinTarjeta)
+                THEN
+                    "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := ((#t_x - #t_x0) * ((#t_y1 - #t_y0) / (#t_x1 - #t_x0))) + #t_y0;
+
+                    // =============================================================================
+                    //  LÍMITES
+                    IF "DB2001_EA".EA[#for_i].Estado_ValorIngenieria > "DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria THEN
+                        "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := "DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria;
+                    END_IF;
+                    IF "DB2001_EA".EA[#for_i].Estado_ValorIngenieria < "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria THEN
+                        "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria;
+                    END_IF;
+
+                    // =============================================================================
+                    //  OFFSET
+                    "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := "DB2001_EA".EA[#for_i].Estado_ValorIngenieria + "DB2001_EA".EA[#for_i].Config_EscaladoOffset;
+                ELSE
+                    "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := 0.0;
+                END_IF;
+                "DB2001_EA".EA[#for_i].Alarmas_HiloRoto := FALSE;
+            ELSE
+                "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := 0.0;
+                "DB2001_EA".EA[#for_i].Alarmas_HiloRoto := TRUE; //  Error del canal
+            END_IF;
+        ELSE
+            "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := 0.0;
+        END_IF;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_10" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: MODOS_DE_TRABAJO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION MODOS_DE_TRABAJO
+    // =============================================================================
+    //  FORZADO DE LA SEÑAL
+    IF "DB2001_EA".EA[#for_i].Estado_AutoMan THEN
+        "DB2001_EA".Agrup["DB2001_EA".EA[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+        "DB2001_EA".EA[#for_i].Estado_ValorIngenieria := "DB2001_EA".EA[#for_i].Orden_ConsignaManual;
+    ELSE
+        "DB2001_EA".EA[#for_i].Orden_ConsignaManual := "DB2001_EA".EA[#for_i].Estado_ValorIngenieria;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_11" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ERRORES</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ERRORES
+    #t_SubError := "DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria - "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria;
+    // =============================================================================
+    //  ALARMA NIVEL MÍNIMO
+    IF "DB2001_EA".EA[#for_i].Config_HabilitarAlarmaMin THEN
+        IF "DB2001_EA".EA[#for_i].Estado_ValorIngenieria < "DB2001_EA".EA[#for_i].Config_ErrorMinIngenieria THEN
+            "DB2001_EA".EA[#for_i].Alarmas_Min := TRUE;
+        END_IF;
+
+        // =============================================================================
+        //  RESET DE ALARMA CON HISTÉRESIS EN UNIDADES DE INGENIERÍA
+        IF NOT ("DB2001_EA".EA[#for_i].Config_HisteresisTipo) AND ("DB2001_EA".EA[#for_i].Estado_ValorIngenieria >= ("DB2001_EA".EA[#for_i].Config_ErrorMinIngenieria + "DB2001_EA".EA[#for_i].Config_ErrorMinHisteresis)) THEN
+            "DB2001_EA".EA[#for_i].Alarmas_Min := FALSE;
+        END_IF;
+
+        // =============================================================================
+        //  RESET DE ALARMA CON HISTÉRESIS EN %
+        IF "DB2001_EA".EA[#for_i].Config_HisteresisTipo AND ("DB2001_EA".EA[#for_i].Estado_ValorIngenieria >= "DB2001_EA".EA[#for_i].Config_ErrorMinIngenieria + ("DB2001_EA".EA[#for_i].Config_ErrorMinHisteresis / 100.0) * #t_SubError) THEN
+            "DB2001_EA".EA[#for_i].Alarmas_Min := FALSE;
+        END_IF;
+    ELSE
+        "DB2001_EA".EA[#for_i].Alarmas_Min := FALSE;
+    END_IF;
+
+    // =============================================================================
+    //  ALARMA NIVEL MÁXIMO
+    IF "DB2001_EA".EA[#for_i].Config_HabilitarAlarmaMax THEN
+        IF "DB2001_EA".EA[#for_i].Estado_ValorIngenieria > "DB2001_EA".EA[#for_i].Config_ErrorMaxIngenieria THEN
+            "DB2001_EA".EA[#for_i].Alarmas_Max := TRUE;
+        END_IF;
+
+        // =============================================================================
+        //  RESET DE ALARMA CON HISTÉRESIS EN UNIDADES DE INGENIERÍA
+        IF NOT ("DB2001_EA".EA[#for_i].Config_HisteresisTipo) AND ("DB2001_EA".EA[#for_i].Estado_ValorIngenieria <= ("DB2001_EA".EA[#for_i].Config_ErrorMaxIngenieria - "DB2001_EA".EA[#for_i].Config_ErrorMaxHisteresis)) THEN
+            "DB2001_EA".EA[#for_i].Alarmas_Max := FALSE;
+        END_IF;
+
+        // =============================================================================
+        //  RESET DE ALARMA CON HISTÉRESIS EN %
+        IF "DB2001_EA".EA[#for_i].Config_HisteresisTipo AND ("DB2001_EA".EA[#for_i].Estado_ValorIngenieria <= "DB2001_EA".EA[#for_i].Config_ErrorMaxIngenieria - ("DB2001_EA".EA[#for_i].Config_ErrorMaxHisteresis / 100.0) * #t_SubError) THEN
+            "DB2001_EA".EA[#for_i].Alarmas_Max := FALSE;
+        END_IF;
+    ELSE
+        "DB2001_EA".EA[#for_i].Alarmas_Max := FALSE;
+    END_IF;
+
+    #t_ErrorGeneral := "DB2001_EA".EA[#for_i].Alarmas_HiloRoto OR "DB2001_EA".EA[#for_i].Alarmas_Max OR "DB2001_EA".EA[#for_i].Alarmas_Min;
+    "DB2001_EA".EA[#for_i].Alarmas_General := #t_ErrorGeneral;
+
+    IF #t_ErrorGeneral THEN
+        "DB2001_EA".Agrup["DB2001_EA".EA[#for_i].Config_GrupoAlarma].AlgunaAlarma := TRUE;
+    END_IF;
+
+
+    "DB2001_EA".EA[#for_i].Alarmas_Lectura := NOT #t_LecturaRealizada;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_12" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: ESTADO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ESTADO
+    "DB2001_EA".EA[#for_i].Aux_Estado := 1; //  Estado normal 
+
+    IF ("DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria = "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria) OR
+        ("DB2001_EA".EA[#for_i].Config_EscaladoMaxTarjeta = "DB2001_EA".EA[#for_i].Config_EscaladoMinTarjeta) THEN
+        "DB2001_EA".EA[#for_i].Aux_Estado := 6; //  Error de configuración
+    END_IF;
+
+    IF ("DB2001_EA".EA[#for_i].Config_EscaladoMaxIngenieria < "DB2001_EA".EA[#for_i].Config_EscaladoMinIngenieria) OR
+        ("DB2001_EA".EA[#for_i].Config_EscaladoMaxTarjeta < "DB2001_EA".EA[#for_i].Config_EscaladoMinTarjeta) THEN
+        "DB2001_EA".EA[#for_i].Aux_Estado := 6; //  Error de configuración
+    END_IF;
+
+    IF ("DB2001_EA".EA[#for_i].Estado_ValorTarjeta <= -32766) OR
+        ("DB2001_EA".EA[#for_i].Estado_ValorTarjeta >= 32766) THEN
+        "DB2001_EA".EA[#for_i].Aux_Estado := 3; //  Error del canal
+    END_IF;
+
+    IF "DB2001_EA".EA[#for_i].Config_HabilitarAlarmaMin THEN
+        IF "DB2001_EA".EA[#for_i].Estado_ValorIngenieria < "DB2001_EA".EA[#for_i].Config_ErrorMinIngenieria THEN
+            "DB2001_EA".EA[#for_i].Aux_Estado := 4; //  Señal en alarma
+        END_IF;
+    END_IF;
+
+    IF "DB2001_EA".EA[#for_i].Config_HabilitarAlarmaMax THEN
+        IF "DB2001_EA".EA[#for_i].Estado_ValorIngenieria > "DB2001_EA".EA[#for_i].Config_ErrorMaxIngenieria THEN
+            "DB2001_EA".EA[#for_i].Aux_Estado := 5;   //  Señal en alarma
+        END_IF;
+    END_IF;
+
+    IF NOT #t_LecturaRealizada THEN
+        "DB2001_EA".EA[#for_i].Aux_Estado := 7;   //  Error de lectura
+    END_IF;
+
+    IF "DB2001_EA".EA[#for_i].Config_DireccionEntradaByte <= 0 THEN
+        "DB2001_EA".EA[#for_i].Aux_Estado := 8; // EA no direccionada
+    END_IF;
+
+    IF "DB2001_EA".EA[#for_i].Estado_AutoMan THEN
+        "DB2001_EA".EA[#for_i].Aux_Estado := 2; //  Señal forzada
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_13" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: TRAZABILIDAD</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TRAZABILIDAD
+    IF "DB2001_EA".EA[#for_i].Estado_AutoMan AND NOT "DB2001_EA".EA[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_EA",
+                                Codigo2 := "DB2001_EA".EA[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_MAN",
+                                Texto := '');
+    END_IF;
+
+    IF NOT "DB2001_EA".EA[#for_i].Estado_AutoMan AND "DB2001_EA".EA[#for_i].Aux_oldAutoMan THEN
+        "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+                                Registrar := 1,
+                                Categoria := "TRZ_CAT_3_DISP",
+                                User := "DB1_SYS".Usuario.Actual,
+                                Codigo1 := "TRZ_DISP_TIPO_EA",
+                                Codigo2 := "DB2001_EA".EA[#for_i].Hmi_Index,
+                                Codigo3 := "TRZ_DISP_ACC_AUTO",
+                                Texto := '');
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_14" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_HMI</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_HMI
+    // =============================================================================
+    //  GESTION BITS PARA VISUALIZACION
+    //  Bit     0   Habilitacion
+    //  Bit     1   ManualAutomatico
+    //  Bit     2   Reserva
+    //  Bit     3   Reserva
+    //  Bit     4   Reserva
+    //  Bit     5   Reserva
+    //  Bit     6   Reserva
+    //  Bit     7   Reserva
+    //  Bit     8   Alarma Hilo Roto
+    //  Bit     9   Alarma Alta
+    //  Bit     10  Alarma Baja
+    //  Bit     11  Alarma 3
+    //  Bit     12  Alarma 4
+    //  Bit     13  Alarma 5
+    //  Bit     14  Reserva
+    //  Bit     15  Reserva
+    "DB2001_EA".EA[#for_i].Hmi_Estado.%X0 :="DB2001_EA".EA[#for_i].Config_Habilitar;
+    "DB2001_EA".EA[#for_i].Hmi_Estado.%X1 := "DB2001_EA".EA[#for_i].Estado_AutoMan;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X2 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X3 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X4 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X5 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X6 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X7 := FALSE;
+    "DB2001_EA".EA[#for_i].Hmi_Estado.%X8 := "DB2001_EA".EA[#for_i].Alarmas_HiloRoto;
+    "DB2001_EA".EA[#for_i].Hmi_Estado.%X9 := "DB2001_EA".EA[#for_i].Alarmas_Max;
+    "DB2001_EA".EA[#for_i].Hmi_Estado.%X10 := "DB2001_EA".EA[#for_i].Alarmas_Min;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X11 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X12 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X13 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X14 := FALSE;
+    //"DB2030_TMF1_DISP_EA".EA[#i].Hmi_Estado_%X15 := FALSE;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_15" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: GESTION_NUEVA_ALARMA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_NUEVA_ALARMA
+    // =============================================================================
+    //  DETECCION DE NUEVA ALARMA
+    IF "DB2001_EA".EA[#for_i].Alarmas_General AND NOT "DB2001_EA".EA[#for_i].Aux_oldAlarma THEN
+        "DB2001_EA".Agrup["DB2001_EA".EA[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+    END_IF;
+
+    //  Estado anterior de las alarmas
+    "DB2001_EA".EA[#for_i].Aux_oldAlarma := "DB2001_EA".EA[#for_i].Alarmas_General;
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC2001_ZC_EA&#34; : Void
+TITLE = FC2001_EA
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Modelo de dispositivo entrada analogica
+   VAR_INPUT 
+      Pulso1seg : Bool;
+      Simulacion : Bool;
+      Arranque : Bool;
+      TiempoCiclo : Real;
+      Ack : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      for_mux_cambios : Int;
+      for_mux : Int;
+      t_x0 : Real;
+      t_x1 : Real;
+      t_y0 : Real;
+      t_y1 : Real;
+      t_x : Real;
+      t_ValorTarjeta : Int;
+      t_ErrorGeneral : Bool;
+      t_Word : Word;
+      t_LecturaRealizada : Bool;
+      t_SubError : Real;
+      t_TextoValorNuevo : String;
+      t_TextoValorAnterior : String;
+      t_Index : Int;
+      t_oldIndex : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         DISPOSITIVO EA
+	Descripcion:    Modelo de dispositivo entrada analogica
+	
+	Dependencias:
+	    FC:         FC8_ZC_TRAZA_REGISTRO
+	                FC15003_ZC_REAL_TO_STRING
+	    FB:         -
+	    DB:         DB2001_DISP_EA
+	                DB1_SYS
+	    UDT:        ZC_DISP_EA
+	                ZC_DISP_MUX_EA
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    15.10.2020  (ABH)               Primera version.
+	    01.00.01    26.04.2022  (HCR)               Cambio en la organizacion del UDT. Se organiza en estructuras en base al tipo de funcion que realizan los datos.
+	                                                Se añade seguridad en el escalado, que los valores de min/max de ingenieria y de tarjeta tienen que ser
+	                                                diferentes entre si.
+	    01.00.02    27.04.2022  (ABH)               Se añaden auxiliares de estado anterior del modo manual y automatico para poder 
+	                                                registrar las trazas.
+	    01.00.06    29.04.2022  (HCR)               Cambio del estado de la señal, se agrega señal estado por prioridades.
+	                                                Cambio de las condiciones de para error de configuración, poniendo parámetros de ingenería y de tarjeta
+	                                                Cambio en la programaciíon de alarmas
+	                                                Cambio en los límites de la señal
+	    01.00.07    08.11.2022  (ABH)               Se añade trazabilidad manualizaciones
+	    01.00.08    20.12.2022  (HCR)               Se añade trazabilidad de escalado y offset  
+	    01.00.09    22.02.2024  (ABH)               Se añade gestion multiplexado para Scada (no indexado)
+	    01.00.10    08.01.2025  (ABH)               Se añade entrada de primer arranque del PLC para resetear indices de multiplexado
+	                                                Se añade movimiento de EA[0] a multiplexado en caso de que el indice sea 0.    
+	    01.00.11    24.01.2025  (ABH)               Se modifica la logica del multiplexado, la asignacion de oldindex se cambia de sitio ya que de vez en cuando (dependiendo de cuando el HMI
+	                                                realiza la comunicacion asincrona con el PLC) no detectaba el cambio y se machacaban valores.
+	    01.00.12    26.03.2025  (ABH)               Se añade variable grupo de alarma para separar los nuevos avisos por cuadro.
+	    01.00.13    24.04.2025  (HCR)               Se añade gestion de idioma   
+	    01.00.14    11.09.2025  (ABH)               Se eliminan las constantes de idioma dentro del FC. Se utilizan constantes globales para
+	                                                facilitar su traduccion.  
+	    02.00.00    17.12.2025  (ABH)               Se eliminan los idiomas. Se utiliza codigos para trazabilidad. Se elimina entrada &#34;Idioma&#34;. Se elimina nombre de UDT. Se añade indexHMI para lista de 
+	                                                texto en sistemas de supervision.
+	
+	//=====================================================================================
+	*)
+	
+	
+	REGION MULTIPLEXADO
+	    
+	    //  ===========================================================================================================
+	    //  Al arranque del PLC, ponemos a 0 todos los indices de los multiplexados y salimos del bloque sin gestionarlo
+	    IF #Arranque THEN
+	        FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	            &#34;DB2001_EA&#34;.Mux[#for_mux].Index :=
+	            &#34;DB2001_EA&#34;.Mux[#for_mux].oldIndex := 0;
+	        END_FOR;
+	        RETURN;
+	    END_IF;
+	    
+	    //  ===========================================================================================================
+	    //  Gestion de multiplexado
+	    FOR #for_mux := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	        
+	        //  ===============================================================================================================
+	        //  Antes de iniciar la logica del multiplexado, revisamos los limites
+	        REGION LIMITES
+	            
+	            //  ===========================================================================================================
+	            //  Limites
+	            IF &#34;DB2001_EA&#34;.Mux[#for_mux].Index &lt; 0 THEN
+	                &#34;DB2001_EA&#34;.Mux[#for_mux].Index := 0;
+	            END_IF;
+	            IF &#34;DB2001_EA&#34;.Mux[#for_mux].Index &gt; &#34;N_MAX_DISP_EA&#34; THEN
+	                &#34;DB2001_EA&#34;.Mux[#for_mux].Index := &#34;N_MAX_DISP_EA&#34;;
+	            END_IF;
+	            IF &#34;DB2001_EA&#34;.Mux[#for_mux].Index &gt;= &#34;N_MAX_DISP_EA&#34; THEN
+	                &#34;DB2001_EA&#34;.Mux[#for_mux].MaxVisible := TRUE;
+	            ELSE
+	                &#34;DB2001_EA&#34;.Mux[#for_mux].MaxVisible := FALSE;
+	            END_IF;
+	            
+	        END_REGION
+	        
+	        //  Pasamos el indice a variable temporal para evisar cambios no deseados
+	        #t_Index := &#34;DB2001_EA&#34;.Mux[#for_mux].Index;
+	        #t_oldIndex := &#34;DB2001_EA&#34;.Mux[#for_mux].oldIndex;
+	        
+	        //  ===========================================================================================================
+	        //  Valor anterior del indice
+	        &#34;DB2001_EA&#34;.Mux[#for_mux].oldIndex := #t_Index;
+	        
+	        IF &#34;DB2001_EA&#34;.Mux[#for_mux].Habilitar THEN
+	            
+	            //  ===========================================================================================================
+	            //  Gestionamos solo los tipos 
+	            IF #t_Index &gt; 0 THEN
+	                
+	                REGION CARGA_INICIAL
+	                    
+	                    //  ===========================================================================================================
+	                    //  Al detectar un cambio en el indice del dispositivo, cargamos los valores del dispositivo que tenga el indice.
+	                    IF #t_Index &lt;&gt; #t_oldIndex THEN
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].EA := &#34;DB2001_EA&#34;.EA[#t_Index];
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION DATOS_LECTURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Movimiento de datos gestionados en FC
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Hmi_Estado := &#34;DB2001_EA&#34;.EA[#t_Index].Hmi_Estado;
+	                    IF NOT &#34;DB2001_EA&#34;.EA[#t_Index].Estado_AutoMan THEN
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Orden_ConsignaManual := &#34;DB2001_EA&#34;.EA[#t_Index].Orden_ConsignaManual;
+	                    END_IF;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Hmi_Index := &#34;DB2001_EA&#34;.EA[#t_Index].Hmi_Index;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Estado_ValorIngenieria := &#34;DB2001_EA&#34;.EA[#t_Index].Estado_ValorIngenieria;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Estado_ValorTarjeta := &#34;DB2001_EA&#34;.EA[#t_Index].Estado_ValorTarjeta;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Alarmas_General := &#34;DB2001_EA&#34;.EA[#t_Index].Alarmas_General;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Alarmas_HiloRoto := &#34;DB2001_EA&#34;.EA[#t_Index].Alarmas_HiloRoto;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Alarmas_Lectura := &#34;DB2001_EA&#34;.EA[#t_Index].Alarmas_Lectura;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Alarmas_Max := &#34;DB2001_EA&#34;.EA[#t_Index].Alarmas_Max;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Alarmas_Min := &#34;DB2001_EA&#34;.EA[#t_Index].Alarmas_Min;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Alarmas_Parametros := &#34;DB2001_EA&#34;.EA[#t_Index].Alarmas_Parametros;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Aux_Estado := &#34;DB2001_EA&#34;.EA[#t_Index].Aux_Estado;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Aux_oldAlarma := &#34;DB2001_EA&#34;.EA[#t_Index].Aux_oldAlarma;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Aux_oldAutoMan := &#34;DB2001_EA&#34;.EA[#t_Index].Aux_oldAutoMan;
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_GrupoAlarma := &#34;DB2001_EA&#34;.EA[#t_Index].Config_GrupoAlarma;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION DATOS_ESCRITURA
+	                    
+	                    //  ===========================================================================================================
+	                    //  Reinicializamos valor existe cambio
+	                    &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := false;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Estado auto/manual
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Estado_AutoMan &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Estado_AutoMan THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Estado_AutoMan := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Estado_AutoMan;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Ordenes
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Orden_ConsignaManual &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Orden_ConsignaManual THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Orden_ConsignaManual := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Orden_ConsignaManual;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                    //  ===========================================================================================================
+	                    //  Configuracion
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_DireccionEntradaByte &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_DireccionEntradaByte THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_DireccionEntradaByte := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_DireccionEntradaByte;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMaxHisteresis &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMaxHisteresis THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMaxHisteresis := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMaxHisteresis;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMaxIngenieria &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMaxIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMaxIngenieria := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMaxIngenieria;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMinHisteresis &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMinHisteresis THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMinHisteresis := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMinHisteresis;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMinIngenieria &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMinIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_ErrorMinIngenieria := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_ErrorMinIngenieria;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMaxIngenieria &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMaxIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMaxIngenieria := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMaxIngenieria;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMaxTarjeta &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMaxTarjeta THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMaxTarjeta := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMaxTarjeta;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMinIngenieria &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMinIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMinIngenieria := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMinIngenieria;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMinTarjeta &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMinTarjeta THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoMinTarjeta := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoMinTarjeta;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoOffset &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoOffset THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_EscaladoOffset := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_EscaladoOffset;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_Habilitar &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_Habilitar THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_Habilitar := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_Habilitar;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HabilitarAlarmaMax &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_HabilitarAlarmaMax THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_HabilitarAlarmaMax := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HabilitarAlarmaMax;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HabilitarAlarmaMin &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_HabilitarAlarmaMin THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_HabilitarAlarmaMin := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HabilitarAlarmaMin;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HabilitarEscalado &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_HabilitarEscalado THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_HabilitarEscalado := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HabilitarEscalado;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HisteresisTipo &lt;&gt; &#34;DB2001_EA&#34;.EA[#t_Index].Config_HisteresisTipo THEN
+	                        &#34;DB2001_EA&#34;.EA[#t_Index].Config_HisteresisTipo := &#34;DB2001_EA&#34;.Mux[#for_mux].EA.Config_HisteresisTipo;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := true;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                
+	                REGION GESTION_CAMBIOS
+	                    
+	                    //  ===========================================================================================================
+	                    //  Si existe cambios en el dispositivo generados por SCADA, actualizamos los datos en el resto de multiplexados,
+	                    //  en caso de que este abierto el mismo dispositivo.
+	                    IF &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio THEN
+	                        
+	                        //  Recorremos todos los multiplexados
+	                        FOR #for_mux_cambios := 0 TO &#34;N_MAX_MUX_DISP&#34; DO
+	                            
+	                            //  No miramos el multiplexado actual
+	                            IF #for_mux_cambios &lt;&gt; #for_mux THEN
+	                                
+	                                //  En caso de que este seleccionado el mismo indice, movemos el dispositivo al multiplexado
+	                                //  correspondiente
+	                                IF #t_Index = &#34;DB2001_EA&#34;.Mux[#for_mux_cambios].Index THEN
+	                                    &#34;DB2001_EA&#34;.Mux[#for_mux_cambios].EA := &#34;DB2001_EA&#34;.EA[#t_Index];
+	                                END_IF;
+	                                
+	                            END_IF;
+	                            
+	                        END_FOR;
+	                        &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	            ELSE
+	                
+	                //  ===========================================================================================================
+	                //  En caso de que el indice sea 0, movemos el valor de la EA[0] que no se usa para escribir el index.
+	                &#34;DB2001_EA&#34;.Mux[#for_mux].EA := &#34;DB2001_EA&#34;.EA[0];
+	                
+	            END_IF;
+	
+	        ELSE
+	            
+	            //  Multiplexado no habilitado
+	            &#34;DB2001_EA&#34;.Mux[#for_mux].ExisteCambio := FALSE;
+	            &#34;DB2001_EA&#34;.Mux[#for_mux].Index := 
+	            &#34;DB2001_EA&#34;.Mux[#for_mux].oldIndex := 0;
+	            
+	        END_IF;
+	        
+	    END_FOR;
+	    
+	END_REGION
+	
+	
+	REGION LOGICA_DEL_DISPOSITIVO
+	    
+	    // =============================================================================
+	    // Resetear todas las alarmas para que se vuelvan a generar
+	    FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	        &#34;DB2001_EA&#34;.Agrup[#for_i].AlgunaAlarma := FALSE;
+	        &#34;DB2001_EA&#34;.Agrup[#for_i].AlgunaEnManual := FALSE;
+	    END_FOR;
+	    
+	    FOR #for_i := 1 TO &#34;N_MAX_DISP_EA&#34; DO
+	        
+	        &#34;DB2001_EA&#34;.EA[#t_Index].Hmi_Index := #for_i + &#34;DISP_OFFSET_EA&#34;;
+	        
+	        REGION LIMITE_GRUPO_ALARMA
+	            
+	            IF &#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma &lt; 0 THEN
+	                &#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma := 0;
+	            END_IF;
+	            IF &#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma &gt; &#34;N_MAX_DISP_AGRUP&#34; THEN
+	                &#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma := &#34;N_MAX_DISP_AGRUP&#34;;
+	            END_IF;
+	            
+	        END_REGION
+	            
+	        #t_LecturaRealizada := FALSE;
+	        #t_ErrorGeneral := FALSE;
+	        
+	        // =============================================================================
+	        // DISPOSITIVO HABILITADO
+	        // =============================================================================
+	        IF &#34;DB2001_EA&#34;.EA[#for_i].Config_Habilitar THEN
+	            
+	            IF NOT &#34;DB2001_EA&#34;.EA[#for_i].Config_HabilitarEscalado THEN
+	                
+	                &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta := 0;
+	                
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Config_DireccionEntradaByte &gt; 0 THEN
+	
+	                    // =============================================================================
+	                    //  LECTURA DE LA SEÑAL DE ENTRADA - PEEK_WORD (area) 16#1 para CPU 1500; 16#81 para CPU 1200
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := DINT_TO_REAL(WORD_TO_DINT(PEEK_WORD(area := 16#81, dbNumber := 0, byteOffset := &#34;DB2001_EA&#34;.EA[#for_i].Config_DireccionEntradaByte)));
+	                    
+	                    // =============================================================================
+	                    //  COMPROBAMOS LOCALARMASENTE LA LECTURA CORRECTA DE LA ENTRADA ANALOGICA
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_Lectura := GET_ERR_ID();
+	                    #t_LecturaRealizada := (&#34;DB2001_EA&#34;.EA[#for_i].Estado_Lectura = 0);
+	                ELSE
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := 0;
+	                    #t_LecturaRealizada := TRUE;
+	                END_IF;
+	                
+	            ELSE
+	                
+	                REGION LECTURA_VALORES_DE_LA_TARJETA
+	                    
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Config_DireccionEntradaByte &gt; 0 THEN
+	                        
+	                        // =============================================================================
+	                        //  LECTURA DE LA SEÑAL DE ENTRADA - PEEK_WORD (area) 16#1 para CPU 1500; 16#81 para CPU 1200
+	                        #t_ValorTarjeta := WORD_TO_INT(PEEK_WORD(area := 16#81, dbNumber := 0, byteOffset := &#34;DB2001_EA&#34;.EA[#for_i].Config_DireccionEntradaByte));
+	                        // =============================================================================
+	                        //  COMPROBAMOS LOCALARMASENTE LA LECTURA CORRECTA DE LA ENTRADA ANALOGICA
+	                        //  Descripcion de GET_ERR_ID()
+	                        (* La instrucción &#34;Consultar ID de error locALARMASente&#34; consulta si se han producido errores en un bloque. Suele tratarse de un error de acceso. 
+	                    Si al ejecutar el bloque el sistema notifica errores de ejecución desde que se ejecutó la instrucción por última vez, la instrucción emite la ID del primer error ocurrido.
+	                    La ID de error solo se puede guardar en operandos del tipo de datos WORD. Si se producen varios errores en el bloque, la instrucción soluciona el primer error ocurrido,
+	                    y solo entonces la instrucción emite la ID de error del siguiente error ocurrido.
+	                    0      0  Ningún error
+	                    2503 9475 Puntero no válido
+	                    2520 9504 STRING no válido
+	                    2522 9506 Error de lectura: operando fuera del rango válido
+	                    2523 9507 Error de escritura: operando fuera del rango válido
+	                    2524 9508 Error de lectura: operando no válido
+	                    2525 9509 Error de escritura: operando no válido
+	                    2528 9512 Error de lectura: alineación de datos
+	                    2529 9513 Error de escritura: alineación de datos
+	                    252C 9516 Puntero no válido
+	                    2530 9520 Error de escritura: Bloque de datos
+	                    2533 9523 Referencia usada no válida
+	                    2538 9528 Error de acceso: el DB no existe
+	                    2539 9529 Error de acceso: se ha utilizado un DB incorrecto
+	                    253A 9530 El bloque de datos global no existe
+	                    253C 9532 Indicación errónea o la función no existe
+	                    253D 9533 La función de sistema no existe
+	                    253E 9534 Indicación errónea o el bloque de función no existe
+	                    253F 9535 El bloque de sistema no existe
+	                    2550 9552 Error de acceso: el DB no existe
+	                    2551 9553 Error de acceso: se ha utilizado un DB incorrecto
+	                    2575 9589 Error en la profundidad de anidamiento del programa
+	                    2576 9590 Error en la distribución de datos locales
+	                    2577 9591 La propiedad de bloque &#34;Alimentación de parámetros a través de registros&#34; no está activada.
+	                    25A0 9632 Error interno en TP
+	                    25A1 9633 Variable protegida contra escritura
+	                    25A2 9634 Valor numérico no válido de la variable
+	                    2942 10562 Error de lectura: entrada
+	                    2943 10563 Error de escritura: salida*)
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Estado_Lectura := GET_ERR_ID();
+	                        #t_LecturaRealizada := (&#34;DB2001_EA&#34;.EA[#for_i].Estado_Lectura = 0);
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta := #t_ValorTarjeta;
+	                    ELSE
+	                        
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta := 0;
+	                        #t_LecturaRealizada := TRUE;
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	                REGION CALCULO_VALOR
+	                    
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Config_DireccionEntradaByte &gt; 0 THEN
+	                        
+	                        IF &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria &gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria AND
+	                            &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxTarjeta &gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinTarjeta THEN
+	                            
+	                            #t_x0 := INT_TO_REAL(&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinTarjeta);
+	                            #t_x1 := INT_TO_REAL(&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxTarjeta);
+	                            #t_x := DINT_TO_REAL(&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta);
+	                            #t_y0 := &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria;
+	                            #t_y1 := &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria;
+	                            
+	                            // =============================================================================
+	                            //  DETECCIÓN DE FALLO EN EL CANAL
+	                            IF (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta &gt; -32768) AND (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta &lt; 32767) AND #t_LecturaRealizada THEN
+	                                
+	                                IF (&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria &lt;&gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria)
+	                                    AND
+	                                    (&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxTarjeta &lt;&gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinTarjeta)
+	                                THEN
+	                                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := ((#t_x - #t_x0) * ((#t_y1 - #t_y0) / (#t_x1 - #t_x0))) + #t_y0;
+	                                    
+	                                    // =============================================================================
+	                                    //  LÍMITES
+	                                    IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria THEN
+	                                        &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria;
+	                                    END_IF;
+	                                    IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &lt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria THEN
+	                                        &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria;
+	                                    END_IF;
+	                                    
+	                                    // =============================================================================
+	                                    //  OFFSET
+	                                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria + &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoOffset;
+	                                ELSE
+	                                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := 0.0;
+	                                END_IF;
+	                                &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_HiloRoto := FALSE;
+	                            ELSE
+	                                &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := 0.0;
+	                                &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_HiloRoto := TRUE; //  Error del canal
+	                            END_IF;
+	                        ELSE
+	                            &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := 0.0;
+	                        END_IF;
+	                        
+	                    END_IF;
+	                    
+	                END_REGION
+	                
+	            END_IF;
+	
+	            REGION MODOS_DE_TRABAJO
+	                
+	                // =============================================================================
+	                //  FORZADO DE LA SEÑAL
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan THEN
+	                    &#34;DB2001_EA&#34;.Agrup[&#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma].AlgunaEnManual := TRUE;
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := &#34;DB2001_EA&#34;.EA[#for_i].Orden_ConsignaManual;
+	                ELSE
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Orden_ConsignaManual := &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria;
+	                END_IF;
+	                
+	                
+	            END_REGION
+	            
+	            REGION ERRORES
+	                
+	                #t_SubError := &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria - &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria;
+	                // =============================================================================
+	                //  ALARMA NIVEL MÍNIMO
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Config_HabilitarAlarmaMin THEN
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &lt; &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMinIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min := TRUE;
+	                    END_IF;
+	                    
+	                    // =============================================================================
+	                    //  RESET DE ALARMA CON HISTÉRESIS EN UNIDADES DE INGENIERÍA
+	                    IF NOT (&#34;DB2001_EA&#34;.EA[#for_i].Config_HisteresisTipo) AND (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &gt;= (&#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMinIngenieria + &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMinHisteresis)) THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min := FALSE;
+	                    END_IF;
+	                    
+	                    // =============================================================================
+	                    //  RESET DE ALARMA CON HISTÉRESIS EN %
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Config_HisteresisTipo AND (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &gt;= &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMinIngenieria + (&#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMinHisteresis / 100.0) * #t_SubError) THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min := FALSE;
+	                    END_IF;
+	                ELSE
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min := FALSE;
+	                END_IF;
+	                
+	                // =============================================================================
+	                //  ALARMA NIVEL MÁXIMO
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Config_HabilitarAlarmaMax THEN
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMaxIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max := TRUE;
+	                    END_IF;
+	                    
+	                    // =============================================================================
+	                    //  RESET DE ALARMA CON HISTÉRESIS EN UNIDADES DE INGENIERÍA
+	                    IF NOT (&#34;DB2001_EA&#34;.EA[#for_i].Config_HisteresisTipo) AND (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &lt;= (&#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMaxIngenieria - &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMaxHisteresis)) THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max := FALSE;
+	                    END_IF;
+	                    
+	                    // =============================================================================
+	                    //  RESET DE ALARMA CON HISTÉRESIS EN %
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Config_HisteresisTipo AND (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &lt;= &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMaxIngenieria - (&#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMaxHisteresis / 100.0) * #t_SubError) THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max := FALSE;
+	                    END_IF;
+	                ELSE
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max := FALSE;
+	                END_IF;
+	                
+	                #t_ErrorGeneral := &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_HiloRoto OR &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max OR &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min;
+	                &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_General := #t_ErrorGeneral;
+	                
+	                IF #t_ErrorGeneral THEN
+	                    &#34;DB2001_EA&#34;.Agrup[&#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma].AlgunaAlarma := TRUE;
+	                END_IF;
+	                
+	                
+	                &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Lectura := NOT #t_LecturaRealizada;
+	                
+	                
+	            END_REGION
+	            
+	            REGION ESTADO
+	                
+	                &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 1; //  Estado normal 
+	                
+	                IF (&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria = &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria) OR
+	                    (&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxTarjeta = &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinTarjeta) THEN
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 6; //  Error de configuración
+	                END_IF;
+	                
+	                IF (&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxIngenieria &lt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinIngenieria) OR
+	                    (&#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMaxTarjeta &lt; &#34;DB2001_EA&#34;.EA[#for_i].Config_EscaladoMinTarjeta) THEN
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 6; //  Error de configuración
+	                END_IF;
+	                
+	                IF (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta &lt;= -32766) OR
+	                    (&#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta &gt;= 32766) THEN
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 3; //  Error del canal
+	                END_IF;
+	                
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Config_HabilitarAlarmaMin THEN
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &lt; &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMinIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 4; //  Señal en alarma
+	                    END_IF;
+	                END_IF;
+	                
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Config_HabilitarAlarmaMax THEN
+	                    IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria &gt; &#34;DB2001_EA&#34;.EA[#for_i].Config_ErrorMaxIngenieria THEN
+	                        &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 5;   //  Señal en alarma
+	                    END_IF;
+	                END_IF;
+	                
+	                IF NOT #t_LecturaRealizada THEN
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 7;   //  Error de lectura
+	                END_IF;
+	                
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Config_DireccionEntradaByte &lt;= 0 THEN
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 8; // EA no direccionada
+	                END_IF;
+	                
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan THEN
+	                    &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 2; //  Señal forzada
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            
+	            REGION TRAZABILIDAD
+	                
+	                IF &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan AND NOT &#34;DB2001_EA&#34;.EA[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_EA&#34;,
+	                                            Codigo2 := &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_MAN&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	                IF NOT &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan AND &#34;DB2001_EA&#34;.EA[#for_i].Aux_oldAutoMan THEN
+	                    &#34;FC8_ZC_TRAZA_REGISTRO&#34;(FechaHora := &#34;DB1_SYS&#34;.FechaHoraActual,
+	                                            Registrar := 1,
+	                                            Categoria := &#34;TRZ_CAT_3_DISP&#34;,
+	                                            User := &#34;DB1_SYS&#34;.Usuario.Actual,
+	                                            Codigo1 := &#34;TRZ_DISP_TIPO_EA&#34;,
+	                                            Codigo2 := &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Index,
+	                                            Codigo3 := &#34;TRZ_DISP_ACC_AUTO&#34;,
+	                                            Texto := &#39;&#39;);
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	            //  Estado anterior manual/automatico
+	            &#34;DB2001_EA&#34;.EA[#for_i].Aux_oldAutoMan := &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan;
+	            
+	        ELSE
+	            // =============================================================================
+	            // DISPOSITIVO NO HABILITADO
+	            // =============================================================================
+	            &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorTarjeta := 0;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Estado := 0;   //  Canal deshabilitado
+	            &#34;DB2001_EA&#34;.EA[#for_i].Aux_Estado := 0;   //  Canal deshabilitado
+	            &#34;DB2001_EA&#34;.EA[#for_i].Estado_ValorIngenieria := 0.0;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max := FALSE;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min := FALSE;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_HiloRoto := FALSE;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_General := FALSE;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan := FALSE;
+	            
+	        END_IF;
+	        
+	        REGION GESTION_HMI
+	            
+	            // =============================================================================
+	            //  GESTION BITS PARA VISUALIZACION
+	            //  Bit     0   Habilitacion
+	            //  Bit     1   ManualAutomatico
+	            //  Bit     2   Reserva
+	            //  Bit     3   Reserva
+	            //  Bit     4   Reserva
+	            //  Bit     5   Reserva
+	            //  Bit     6   Reserva
+	            //  Bit     7   Reserva
+	            //  Bit     8   Alarma Hilo Roto
+	            //  Bit     9   Alarma Alta
+	            //  Bit     10  Alarma Baja
+	            //  Bit     11  Alarma 3
+	            //  Bit     12  Alarma 4
+	            //  Bit     13  Alarma 5
+	            //  Bit     14  Reserva
+	            //  Bit     15  Reserva
+	            &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Estado.%X0 :=&#34;DB2001_EA&#34;.EA[#for_i].Config_Habilitar;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Estado.%X1 := &#34;DB2001_EA&#34;.EA[#for_i].Estado_AutoMan;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X2 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X3 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X4 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X5 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X6 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X7 := FALSE;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Estado.%X8 := &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_HiloRoto;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Estado.%X9 := &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Max;
+	            &#34;DB2001_EA&#34;.EA[#for_i].Hmi_Estado.%X10 := &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_Min;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X11 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X12 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X13 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X14 := FALSE;
+	            //&#34;DB2030_TMF1_DISP_EA&#34;.EA[#i].Hmi_Estado_%X15 := FALSE;
+	            
+	        END_REGION
+	        
+	        REGION GESTION_NUEVA_ALARMA
+	            
+	            // =============================================================================
+	            //  DETECCION DE NUEVA ALARMA
+	            IF &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_General AND NOT &#34;DB2001_EA&#34;.EA[#for_i].Aux_oldAlarma THEN
+	                &#34;DB2001_EA&#34;.Agrup[&#34;DB2001_EA&#34;.EA[#for_i].Config_GrupoAlarma].NuevaAlarma := TRUE;
+	            END_IF;
+	            
+	            //  Estado anterior de las alarmas
+	            &#34;DB2001_EA&#34;.EA[#for_i].Aux_oldAlarma := &#34;DB2001_EA&#34;.EA[#for_i].Alarmas_General;
+	            
+	        END_REGION
+	        
+	    END_FOR;
+	    
+	    
+	    // =============================================================================
+	    //  ACUSE DE NUEVAS ALARMAS
+	    IF #Ack THEN
+	        FOR #for_i := 0 TO &#34;N_MAX_DISP_AGRUP&#34; DO
+	            &#34;DB2001_EA&#34;.Agrup[#for_i].NuevaAlarma := FALSE;
+	        END_FOR;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

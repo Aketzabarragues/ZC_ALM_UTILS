@@ -1,0 +1,241 @@
+﻿FUNCTION_BLOCK "FB15106_ZC_CALCULO_LIMPIEZA_4_MODULOS"
+TITLE = FB15106_ZC_CALCULO_LIMPIEZA_4_MODULOS
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para el calculo de limpiezas modulos (4 modulos).
+   VAR_INPUT 
+      Etapa : Bool;   // En etapa de recirculacion
+      Pulso1Seg : Bool;
+      EnMarcha : Bool;
+      SP_Tiempo : Int;   // Set Point tiempo de recirculacion
+      SP_Salida1 : Real;   // Set Point (%) tiempo limpieza modulo 1
+      SP_Salida2 : Real;   // Set Point (%) tiempo limpieza modulo 2
+      SP_Salida3 : Real;   // Set Point (%) tiempo limpieza modulo 3
+      SP_Salida4 : Real;   // Set Point (%) tiempo limpieza modulo 4
+   END_VAR
+
+   VAR_IN_OUT 
+      EtapaTiempoRestante : Int;   // Tiempo de etapa restante
+      Salida1 : Bool;   // Orden limpiar solo modulo 1
+      Salida2 : Bool;   // Orden limpiar solo modulo 2
+      Salida3 : Bool;   // Orden limpiar solo modulo 3
+      Salida4 : Bool;   // Orden limpiar solo modulo 4
+   END_VAR
+
+   VAR RETAIN
+      s_PorcentajeSalida1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;
+      s_PorcentajeSalida2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;
+   END_VAR
+   VAR 
+      s_PorcentajeSalida3 : Real;
+      s_PorcentajeSalida4 : Real;
+   END_VAR
+   VAR RETAIN
+      s_PorcentajeRestante { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Real;
+      s_CalculoTiempoSalida1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      s_CalculoTiempoSalida2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+   VAR 
+      s_CalculoTiempoSalida3 : Int;
+      s_CalculoTiempoSalida4 : Int;
+   END_VAR
+   VAR RETAIN
+      s_CalculoTiempoRestante { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      s_TiempoSalida1 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      s_TiempoSalida2 { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+   VAR 
+      s_TiempoSalida3 : Int;
+      s_TiempoSalida4 : Int;
+      S_TON { S7_SetPoint := 'False'} : "UDT_ZC_DISP_TON";
+      s_TiempoTotal { S7_SetPoint := 'True'} : Int;
+      s_ContadorTiempo : Int;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15104_ZC_CALCULO_LIMPIEZA_2_MODULOS
+	Descripcion:    Bloque de funcion para el calculo de limpiezas modulos (2 modulos)
+	                Se puede utilizar tambien con 3 modulos ya que se limpian:
+	                    - Modulo 1.
+	                    - Modulo 2 y 3.
+	                    - Todos los modulos.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        -
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    12.09.2023  (ABH)               Primera version.
+	    01.00.01    17.11.2023  (HCR/ABH)           Cambio en nombre de parametro entrada EtapaTiempoActual por EtapaTiempoRestante.
+	                                                Se añade parametro estatico s_PorcentajeMinimoTodosModulos para limite de los SP de porcentaje 
+	                                                de tiempo de cada modulo para no sobrepasar el 100% del tiempo.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	REGION TRASPASO_PARAMETROS
+	    
+	    //  =====================================================================================
+	    //  TRASPASO DE PARAMETROS DE PORCENTAJE
+	    //  Se revisa los limites de los porcentajes metidos en pantalla
+	    
+	    IF (#SP_Salida1 + #SP_Salida2+ #SP_Salida3 +#SP_Salida4) > 100.0  THEN
+	        #s_PorcentajeSalida1 := 10.0;
+	        #s_PorcentajeSalida2 := 10.0;
+	        #s_PorcentajeSalida3 := 10.0;
+	        #s_PorcentajeSalida4 := 10.0;
+	    ELSE
+	        #s_PorcentajeSalida1 := #SP_Salida1;
+	        #s_PorcentajeSalida2 := #SP_Salida2;
+	        #s_PorcentajeSalida3 := #SP_Salida3;
+	        #s_PorcentajeSalida4 := #SP_Salida4;
+	    END_IF;
+	
+	    
+	END_REGION
+	
+	
+	
+	
+	REGION CALCULOS
+	    
+	    //  =====================================================================================
+	    //  CALCULO DE TIEMPO DE PASO
+	    //  MODULO 1
+	    IF #s_PorcentajeSalida1 <> 0.0 THEN
+	        #s_CalculoTiempoSalida1 := REAL_TO_INT((#s_PorcentajeSalida1 * #SP_Tiempo) / 100.0);
+	    END_IF;
+	    
+	    //  MODULO 2
+	    IF #s_PorcentajeSalida2 <> 0.0 THEN
+	        #s_CalculoTiempoSalida2 := REAL_TO_INT((#s_PorcentajeSalida2 * #SP_Tiempo) / 100.0);
+	    END_IF;
+	    
+	    //  MODULO 3
+	    IF #s_PorcentajeSalida3 <> 0.0 THEN
+	        #s_CalculoTiempoSalida3 := REAL_TO_INT((#s_PorcentajeSalida3 * #SP_Tiempo) / 100.0);
+	    END_IF;
+	    
+	   //  MODULO 4
+	    IF #s_PorcentajeSalida4 <> 0.0 THEN
+	        #s_CalculoTiempoSalida4 := REAL_TO_INT((#s_PorcentajeSalida4 * #SP_Tiempo) / 100.0);
+	    END_IF;
+	    
+	    #s_TiempoTotal := #s_CalculoTiempoSalida1 + #s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida3 + #s_CalculoTiempoSalida4;
+	    
+	END_REGION
+	
+	
+	REGION SALIDAS
+	    IF #Etapa THEN
+	                    
+	            IF #s_ContadorTiempo < #s_TiempoTotal THEN
+	                IF #Pulso1Seg AND #EnMarcha THEN
+	                    #s_ContadorTiempo += 1;
+	                END_IF;
+	            ELSE
+	                #s_ContadorTiempo := 0;
+	            END_IF;
+	            
+	            //  ACTIVACION 1
+	            IF #s_ContadorTiempo < #s_CalculoTiempoSalida1 AND #s_CalculoTiempoSalida1 <> 0 THEN
+	                #Salida1 := TRUE;
+	            ELSE
+	                #Salida1 := FALSE;
+	            END_IF;
+	            
+	            //  ACTIVACION 2
+	            IF #s_ContadorTiempo >= #s_CalculoTiempoSalida1 AND #s_ContadorTiempo < (#s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida1) AND #s_CalculoTiempoSalida2 <> 0 THEN
+	                #Salida2 := TRUE;
+	            ELSE
+	                #Salida2 := FALSE;
+	            END_IF;
+	            
+	            //  ACTIVACION FLIP 3
+	            IF #s_ContadorTiempo >= (#s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida1) AND #s_ContadorTiempo < (#s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida1 + #s_CalculoTiempoSalida3) AND #s_ContadorTiempo <> 0 THEN
+	                #Salida3 := TRUE;
+	            ELSE
+	                #Salida3 := FALSE;
+	            END_IF;
+	            
+	            //  ACTIVACION FLIP 4
+	            #Salida4 := NOT #Salida1 AND NOT #Salida2 AND NOT #Salida3;
+	
+	        ELSE
+	            #s_ContadorTiempo := 0;
+	            #Salida1 := FALSE;
+	            #Salida2 := FALSE;
+	            #Salida3 := FALSE;
+	            #Salida4 := FALSE;
+	        END_IF;
+	        
+	        //  ACTIVACION 1
+	        IF #s_ContadorTiempo < #s_CalculoTiempoSalida1 AND #s_CalculoTiempoSalida1 <> 0 THEN
+	            #Salida1 := TRUE;
+	        ELSE
+	            #Salida1 := FALSE;
+	        END_IF;
+	        
+	        //  ACTIVACION 2
+	        IF #s_ContadorTiempo >= #s_CalculoTiempoSalida1 AND #s_ContadorTiempo < (#s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida1) AND #s_CalculoTiempoSalida2 <> 0 THEN
+	            #Salida2 := TRUE;
+	        ELSE
+	            #Salida2 := FALSE;
+	        END_IF;
+	        
+	        //  ACTIVACION FLIP 3
+	        IF #s_ContadorTiempo >= (#s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida1) AND #s_ContadorTiempo < (#s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida1 + #s_CalculoTiempoSalida3) AND #s_ContadorTiempo <> 0 THEN
+	            #Salida3 := TRUE;
+	        ELSE
+	            #Salida3 := FALSE;
+	        END_IF;
+	        
+	        //  ACTIVACION FLIP 4
+	        #Salida4 := NOT #Salida1 AND NOT #Salida2 AND NOT #Salida3;
+	        
+	        IF NOT #Etapa THEN
+	            #Salida1 := #Salida2 := #Salida3 := #Salida4 := FALSE;
+	        END_IF;
+	    
+	  END_REGION
+	  
+	  REGION TIEMPO RESTANTE
+	        IF #Salida1 THEN
+	              #EtapaTiempoRestante := #s_CalculoTiempoSalida1 - #s_ContadorTiempo;
+	        END_IF;
+	        IF #Salida2 THEN
+	              #EtapaTiempoRestante := (#s_CalculoTiempoSalida1 + #s_CalculoTiempoSalida2) - #s_ContadorTiempo;
+	        END_IF;
+	        IF #Salida3 THEN
+	              #EtapaTiempoRestante := (#s_CalculoTiempoSalida1 + #s_CalculoTiempoSalida2 + #s_CalculoTiempoSalida3) - #s_ContadorTiempo;
+	        END_IF;
+	        IF #Salida4 THEN
+	              #EtapaTiempoRestante :=     #s_TiempoTotal  - #s_ContadorTiempo;
+	        END_IF;
+	        
+	        IF #EtapaTiempoRestante < 0 THEN
+	              #EtapaTiempoRestante := 0;
+	        END_IF;
+	        
+	  END_REGION
+	
+	
+END_FUNCTION_BLOCK
+

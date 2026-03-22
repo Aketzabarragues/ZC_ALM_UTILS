@@ -1,0 +1,11 @@
+﻿TYPE "UDT_ZC_DISP_PPAL_M"
+VERSION : 0.1
+   STRUCT
+      Estado : Bool;   // Estado activado
+      SegActivacion : Bool;   // Estado seguridad ok
+      Fallo : Bool;   // En fallo
+      Orden : Bool;   // Orden activacion
+   END_STRUCT;
+
+END_TYPE
+

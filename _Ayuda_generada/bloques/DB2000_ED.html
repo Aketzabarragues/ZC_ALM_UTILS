@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DB2000_ED</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            DB
+        </span>
+        DB2000_ED
+    </h1>
+
+    
+        <h3>Descripción General</h3>
+        <p style="white-space: pre-wrap;">Bloque de datos entrada digital</p>
+    
+</div>
+
+
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        
+        <tr>
+            <td><strong>ED</strong></td>
+            <td>Array[0..N_MAX_DISP_ED] of UDT_ZC_DISP_ED</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Mux</strong></td>
+            <td>Array[0..N_MAX_MUX_DISP] of UDT_ZC_DISP_MUX_ED</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><strong>Agrup</strong></td>
+            <td>Array[0..N_MAX_DISP_AGRUP] of UDT_ZC_DISP_AGRUP</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

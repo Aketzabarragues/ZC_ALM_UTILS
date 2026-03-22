@@ -1,0 +1,21 @@
+﻿TYPE "UDT_ZC_RECETA_CIP_SOLO_ENJ"
+VERSION : 0.1
+   STRUCT
+      TiempoAguaRecupADrenaje : Int;   // SOLO ENJ. NO SE UTILIZA
+      TiempoEmpujeADestino : Int;   // SOLO ENJ. Tiempo de empuje a destino
+      TiempoMaxVaciadoDestino : Int;   // SOLO ENJ. Tiempo Max vaciado destino
+      TiempoEmpujeDestinoACIP : Int;   // SOLO ENJ. Tiempoi empuje desde equipo a CIP
+      TiempoMaxEnjuague : Int;   // SOLO ENJ. Tiempo Maximo Enjuague
+      TiempoEnjuagueConConductividad : Int;   // SOLO ENJ. Tiempo enjuague con conductividad
+      ReservaInt_1 : Int;   // SOLO ENJ. 
+      ReservaInt_2 : Int;   // SOLO ENJ. 
+      TemperaturaEnjuague : Real;   // SOLO ENJ. Temperatura Enjuague
+      TemperaturaHisteresis : Real;   // SOLO ENJ. Temperatura Enjuague Histeresis
+      ConductividadDrenaje : Real;   // SOLO ENJ. Conductividad para Drenaje
+      ConductividadEnjuague : Real;   // SOLO ENJ. Conductividad para Enjuague OK
+      ReservaReal_1 : Real;   // SOLO ENJ. 
+      ProcentajeEnvioDQO : Real;   // SOLO ENJ. Porcentaje de tiempo de envio a DQO
+   END_STRUCT;
+
+END_TYPE
+

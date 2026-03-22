@@ -1,0 +1,101 @@
+﻿TYPE "UDT_ZC_DISP_TQ"
+VERSION : 0.1
+   STRUCT
+      Hmi_Index : Int;   // Index para listas HMI
+      Hmi_Estado : Int;   // Visualizacion dispositivoHMI
+      Estado_TanqueVacio : Bool := FALSE;   // Estado Tanque Vacio
+      Estado_PocisionAltura : Bool := FALSE;   // 0 Nivel en cono / 1 Nivel superior al cono
+      Estado_NivelBajo : Bool := FALSE;   // Estado detector de nivel bajo
+      Estado_NivelAlto : Bool := FALSE;   // Estado detector de nivel alto
+      Estado_BocaHombre : Bool;   // Estado detector de boca de hombre
+      Estado_Mezcla : Bool;   // Tanque con productos distintos
+      Estado_ComOk : Bool := TRUE;   // Comunicaciones con periferia OK
+      Alarmas_NivelBajo : Bool := FALSE;   // Nivel mínimo en tanque
+      Alarmas_NivelAlto : Bool := FALSE;   // Nivel máximo en tanque 
+      Alarmas_BocaHombre : Bool := FALSE;   // Boca de hombre abierta
+      Alarmas_Instrumentacion : Bool;   // Error en Instrumentación
+      Alarmas_Parametros : Bool;   // Error de parámetros
+      Alarmas_General : Bool := FALSE;   // Tanque en error
+      Alarmas_Capacidad : Bool := FALSE;   // Volumen por encima de capacidad máxima
+      Orden_Temperatura : Bool := FALSE;   // Orden valvula de control de temperatura
+      Orden_Agitacion : Bool := FALSE;   // Orden agitador
+      Orden_CIP : Bool := FALSE;   // Orden tanque en CIP
+      Orden_Producto : Bool;   // Orden producto (PLC)
+      Orden_CambioEstado : Bool;   // Orden cambio de estado (HMI)
+      Orden_CambioProd1 : Bool;   // Orden cambio de producto 1 (HMI)
+      Orden_CambioProd2 : Bool;   // Orden cambio de producto 2 (HMI)
+      Config_Habilitar : Bool := FALSE;   // Activar tratamiento de dispositivo
+      Config_HabilitarControlAgitacion : Bool := TRUE;   // Activar control de agitacion en el tanque
+      Config_HabilitarControlTemp : Bool := TRUE;   // Activar control de temperatura por camisa
+      Config_HabilitarCamisa : Bool := TRUE;   // Configurar Tanque con enfriamiento por camisa
+      Config_HabilitarAgitador : Bool := TRUE;   // Configurar Tanque con agitador
+      Config_HabilitarAlarmas : Bool := false;   // Habilitar alarmas
+      Config_HabilitarCalculoVol : Bool;   // Habilitar calbulo de volumen
+      Config_TipoControlTemperatura : Bool := FALSE;   // 0 Calentar / 1 Enfriar
+      Aux_VisConsignaTemperatura : Bool;   // Visibilidad consignatemperatura
+      Aux_PulsoAlternarAG : Bool;   // Alternar agitador
+      Aux_MemOrdenAgitador : Bool;   // Memoria orden agitador
+      Aux_MemOrdenTemperatura : Bool;   // Memoria orden temperatura
+      Aux_MemOrdenProducto : Bool;   // Memoria orden producto
+      Aux_MemEstadoCIP : Bool := false;   // Memoria de estado CIP
+      Aux_CipOK : Bool;   // Auxiliar CIP realizada OK
+      Orden_ParoControlAgitador : Bool;
+      Orden_ParoControlTemp : Bool;
+      R_Bool_6 : Bool;
+      R_Bool_8 : Bool;
+      Config_GrupoAlarma : Int := 0;   // Grupo de alarma
+      Estado_EA_Nivel : Int;   // 0 Deshabilitado/1 Normal / 2 Señal forzada/ 3 Error canal /4 Señal en alarma/ 5 Señal en alarma / 6 Error de configuración / 7 Error de lectura/ 8 EA no direccionada
+      Estado_EA_Temperatura : Int;   // 0 Deshabilitado/1 Normal / 2 Señal forzada/ 3 Error canal /4 Señal en alarma/ 5 Señal en alarma / 6 Error de configuración / 7 Error de lectura/ 8 EA no direccionada
+      Estado_Tanque : Int;   // 0 Deshabilitado/ 1 Sucio / 2 Limpio / 3 Producto / 4 CIP 
+      Estado_TanqueNuevo : Int;   // 0 Deshabilitado/ 1 Sucio / 2 Limpio / 3 Producto / 4 CIP 
+      Estado_Producto1 : Int;   // 0 NULL / 1 Vaca /2  Cabra / 3 Oveja / 4 Suero / 5 Mezcla / 6 Sosa / 7 Acido / 8- Paracético / 9- Agua/10-
+      Estado_Producto2 : Int;   // 0 NULL / 1 Vaca /2  Cabra / 3 Oveja / 4 Suero / 5 Mezcla / 6 Sosa / 7 Acido / 8- Paracético / 9- Agua/10-
+      Estado_ProductoNuevo : Int;   // 0 NULL / 1 Vaca /2  Cabra / 3 Oveja / 4 Suero / 5 Mezcla / 6 Sosa / 7 Acido / 8- Paracético / 9- Agua/10-
+      Estado_Volumen : Real;   // Volumen en tanque
+      Estado_Presion : Real;   // Presión de líquido
+      Estado_Altura : Real;   // Altura columna de líquido
+      Orden_TipoProducto : Int;   // 0 NULL / 1 Vaca /2  Cabra / 3 Oveja / 4 Suero / 5 Agua / 6 Sosa / 7 Acido / 8- Paracético / 9- Mezcla/10-
+      Orden_ConsignaAgitador : Real;   // Frecuencia de agitador
+      Config_NumeroEANivel : Int := 0;   // Número de EA para volumen
+      Config_NumeroEATemp : Int := 0;   // Número de EA para temperatura
+      Config_NumeroLL : Int;   // Número de detector nivel bajo
+      Config_NumeroHL : Int;   // Número de detector nivel alto 
+      Config_NumeroBH : Int;   // Número de detector boca de hombre
+      Config_NumeroVA : Int;   // Número de válvula control de temperatura
+      Config_NumeroAG : Int;   // Número de agitador
+      Config_TipoAgitacionTiempo : Int := 0;   // 0 Agitador Fijo / 1 Agitador por tiempo
+      Config_TipoAgitacionVelocidad : Int := 0;   // 0 Velocidad fija / 1 Velocidad controlada por nivel
+      Config_TipoAgitador : Int;   // 0 Motor / 1 Variador / 2 Sina
+      Config_EscaladoMinTarjeta : Int := 0;   // Valor minimo de tarjeta
+      Config_EscaladoMaxTarjeta : Int := 27648;   // Valor maximo de tarjeta
+      Config_EscaladoMinIngenieria : Real := 0.0;   // Valor minimo en unidades de ingenieria (Bar)
+      Config_EscaladoMaxIngenieria : Real := 0.1;   // Valor maximo en unidades de ingenieria (Bar)
+      Config_ConsignaTemperatura : Real;   // Consigna de temperatura mantenimiento tanque
+      Config_HisteresisTemperatura : Real;   // Tolerancia de temperatura mantenimientotanque
+      Config_VolumenMinControlTemp : Real;   // Volumen minimo para control de temperatura
+      Config_VolumenMaxControlTemp : Real;   // Volumen maximo para control de temperatura
+      Config_VolumenMinControlAgitador : Real;   // Volumen minimo para control de agitacion
+      Config_VolumenMaxControlAgitador : Real;   // Volumen maximoo para control de agitacion
+      Config_VolumenTanqueVacio : Real;   // Volumen para indicar Tanque Vacio
+      Config_VelocidadMinAgitador : Real;   // Velocidad minima de agitacion
+      Config_VelocidadMaxAgitador : Real;   // Velocidad maxima de agitacion
+      Config_VelocidadFijaAgitador : Real;   // Velocidad control fija de agitacion
+      Config_CapacidadTanque : Real;   // Volumen máximo de tanque
+      Config_DiametroCilindro : Real := 0.0;   // Diametro del cilintro del tanque (metros)
+      Config_AlturaCilindro : Real := 0.0;   // Altura del cilindro del tanque (metros)
+      Config_DiametroConoInferior : Real := 0.0;   // Diametro Inferior del cono del tanque (metros)
+      Config_AnguloCono : Real := 0.0;   // Angulo del cono del tanque (rad)
+      Config_AlturaCono : Real := 0.0;   // Altura del cono del tanque (metros)
+      Tiempos_AgitadorONConsigna : Int;   // Consigna de agitador activado
+      Tiempos_AgitadorONActual : Int;   // Tiempo de agitador activado
+      Tiempos_AgitadorOFFConsigna : Int;   // Consigna de agitador desactivado
+      Tiempos_AgitadorOFFActual : Int;   // Tiempo de agitador desactivado
+      Tiempos_TiempoProducto { S7_SetPoint := 'False'} : "UDT_ZC_CONTADOR_TIEMPO";   // Tiempo tanque con producto
+      Tiempos_TiempoLimpio { S7_SetPoint := 'False'} : "UDT_ZC_CONTADOR_TIEMPO";   // Tiempo tanque limpio
+      Tiempos_RetTanqueVacio { S7_SetPoint := 'False'} : "UDT_ZC_DISP_TON";   // Retardo de Volumen para tanque vacio
+      Aux_ValorTarjetaNivel : DInt;   // Valor de tarjeta entrada de nivel
+      Aux_ValorIngeneriaTemperatura : Real;   // Valor de ingeneria entrada de temperatura
+   END_STRUCT;
+
+END_TYPE
+

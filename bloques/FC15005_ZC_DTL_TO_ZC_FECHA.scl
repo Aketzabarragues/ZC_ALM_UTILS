@@ -1,0 +1,51 @@
+﻿FUNCTION "FC15005_ZC_DTL_TO_ZC_FECHA" : "UDT_ZC_FECHA"
+TITLE = FC15005_ZC_DTL_TO_ZC_FECHA
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para convertir tipo de datos DTL a tipo de datos ZC_FECHA
+   VAR_INPUT 
+      FechaDTL {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;   // Fecha DTL a convertir
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	-----------------------------------------------------------------------------
+	
+	Software:       TIA Portal 15.1
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC15005_DTL_TO_ZC_FECHA
+	Descripcion:    Funcion para traspaso de datos en DTL a tipo de dato ZC_FECHA
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        ZC_FECHA
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    03.11.2022  (ABH)               Primera version 
+	    
+	    
+	//=====================================================================================
+	*)
+	
+	#FC15005_ZC_DTL_TO_ZC_FECHA.Ano := #FechaDTL.YEAR;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.Mes := #FechaDTL.MONTH;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.Dia := #FechaDTL.DAY;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.Hora := #FechaDTL.HOUR;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.Minuto := #FechaDTL.MINUTE;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.Segundo := #FechaDTL.SECOND;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.NanoSegundo := #FechaDTL.NANOSECOND;
+	#FC15005_ZC_DTL_TO_ZC_FECHA.DiaSemana := #FechaDTL.WEEKDAY;
+	
+END_FUNCTION
+

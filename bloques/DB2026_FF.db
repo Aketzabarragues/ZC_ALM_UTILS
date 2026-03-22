@@ -1,0 +1,31 @@
+﻿DATA_BLOCK "DB2026_FF"
+TITLE = DB2026_FF
+{ S7_Optimized_Access := 'FALSE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+NON_RETAIN
+//Bloque de datos dispositivo Flip Flop
+   STRUCT 
+      Mux { S7_SetPoint := 'False'} : "UDT_ZC_MUX";
+      FF : Array[1.."N_MAX_DISP_FF"] of "UDT_ZC_DISP_FF";
+   END_STRUCT;
+
+
+BEGIN
+   Mux.Index := 1;
+   Mux.MaxVisible := FALSE;
+   FF[1].Estado_SalidaFlip := FALSE;
+   FF[1].Estado_SalidaFlop := FALSE;
+   FF[1].Orden_Reset := FALSE;
+   FF[1].Orden_Activar := FALSE;
+   FF[1].Aux_FlipActivo := FALSE;
+   FF[1].Aux_FlopActivo := TRUE;
+   FF[1].Aux_Flanco := FALSE;
+   FF[1].Config_SetPointTiempoFlip := 20;
+   FF[1].Config_SetPointTiempoFlop := 20;
+   FF[1].Aux_TiempoFlip := 0;
+   FF[1].Aux_TiempoFlop := 0;
+
+END_DATA_BLOCK
+

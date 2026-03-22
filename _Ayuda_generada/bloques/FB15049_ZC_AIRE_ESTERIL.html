@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FB15049_ZC_AIRE_ESTERIL</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FB
+        </span>
+        FB15049_ZC_AIRE_ESTERIL
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1Seg</strong></td>
+            <td>Bool</td>
+            <td>Pulso 1 Segundo</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>HabilitarMantenimiento</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>FechaHora</strong></td>
+            <td>DTL</td>
+            <td>Fecha y hora actual</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>TempEsterilAlcanzada</strong></td>
+            <td>Bool</td>
+            <td>Estado temperatura de esterilizacion alcanzada</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SP_TiempoEsterilizacion</strong></td>
+            <td>Int</td>
+            <td>SP_Tiempo de esterilizacion</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SP_TiempoEnfriamiento</strong></td>
+            <td>Int</td>
+            <td>SP_Tiempo de enfriamiento</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>SP_NumeroMaximoEsterilizacion</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Usuario</strong></td>
+            <td>String[25]</td>
+            <td>Usuario actual</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>MinutoAlarma</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_IN_OUT</span></td>
+            <td><strong>ParoMantenimiento</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_IN_OUT</span></td>
+            <td><strong>AlarmaDiasEsterilizacion</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_Habilitar</strong></td>
+            <td>Bool</td>
+            <td>Estado habilitado</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_FiltroEsteril</strong></td>
+            <td>Bool</td>
+            <td>Estado filtro esteril</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_Etapa</strong></td>
+            <td>Int</td>
+            <td>Etapa actual</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_NumeroEsterilizaciones</strong></td>
+            <td>Int</td>
+            <td>Numero de esterilizaciones</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>S_NumeroDiasEsterilizacion</strong></td>
+            <td>Int</td>
+            <td>Numerpo de dias con filtro esterilizado</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_TiempoEtapa</strong></td>
+            <td>"UDT_ZC_PRO_TIEMPO_ETAPA"</td>
+            <td>Tiempo de etapa</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>Pulsadores</strong></td>
+            <td>Struct
+         Habilitar { S7_SetPoint := 'False'} : "UDT_ZC_PULSADOR"</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>Mantenimiento</strong></td>
+            <td>"UDT_ZC_PULSADOR"</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>TiempoEsterelizado</strong></td>
+            <td>"UDT_ZC_CONTADOR_TIEMPO"</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_PasswordCalculado</strong></td>
+            <td>UInt</td>
+            <td>Contraseña calculada de mantenimiento</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_PasswordHMI</strong></td>
+            <td>UInt</td>
+            <td>Contraseña calculada de mantenimiento</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_MostrarAlarmaMto</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_ResetContador</strong></td>
+            <td>Bool</td>
+            <td>Tempoeral reset contador de horas</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_DiasAvisos</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>REPOSO</strong></td>
+            <td>Int := 0</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>ESTERILIZADO</strong></td>
+            <td>Int := 20</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: PULSADORES</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION PULSADORES
+    //=====================================================================================
+    //Permiso pulsadores
+    #Pulsadores.Habilitar.Permiso := NOT #s_Habilitar;
+    #Pulsadores.Deshabilitar.Permiso := #s_Habilitar;
+    #Pulsadores.Mantenimiento.Permiso := #ParoMantenimiento;
+
+    //=====================================================================================
+    //Gestion pulsadores
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          SP_Tiempo := 2,
+                          Categoria:="TRZ_CAT_4_PUL",
+                          Codigo1:="TRZ_PUL_AE_HAB",
+                          Codigo2:=0,
+                          Codigo3:=0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHora,
+                          Pulsador := #Pulsadores.Habilitar);
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          SP_Tiempo := 2,
+                          Categoria:="TRZ_CAT_4_PUL",
+                          Codigo1:="TRZ_PUL_AE_DES",
+                          Codigo2:=0,
+                          Codigo3:=0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHora,
+                          Pulsador := #Pulsadores.Habilitar);
+    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+                          SP_Tiempo := 2,
+                          Categoria:="TRZ_CAT_4_PUL",
+                          Codigo1:="TRZ_PUL_AE_MNT",
+                          Codigo2:=0,
+                          Codigo3:=0,
+                          Usuario := #Usuario,
+                          FechaHoraActual := #FechaHora,
+                          Pulsador := #Pulsadores.Habilitar);
+
+    //=====================================================================================
+    //Orden habilitar aire esteril
+    IF #Pulsadores.Habilitar.Plc THEN
+        #s_Habilitar := TRUE;
+    ELSIF #Pulsadores.Deshabilitar.Plc THEN
+        #s_Habilitar := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_1">
+        <h3>🔸 Lógica: SECUENCIA_FILTRO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION SECUENCIA_FILTRO
+    CASE #s_Etapa OF
+
+            // =============================================================================    
+        #REPOSO:
+            IF #s_Habilitar THEN
+                #s_Etapa := #ESTERILIZADO;
+                #s_TiempoEtapa.Actual := 0;
+            END_IF;
+
+            // =============================================================================    
+        #ESTERILIZANDO:
+            #s_TiempoEtapa.SP := #SP_TiempoEsterilizacion;
+
+            IF NOT #s_Habilitar THEN
+                #s_Etapa := #REPOSO;
+            END_IF;
+            IF #AlarmaFalloVapor THEN
+                #s_Etapa := #REPOSO;
+            END_IF;
+            IF #s_TiempoEtapa.Cumplido THEN
+                #s_Etapa := #ENFRIAMIENTO;
+                #s_TiempoEtapa.Actual := 0;
+                #S_NumeroDiasEsterilizacion := 0;
+                #s_NumeroEsterilizaciones += 1;
+                #s_FiltroEsteril := TRUE;
+
+            END_IF;
+            IF #TempEsterilAlcanzada THEN
+                #s_TiempoEtapa.Activar := TRUE;
+            ELSE
+                #s_TiempoEtapa.Activar := FALSE;
+                #s_TiempoEtapa.Actual := 0;
+            END_IF;
+            // =============================================================================              
+        #ENFRIAMIENTO:
+            #s_TiempoEtapa.SP := #SP_TiempoEnfriamiento;
+            #s_TiempoEtapa.Activar := TRUE;
+
+            IF NOT #s_Habilitar THEN
+                #s_Etapa := #REPOSO;
+            END_IF;
+            IF #s_TiempoEtapa.Cumplido THEN
+                #s_Etapa := #ESTERILIZADO;
+                #s_TiempoEtapa.Actual := 0;
+            END_IF;
+            // ============================================================================= 
+        #ESTERILIZADO:
+            #s_TiempoEtapa.SP := 5;
+            IF NOT #s_Habilitar THEN
+                #s_Etapa := #REPOSO;
+            END_IF;
+            IF #s_TiempoEtapa.Cumplido THEN
+                #s_Etapa := #ESTERILIZANDO;
+                #s_TiempoEtapa.Actual := 0;
+            END_IF;
+            IF #TempEsterilAlcanzada AND NOT #s_FiltroEsteril THEN
+                #s_TiempoEtapa.Activar := TRUE;
+            ELSE
+                #s_TiempoEtapa.Activar := FALSE;
+                #s_TiempoEtapa.Actual := 0;
+            END_IF;
+        ELSE
+            #s_Etapa := #REPOSO;
+    END_CASE;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_2">
+        <h3>🔸 Lógica: TIEMPO_ESTERILIZADO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TIEMPO_ESTERILIZADO
+    // ============================================================================= 
+    // Incrementar dias de filtro esterilizado
+    IF #TiempoEsterelizado.Hora >= 24 THEN
+        #t_ResetContador := TRUE;
+        #S_NumeroDiasEsterilizacion += 1;
+    END_IF;
+
+    "FC15025_ZC_CONTADOR_TIEMPO"(Pulso1seg:=#Pulso1Seg,
+                                 Iniciar:=#Pulso1Seg AND (#s_Etapa = #ESTERILIZADO),
+                                 Reset:=#t_ResetContador,
+                                 Contador:=#TiempoEsterelizado);
+
+    // ============================================================================= 
+    // Quitar estado filtro esteril
+
+    IF #S_NumeroDiasEsterilizacion >= #SP_DiasMaximoFiltroEsteril THEN
+        #s_FiltroEsteril := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_3">
+        <h3>🔸 Lógica: TIEMPO_ETAPA</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION TIEMPO_ETAPA
+    //=====================================================================================
+    //  Proceso en estado parado
+    IF #s_Etapa = #REPOSO THEN
+        #s_TiempoEtapa.Actual := 0;
+        #s_TiempoEtapa.Activar := FALSE;
+    END_IF;
+
+    //=====================================================================================
+    //  Temporizador activo
+    IF #s_TiempoEtapa.Activar THEN
+        IF #Pulso1Seg
+            AND
+            (#s_TiempoEtapa.Actual < #s_TiempoEtapa.SP)
+        THEN
+            #s_TiempoEtapa.Actual += 1;
+        END_IF;
+        //=====================================================================================
+        //  Reiniciar tiempo paso cumplido para esperar condicion
+        #s_TiempoEtapa.Cumplido := FALSE;
+
+        //=====================================================================================
+        //  Tiempo paso cumplido 
+        IF #s_TiempoEtapa.Actual >= #s_TiempoEtapa.SP AND #s_TiempoEtapa.Activar THEN
+            #s_TiempoEtapa.Cumplido := TRUE;
+        END_IF;
+        //=====================================================================================
+        //  Tiempo restante
+        #s_TiempoEtapa.Restante := #s_TiempoEtapa.SP - #s_TiempoEtapa.Actual;
+    END_IF;
+
+    //=====================================================================================
+    //  Tiempo restante
+    #s_TiempoEtapa.Restante := #s_TiempoEtapa.SP - #s_TiempoEtapa.Actual;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_4">
+        <h3>🔸 Lógica: MANTENIMIENTO</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION MANTENIMIENTO
+    //=====================================================================================
+    //  Flanco mostrar cartel de mantenieminto
+    IF #HabilitarMantenimiento THEN
+
+        #s_MostrarAlarmaMto := (#FechaHora.MINUTE = #MinutoAlarma) AND (#FechaHora.SECOND = #SegundoAlarma) AND (#s_NumeroEsterilizaciones >= #SP_NumeroMaximoEsterilizacion);
+
+        IF #s_MostrarAlarmaMto AND NOT #s_oldMostrarAlarmaMto THEN
+            #ParoMantenimiento := TRUE;
+            #s_PasswordCalculado :=
+            #s_PasswordHMI := 0;
+        END_IF;
+        //=====================================================================================
+        //  Pulsador chequear contraseña de mantenimiento
+        IF #Pulsadores.Mantenimiento.Plc THEN
+            #s_PasswordCalculado := #FechaHora.YEAR + #FechaHora.MONTH + #FechaHora.DAY;
+            IF #s_PasswordCalculado = #s_PasswordHMI THEN
+                #s_NumeroEsterilizaciones := 0;
+                #S_NumeroDiasEsterilizacion := 0;
+            END_IF;
+            #s_PasswordCalculado :=
+            #s_PasswordHMI := 0;
+            #ParoMantenimiento := FALSE;
+        END_IF;
+    ELSE
+        #ParoMantenimiento := FALSE;
+    END_IF;
+
+    #s_oldMostrarAlarmaMto := #s_MostrarAlarmaMto;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_5">
+        <h3>🔸 Lógica: ALARMAS</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ALARMAS
+    //=====================================================================================
+    //  Aviso un dia antes  
+    #t_DiasAvisos := #SP_DiasMaximoFiltroEsteril - 1;
+    IF #t_DiasAvisos < 0 THEN
+        #t_DiasAvisos := 0;
+    END_IF;
+    //=====================================================================================
+    //  Alarmas por dia de esterilizacion
+    #AlarmaDiasEsterilizacion := (#S_NumeroDiasEsterilizacion >= #SP_DiasMaximoFiltroEsteril);
+    #AvisoDiasEsterilizacion := (#S_NumeroDiasEsterilizacion >= #t_DiasAvisos AND NOT #AlarmaDiasEsterilizacion);
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION_BLOCK &#34;FB15049_ZC_AIRE_ESTERIL&#34;
+TITLE = FB15049_ZC_AIRE_ESTERIL
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : HCR
+FAMILY : ZeusControl
+VERSION : 1.0
+   VAR_INPUT 
+      Pulso1Seg : Bool;   // Pulso 1 Segundo
+      HabilitarMantenimiento : Bool;
+      AlarmaFalloVapor : Bool;
+      FechaHora {InstructionName := &#39;DTL&#39;; LibVersion := &#39;1.0&#39;} : DTL;   // Fecha y hora actual
+      TempEsterilAlcanzada : Bool;   // Estado temperatura de esterilizacion alcanzada
+      SP_TiempoEsterilizacion : Int;   // SP_Tiempo de esterilizacion
+      SP_TiempoEnfriamiento : Int;   // SP_Tiempo de enfriamiento
+      SP_NumeroMaximoEsterilizacion : Int;
+      SP_DiasMaximoFiltroEsteril : Int;   // SP_Dias Maximo Filtro Esteril
+   END_VAR
+   VAR_INPUT RETAIN
+      Usuario : String[25];   // Usuario actual
+   END_VAR
+   VAR_INPUT 
+      MinutoAlarma : USInt;
+      SegundoAlarma : USInt;
+   END_VAR
+
+   VAR_IN_OUT 
+      ParoMantenimiento : Bool;
+      AvisoDiasEsterilizacion : Bool;
+      AlarmaDiasEsterilizacion : Bool;
+   END_VAR
+
+   VAR 
+      s_Habilitar : Bool;   // Estado habilitado
+      s_FiltroEsteril : Bool;   // Estado filtro esteril
+   END_VAR
+   VAR RETAIN
+      s_Etapa : Int;   // Etapa actual
+      s_NumeroEsterilizaciones : Int;   // Numero de esterilizaciones
+   END_VAR
+   VAR 
+      S_NumeroDiasEsterilizacion : Int;   // Numerpo de dias con filtro esterilizado
+   END_VAR
+   VAR RETAIN
+      s_TiempoEtapa { S7_SetPoint := &#39;False&#39;} : &#34;UDT_ZC_PRO_TIEMPO_ETAPA&#34;;   // Tiempo de etapa
+   END_VAR
+   VAR 
+      Pulsadores : Struct
+         Habilitar { S7_SetPoint := &#39;False&#39;} : &#34;UDT_ZC_PULSADOR&#34;;
+         Deshabilitar { S7_SetPoint := &#39;False&#39;} : &#34;UDT_ZC_PULSADOR&#34;;
+         Mantenimiento { S7_SetPoint := &#39;False&#39;} : &#34;UDT_ZC_PULSADOR&#34;;
+      END_STRUCT;
+   END_VAR
+   VAR RETAIN
+      TiempoEsterelizado : &#34;UDT_ZC_CONTADOR_TIEMPO&#34;;
+   END_VAR
+   VAR 
+      s_PasswordCalculado { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : UInt;   // Contraseña calculada de mantenimiento
+      s_PasswordHMI : UInt;   // Contraseña calculada de mantenimiento
+      s_MostrarAlarmaMto { S7_SetPoint := &#39;True&#39;} : Bool;
+      s_oldMostrarAlarmaMto { S7_SetPoint := &#39;True&#39;} : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      t_ResetContador : Bool;   // Tempoeral reset contador de horas
+      t_DiasAvisos : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      REPOSO : Int := 0;
+      ESTERILIZANDO : Int := 10;
+      ESTERILIZADO : Int := 20;
+      ENFRIAMIENTO : Int := 30;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         AIRE ESTERIL
+	Descripcion:    Gestion Aire esteril
+	
+	Dependencias:
+	    FC:         FC15026_ZC_PULSADOR
+	                FC15025_ZC_CONTADOR_TIEMPO
+	    FB:         -
+	    DB:         DB1_SYS
+	    UDT:        ZC_PULSADOR
+	                ZC_TIEMPO_ETAPA
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    15.10.2024  (HCR)               Primera version.
+	    01.00.01    28.01.2025  (ABH)               Se cambia organizacion de variables y nombres para estandarizacion.
+	    
+	//=====================================================================================
+	*)
+	
+	REGION PULSADORES
+	    
+	    //=====================================================================================
+	    //Permiso pulsadores
+	    #Pulsadores.Habilitar.Permiso := NOT #s_Habilitar;
+	    #Pulsadores.Deshabilitar.Permiso := #s_Habilitar;
+	    #Pulsadores.Mantenimiento.Permiso := #ParoMantenimiento;
+	    
+	    //=====================================================================================
+	    //Gestion pulsadores
+	    &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                          SP_Tiempo := 2,
+	                          Categoria:=&#34;TRZ_CAT_4_PUL&#34;,
+	                          Codigo1:=&#34;TRZ_PUL_AE_HAB&#34;,
+	                          Codigo2:=0,
+	                          Codigo3:=0,
+	                          Usuario := #Usuario,
+	                          FechaHoraActual := #FechaHora,
+	                          Pulsador := #Pulsadores.Habilitar);
+	    &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                          SP_Tiempo := 2,
+	                          Categoria:=&#34;TRZ_CAT_4_PUL&#34;,
+	                          Codigo1:=&#34;TRZ_PUL_AE_DES&#34;,
+	                          Codigo2:=0,
+	                          Codigo3:=0,
+	                          Usuario := #Usuario,
+	                          FechaHoraActual := #FechaHora,
+	                          Pulsador := #Pulsadores.Habilitar);
+	    &#34;FC15026_ZC_PULSADOR&#34;(Pulso1Seg := #Pulso1Seg,
+	                          SP_Tiempo := 2,
+	                          Categoria:=&#34;TRZ_CAT_4_PUL&#34;,
+	                          Codigo1:=&#34;TRZ_PUL_AE_MNT&#34;,
+	                          Codigo2:=0,
+	                          Codigo3:=0,
+	                          Usuario := #Usuario,
+	                          FechaHoraActual := #FechaHora,
+	                          Pulsador := #Pulsadores.Habilitar);
+	    
+	    //=====================================================================================
+	    //Orden habilitar aire esteril
+	    IF #Pulsadores.Habilitar.Plc THEN
+	        #s_Habilitar := TRUE;
+	    ELSIF #Pulsadores.Deshabilitar.Plc THEN
+	        #s_Habilitar := FALSE;
+	    END_IF;
+	    
+	END_REGION
+	
+	REGION SECUENCIA_FILTRO  
+	    
+	    CASE #s_Etapa OF
+	            
+	            // =============================================================================    
+	        #REPOSO:
+	            IF #s_Habilitar THEN
+	                #s_Etapa := #ESTERILIZADO;
+	                #s_TiempoEtapa.Actual := 0;
+	            END_IF;
+	            
+	            // =============================================================================    
+	        #ESTERILIZANDO:
+	            #s_TiempoEtapa.SP := #SP_TiempoEsterilizacion;
+	            
+	            IF NOT #s_Habilitar THEN
+	                #s_Etapa := #REPOSO;
+	            END_IF;
+	            IF #AlarmaFalloVapor THEN
+	                #s_Etapa := #REPOSO;
+	            END_IF;
+	            IF #s_TiempoEtapa.Cumplido THEN
+	                #s_Etapa := #ENFRIAMIENTO;
+	                #s_TiempoEtapa.Actual := 0;
+	                #S_NumeroDiasEsterilizacion := 0;
+	                #s_NumeroEsterilizaciones += 1;
+	                #s_FiltroEsteril := TRUE;
+	               
+	            END_IF;
+	            IF #TempEsterilAlcanzada THEN
+	                #s_TiempoEtapa.Activar := TRUE;
+	            ELSE
+	                #s_TiempoEtapa.Activar := FALSE;
+	                #s_TiempoEtapa.Actual := 0;
+	            END_IF;
+	            // =============================================================================              
+	        #ENFRIAMIENTO:
+	            #s_TiempoEtapa.SP := #SP_TiempoEnfriamiento;
+	            #s_TiempoEtapa.Activar := TRUE;
+	            
+	            IF NOT #s_Habilitar THEN
+	                #s_Etapa := #REPOSO;
+	            END_IF;
+	            IF #s_TiempoEtapa.Cumplido THEN
+	                #s_Etapa := #ESTERILIZADO;
+	                #s_TiempoEtapa.Actual := 0;
+	            END_IF;
+	            // ============================================================================= 
+	        #ESTERILIZADO:
+	            #s_TiempoEtapa.SP := 5;
+	            IF NOT #s_Habilitar THEN
+	                #s_Etapa := #REPOSO;
+	            END_IF;
+	            IF #s_TiempoEtapa.Cumplido THEN
+	                #s_Etapa := #ESTERILIZANDO;
+	                #s_TiempoEtapa.Actual := 0;
+	            END_IF;
+	            IF #TempEsterilAlcanzada AND NOT #s_FiltroEsteril THEN
+	                #s_TiempoEtapa.Activar := TRUE;
+	            ELSE
+	                #s_TiempoEtapa.Activar := FALSE;
+	                #s_TiempoEtapa.Actual := 0;
+	            END_IF;
+	        ELSE
+	            #s_Etapa := #REPOSO;
+	    END_CASE;
+	    
+	END_REGION
+	
+	REGION TIEMPO_ESTERILIZADO
+	    
+	    // ============================================================================= 
+	    // Incrementar dias de filtro esterilizado
+	    IF #TiempoEsterelizado.Hora &gt;= 24 THEN
+	        #t_ResetContador := TRUE;
+	        #S_NumeroDiasEsterilizacion += 1;
+	    END_IF;
+	    
+	    &#34;FC15025_ZC_CONTADOR_TIEMPO&#34;(Pulso1seg:=#Pulso1Seg,
+	                                 Iniciar:=#Pulso1Seg AND (#s_Etapa = #ESTERILIZADO),
+	                                 Reset:=#t_ResetContador,
+	                                 Contador:=#TiempoEsterelizado);
+	    
+	    // ============================================================================= 
+	    // Quitar estado filtro esteril
+	    
+	    IF #S_NumeroDiasEsterilizacion &gt;= #SP_DiasMaximoFiltroEsteril THEN
+	        #s_FiltroEsteril := FALSE;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	REGION TIEMPO_ETAPA
+	    
+	    //=====================================================================================
+	    //  Proceso en estado parado
+	    IF #s_Etapa = #REPOSO THEN
+	        #s_TiempoEtapa.Actual := 0;
+	        #s_TiempoEtapa.Activar := FALSE;
+	    END_IF;
+	    
+	    //=====================================================================================
+	    //  Temporizador activo
+	    IF #s_TiempoEtapa.Activar THEN
+	        IF #Pulso1Seg
+	            AND
+	            (#s_TiempoEtapa.Actual &lt; #s_TiempoEtapa.SP)
+	        THEN
+	            #s_TiempoEtapa.Actual += 1;
+	        END_IF;
+	        //=====================================================================================
+	        //  Reiniciar tiempo paso cumplido para esperar condicion
+	        #s_TiempoEtapa.Cumplido := FALSE;
+	        
+	        //=====================================================================================
+	        //  Tiempo paso cumplido 
+	        IF #s_TiempoEtapa.Actual &gt;= #s_TiempoEtapa.SP AND #s_TiempoEtapa.Activar THEN
+	            #s_TiempoEtapa.Cumplido := TRUE;
+	        END_IF;
+	        //=====================================================================================
+	        //  Tiempo restante
+	        #s_TiempoEtapa.Restante := #s_TiempoEtapa.SP - #s_TiempoEtapa.Actual;
+	    END_IF;
+	    
+	    //=====================================================================================
+	    //  Tiempo restante
+	    #s_TiempoEtapa.Restante := #s_TiempoEtapa.SP - #s_TiempoEtapa.Actual;
+	    
+	END_REGION
+	
+	REGION MANTENIMIENTO
+	    
+	    //=====================================================================================
+	    //  Flanco mostrar cartel de mantenieminto
+	    IF #HabilitarMantenimiento THEN
+	        
+	        #s_MostrarAlarmaMto := (#FechaHora.MINUTE = #MinutoAlarma) AND (#FechaHora.SECOND = #SegundoAlarma) AND (#s_NumeroEsterilizaciones &gt;= #SP_NumeroMaximoEsterilizacion);
+	        
+	        IF #s_MostrarAlarmaMto AND NOT #s_oldMostrarAlarmaMto THEN
+	            #ParoMantenimiento := TRUE;
+	            #s_PasswordCalculado :=
+	            #s_PasswordHMI := 0;
+	        END_IF;
+	        //=====================================================================================
+	        //  Pulsador chequear contraseña de mantenimiento
+	        IF #Pulsadores.Mantenimiento.Plc THEN
+	            #s_PasswordCalculado := #FechaHora.YEAR + #FechaHora.MONTH + #FechaHora.DAY;
+	            IF #s_PasswordCalculado = #s_PasswordHMI THEN
+	                #s_NumeroEsterilizaciones := 0;
+	                #S_NumeroDiasEsterilizacion := 0;
+	            END_IF;
+	            #s_PasswordCalculado :=
+	            #s_PasswordHMI := 0;
+	            #ParoMantenimiento := FALSE;
+	        END_IF;
+	    ELSE
+	        #ParoMantenimiento := FALSE;
+	    END_IF;
+	    
+	    #s_oldMostrarAlarmaMto := #s_MostrarAlarmaMto;
+	    
+	END_REGION
+	
+	REGION ALARMAS
+	    
+	    //=====================================================================================
+	    //  Aviso un dia antes  
+	    #t_DiasAvisos := #SP_DiasMaximoFiltroEsteril - 1;
+	    IF #t_DiasAvisos &lt; 0 THEN
+	        #t_DiasAvisos := 0;
+	    END_IF;
+	    //=====================================================================================
+	    //  Alarmas por dia de esterilizacion
+	    #AlarmaDiasEsterilizacion := (#S_NumeroDiasEsterilizacion &gt;= #SP_DiasMaximoFiltroEsteril);
+	    #AvisoDiasEsterilizacion := (#S_NumeroDiasEsterilizacion &gt;= #t_DiasAvisos AND NOT #AlarmaDiasEsterilizacion);
+	    
+	END_REGION
+	
+	
+	IF #s_NumeroEsterilizaciones = 0 THEN
+	    #s_NumeroEsterilizaciones += 1;
+	END_IF;
+	
+	
+END_FUNCTION_BLOCK
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

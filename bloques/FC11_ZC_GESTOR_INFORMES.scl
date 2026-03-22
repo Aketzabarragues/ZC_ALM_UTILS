@@ -1,0 +1,443 @@
+﻿FUNCTION "FC11_ZC_GESTOR_INFORMES" : Void
+TITLE = FC11_ZC_GESTOR_INFORMES
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para gestion de informes
+   VAR_INPUT 
+      Pulso1Seg : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      t_PosicionRegistro : Int;
+      t_RegistroEncontrado : Bool;
+      t_RetVal : Int;
+   END_VAR
+
+   VAR CONSTANT 
+      REPOSO : Int := 0;
+      ESPERA_ENTRE_AVISOS : Int := 10;
+      LANZAR_AVISO : Int := 20;
+      ESPERA_CONFIRMACION : Int := 30;
+      FALLO : Int := 40;
+      BORRAR_DATOS : Int := 50;
+      TEXTO_TRAZA : String := 'FALLO EN LA ESCRITURA DE INFORME EN SQL';
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2024) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC11_ZC_GESTOR_INFORMES
+	Descripcion:    Función para gestionar escritura de informes.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         DB11_INFORMES
+	    UDT:        -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    30.07.2024  (ABH)               Primera version
+	    01.00.01    11.09.2024  (ABH)               Se añade la generacion de ID en el gestor de informes. De este modo, nunca va a haber dos ID
+	                                                iguales ya que se genera uno cada vez.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	REGION GESTION_INFORMES
+	    
+	    // =============================================================================
+	    //  COPIAMOS EL ULTIMO REGISTRO (El mas antiguo) A LA VARIABLE REGISTRO QUE ES LA 
+	    //  ENCARGADA DE COMUNICARLA CON EL SCADA/HMI
+	    IF "DB11_INFORMES".Gestion.HabilitacionGeneral AND "DB11_INFORMES".Gestion.Datos.Registrar = 0 AND #Pulso1Seg THEN
+	        
+	        // =============================================================================
+	        // Buscamos el ultimo registro
+	        FOR #for_i := "N_MAX_INF_BUFFER" TO 0 BY -1 DO
+	            
+	            // =============================================================================
+	            // Registro encontrado
+	            IF "DB11_INFORMES".Buffer[#for_i].Registrar = 1 THEN
+	                #t_PosicionRegistro := #for_i;
+	                #t_RegistroEncontrado := TRUE;
+	                EXIT;
+	            END_IF;
+	            
+	        END_FOR;
+	        
+	        // =============================================================================
+	        // Si hemos encontrado el registro, copiamos a variable estatica
+	        IF #t_RegistroEncontrado THEN
+	            
+	            // =============================================================================
+	            //  Copiamos el los datos de la traza a variable estatica para tratarla
+	            "DB11_INFORMES".Gestion.Datos := "DB11_INFORMES".Buffer[#t_PosicionRegistro];
+	            "DB11_INFORMES".Gestion.Datos.Id := "FC15006_ZC_DTL_TO_STRING"(FechaDTL := "DB1_SYS".FechaHoraActual, Formato := 3);
+	            
+	            // =============================================================================
+	            //  Quitamos el registro del buffer
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Registrar := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Id := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Tipo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Codigo := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.Ano := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.Mes := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.Dia := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.DiaSemana := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.Hora := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.Minuto := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.Segundo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_1.NanoSegundo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.Ano := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.Mes := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.Dia := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.DiaSemana := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.Hora := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.Minuto := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.Segundo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_2.NanoSegundo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.Ano := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.Mes := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.Dia := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.DiaSemana := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.Hora := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.Minuto := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.Segundo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Fecha_3.NanoSegundo := 0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_1 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_2 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_3 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_4 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_5 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_6 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_7 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_8 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_9 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].String_10 := '';
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_1 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_2 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_3 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_4 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_5 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_6 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_7 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_8 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_9 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_10 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_11 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_12 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_13 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_14 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_15 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_16 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_17 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_18 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_19 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_20 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_21 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_22 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_23 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_24 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_25 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_26 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_27 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_28 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_29 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_30 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_31 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Bool_32 := FALSE;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_1 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_2 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_3 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_4 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_5 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_6 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_7 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_8 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_9 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_10 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_11 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_12 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_13 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_14 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_15 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_16 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_17 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_18 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_19 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Real_20 := 0.0;
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_1 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_2 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_3 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_4 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_5 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_6 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_7 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_8 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_9 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_10 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_11 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_12 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_13 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_14 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_15 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_16 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_17 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_18 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_19 :=
+	            "DB11_INFORMES".Buffer[#t_PosicionRegistro].Int_20 := 0;
+	            
+	        END_IF;
+	        
+	    END_IF;
+	    
+	    
+	    // =============================================================================
+	    //  Si existe registro a trazar, lanzamos la orden de iniciar la secuencia
+	    IF "DB11_INFORMES".Gestion.Datos.Registrar = 1 AND "DB11_INFORMES".Gestion.Etapa = #REPOSO AND "DB11_INFORMES".Gestion.EstadoConexion THEN
+	        
+	        //  Lanzamos la orden de iniciar la secuencia de registro
+	        "DB11_INFORMES".Gestion.OrdenIniciar := TRUE;
+	        
+	    END_IF;
+	    
+	    
+	END_REGION
+	
+	
+	REGION SECUENCIA_INFORME    
+	    
+	    
+	    IF NOT "DB11_INFORMES".Gestion.HabilitacionGeneral AND "DB11_INFORMES".Gestion.Etapa <> #REPOSO THEN
+	        "DB11_INFORMES".Gestion.Etapa := #BORRAR_DATOS;
+	    END_IF;
+	    
+	    
+	    CASE "DB11_INFORMES".Gestion.Etapa OF
+	            
+	            
+	            // =============================================================================
+	        #REPOSO:
+	            IF "DB11_INFORMES".Gestion.OrdenIniciar THEN
+	                "DB11_INFORMES".Gestion.Etapa := #LANZAR_AVISO;
+	                "DB11_INFORMES".Gestion.OrdenIniciar := FALSE;
+	                "DB11_INFORMES".Gestion.Aviso.Registrar := 0;
+	                "DB11_INFORMES".Gestion.TiempoActual := 0;
+	                "DB11_INFORMES".Gestion.Aviso.NumeroIntentosActual := 0;
+	            END_IF;
+	            
+	            
+	            
+	            // =============================================================================
+	        #ESPERA_ENTRE_AVISOS:
+	            //  Contador de tiempo de etapa
+	            IF #Pulso1Seg THEN
+	                "DB11_INFORMES".Gestion.TiempoActual += 1;
+	            END_IF;
+	            //  Tiempo maximo de espera
+	            IF ("DB11_INFORMES".Gestion.TiempoActual >= "DB11_INFORMES".Gestion.SP_Tiempo) THEN
+	                "DB11_INFORMES".Gestion.TiempoActual := 0;
+	                "DB11_INFORMES".Gestion.Etapa := #LANZAR_AVISO;
+	            END_IF;
+	            
+	            //  Si ya se ha alcanzado el numero maximo de intentos, generamos la traza
+	            IF "DB11_INFORMES".Gestion.Aviso.NumeroIntentosActual >= "DB11_INFORMES".Gestion.NumeroMaxIntentos THEN
+	                "DB11_INFORMES".Gestion.Etapa := #FALLO;
+	                "DB11_INFORMES".Gestion.Aviso.Registrar := 0;
+	            END_IF;
+	            
+	            
+	            
+	            // =============================================================================
+	        #LANZAR_AVISO:
+	            
+	            IF #Pulso1Seg THEN
+	                "DB11_INFORMES".Gestion.TiempoActual += 1;
+	            END_IF;
+	            "DB11_INFORMES".Gestion.Aviso.Registrar := TRUE;
+	            
+	            
+	            
+	            IF ("DB11_INFORMES".Gestion.TiempoActual >= "DB11_INFORMES".Gestion.SP_Tiempo) THEN
+	                "DB11_INFORMES".Gestion.Etapa := #ESPERA_CONFIRMACION;
+	            END_IF;
+	
+	            
+	            // =============================================================================
+	        #ESPERA_CONFIRMACION:
+	            
+	            IF #Pulso1Seg THEN
+	                "DB11_INFORMES".Gestion.TiempoActual += 1;
+	            END_IF;
+	            
+	            //  Confirmacion desde SCADA OK
+	            IF "DB11_INFORMES".Gestion.Aviso.Estado = 4 THEN
+	                "DB11_INFORMES".Gestion.TiempoActual := 0;
+	                "DB11_INFORMES".Gestion.Aviso.Estado := 0;
+	                "DB11_INFORMES".Gestion.Aviso.Registrar := FALSE;
+	                "DB11_INFORMES".Gestion.Etapa := #BORRAR_DATOS;
+	            END_IF;
+	            
+	            //  Tiempo maximo de espera
+	            IF ("DB11_INFORMES".Gestion.TiempoActual >= "DB11_INFORMES".Gestion.SP_Tiempo)
+	                OR
+	                ( "DB11_INFORMES".Gestion.Aviso.Estado = 12)
+	            THEN
+	                "DB11_INFORMES".Gestion.TiempoActual := 0;
+	                "DB11_INFORMES".Gestion.Aviso.Estado := 0;
+	                "DB11_INFORMES".Gestion.Aviso.Registrar := FALSE;
+	                "DB11_INFORMES".Gestion.Etapa := #ESPERA_ENTRE_AVISOS;
+	                "DB11_INFORMES".Gestion.Aviso.NumeroIntentosActual += 1;
+	            END_IF;
+	            
+	            
+	            // =============================================================================
+	        #BORRAR_DATOS:
+	            
+	            "DB11_INFORMES".Gestion.Datos.Registrar := 0;
+	            "DB11_INFORMES".Gestion.Datos.Id := '';
+	            "DB11_INFORMES".Gestion.Datos.Tipo := 0;
+	            "DB11_INFORMES".Gestion.Datos.Codigo := '';
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.Ano := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.Mes := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.Dia := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.DiaSemana := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.Hora := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.Minuto := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.Segundo := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_1.NanoSegundo := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.Ano := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.Mes := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.Dia := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.DiaSemana := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.Hora := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.Minuto := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.Segundo := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_2.NanoSegundo := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.Ano := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.Mes := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.Dia := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.DiaSemana := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.Hora := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.Minuto := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.Segundo := 0;
+	            "DB11_INFORMES".Gestion.Datos.Fecha_3.NanoSegundo := 0;
+	            "DB11_INFORMES".Gestion.Datos.String_1 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_2 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_3 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_4 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_5 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_6 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_7 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_8 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_9 := '';
+	            "DB11_INFORMES".Gestion.Datos.String_10 := '';
+	            "DB11_INFORMES".Gestion.Datos.Bool_1 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_2 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_3 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_4 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_5 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_6 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_7 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_8 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_9 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_10 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_11 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_12 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_13 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_14 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_15 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_16 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_17 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_18 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_19 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_20 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_21 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_22 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_23 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_24 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_25 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_26 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_27 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_28 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_29 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_30 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_31 :=
+	            "DB11_INFORMES".Gestion.Datos.Bool_32 := FALSE;
+	            "DB11_INFORMES".Gestion.Datos.Real_1 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_2 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_3 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_4 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_5 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_6 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_7 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_8 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_9 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_10 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_11 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_12 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_13 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_14 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_15 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_16 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_17 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_18 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_19 :=
+	            "DB11_INFORMES".Gestion.Datos.Real_20 := 0.0;
+	            "DB11_INFORMES".Gestion.Datos.Int_1 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_2 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_3 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_4 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_5 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_6 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_7 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_8 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_9 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_10 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_11 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_12 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_13 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_14 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_15 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_16 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_17 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_18 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_19 :=
+	            "DB11_INFORMES".Gestion.Datos.Int_20 := 0;
+	            "DB11_INFORMES".Gestion.Aviso.Registrar := 0;
+	            "DB11_INFORMES".Gestion.Etapa := #REPOSO;
+	            
+	            // =============================================================================
+	        #FALLO:
+	            
+	            "FC8_ZC_TRAZA_REGISTRO"(FechaHora := "DB1_SYS".FechaHoraActual,
+	                                    Registrar := 1,
+	                                    Categoria := "TRZ_CAT_1_SYS",
+	                                    User := '',
+	                                    Codigo1 := 0,
+	                                    Codigo2 := "TRZ_SYS_ERR_INF",
+	                                    Codigo3 := 0,
+	                                    Texto := #TEXTO_TRAZA);
+	            "DB11_INFORMES".Gestion.Datos.Registrar := 0;
+	            "DB11_INFORMES".Gestion.Etapa := #REPOSO;
+	            
+	    END_CASE;
+	    
+	END_REGION
+	
+	
+END_FUNCTION
+

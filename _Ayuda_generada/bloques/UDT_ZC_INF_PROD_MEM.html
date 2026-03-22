@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>UDT_ZC_INF_PROD_MEM</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            UDT
+        </span>
+        UDT_ZC_INF_PROD_MEM
+    </h1>
+
+    
+</div>
+
+
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        
+        <tr>
+            <td><strong>FechaInicio</strong></td>
+            <td>UDT_ZC_FECHA</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Fecha de inicio</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FechaFin</strong></td>
+            <td>UDT_ZC_FECHA</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Fecha de fin</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Producto</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Tipo de producto</td>
+        </tr>
+        
+        <tr>
+            <td><strong>DestinoConcentrado</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Destino concentrado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>DestinoPermeado</strong></td>
+            <td>Int</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Destino permeado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>LitrosEntrada</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Litros de entrada</td>
+        </tr>
+        
+        <tr>
+            <td><strong>LitrosConcentrado</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Litros de concentrado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>LitrosPermeado</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Litros de permeado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>Brix</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Media de BRIX</td>
+        </tr>
+        
+        <tr>
+            <td><strong>FCV</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Factor de concentracion</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TempEntrada</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Media temperatura entrada</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TempConcentrado</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Media temperatura concentrado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TempPermeado</strong></td>
+            <td>Real</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Media temperatura permeado</td>
+        </tr>
+        
+        <tr>
+            <td><strong>TiempoProduccion</strong></td>
+            <td>UDT_ZC_CONTADOR_TIEMPO</td>
+            <td>
+                
+                    -
+                
+            </td>
+            <td>Tiempo en produccion</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿TYPE "UDT_ZC_DISP_ED"
+VERSION : 0.1
+   STRUCT
+      Hmi_Index : Int;   // Index para listas HMI
+      Hmi_Estado : Int;   // Visualizacion dispositivoHMI
+      Estado_AutoMan : Bool := FALSE;   // 0= Automatico / 1= Manual
+      Estado_Activado : Bool := FALSE;   // Estado detector
+      Estado_EntradaCanal : Bool := FALSE;   // Valor bruto del canal de entrada
+      Orden_ActivarManual : Bool := FALSE;   // Orden activar manual
+      Config_Habilitar : Bool := FALSE;   // Activar tratamiento de dispositivo
+      Config_HabilitarRetardoAct : Bool := FALSE;   // Activar retardo activación
+      Config_HabilitarRetardoDes : Bool := FALSE;   // Activar retardo desactivación
+      Config_HabilitarInvertir : Bool := FALSE;   // Invertir señal de entrada
+      Aux_oldActivado : Bool := false;   // Estado anterior activado
+      Aux_oldAutoMan : Bool := false;   // Estado anterior Auto / Manual
+      Config_GrupoAlarma : Int := 0;   // Grupo de alarma
+      Config_DireccionEntradaByte : Int := 0;   // Dirección entrada Byte
+      Config_DireccionEntradaBit : Int := 0;   // Dirección entrada Bit
+      Tiempos_SetPointTiempoAct : UInt := 3;   // Consigna retardo de activación
+      Tiempos_SetPointTiempoDes : UInt := 3;   // Consigna retardo de desactivación
+      Tiempos_TiempoAct : UInt := 0;   // Tiempo activación actual
+      Tiempos_TiempoDes : UInt := 0;   // Tiempo desactivación actual
+   END_STRUCT;
+
+END_TYPE
+

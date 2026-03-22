@@ -1,0 +1,252 @@
+﻿FUNCTION_BLOCK "FB15056_ZC_REGISTRO_MEMBRANAS"
+TITLE = FB15056_ZC_REGISTRO_MEMBRANAS
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : HCR
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para la gestion del registro de membranas
+   VAR_INPUT 
+      Pulso1Seg : Bool;   // Pulso 1 Segundo
+      FechaHora {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;   // Fecha y hora actual
+      Iniciar : Bool;   // Orden contador de tiempo
+   END_VAR
+   VAR_INPUT RETAIN
+      Usuario : String[25];   // Usuario
+      TiempoAvisoOn : Int;   // Tiempo indicación aviso On
+      TiempoAvisoOff : Int;   // Tiempo indicación aviso Off
+      TiempoAlarmaOn : Int;   // Tiempo indicación alarma On
+      TiempoAlarmaOff : Int;   // Tiempo indicación alarma Off
+      HorasAviso : Int;   // Horas para aviso
+      HorasAlarma : Int;   // Horas para alarma
+      HorasAlarmaCritica : Int;   // Horas para alarma critica
+   END_VAR
+
+   VAR_OUTPUT 
+      Aviso : Bool;   // Estado de aviso
+      Alarma : Bool;   // Estado de alarma
+      AlarmaCritica : Bool;   // Estado de alarma critica
+      Estado : Int;   // Estado
+      TiempoMembranaRestante : UDInt;   // Tiempo membrana restante
+   END_VAR
+
+   VAR_IN_OUT 
+      OrdenBorrar : Bool;   // Ordrn borrar registros
+   END_VAR
+
+   VAR RETAIN
+      Registros { S7_SetPoint := 'False'} : Array[1..#N_REGISTROS] of "UDT_ZC_SIVE_MEMBRANA_CARE";
+   END_VAR
+   VAR 
+      Pulsador { ExternalVisible := 'False'; S7_SetPoint := 'False'} : "UDT_ZC_PULSADOR";   // Pulsador nuevo registro
+   END_VAR
+   VAR RETAIN
+      Tiempo { S7_SetPoint := 'False'} : "UDT_ZC_CONTADOR_TIEMPO";   // Tiempo actual membranas
+      s_PuestaMarchaAno : UInt;   // Fecha de puesta en marcha
+      s_PuestaMarchaMes : Int;   // Fecha de puesta en marcha
+      s_PuestaMarchaDia : Int;   // Fecha de puesta en marcha
+      s_Indice : Int := 1;   // Indice registro
+      s_TecnicoNuevoRegistro : String[20];   // Nombre tecnico nuevo registro
+      s_FlipFlopAviso { S7_SetPoint := 'False'} : "UDT_ZC_DISP_FF";
+      s_FlipFlopAlarma : "UDT_ZC_DISP_FF";
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;   // Bucle para recorrer los registros
+      t_OrdenReset : Bool;   // Orden Reset contador de horas
+   END_VAR
+
+   VAR CONSTANT 
+      N_REGISTROS : Int := 10;   // Número de registros
+   END_VAR
+
+
+BEGIN
+	// =============================================================================
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2025) All Rights Reserved
+	-----------------------------------------------------------------------------
+	
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15056_ZC_REGISTRO_MEMBRANAS
+	Descripcion:    Bloque de funcion para la gestion del registro de membranas.
+	
+	Dependencias:
+	    FC:         FC15026_ZC_PULSADOR
+	                FC15025_ZC_CONTADOR_TIEMPO
+	                FC22026_FF_INDV
+	    FB:         -
+	    DB:         -
+	    UDT:        ZC_DISP_FF
+	                ZC_SIVE_MEMBRANA_CARE
+	                ZC_PULSADOR
+	                ZC_CONTADOR_TIEMPO
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    10.05.2023  (HCR)               Primera version
+	    01.00.01    02.10.2023  (ABH)               Cambio nombre a SIVE MEMBRANA CARE.
+	                                                Se corrigen permisos variables estaticas.
+	                                                Se corrigen nombre variables
+	                                                Se crea UDT registro membranas. Se cambia tipo de dato fechahora string a ZC_FECHA.
+	                                                Se quitan temporizadores y se utiliza Flip Flop individual.
+	                                                Se eliminan variables innecesarias
+	    
+	//=====================================================================================
+	*)
+	
+	
+	//  =============================================================================
+	//  GENTION PULSADOR
+	REGION ORDEN REGISTRO
+	    
+	    #Pulsador.Permiso := (#s_TecnicoNuevoRegistro <> '');
+	    "FC15026_ZC_PULSADOR"(Pulso1Seg := #Pulso1Seg,
+	                          SP_Tiempo := 2,
+	                          Categoria := "TRZ_CAT_4_PUL",
+	                          Codigo1 := "TRZ_PUL_MEM_CARE",
+	                          Codigo2 := 0,
+	                          Codigo3 := 0,
+	                          Usuario := #Usuario,
+	                          FechaHoraActual := #FechaHora,
+	                          Pulsador := #Pulsador);
+	    
+	    //  Orden pulsador
+	    IF #Pulsador.Plc THEN
+	        
+	        #Registros[#s_Indice].FechaHora := "FC15005_ZC_DTL_TO_ZC_FECHA"( #FechaHora);
+	        #Registros[#s_Indice].Tecnico := #s_TecnicoNuevoRegistro;
+	        #Registros[#s_Indice].TiempoMembrana := #Tiempo.Hora;
+	        
+	        //  Reset valor técnico y orden reset tiempo
+	        #s_TecnicoNuevoRegistro := '';
+	        
+	        #t_OrdenReset := TRUE;
+	        
+	        //  Incrementamos indice y si es mayor que el número máximo de registro lo ponemos en la posición inicial
+	        #s_Indice += 1;
+	        IF #s_Indice > #N_REGISTROS THEN
+	            #s_Indice := 1;
+	        END_IF;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	// =============================================================================
+	// CONTADOR TIEMPO MEMBRANA
+	REGION TIEMPO MEMBRANAS
+	    
+	    //  Contador de tiempo
+	    "FC15025_ZC_CONTADOR_TIEMPO"(Pulso1seg := #Pulso1Seg,
+	                                 Iniciar := #Iniciar,
+	                                 Contador := #Tiempo,
+	                                 Reset := #t_OrdenReset);
+	    
+	    //  Horas Restante
+	    IF INT_TO_UDINT(#HorasAlarma) > #Tiempo.Hora THEN
+	        #TiempoMembranaRestante := INT_TO_UDINT(#HorasAlarma) - #Tiempo.Hora;
+	    ELSE
+	        #TiempoMembranaRestante := 0;
+	    END_IF;
+	    
+	    END_REGION
+	
+	
+	//  =============================================================================
+	//  BORRAR DATOS DE REGISTROS
+	REGION BORRAR REGISTROS
+	    
+	    IF #OrdenBorrar THEN
+	        
+	        FOR #for_i := 1 TO #N_REGISTROS DO
+	            
+	            #Registros[#for_i].FechaHora.Ano := 0;
+	            #Registros[#for_i].FechaHora.Mes := 0;
+	            #Registros[#for_i].FechaHora.Dia := 0;
+	            #Registros[#for_i].FechaHora.Hora := 0;
+	            #Registros[#for_i].FechaHora.Minuto := 0;
+	            #Registros[#for_i].FechaHora.Segundo := 0;
+	            #Registros[#for_i].FechaHora.NanoSegundo := 0;
+	            
+	            #Registros[#for_i].Tecnico := '';
+	            #Registros[#for_i].TiempoMembrana := 0;
+	            #s_Indice := 1;
+	            
+	        END_FOR;
+	        
+	        #OrdenBorrar := FALSE;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	//  =============================================================================
+	//  ESTADO
+	REGION ESTADO
+	    
+	    #s_FlipFlopAviso.Orden_Activar := FALSE;
+	    #s_FlipFlopAviso.Config_SetPointTiempoFlip := #TiempoAvisoOn;
+	    #s_FlipFlopAviso.Config_SetPointTiempoFlop := #TiempoAvisoOff;
+	    #s_FlipFlopAlarma.Orden_Activar := FALSE;
+	    #s_FlipFlopAlarma.Config_SetPointTiempoFlip := #TiempoAlarmaOn;
+	    #s_FlipFlopAlarma.Config_SetPointTiempoFlop := #TiempoAlarmaOff;
+	    
+	    //  Estado Aviso
+	    #Estado := 0;
+	    
+	    IF #Tiempo.Hora >= #HorasAviso AND #Tiempo.Hora < #HorasAlarma THEN
+	        #s_FlipFlopAviso.Orden_Activar := TRUE;
+	        #Aviso := #s_FlipFlopAviso.#Estado_SalidaFlip;
+	        #Estado := 1;
+	    ELSE
+	        #Aviso := FALSE;
+	    END_IF;
+	    
+	    
+	    //  Estado Alarma
+	    IF #Tiempo.Hora >= #HorasAlarma AND #Tiempo.Hora < #HorasAlarmaCritica THEN
+	        #s_FlipFlopAlarma.Orden_Activar := TRUE;
+	        #Alarma := #s_FlipFlopAlarma.#Estado_SalidaFlip;
+	        #Estado := 2;
+	    ELSE
+	        #Alarma := FALSE;
+	    END_IF;
+	    
+	    
+	    //  Estado Alarma Crítica
+	    IF #Tiempo.Hora >= #HorasAlarmaCritica THEN
+	        #AlarmaCritica := TRUE;
+	        #Estado := 3;
+	    ELSE
+	        #AlarmaCritica := FALSE;
+	    END_IF;
+	    
+	END_REGION
+	
+	
+	//  =============================================================================
+	//  GESTION FLIP FLOP
+	REGION GESTION_FF
+	    
+	    //  =============================================================================
+	    //  Flip Flop aviso
+	    "FC2926_ZC_FF_INDV"(Pulso1Seg := #Pulso1Seg,
+	                 FF := #s_FlipFlopAviso);
+	    
+	    
+	    //  =============================================================================
+	    //  Flip Flop alarma
+	"FC2926_ZC_FF_INDV"(Pulso1Seg := #Pulso1Seg,
+	                 FF := #s_FlipFlopAlarma);
+	    
+	   
+	END_REGION
+	
+	
+END_FUNCTION_BLOCK
+

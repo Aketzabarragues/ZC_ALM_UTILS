@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC7_ZC_GESTOR_TRAZA</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC7_ZC_GESTOR_TRAZA
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1Seg</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>for_i</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_RegistroEncontrado</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>REPOSO</strong></td>
+            <td>Int := 0</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>GENERAR_TEXTO</strong></td>
+            <td>Int := 20</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>ESPERA</strong></td>
+            <td>Int := 40</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>QUITAR_AVISO</strong></td>
+            <td>Int := 60</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+    
+    
+    
+    
+    
+        <div class="doc-section" id="region_0">
+        <h3>🔸 Lógica: GESTION_TRAZA</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION GESTION_TRAZA
+    // =============================================================================
+    //  COPIAMOS EL ULTIMO REGISTRO (El mas antiguo) A LA VARIABLE REGISTRO QUE ES LA 
+    //  ENCARGADA DE COMUNICARLA CON EL SCADA/HMI
+    IF "DB7_TRAZA".Gestion.HabilitacionGeneral AND #Pulso1Seg AND "DB7_TRAZA".Gestion.Etapa = #REPOSO THEN
+
+        // =============================================================================
+        // Buscamos el ultimo registro
+        FOR #for_i := "N_MAX_TRAZA_BUFFER" TO 0 BY -1 DO
+
+            // =============================================================================
+            // Registro encontrado
+            IF "DB7_TRAZA".Buffer[#for_i].Registrar = 1 THEN
+                #t_PosicionRegistro := #for_i;
+                #t_RegistroEncontrado := TRUE;
+                EXIT;
+            END_IF;
+
+        END_FOR;
+
+        // =============================================================================
+        // Si hemos encontrado el registro, copiamos a variable estatica
+        IF #t_RegistroEncontrado THEN
+
+            // =============================================================================
+            //  Copiamos el los datos de la traza a variable estatica para tratarla
+            "DB7_TRAZA".Gestion.Aviso.Datos := "DB7_TRAZA".Buffer[#t_PosicionRegistro];
+
+            "DB7_TRAZA".Gestion.Aviso.Datos.TimeStamp := CONCAT_STRING(IN1 := "DB7_TRAZA".Gestion.Aviso.Datos.TimeStamp, IN2 := '.');
+            "DB7_TRAZA".Gestion.Aviso.Datos.User := CONCAT_STRING(IN1 := 'USER: ',
+                                                                  IN2 := "DB7_TRAZA".Gestion.Aviso.Datos.User,
+                                                                  IN3 := '.');
+
+            // =============================================================================
+            //  Quitamos el registro del buffer
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].Registrar := 0;
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].TimeStamp := '';
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].Categoria := 0;
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].Codigo1 := 0;
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].Codigo2 := 0;
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].Codigo3 := 0;
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].Texto := '';
+            "DB7_TRAZA".Buffer[#t_PosicionRegistro].User := '';
+
+        END_IF;
+
+    END_IF;
+
+
+    // =============================================================================
+    //  Si existe registro a trazar, lanzamos la orden de iniciar la secuencia
+    IF "DB7_TRAZA".Gestion.Aviso.Datos.Registrar = 1 AND "DB7_TRAZA".Gestion.Etapa = #REPOSO AND "DB7_TRAZA".Gestion.EstadoConexion THEN
+
+        //  Lanzamos la orden de iniciar la secuencia de registro
+        "DB7_TRAZA".Gestion.OrdenIniciar := TRUE;
+
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_1">
+        <h3>🔸 Lógica: SECUENCIA_TRAZA</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
+    
+    
+    
+
+    
+    
+    
+    
+    
+        <div id="region_2" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #REPOSO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #REPOSO
+    IF "DB7_TRAZA".Gestion.OrdenIniciar THEN
+        "DB7_TRAZA".Gestion.Etapa := #COMPROBACION_INICIAL;
+        "DB7_TRAZA".Gestion.OrdenIniciar := FALSE;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_3" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #COMPROBACION_INICIAL</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #COMPROBACION_INICIAL
+    IF "DB7_TRAZA".Gestion.Aviso.Datos.Registrar = 0 THEN
+        "DB7_TRAZA".Gestion.Etapa := #BORRAR_DATOS;
+    ELSE
+        //  Esperamos a que tenga los datos actualizados en scada/hmi
+        IF #Pulso1Seg THEN
+            "DB7_TRAZA".Gestion.TiempoActual += 1;
+            IF "DB7_TRAZA".Gestion.TiempoActual >= "DB7_TRAZA".Gestion.SP_Tiempo THEN
+                "DB7_TRAZA".Gestion.TiempoActual := 0;
+
+                //  En caso de tener una categoria fuera de indices, formazos a categoria usuario
+                IF "DB7_TRAZA".Gestion.Aviso.Datos.Categoria < "TRZ_CAT_1_SYS" OR "DB7_TRAZA".Gestion.Aviso.Datos.Categoria > "TRZ_CAT_16_USER" THEN
+                    "DB7_TRAZA".Gestion.Aviso.Datos.Categoria := "TRZ_CAT_16_USER";
+                END_IF;
+
+                "DB7_TRAZA".Gestion.Etapa := #GENERAR_TEXTO;
+            END_IF;
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_4" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #GENERAR_TEXTO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #GENERAR_TEXTO
+    "DB7_TRAZA".Gestion.Aviso.GenerarTexto["DB7_TRAZA".Gestion.Aviso.Datos.Categoria] := TRUE;
+
+    IF #Pulso1Seg THEN
+        "DB7_TRAZA".Gestion.TiempoActual += 1;
+        IF "DB7_TRAZA".Gestion.TiempoActual >= "DB7_TRAZA".Gestion.SP_TiempoTexto THEN
+            "DB7_TRAZA".Gestion.TiempoActual := 0;
+            "DB7_TRAZA".Gestion.Aviso.GenerarTexto["DB7_TRAZA".Gestion.Aviso.Datos.Categoria] := FALSE;
+            "DB7_TRAZA".Gestion.Etapa := #LANZAR_AVISO;
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_5" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #LANZAR_AVISO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #LANZAR_AVISO
+    "DB7_TRAZA".Gestion.Aviso.Aviso["DB7_TRAZA".Gestion.Aviso.Datos.Categoria] := TRUE;
+    "DB7_TRAZA".Gestion.Etapa := #ESPERA;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_6" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #ESPERA</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #ESPERA
+    IF #Pulso1Seg THEN
+        "DB7_TRAZA".Gestion.TiempoActual += 1;
+        IF "DB7_TRAZA".Gestion.TiempoActual >= "DB7_TRAZA".Gestion.SP_Tiempo THEN
+            "DB7_TRAZA".Gestion.TiempoActual := 0;
+            "DB7_TRAZA".Gestion.Etapa := #BORRAR_TEXTO;
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_7" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #BORRAR_TEXTO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #BORRAR_TEXTO
+    "DB7_TRAZA".Gestion.Aviso.BorrarTexto := TRUE;
+
+    "DB7_TRAZA".Gestion.Aviso.Datos.Registrar := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.TimeStamp := '';
+    "DB7_TRAZA".Gestion.Aviso.Datos.Codigo1 := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Codigo2 := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Codigo3 := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Texto := '';
+    "DB7_TRAZA".Gestion.Aviso.Datos.User := '';
+
+
+    IF #Pulso1Seg THEN
+        "DB7_TRAZA".Gestion.TiempoActual += 1;
+        IF "DB7_TRAZA".Gestion.TiempoActual >= "DB7_TRAZA".Gestion.SP_Tiempo THEN
+            "DB7_TRAZA".Gestion.TiempoActual := 0;
+            "DB7_TRAZA".Gestion.Aviso.BorrarTexto := FALSE;
+            "DB7_TRAZA".Gestion.Etapa := #QUITAR_AVISO;
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_8" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #QUITAR_AVISO</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #QUITAR_AVISO
+    "DB7_TRAZA".Gestion.Aviso.Aviso["DB7_TRAZA".Gestion.Aviso.Datos.Categoria] := FALSE;
+
+    IF #Pulso1Seg THEN
+        "DB7_TRAZA".Gestion.TiempoActual += 1;
+        IF "DB7_TRAZA".Gestion.TiempoActual >= 2 AND NOT "DB7_TRAZA".Gestion.Aviso.Aviso["DB7_TRAZA".Gestion.Aviso.Datos.Categoria] THEN
+            "DB7_TRAZA".Gestion.TiempoActual := 0;
+            "DB7_TRAZA".Gestion.Etapa := #BORRAR_DATOS;
+        END_IF;
+    END_IF;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+    
+    
+    
+        <div id="region_9" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
+        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: #BORRAR_DATOS</h4>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION #BORRAR_DATOS
+    "DB7_TRAZA".Gestion.Aviso.Datos.Categoria := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Registrar := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.TimeStamp := '';
+    "DB7_TRAZA".Gestion.Aviso.Datos.Categoria := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Codigo1 := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Codigo2 := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Codigo3 := 0;
+    "DB7_TRAZA".Gestion.Aviso.Datos.Texto := '';
+    "DB7_TRAZA".Gestion.Aviso.Datos.User := '';
+
+    "DB7_TRAZA".Gestion.Etapa := #REPOSO;
+END_REGION</pre>
+    
+    
+    
+
+    
+    
+    
+        
+        
+            </div>
+        
+            </div>
+        
+    
+    
+    
+        <div class="doc-section" id="region_10">
+        <h3>🔸 Lógica: ACTIVACION_ALARMAS</h3>
+    
+    
+    
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+    
+    
+    
+        <pre class="scl-code" style="margin-bottom: 0;">REGION ACTIVACION_ALARMAS
+    // =============================================================================
+    //  ESCRITURA DE AVISO EN PALABRA PARA HMI
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X0 := "DB7_TRAZA".Gestion.HabilitarCategoria[1] AND "DB7_TRAZA".Gestion.Aviso.Aviso[1];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X1 := "DB7_TRAZA".Gestion.HabilitarCategoria[2] AND "DB7_TRAZA".Gestion.Aviso.Aviso[2];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X2 := "DB7_TRAZA".Gestion.HabilitarCategoria[3] AND "DB7_TRAZA".Gestion.Aviso.Aviso[3];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X3 := "DB7_TRAZA".Gestion.HabilitarCategoria[4] AND "DB7_TRAZA".Gestion.Aviso.Aviso[4];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X4 := "DB7_TRAZA".Gestion.HabilitarCategoria[5] AND "DB7_TRAZA".Gestion.Aviso.Aviso[5];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X5 := "DB7_TRAZA".Gestion.HabilitarCategoria[6] AND "DB7_TRAZA".Gestion.Aviso.Aviso[6];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X6 := "DB7_TRAZA".Gestion.HabilitarCategoria[7] AND "DB7_TRAZA".Gestion.Aviso.Aviso[7];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X7 := "DB7_TRAZA".Gestion.HabilitarCategoria[8] AND "DB7_TRAZA".Gestion.Aviso.Aviso[8];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X8 := "DB7_TRAZA".Gestion.HabilitarCategoria[9] AND "DB7_TRAZA".Gestion.Aviso.Aviso[9];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X9 := "DB7_TRAZA".Gestion.HabilitarCategoria[10] AND "DB7_TRAZA".Gestion.Aviso.Aviso[10];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X10 := "DB7_TRAZA".Gestion.HabilitarCategoria[11] AND "DB7_TRAZA".Gestion.Aviso.Aviso[11];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X11 := "DB7_TRAZA".Gestion.HabilitarCategoria[12] AND "DB7_TRAZA".Gestion.Aviso.Aviso[12];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X12 := "DB7_TRAZA".Gestion.HabilitarCategoria[13] AND "DB7_TRAZA".Gestion.Aviso.Aviso[13];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X13 := "DB7_TRAZA".Gestion.HabilitarCategoria[14] AND "DB7_TRAZA".Gestion.Aviso.Aviso[14];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X14 := "DB7_TRAZA".Gestion.HabilitarCategoria[15] AND "DB7_TRAZA".Gestion.Aviso.Aviso[15];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[0].%X15 := "DB7_TRAZA".Gestion.HabilitarCategoria[16] AND "DB7_TRAZA".Gestion.Aviso.Aviso[16];
+
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X0 := "DB7_TRAZA".Gestion.HabilitarCategoria[17] AND "DB7_TRAZA".Gestion.Aviso.Aviso[17];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X1 := "DB7_TRAZA".Gestion.HabilitarCategoria[18] AND "DB7_TRAZA".Gestion.Aviso.Aviso[18];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X2 := "DB7_TRAZA".Gestion.HabilitarCategoria[19] AND "DB7_TRAZA".Gestion.Aviso.Aviso[19];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X3 := "DB7_TRAZA".Gestion.HabilitarCategoria[20] AND "DB7_TRAZA".Gestion.Aviso.Aviso[20];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X4 := "DB7_TRAZA".Gestion.HabilitarCategoria[21] AND "DB7_TRAZA".Gestion.Aviso.Aviso[21];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X5 := "DB7_TRAZA".Gestion.HabilitarCategoria[22] AND "DB7_TRAZA".Gestion.Aviso.Aviso[22];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X6 := "DB7_TRAZA".Gestion.HabilitarCategoria[23] AND "DB7_TRAZA".Gestion.Aviso.Aviso[23];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X7 := "DB7_TRAZA".Gestion.HabilitarCategoria[24] AND "DB7_TRAZA".Gestion.Aviso.Aviso[24];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X8 := "DB7_TRAZA".Gestion.HabilitarCategoria[25] AND "DB7_TRAZA".Gestion.Aviso.Aviso[25];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X9 := "DB7_TRAZA".Gestion.HabilitarCategoria[26] AND "DB7_TRAZA".Gestion.Aviso.Aviso[26];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X10 := "DB7_TRAZA".Gestion.HabilitarCategoria[27] AND "DB7_TRAZA".Gestion.Aviso.Aviso[27];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X11 := "DB7_TRAZA".Gestion.HabilitarCategoria[28] AND "DB7_TRAZA".Gestion.Aviso.Aviso[28];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X12 := "DB7_TRAZA".Gestion.HabilitarCategoria[29] AND "DB7_TRAZA".Gestion.Aviso.Aviso[29];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X13 := "DB7_TRAZA".Gestion.HabilitarCategoria[30] AND "DB7_TRAZA".Gestion.Aviso.Aviso[30];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X14 := "DB7_TRAZA".Gestion.HabilitarCategoria[31] AND "DB7_TRAZA".Gestion.Aviso.Aviso[31];
+    "DB7_TRAZA".Gestion.Aviso.AvisoWord[1].%X15 := "DB7_TRAZA".Gestion.HabilitarCategoria[32] AND "DB7_TRAZA".Gestion.Aviso.Aviso[32];
+END_REGION</pre>
+    
+    
+    
+
+
+
+    
+        </div>
+    
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC7_ZC_GESTOR_TRAZA&#34; : Void
+TITLE = FC7_GESTOR_TRAZA
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para gestion de trazabilidad
+   VAR_INPUT 
+      Pulso1Seg : Bool;
+   END_VAR
+
+   VAR_TEMP 
+      for_i : Int;
+      t_PosicionRegistro : Int;
+      t_RegistroEncontrado : Bool;
+      t_TextoTraza : String;
+   END_VAR
+
+   VAR CONSTANT 
+      REPOSO : Int := 0;
+      COMPROBACION_INICIAL : Int := 10;
+      GENERAR_TEXTO : Int := 20;
+      LANZAR_AVISO : Int := 30;
+      ESPERA : Int := 40;
+      BORRAR_TEXTO : Int := 50;
+      QUITAR_AVISO : Int := 60;
+      BORRAR_DATOS : Int := 70;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2022) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 15.1
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC7_GESTOR_TRAZA
+	Descripcion:    Función para TRACEAR los hitos de los distintos procesos del programa.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         DB7_TRAZA
+	    UDT:        -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    31.08.2022  (ABH)               Primera version
+	    01.00.01    18.09.2023  (ABH)               Se añade gestion de bits para 16 categorias.
+	    02.00.00    20.11.2025  (ABH)               Se cambia los UDT para quitar textos y añadir codigos, para gestion de idiomas en sistemas de supervision.
+	                                                Cambio en la logica de secuencia para añadir una nueva etapa para generar textos.
+	                                                Se añaden 32 categorias.
+	
+	//=====================================================================================
+	*)
+	
+	
+	REGION GESTION_TRAZA
+	    
+	    // =============================================================================
+	    //  COPIAMOS EL ULTIMO REGISTRO (El mas antiguo) A LA VARIABLE REGISTRO QUE ES LA 
+	    //  ENCARGADA DE COMUNICARLA CON EL SCADA/HMI
+	    IF &#34;DB7_TRAZA&#34;.Gestion.HabilitacionGeneral AND #Pulso1Seg AND &#34;DB7_TRAZA&#34;.Gestion.Etapa = #REPOSO THEN
+	        
+	        // =============================================================================
+	        // Buscamos el ultimo registro
+	        FOR #for_i := &#34;N_MAX_TRAZA_BUFFER&#34; TO 0 BY -1 DO
+	            
+	            // =============================================================================
+	            // Registro encontrado
+	            IF &#34;DB7_TRAZA&#34;.Buffer[#for_i].Registrar = 1 THEN
+	                #t_PosicionRegistro := #for_i;
+	                #t_RegistroEncontrado := TRUE;
+	                EXIT;
+	            END_IF;
+	            
+	        END_FOR;
+	        
+	        // =============================================================================
+	        // Si hemos encontrado el registro, copiamos a variable estatica
+	        IF #t_RegistroEncontrado THEN
+	            
+	            // =============================================================================
+	            //  Copiamos el los datos de la traza a variable estatica para tratarla
+	            &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos := &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro];
+	            
+	            &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.TimeStamp := CONCAT_STRING(IN1 := &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.TimeStamp, IN2 := &#39;.&#39;);
+	            &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.User := CONCAT_STRING(IN1 := &#39;USER: &#39;,
+	                                                                  IN2 := &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.User,
+	                                                                  IN3 := &#39;.&#39;);
+	            
+	            // =============================================================================
+	            //  Quitamos el registro del buffer
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].Registrar := 0;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].TimeStamp := &#39;&#39;;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].Categoria := 0;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].Codigo1 := 0;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].Codigo2 := 0;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].Codigo3 := 0;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].Texto := &#39;&#39;;
+	            &#34;DB7_TRAZA&#34;.Buffer[#t_PosicionRegistro].User := &#39;&#39;;
+	            
+	        END_IF;
+	        
+	    END_IF;
+	    
+	    
+	    // =============================================================================
+	    //  Si existe registro a trazar, lanzamos la orden de iniciar la secuencia
+	    IF &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Registrar = 1 AND &#34;DB7_TRAZA&#34;.Gestion.Etapa = #REPOSO AND &#34;DB7_TRAZA&#34;.Gestion.EstadoConexion THEN
+	        
+	        //  Lanzamos la orden de iniciar la secuencia de registro
+	        &#34;DB7_TRAZA&#34;.Gestion.OrdenIniciar := TRUE;
+	        
+	    END_IF;
+	    
+	    
+	END_REGION
+	
+	
+	REGION SECUENCIA_TRAZA    
+	    
+	    
+	    IF NOT &#34;DB7_TRAZA&#34;.Gestion.HabilitacionGeneral AND &#34;DB7_TRAZA&#34;.Gestion.Etapa &lt;&gt; #REPOSO THEN
+	        &#34;DB7_TRAZA&#34;.Gestion.Etapa := #BORRAR_DATOS;
+	    END_IF;
+	    
+	    
+	    CASE &#34;DB7_TRAZA&#34;.Gestion.Etapa OF
+	            
+	            
+	            // =============================================================================
+	        #REPOSO:
+	            REGION #REPOSO
+	                
+	                IF &#34;DB7_TRAZA&#34;.Gestion.OrdenIniciar THEN
+	                    &#34;DB7_TRAZA&#34;.Gestion.Etapa := #COMPROBACION_INICIAL;
+	                    &#34;DB7_TRAZA&#34;.Gestion.OrdenIniciar := FALSE;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	        #COMPROBACION_INICIAL:
+	            REGION #COMPROBACION_INICIAL
+	                
+	                IF &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Registrar = 0 THEN
+	                    &#34;DB7_TRAZA&#34;.Gestion.Etapa := #BORRAR_DATOS;
+	                ELSE
+	                    //  Esperamos a que tenga los datos actualizados en scada/hmi
+	                    IF #Pulso1Seg THEN
+	                        &#34;DB7_TRAZA&#34;.Gestion.TiempoActual += 1;
+	                        IF &#34;DB7_TRAZA&#34;.Gestion.TiempoActual &gt;= &#34;DB7_TRAZA&#34;.Gestion.SP_Tiempo THEN
+	                            &#34;DB7_TRAZA&#34;.Gestion.TiempoActual := 0;
+	                            
+	                            //  En caso de tener una categoria fuera de indices, formazos a categoria usuario
+	                            IF &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria &lt; &#34;TRZ_CAT_1_SYS&#34; OR &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria &gt; &#34;TRZ_CAT_16_USER&#34; THEN
+	                                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria := &#34;TRZ_CAT_16_USER&#34;;
+	                            END_IF;
+	                            
+	                            &#34;DB7_TRAZA&#34;.Gestion.Etapa := #GENERAR_TEXTO;
+	                        END_IF;
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	        #GENERAR_TEXTO:
+	            REGION #GENERAR_TEXTO
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.GenerarTexto[&#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria] := TRUE;
+	                
+	                IF #Pulso1Seg THEN
+	                    &#34;DB7_TRAZA&#34;.Gestion.TiempoActual += 1;
+	                    IF &#34;DB7_TRAZA&#34;.Gestion.TiempoActual &gt;= &#34;DB7_TRAZA&#34;.Gestion.SP_TiempoTexto THEN
+	                        &#34;DB7_TRAZA&#34;.Gestion.TiempoActual := 0;
+	                        &#34;DB7_TRAZA&#34;.Gestion.Aviso.GenerarTexto[&#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria] := FALSE;
+	                        &#34;DB7_TRAZA&#34;.Gestion.Etapa := #LANZAR_AVISO;
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	        #LANZAR_AVISO:
+	            REGION #LANZAR_AVISO
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[&#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria] := TRUE;
+	                &#34;DB7_TRAZA&#34;.Gestion.Etapa := #ESPERA;
+	                
+	            END_REGION
+	
+	            // =============================================================================
+	        #ESPERA:
+	            REGION #ESPERA
+	                
+	                IF #Pulso1Seg THEN
+	                    &#34;DB7_TRAZA&#34;.Gestion.TiempoActual += 1;
+	                    IF &#34;DB7_TRAZA&#34;.Gestion.TiempoActual &gt;= &#34;DB7_TRAZA&#34;.Gestion.SP_Tiempo THEN
+	                        &#34;DB7_TRAZA&#34;.Gestion.TiempoActual := 0;
+	                        &#34;DB7_TRAZA&#34;.Gestion.Etapa := #BORRAR_TEXTO;
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	
+	            
+	            // =============================================================================
+	        #BORRAR_TEXTO:
+	            REGION #BORRAR_TEXTO
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.BorrarTexto := TRUE;
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Registrar := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.TimeStamp := &#39;&#39;;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Codigo1 := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Codigo2 := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Codigo3 := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Texto := &#39;&#39;;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.User := &#39;&#39;;
+	                
+	                
+	                IF #Pulso1Seg THEN
+	                    &#34;DB7_TRAZA&#34;.Gestion.TiempoActual += 1;
+	                    IF &#34;DB7_TRAZA&#34;.Gestion.TiempoActual &gt;= &#34;DB7_TRAZA&#34;.Gestion.SP_Tiempo THEN
+	                        &#34;DB7_TRAZA&#34;.Gestion.TiempoActual := 0;
+	                        &#34;DB7_TRAZA&#34;.Gestion.Aviso.BorrarTexto := FALSE;
+	                        &#34;DB7_TRAZA&#34;.Gestion.Etapa := #QUITAR_AVISO;
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	            
+	            // =============================================================================
+	        #QUITAR_AVISO:
+	            REGION #QUITAR_AVISO
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[&#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria] := FALSE;
+	                
+	                IF #Pulso1Seg THEN
+	                    &#34;DB7_TRAZA&#34;.Gestion.TiempoActual += 1;
+	                    IF &#34;DB7_TRAZA&#34;.Gestion.TiempoActual &gt;= 2 AND NOT &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[&#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria] THEN
+	                        &#34;DB7_TRAZA&#34;.Gestion.TiempoActual := 0;
+	                        &#34;DB7_TRAZA&#34;.Gestion.Etapa := #BORRAR_DATOS;
+	                    END_IF;
+	                END_IF;
+	                
+	            END_REGION
+	
+	            
+	            // =============================================================================
+	        #BORRAR_DATOS:
+	            REGION #BORRAR_DATOS
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Registrar := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.TimeStamp := &#39;&#39;;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Categoria := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Codigo1 := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Codigo2 := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Codigo3 := 0;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.Texto := &#39;&#39;;
+	                &#34;DB7_TRAZA&#34;.Gestion.Aviso.Datos.User := &#39;&#39;;
+	                
+	                &#34;DB7_TRAZA&#34;.Gestion.Etapa := #REPOSO;
+	                
+	            END_REGION
+	            
+	    END_CASE;
+	    
+	END_REGION
+	
+	
+	REGION ACTIVACION_ALARMAS
+	    
+	    // =============================================================================
+	    //  ESCRITURA DE AVISO EN PALABRA PARA HMI
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X0 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[1] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[1];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X1 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[2] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[2];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X2 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[3] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[3];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X3 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[4] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[4];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X4 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[5] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[5];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X5 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[6] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[6];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X6 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[7] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[7];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X7 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[8] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[8];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X8 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[9] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[9];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X9 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[10] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[10];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X10 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[11] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[11];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X11 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[12] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[12];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X12 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[13] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[13];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X13 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[14] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[14];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X14 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[15] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[15];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[0].%X15 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[16] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[16];
+	    
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X0 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[17] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[17];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X1 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[18] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[18];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X2 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[19] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[19];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X3 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[20] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[20];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X4 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[21] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[21];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X5 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[22] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[22];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X6 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[23] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[23];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X7 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[24] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[24];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X8 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[25] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[25];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X9 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[26] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[26];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X10 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[27] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[27];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X11 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[28] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[28];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X12 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[29] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[29];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X13 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[30] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[30];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X14 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[31] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[31];
+	    &#34;DB7_TRAZA&#34;.Gestion.Aviso.AvisoWord[1].%X15 := &#34;DB7_TRAZA&#34;.Gestion.HabilitarCategoria[32] AND &#34;DB7_TRAZA&#34;.Gestion.Aviso.Aviso[32];
+	    
+	END_REGION
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

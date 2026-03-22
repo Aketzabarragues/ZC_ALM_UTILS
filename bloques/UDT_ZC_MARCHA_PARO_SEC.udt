@@ -1,0 +1,20 @@
+﻿TYPE "UDT_ZC_MARCHA_PARO_SEC"
+VERSION : 0.1
+   STRUCT
+      SecParoCompletada : Bool := TRUE;   // Secuencia paro completada
+      SecMarchaCompletada : Bool := FALSE;   // Secuencia marcha completada
+      NumElementos : Int := 4;   // Numero de elementos
+      Etapa : Int := 0;   // Etapa actual secuencia
+      TiempoEntreMarcha : USInt := 5;   // Tiempo entre activacion de marcas
+      TiempoEntreParo : USInt := 5;
+      Tiempo : Struct
+         Activar : Bool;   // Activar tiempo
+         SetPoint : Int;   // Set point tiempo
+         Actual : Int;   // Tiempo actual
+         Restante : Int;   // Tiempo restante
+      END_STRUCT;
+      M : Array[1..8] of Bool;
+   END_STRUCT;
+
+END_TYPE
+

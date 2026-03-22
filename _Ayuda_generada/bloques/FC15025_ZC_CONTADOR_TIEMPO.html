@@ -23,116 +23,10 @@
     </h1>
 
     
-        <h3>Descripción General</h3>
-        <p style="white-space: pre-wrap;">Nombre:         #FC15025_ZC_CONTADOR_TIEMPO
-Descripcion:    Funcion #Contador de tiempo.</p>
-        
-        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
-            <strong>Notas y Restricciones:</strong>
-            <p style="white-space: pre-wrap; margin-bottom: 0;">Software:       TIA Portal 16
-Restricciones:  PLC serie 1200/1500</p>
-        </div>
-        
-    
-</div>
-
-
-<div class="doc-section" id="dependencias">
-    <h3>Dependencias</h3>
-    <table>
-        <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
-        
-            
-                <tr>
-                    <td><strong>FC</strong></td>
-                    <td>
-                        
-                            FC15001_ZC_INT_TO_STRING
-                        
-                    </td>
-                </tr>
-            
-        
-            
-                <tr>
-                    <td><strong>DB</strong></td>
-                    <td>
-                        
-                            DB1_SYS
-                        
-                    </td>
-                </tr>
-            
-        
-            
-                <tr>
-                    <td><strong>UDT</strong></td>
-                    <td>
-                        
-                            ZC_CONTADOR_TIEMPO
-                        
-                    </td>
-                </tr>
-            
-        
-    </table>
 </div>
 
 
 
-<div class="doc-section" id="changelog">
-    <h3>Historial de Cambios (Changelog)</h3>
-    <table>
-        <tr>
-        
-            <th>Version</th>
-        
-            <th>Fecha</th>
-        
-            <th>Tecnico a cargo</th>
-        
-            <th>Descripcion</th>
-        
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.00</td>
-            
-            <td>16.03.2023</td>
-            
-            <td>(HCR)</td>
-            
-            <td>Primera version</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>01.00.01</td>
-            
-            <td>25.07.2023</td>
-            
-            <td>(HCR)</td>
-            
-            <td>Se añade valor maximo DINT para limitar contador horas. En caso de alcanzar valor maximo,</td>
-            
-        </tr>
-        
-        <tr>
-            
-            <td>se resetea el contador de horas.</td>
-            
-            <td></td>
-            
-            <td></td>
-            
-            <td></td>
-            
-        </tr>
-        
-    </table>
-</div>
 
 
 
@@ -165,14 +59,7 @@ Restricciones:  PLC serie 1200/1500</p>
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_IN_OUT</span></td>
             <td><strong>Contador</strong></td>
-            <td>"ZC_CONTADOR_TIEMPO"</td>
-            <td></td>
-        </tr>
-        
-        <tr>
-            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
-            <td><strong>borrar</strong></td>
-            <td>String</td>
+            <td>"UDT_ZC_CONTADOR_TIEMPO"</td>
             <td></td>
         </tr>
         
@@ -199,16 +86,14 @@ Restricciones:  PLC serie 1200/1500</p>
     
     
     
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de resetear el tiempo del contador</p>
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
     
     
     
         <pre class="scl-code" style="margin-bottom: 0;">REGION RESET_CONTADOR
-    IF #Reset OR "DB1_SYS".ACK OR #Contador.Hora >= #MAX_HORAS THEN
+    IF #Reset OR #Contador.Hora >= #MAX_HORAS THEN
         #Contador.Hora := #Contador.Minuto := #Contador.Segundo := 0;
     END_IF;
-
-    #borrar := "FC15001_ZC_INT_TO_STRING"(10);
 END_REGION</pre>
     
     
@@ -229,7 +114,7 @@ END_REGION</pre>
     
     
     
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">Este bloque se encarga de gestionar el contaje del contador, incrementando mediante la entrada #Pulso1seg</p>
+        <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
     
     
     
@@ -274,11 +159,7 @@ VERSION : 1.0
    END_VAR
 
    VAR_IN_OUT 
-      Contador : &#34;ZC_CONTADOR_TIEMPO&#34;;
-   END_VAR
-
-   VAR_TEMP 
-      borrar : String;
+      Contador : &#34;UDT_ZC_CONTADOR_TIEMPO&#34;;
    END_VAR
 
    VAR CONSTANT 
@@ -287,71 +168,44 @@ VERSION : 1.0
 
 
 BEGIN
-	//==========================================================================================================
-	/// &lt;Header&gt;
-	(*
+	(*  
 	ZEUS CONTROL, S.A.
 	(c)Copyright (2023) All Rights Reserved
-	*)
-	/// &lt;/Header&gt;
+	-----------------------------------------------------------------------------
 	
-	/// &lt;Summary&gt;
-	(* 
-	Nombre:         #FC15025_ZC_CONTADOR_TIEMPO
-	Descripcion:    Funcion #Contador de tiempo.
-	*)
-	/// &lt;/Summary&gt;
-	
-	/// &lt;Remarks&gt; 
-	(*
-	Software:       TIA Portal 16
+	Software:       TIA Portal 15.1
 	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC15025_ZC_CONTADOR_TIEMPO
+	Descripcion:    Funcion contador de tiempo.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        ZC_CONTADOR_TIEMPO
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    16.03.2023  (HCR)               Primera version
+	    01.00.01    25.07.2023  (HCR)               Se añade valor maximo DINT para limitar contador horas. En caso de alcanzar valor maximo,
+	                                                se resetea el contador de horas.
+	    
+	//=====================================================================================
 	*)
-	/// &lt;/Remarks&gt;
-	
-	/// &lt;Requires&gt;
-(*
-FC:  FC15001_ZC_INT_TO_STRING
-DB:  DB1_SYS
-UDT: ZC_CONTADOR_TIEMPO
-*)
-/// &lt;/Requires&gt;
-	
-	/// &lt;Changelog&gt;
-	(*
-	
-	Version     Fecha       Tecnico a cargo     Descripcion
-	
-	01.00.00    16.03.2023  (HCR)               Primera version
-	01.00.01    25.07.2023  (HCR)               Se añade valor maximo DINT para limitar contador horas. En caso de alcanzar valor maximo,
-	                                            se resetea el contador de horas. 
-	*)
-	/// &lt;/Changelog&gt;
-	//==========================================================================================================
 	
 	
-	//==========================================================================================================
-	/// &lt;RegionDoc&gt;
-	(* 
-	Este bloque se encarga de resetear el tiempo del contador
-	*)
-	/// &lt;/RegionDoc&gt;
 	REGION RESET_CONTADOR  
 	    
-	    IF #Reset OR &#34;DB1_SYS&#34;.ACK OR #Contador.Hora &gt;= #MAX_HORAS THEN
+	    IF #Reset OR #Contador.Hora &gt;= #MAX_HORAS THEN
 	        #Contador.Hora := #Contador.Minuto := #Contador.Segundo := 0;
 	    END_IF;
 	    
-	    #borrar := &#34;FC15001_ZC_INT_TO_STRING&#34;(10);
 	END_REGION
 	
 	
-	//==========================================================================================================
-	/// &lt;RegionDoc&gt;
-	(* 
-	Este bloque se encarga de gestionar el contaje del contador, incrementando mediante la entrada #Pulso1seg
-	*)
-	/// &lt;/RegionDoc&gt;
 	REGION GESTION_CONTADOR
 	    
 	    IF #Iniciar AND #Pulso1seg THEN

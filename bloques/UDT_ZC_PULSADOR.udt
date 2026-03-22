@@ -1,0 +1,13 @@
+﻿TYPE "UDT_ZC_PULSADOR"
+VERSION : 0.1
+   STRUCT
+      Hmi : Bool;   // Orden desde Sistema de Control
+      Plc : Bool;   // Orden en PLC
+      Permiso : Bool;   // Permiso
+      Visibilidad : Bool;   // Visibilidad
+      AuxPulso : Bool;
+      AuxTiempo : Int;
+   END_STRUCT;
+
+END_TYPE
+

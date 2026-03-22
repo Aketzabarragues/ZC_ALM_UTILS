@@ -1,0 +1,160 @@
+﻿FUNCTION "FC15006_ZC_DTL_TO_STRING" : String
+TITLE = FC15006_ZC_DTL_TO_STRING
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.1
+//Funcion para convertir DTL a STRING
+   VAR_INPUT 
+      FechaDTL {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      Formato : USInt;   // 0= Fecha y hora / 1= Fecha / 2= hORA
+   END_VAR
+
+   VAR_TEMP 
+      t_Ano : String[5];
+      t_Mes : String[3];
+      t_Dia : String[3];
+      t_Hora : String[3];
+      t_Minuto : String[3];
+      t_Segundo : String[3];
+      t_Nanosegundo : String[50];
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2019) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	 
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	 
+	Nombre:         FC15006_ZC_DTL_TO_STRING
+	Descripcion:    Conversion de DTL a String para obtener la fecha y la hora
+	 
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    DB:         -
+	    UDT:        -
+	 
+	Change log:
+	 
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    01.00.00    10.09.2019  (ABH)               Primera version
+	    01.00.01    25.07.2023  (ABH)               Se eliminan las variables temporales STRING, para concatenar
+	                                                directamente en el return de la funcion el texto deseado.
+	//=====================================================================================
+	*)
+	
+	REGION GESTION_STRING
+	    
+	    // Genero un String por cada elemento
+	    #t_Ano := UINT_TO_STRING(#FechaDTL.YEAR);
+	    #t_Mes := USINT_TO_STRING(#FechaDTL.MONTH);
+	    #t_Dia := USINT_TO_STRING(#FechaDTL.DAY);
+	    #t_Hora := USINT_TO_STRING(#FechaDTL.HOUR);
+	    #t_Minuto := USINT_TO_STRING(#FechaDTL.MINUTE);
+	    #t_Segundo := USINT_TO_STRING(#FechaDTL.SECOND);
+	    #t_Nanosegundo := UDINT_TO_STRING(#FechaDTL.NANOSECOND);
+	    
+	    // TRATAMIENTO DE LA FECHA
+	    // Año
+	    #t_Ano := DELETE(IN := #t_Ano, L := 1, P := 1);// Le borro el signo
+	    // Mes
+	    IF #FechaDTL.MONTH < 10 THEN
+	        #t_Mes := DELETE(IN := #t_Mes, L := 1, P := 1);// Le borro el signo
+	        #t_Mes := CONCAT(IN1 := '0', IN2 := #t_Mes);// Le añado un cero
+	    ELSE
+	        #t_Mes := DELETE(IN := #t_Mes, L := 1, P := 1);// Le borro el signo
+	    END_IF;
+	    // Dia
+	    IF #FechaDTL.DAY < 10 THEN
+	        #t_Dia := DELETE(IN := #t_Dia, L := 1, P := 1);// Le borro el signo
+	        #t_Dia := CONCAT(IN1 := '0', IN2 := #t_Dia);// Le añado un cero
+	    ELSE
+	        #t_Dia := DELETE(IN := #t_Dia, L := 1, P := 1);// Le borro el signo
+	    END_IF;
+	    // TRATAMIENTO DE LA HORA
+	    // Horas
+	    IF #FechaDTL.HOUR < 10 THEN
+	        #t_Hora := DELETE(IN := #t_Hora, L := 1, P := 1);// Le borro el signo
+	        #t_Hora := CONCAT(IN1 := '0', IN2 := #t_Hora);// Le añado un cero
+	    ELSE
+	        #t_Hora := DELETE(IN := #t_Hora, L := 1, P := 1);// Le borro el signo
+	    END_IF;
+	    // Minutos
+	    IF #FechaDTL.MINUTE < 10 THEN
+	        #t_Minuto := DELETE(IN := #t_Minuto, L := 1, P := 1);// Le borro el signo
+	        #t_Minuto := CONCAT(IN1 := '0', IN2 := #t_Minuto);// Le añado un cero
+	    ELSE
+	        #t_Minuto := DELETE(IN := #t_Minuto, L := 1, P := 1);// Le borro el signo
+	    END_IF;
+	    // Segundos
+	    IF #FechaDTL.SECOND < 10 THEN
+	        #t_Segundo := DELETE(IN := #t_Segundo, L := 1, P := 1);// Le borro el signo
+	        #t_Segundo := CONCAT(IN1 := '0', IN2 := #t_Segundo);// Le añado un cero
+	    ELSE
+	        #t_Segundo := DELETE(IN := #t_Segundo, L := 1, P := 1);// Le borro el signo
+	    END_IF;
+	    // Nanosegundos
+	    IF #FechaDTL.NANOSECOND < 10 THEN
+	        #t_Nanosegundo := DELETE(IN := #t_Nanosegundo, L := 1, P := 1);// Le borro el signo
+	        #t_Nanosegundo := LEFT(IN := CONCAT(IN1 := '0', IN2 := #t_Nanosegundo), L := 5);// Le añado un cero
+	    ELSE
+	        #t_Nanosegundo := LEFT(IN := DELETE(IN := #t_Nanosegundo, L := 1, P := 1), L := 5);// Le borro el signo
+	    END_IF;
+	END_REGION
+	
+	
+	REGION SALIDAS
+	    CASE #Formato OF
+	        0:  //  Fecha y hora
+	            #FC15006_ZC_DTL_TO_STRING := CONCAT(IN1 := #t_Dia,
+	                                                IN2 := '/',
+	                                                IN3 := #t_Mes,
+	                                                IN4 := '/',
+	                                                IN5 := #t_Ano,
+	                                                IN6 := ' ',
+	                                                IN7 := #t_Hora,
+	                                                IN8 := ':',
+	                                                IN9 := #t_Minuto,
+	                                                IN10 := ':',
+	                                                IN11 := #t_Segundo);
+	        1:  //  Fecha
+	            #FC15006_ZC_DTL_TO_STRING := CONCAT(IN1 := #t_Dia,
+	                                                IN2 := '/',
+	                                                IN3 := #t_Mes,
+	                                                IN4 := '/',
+	                                                IN5 := #t_Ano);
+	        2:  //  Hora
+	            #FC15006_ZC_DTL_TO_STRING := CONCAT(IN1 := #t_Hora,
+	                                                IN2 := ':',
+	                                                IN3 := #t_Minuto,
+	                                                IN4 := ':',
+	                                                IN5 := #t_Segundo);
+	        3:  //  Fecha y hora (nanosegundo)
+	            #FC15006_ZC_DTL_TO_STRING := CONCAT(IN1 := #t_Ano,
+	                                                IN2 := #t_Mes,
+	                                                IN3 := #t_Dia,
+	                                                IN4 := #t_Hora,
+	                                                IN5 := #t_Minuto,
+	                                                IN6 := #t_Segundo,
+	                                                IN7 := #t_Nanosegundo);
+	        ELSE
+	            #FC15006_ZC_DTL_TO_STRING := CONCAT(IN1 := #t_Dia,
+	                                                IN2 := '/',
+	                                                IN3 := #t_Mes,
+	                                                IN4 := '/',
+	                                                IN5 := #t_Ano,
+	                                                IN6 := ' ',
+	                                                IN7 := #t_Hora,
+	                                                IN8 := ':',
+	                                                IN9 := #t_Minuto,
+	                                                IN10 := ':',
+	                                                IN11 := #t_Segundo);
+	    END_CASE;
+	END_REGION
+END_FUNCTION
+

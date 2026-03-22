@@ -1,0 +1,17 @@
+﻿TYPE "UDT_ZC_CONTADORES_PRODUCCION"
+VERSION : 0.1
+   STRUCT
+      LitrosEntrada : LReal;   // Litros de entrada
+      LitrosConcentrado : LReal;   // Litros de concentrado
+      LitrosPermeado : LReal;   // Litros de permeado
+      FCV : Real;   // Factor de concentradion
+      Brix : LReal;   // Media de grados BRIX
+      TempAlimentacion : LReal;   // Temperatura alimentacion
+      TempConcentrado : LReal;   // Temperatura Concentrado
+      TempPermeado : LReal;   // Temperatura Permeado
+      FechaInicio { S7_SetPoint := 'False'} : "UDT_ZC_FECHA";   // Fecha de inicio de produccion
+      FechaFin { S7_SetPoint := 'False'} : "UDT_ZC_FECHA";   // Fecha de fin produccion
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,25 @@
+﻿TYPE "UDT_ZC_RECETA_CIP_DESINF_LIMP"
+VERSION : 0.1
+   STRUCT
+      TiempoEmpujeADestino : Int;   // DESINF LIMP. Tiempo de empuje a destino
+      TiempoMaxVaciadoDestino : Int;   // DESINF LIMP. Tiempo Max vaciado destino
+      TiempoEmpujeDestinoACCIP : Int;   // DESINF LIMP. Tiempoi empuje desde equipo a CIP
+      TiempoLimpieza : Int;   // DESINF LIMP. Tiempo Limpieza
+      TiempoMaxInundar : Int;   // DESINF LIMP. 
+      TiempoInundadoNormal : Int;   // DESINF LIMP. 
+      TipoPreDESINFion : Int;   // DESINF LIMP. 0= Tanque completo / 1= Por volumen
+      TipoDosificación : Int;   // DESINF LIMP. 0= Normal / 1= Baja
+      TipoLimpieza : Int;   // DESINF LIMP. 0= Indundar / 1= Recircular
+      ReservaInt_1 : Int;   // DESINF LIMP. 
+      ReservaInt_2 : Int;   // DESINF LIMP. 
+      ReservaInt_3 : Int;   // DESINF LIMP. 
+      ConductividadInundar : Real;   // DESINF LIMP. Conductividad de indundar
+      ConductividadDrenaje : Real;   // DESINF LIMP. Conductividad para Drenaje
+      VolumenPreDESINFion : Real;   // DESINF LIMP. Volumen de preDESINFión
+      ConductividadLimpiezaOk : Real;   // DESINF LIMP. Conductividad limpieza Ok
+      ReservaReal_2 : Real;   // DESINF LIMP. 
+      ReservaReal_3 : Real;   // DESINF LIMP. 
+   END_STRUCT;
+
+END_TYPE
+

@@ -1,0 +1,26 @@
+﻿TYPE "UDT_ZC_INF_CPR_PROD"
+VERSION : 0.1
+   STRUCT
+      FechaInicio { S7_SetPoint := 'False'} : "UDT_ZC_FECHA";
+      FechaFin { S7_SetPoint := 'False'} : "UDT_ZC_FECHA";
+      Descarga : Struct
+         TipoProceso : Int;
+         Destino : Int;
+         Producto : Int;
+         Producto1Destino : Int;
+         Producto2Destino : Int;
+         KilosSP : Real;
+         KilosDescargados : Real;
+         DensidadMedia : LReal;
+         TemperaturaMediaDescarga : LReal;
+         TemperaturaMediaEnfriamiento : LReal;
+         Nombre : String[40];
+         Matricula : String[10];
+         LetraQ : String[10];
+         EmpujeRealizado : Bool;
+         AclaradoRealizado : Bool;
+      END_STRUCT;
+   END_STRUCT;
+
+END_TYPE
+

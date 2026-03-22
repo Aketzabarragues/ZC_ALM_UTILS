@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FB15990_ZC_FAT_DI</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FB
+        </span>
+        FB15990_ZC_FAT_DI
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>ByteEntrada</strong></td>
+            <td>DInt := 0</td>
+            <td>Direccion Byte entrada</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Area</strong></td>
+            <td>Int := 0</td>
+            <td>0= Input / 1= Output / 2= Marcas / 3= DB / 4= Periferia</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_0</strong></td>
+            <td>Bool</td>
+            <td>Bit 0</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_1</strong></td>
+            <td>Bool</td>
+            <td>Bit 1</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_2</strong></td>
+            <td>Bool</td>
+            <td>Bit 2</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_3</strong></td>
+            <td>Bool</td>
+            <td>Bit 3</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_4</strong></td>
+            <td>Bool</td>
+            <td>Bit 4</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_5</strong></td>
+            <td>Bool</td>
+            <td>Bit 5</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_6</strong></td>
+            <td>Bool</td>
+            <td>Bit 6</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_OUTPUT</span></td>
+            <td><strong>Input_7</strong></td>
+            <td>Bool</td>
+            <td>Bit 7</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_Area</strong></td>
+            <td>Byte</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>INPUT</strong></td>
+            <td>Byte := 16#81</td>
+            <td>Input</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>OUTPUT</strong></td>
+            <td>Byte := 16#82</td>
+            <td>Output</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>MARCAS</strong></td>
+            <td>Byte := 16#83</td>
+            <td>Marcas</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>PERIFERIA</strong></td>
+            <td>Byte := 16#1</td>
+            <td>Entrada de periferia (solo S7-1500)</td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION_BLOCK &#34;FB15990_ZC_FAT_DI&#34;
+TITLE = FB15990_ZC_FAT_DI
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para pruebas de entradas digitales
+   VAR_INPUT 
+      ByteEntrada { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : DInt := 0;   // Direccion Byte entrada
+      Area { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Int := 0;   // 0= Input / 1= Output / 2= Marcas / 3= DB / 4= Periferia
+   END_VAR
+
+   VAR_OUTPUT 
+      Input_0 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 0
+      Input_1 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 1
+      Input_2 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 2
+      Input_3 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 3
+      Input_4 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 4
+      Input_5 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 5
+      Input_6 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 6
+      Input_7 { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Bool;   // Bit 7
+   END_VAR
+
+   VAR_TEMP 
+      t_Area : Byte;
+      t_Input : Byte;
+   END_VAR
+
+   VAR CONSTANT 
+      INPUT : Byte := 16#81;   // Input
+      OUTPUT : Byte := 16#82;   // Output
+      MARCAS : Byte := 16#83;   // Marcas
+      &#34;DB&#34; : Byte := 16#84;   // DB
+      PERIFERIA : Byte := 16#1;   // Entrada de periferia (solo S7-1500)
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15990_ZC_FAT_DI
+	Descripcion:    Bloque de funcion para pruebas de entradas digitales
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        -
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    12.09.2023  (ABH)               Primera version.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	//  ===============================================================================================================
+	//  Gestion de tipo de entradas
+	CASE #Area OF
+	    0:  
+	        #t_Area := #INPUT;
+	    1:  
+	        #t_Area := #OUTPUT;
+	    2:
+	        #t_Area := #MARCAS;
+	    3:
+	        #t_Area := #DB;
+	    4:
+	        #t_Area := #PERIFERIA;
+	        
+	    ELSE
+	        #t_Area := #INPUT;
+	END_CASE;
+	
+	
+	//  ===============================================================================================================
+	//  Lectura de BYTE de entradas
+	#t_Input := PEEK_BYTE(area := #t_Area, dbNumber := 0, byteOffset := #ByteEntrada);
+	
+	
+	//  ===============================================================================================================
+	//  Gestion de salidas
+	#Input_0 := #t_Input.%X0;
+	#Input_1 := #t_Input.%X1;
+	#Input_2 := #t_Input.%X2;
+	#Input_3 := #t_Input.%X3;
+	#Input_4 := #t_Input.%X4;
+	#Input_5 := #t_Input.%X5;
+	#Input_6 := #t_Input.%X6;
+	#Input_7 := #t_Input.%X7;
+	
+	
+	
+END_FUNCTION_BLOCK
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

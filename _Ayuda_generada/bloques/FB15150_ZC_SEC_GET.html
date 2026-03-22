@@ -26,18 +26,6 @@
 </div>
 
 
-<div class="doc-section" id="dependencias">
-    <h3>Dependencias</h3>
-    <table>
-        <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
-        
-            
-                <tr><td colspan="2">Sin dependencias detectadas.</td></tr>
-            
-        
-    </table>
-</div>
-
 
 
 
@@ -70,9 +58,23 @@
         
         <tr>
             <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Pulso1Seg</strong></td>
+            <td>Bool</td>
+            <td>Pulso 1 segundo</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
             <td><strong>NumeroGet</strong></td>
-            <td>Int</td>
+            <td>Int := 1</td>
             <td>Numero de GET en la secuencia</td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>TiempoEspera</strong></td>
+            <td>Int := 10</td>
+            <td>Tiempo espera estado GET</td>
         </tr>
         
         <tr>
@@ -136,6 +138,13 @@
             <td><span style="font-size:11px; color:#666;">VAR</span></td>
             <td><strong>s_AlgunError</strong></td>
             <td>Bool := FALSE</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR</span></td>
+            <td><strong>s_TiempoEsperaActual</strong></td>
+            <td>Int</td>
             <td></td>
         </tr>
         
@@ -258,6 +267,7 @@ END_REGION</pre>
             #s_NumeroErrorGet[#for_i] := 0;
         END_FOR;
         #s_Etapa := #ETAPA_0_REPOSO;
+        #s_TiempoEsperaActual := 0;
     END_IF;
 
     IF #Habilitar AND #s_Etapa = 0 AND #s_NumeroGet > 0 AND #Iniciar THEN
@@ -269,7 +279,7 @@ END_REGION</pre>
             #Get_REQ[#for_i] := FALSE;
             #s_ErrorGet[#for_i] := FALSE;
         END_FOR;
-
+        #s_TiempoEsperaActual := 0;
     END_IF;
 END_REGION</pre>
     
@@ -330,19 +340,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[1] := FALSE;
             #s_NumeroDoneGet[1] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_2_PROCESANDO_GET_2;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[1].ERROR THEN
+        ELSIF #Get_Status[1].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[1] := TRUE;
             #Get_REQ[1] := FALSE;
             #s_NumeroErrorGet[1] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_2_PROCESANDO_GET_2;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -384,19 +401,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[2] := FALSE;
             #s_NumeroDoneGet[2] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_3_PROCESANDO_GET_3;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[2].ERROR THEN
+        ELSIF #Get_Status[2].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[2] := TRUE;
             #Get_REQ[2] := FALSE;
             #s_NumeroErrorGet[2] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_3_PROCESANDO_GET_3;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -438,19 +462,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[3] := FALSE;
             #s_NumeroDoneGet[3] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_4_PROCESANDO_GET_4;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[3].ERROR THEN
+        ELSIF #Get_Status[3].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[3] := TRUE;
             #Get_REQ[3] := FALSE;
             #s_NumeroErrorGet[3] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_4_PROCESANDO_GET_4;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -492,19 +523,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[4] := FALSE;
             #s_NumeroDoneGet[4] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_5_PROCESANDO_GET_5;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[4].ERROR THEN
+        ELSIF #Get_Status[4].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[4] := TRUE;
             #Get_REQ[4] := FALSE;
             #s_NumeroErrorGet[4] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_5_PROCESANDO_GET_5;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -546,19 +584,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[5] := FALSE;
             #s_NumeroDoneGet[5] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_6_PROCESANDO_GET_6;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[5].ERROR THEN
+        ELSIF #Get_Status[5].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[5] := TRUE;
             #Get_REQ[5] := FALSE;
             #s_NumeroErrorGet[5] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_6_PROCESANDO_GET_6;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -600,19 +645,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[6] := FALSE;
             #s_NumeroDoneGet[6] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_7_PROCESANDO_GET_7;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[6].ERROR THEN
+        ELSIF #Get_Status[6].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[6] := TRUE;
             #Get_REQ[6] := FALSE;
             #s_NumeroErrorGet[6] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_7_PROCESANDO_GET_7;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -654,19 +706,26 @@ END_REGION</pre>
             //  Quitamos la peticion
             #Get_REQ[7] := FALSE;
             #s_NumeroDoneGet[7] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_8_PROCESANDO_GET_8;
 
             //  En caso de error mostramos informacion
-        ELSIF #Get_Status[7].ERROR THEN
+        ELSIF #Get_Status[7].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
             #s_ErrorGet[7] := TRUE;
             #Get_REQ[7] := FALSE;
             #s_NumeroErrorGet[7] += 1;
+            #s_TiempoEsperaActual := 0;
             //   Saltamos al siguiente
             #s_Etapa := #ETAPA_8_PROCESANDO_GET_8;
 
         END_IF;
+
+        IF #Pulso1Seg THEN
+            #s_TiempoEsperaActual += 1;
+        END_IF;
+
     END_IF;
 END_REGION</pre>
     
@@ -702,17 +761,23 @@ END_REGION</pre>
         //  Quitamos la peticion
         #Get_REQ[8] := FALSE;
         #s_NumeroDoneGet[8] += 1;
+        #s_TiempoEsperaActual := 0;
         #s_Etapa := #ETAPA_0_REPOSO;
 
         //  En caso de error mostramos informacion
-    ELSIF #Get_Status[8].ERROR THEN
+    ELSIF #Get_Status[8].ERROR OR #s_TiempoEsperaActual >= #TiempoEspera THEN
 
         #s_ErrorGet[8] := TRUE;
         #Get_REQ[8] := FALSE;
         #s_NumeroErrorGet[8] += 1;
+        #s_TiempoEsperaActual := 0;
         //  Finalizamos la secuencia
         #s_Etapa := #ETAPA_0_REPOSO;
 
+    END_IF;
+
+    IF #Pulso1Seg THEN
+        #s_TiempoEsperaActual += 1;
     END_IF;
 END_REGION</pre>
     
@@ -775,12 +840,38 @@ TITLE = FB15150_ZC_SEC_GET
 AUTHOR : ABH
 FAMILY : ZeusControl
 VERSION : 1.0
-//Bloque de funcion para gestion de comunicaciones secuenciales GET.
+//ZEUS CONTROL, S.A.
+//(c)Copyright (2023) All Rights Reserved
+//--------------------------------------------------------------------------------------
+//
+//Software:       TIA Portal 16
+//Restricciones:  PLC serie 1200/1500
+//
+//Nombre:         FB15150_ZC_SEC_GET
+//Descripcion:    Bloque de funcion para gestion de comunicaciones secuenciales GET.
+//
+//Dependencias:   
+//    FC:         -
+//    FB:         -
+//    DB:         -
+//    UDT:        -
+//                                
+//
+//Change log:
+//
+//    Version     Fecha       Tecnico a cargo     Descripcion
+//    
+//    01.00.00    24.05.2023  (ABH)               Primera version
+//    01.00.01    21.09.2023  (ABH)               Cambio a SCL.
+//    
+////=====================================================================================
    VAR_INPUT 
       Habilitar : Bool := FALSE;   // Habilitacion General
       Iniciar : Bool;   // Iniciar secuencia
       Ack : Bool;   // Acuse general para resetear la secuencia
-      NumeroGet : Int;   // Numero de GET en la secuencia
+      Pulso1Seg : Bool;   // Pulso 1 segundo
+      NumeroGet { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Int := 1;   // Numero de GET en la secuencia
+      TiempoEspera { S7_HiddenAssignment := &#39;HideIfNoParamAssigned&#39;} : Int := 10;   // Tiempo espera estado GET
       Get_Status { S7_HiddenAssignment := &#39;Hide&#39;} : Array[1..8] of Struct
          NDR : Bool;   // GET 1 NDR
          ERROR : Bool;   // GET 1 ERROR
@@ -801,6 +892,11 @@ VERSION : 1.0
    VAR 
       s_AlgunError { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Bool := FALSE;
       s_NumeroGet { ExternalAccessible := &#39;False&#39;; ExternalVisible := &#39;False&#39;; ExternalWritable := &#39;False&#39;} : Int;
+   END_VAR
+   VAR RETAIN
+      s_TiempoEsperaActual : Int;
+   END_VAR
+   VAR 
       s_ErrorGet : Array[1..8] of Bool := [8(FALSE)];
    END_VAR
    VAR RETAIN
@@ -850,18 +946,13 @@ BEGIN
 	    
 	    01.00.00    24.05.2023  (ABH)               Primera version
 	    01.00.01    21.09.2023  (ABH)               Cambio a SCL.
+	    01.00.02    24.08.2025  (ABH)               Se añade tiempo espera para dar como error.
 	    
 	//=====================================================================================
 	*)
 	
 	
-	/// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION LIMITES
+	REGION LIMITES
 	    
 	    #s_NumeroGet := #NumeroGet;
 	    
@@ -875,13 +966,7 @@ REGION LIMITES
 	END_REGION
 	
 	
-	/// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION ORDEN_DE_INICIO
+	REGION ORDEN_DE_INICIO
 	    
 	    IF NOT #Habilitar OR #Ack THEN
 	        #s_AlgunError := FALSE;
@@ -892,6 +977,7 @@ REGION ORDEN_DE_INICIO
 	            #s_NumeroErrorGet[#for_i] := 0;
 	        END_FOR;
 	        #s_Etapa := #ETAPA_0_REPOSO;
+	        #s_TiempoEsperaActual := 0;
 	    END_IF;
 	    
 	    IF #Habilitar AND #s_Etapa = 0 AND #s_NumeroGet &gt; 0 AND #Iniciar THEN
@@ -903,19 +989,13 @@ REGION ORDEN_DE_INICIO
 	            #Get_REQ[#for_i] := FALSE;
 	            #s_ErrorGet[#for_i] := FALSE;
 	        END_FOR;
-	        
+	        #s_TiempoEsperaActual := 0;
 	    END_IF;
 	    
 	END_REGION
 	
 	
-	/// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION SECUENCIA
+	REGION SECUENCIA
 	    
 	    CASE #s_Etapa OF
 	            
@@ -923,13 +1003,7 @@ REGION SECUENCIA
 	            ;
 	        #ETAPA_1_PROCESANDO_GET_1:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_1
+	            REGION GET_1
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet = 0 THEN
@@ -946,32 +1020,33 @@ REGION GET_1
 	                        //  Quitamos la peticion
 	                        #Get_REQ[1] := FALSE;
 	                        #s_NumeroDoneGet[1] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_2_PROCESANDO_GET_2;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[1].ERROR THEN
+	                    ELSIF #Get_Status[1].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[1] := TRUE;
 	                        #Get_REQ[1] := FALSE;
 	                        #s_NumeroErrorGet[1] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_2_PROCESANDO_GET_2;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
 	            
 	        #ETAPA_2_PROCESANDO_GET_2:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_2
+	            REGION GET_2
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet &lt;= 1 THEN
@@ -988,19 +1063,26 @@ REGION GET_2
 	                        //  Quitamos la peticion
 	                        #Get_REQ[2] := FALSE;
 	                        #s_NumeroDoneGet[2] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_3_PROCESANDO_GET_3;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[2].ERROR THEN
+	                    ELSIF #Get_Status[2].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[2] := TRUE;
 	                        #Get_REQ[2] := FALSE;
 	                        #s_NumeroErrorGet[2] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_3_PROCESANDO_GET_3;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
@@ -1008,13 +1090,7 @@ REGION GET_2
 	            
 	        #ETAPA_3_PROCESANDO_GET_3:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_3
+	            REGION GET_3
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet &lt;= 2 THEN
@@ -1031,19 +1107,26 @@ REGION GET_3
 	                        //  Quitamos la peticion
 	                        #Get_REQ[3] := FALSE;
 	                        #s_NumeroDoneGet[3] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_4_PROCESANDO_GET_4;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[3].ERROR THEN
+	                    ELSIF #Get_Status[3].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[3] := TRUE;
 	                        #Get_REQ[3] := FALSE;
 	                        #s_NumeroErrorGet[3] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_4_PROCESANDO_GET_4;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
@@ -1051,13 +1134,7 @@ REGION GET_3
 	            
 	        #ETAPA_4_PROCESANDO_GET_4:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_4
+	            REGION GET_4
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet &lt;= 3 THEN
@@ -1074,32 +1151,33 @@ REGION GET_4
 	                        //  Quitamos la peticion
 	                        #Get_REQ[4] := FALSE;
 	                        #s_NumeroDoneGet[4] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_5_PROCESANDO_GET_5;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[4].ERROR THEN
+	                    ELSIF #Get_Status[4].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[4] := TRUE;
 	                        #Get_REQ[4] := FALSE;
 	                        #s_NumeroErrorGet[4] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_5_PROCESANDO_GET_5;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
 	            
 	        #ETAPA_5_PROCESANDO_GET_5:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_5
+	            REGION GET_5
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet &lt;= 4 THEN
@@ -1116,32 +1194,33 @@ REGION GET_5
 	                        //  Quitamos la peticion
 	                        #Get_REQ[5] := FALSE;
 	                        #s_NumeroDoneGet[5] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_6_PROCESANDO_GET_6;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[5].ERROR THEN
+	                    ELSIF #Get_Status[5].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[5] := TRUE;
 	                        #Get_REQ[5] := FALSE;
 	                        #s_NumeroErrorGet[5] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_6_PROCESANDO_GET_6;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
 	            
 	        #ETAPA_6_PROCESANDO_GET_6:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_6
+	            REGION GET_6
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet &lt;= 5 THEN
@@ -1158,32 +1237,33 @@ REGION GET_6
 	                        //  Quitamos la peticion
 	                        #Get_REQ[6] := FALSE;
 	                        #s_NumeroDoneGet[6] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_7_PROCESANDO_GET_7;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[6].ERROR THEN
+	                    ELSIF #Get_Status[6].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[6] := TRUE;
 	                        #Get_REQ[6] := FALSE;
 	                        #s_NumeroErrorGet[6] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_7_PROCESANDO_GET_7;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
 	            
 	        #ETAPA_7_PROCESANDO_GET_7:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_7
+	            REGION GET_7
 	                
 	                //  Comprobamos que esta configurado los datos del enlace S7
 	                IF #s_NumeroGet &lt;= 6 THEN
@@ -1200,19 +1280,26 @@ REGION GET_7
 	                        //  Quitamos la peticion
 	                        #Get_REQ[7] := FALSE;
 	                        #s_NumeroDoneGet[7] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_8_PROCESANDO_GET_8;
 	                        
 	                        //  En caso de error mostramos informacion
-	                    ELSIF #Get_Status[7].ERROR THEN
+	                    ELSIF #Get_Status[7].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                        
 	                        #s_ErrorGet[7] := TRUE;
 	                        #Get_REQ[7] := FALSE;
 	                        #s_NumeroErrorGet[7] += 1;
+	                        #s_TiempoEsperaActual := 0;
 	                        //   Saltamos al siguiente
 	                        #s_Etapa := #ETAPA_8_PROCESANDO_GET_8;
 	                        
 	                    END_IF;
+	                    
+	                    IF #Pulso1Seg THEN
+	                        #s_TiempoEsperaActual += 1;
+	                    END_IF;
+	                    
 	                END_IF;
 	                
 	            END_REGION
@@ -1220,13 +1307,7 @@ REGION GET_7
 	            
 	        #ETAPA_8_PROCESANDO_GET_8:
 	            
-	            /// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION GET_8
+	            REGION GET_8
 	                
 	                //  Lanzamos la orden del GET
 	                #Get_REQ[8] := TRUE;
@@ -1237,18 +1318,25 @@ REGION GET_8
 	                    //  Quitamos la peticion
 	                    #Get_REQ[8] := FALSE;
 	                    #s_NumeroDoneGet[8] += 1;
+	                    #s_TiempoEsperaActual := 0;
 	                    #s_Etapa := #ETAPA_0_REPOSO;
 	                    
 	                    //  En caso de error mostramos informacion
-	                ELSIF #Get_Status[8].ERROR THEN
+	                ELSIF #Get_Status[8].ERROR OR #s_TiempoEsperaActual &gt;= #TiempoEspera THEN
 	                    
 	                    #s_ErrorGet[8] := TRUE;
 	                    #Get_REQ[8] := FALSE;
 	                    #s_NumeroErrorGet[8] += 1;
+	                    #s_TiempoEsperaActual := 0;
 	                    //  Finalizamos la secuencia
 	                    #s_Etapa := #ETAPA_0_REPOSO;
 	                    
 	                END_IF;
+	                
+	                IF #Pulso1Seg THEN
+	                    #s_TiempoEsperaActual += 1;
+	                END_IF;
+	                
 	                
 	            END_REGION
 	            
@@ -1261,13 +1349,7 @@ REGION GET_8
 	END_REGION
 	
 	
-	/// &lt;Requires&gt;
-(*
-Sin dependencias detectadas.
-*)
-/// &lt;/Requires&gt;
-
-REGION SALIDAS
+	REGION SALIDAS
 	    
 	    #Finalizado := #s_Etapa = 0;
 	    #EnEjecuccion := #s_Etapa &lt;&gt; 0;

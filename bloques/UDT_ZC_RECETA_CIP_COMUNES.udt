@@ -1,0 +1,19 @@
+﻿TYPE "UDT_ZC_RECETA_CIP_COMUNES"
+VERSION : 0.1
+   STRUCT
+      TiempoAguaRecupADrenaje : Int;   // COMUN. Tiempo  de agua recuperada a drenaje
+      TiempoRetBombaInter : Int;   // COMUN. Tiempo de reatardo para bomba intermedia
+      TiempoAlarRet : Int;   // COMUN. Tiempo de alarma sin flujo de retorno
+      TiempoAutocBomInterON : Int;   // COMUN. Tiempo de autocebado bomba intermedia ON
+      TiempoAutocBomInterOFF : Int;   // COMUN. Tiempo de autocebado bomba intermedia OFF
+      IntentosAutocBomInter : Int;   // COMUN. Intentos autocebado bomba intermedia
+      ReservaInt_2 : Int;   // COMUN.
+      FreqBombaImpulsion : Real;   // COMUN. Frecuencia Bomba Impulsion
+      FreqBombaIntermedia : Real;   // COMUN. Frecuencia Bomba Intermedia
+      ReservaReal_1 : Real;   // COMUN.
+      TemperaturaAguaRecuperada : Real;   // COMUN. Temperatura de agua recuperada
+      TemperaturaHisteresis : Real;   // COMUN. Histeresis temperatura
+   END_STRUCT;
+
+END_TYPE
+

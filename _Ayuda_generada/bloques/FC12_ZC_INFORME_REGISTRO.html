@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FC12_ZC_INFORME_REGISTRO</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            <div class="doc-section">
+    <h1>
+        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
+        
+        
+            
+        
+        
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            FC
+        </span>
+        FC12_ZC_INFORME_REGISTRO
+    </h1>
+
+    
+</div>
+
+
+
+
+
+
+<div class="doc-section" id="interfaz">
+    <h3>Interfaz de Variables</h3>
+    <table>
+        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Registrar</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Codigo</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_1_Mes</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_1_DiaSemana</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_1_Minuto</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_1_NanoSegundo</strong></td>
+            <td>UDInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_2_Mes</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_2_DiaSemana</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_2_Minuto</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_2_NanoSegundo</strong></td>
+            <td>UDInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_3_Mes</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_3_DiaSemana</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_3_Minuto</strong></td>
+            <td>USInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Fecha_3_NanoSegundo</strong></td>
+            <td>UDInt</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>String_2</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>String_4</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>String_6</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>String_8</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>String_10</strong></td>
+            <td>String</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_2</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_4</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_6</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_8</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_10</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_12</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_14</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_16</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_18</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_20</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_22</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_24</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_26</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_28</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_30</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Bool_32</strong></td>
+            <td>Bool</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_2</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_4</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_6</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_8</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_10</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_12</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_14</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_16</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_18</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Real_20</strong></td>
+            <td>Real</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_2</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_4</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_6</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_8</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_10</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_12</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_14</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_16</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_18</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_INPUT</span></td>
+            <td><strong>Int_20</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td><span style="font-size:11px; color:#666;">VAR_TEMP</span></td>
+            <td><strong>t_dummy</strong></td>
+            <td>Int</td>
+            <td></td>
+        </tr>
+        
+    </table>
+</div>
+
+
+
+
+
+
+
+
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">﻿FUNCTION &#34;FC12_ZC_INFORME_REGISTRO&#34; : Void
+TITLE = FC12_ZC_INFORME_REGISTRO
+{ S7_Optimized_Access := &#39;TRUE&#39; }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para almacenar una traza en el buffer de informes
+   VAR_INPUT 
+      Registrar : USInt;
+      Tipo : Int;
+      Codigo : String;
+      Fecha_1_Ano : UInt;
+      Fecha_1_Mes : USInt;
+      Fecha_1_Dia : USInt;
+      Fecha_1_DiaSemana : USInt;
+      Fecha_1_Hora : USInt;
+      Fecha_1_Minuto : USInt;
+      Fecha_1_Segundo : USInt;
+      Fecha_1_NanoSegundo : UDInt;
+      Fecha_2_Ano : UInt;
+      Fecha_2_Mes : USInt;
+      Fecha_2_Dia : USInt;
+      Fecha_2_DiaSemana : USInt;
+      Fecha_2_Hora : USInt;
+      Fecha_2_Minuto : USInt;
+      Fecha_2_Segundo : USInt;
+      Fecha_2_NanoSegundo : UDInt;
+      Fecha_3_Ano : UInt;
+      Fecha_3_Mes : USInt;
+      Fecha_3_Dia : USInt;
+      Fecha_3_DiaSemana : USInt;
+      Fecha_3_Hora : USInt;
+      Fecha_3_Minuto : USInt;
+      Fecha_3_Segundo : USInt;
+      Fecha_3_NanoSegundo : UDInt;
+      String_1 : String;
+      String_2 : String;
+      String_3 : String;
+      String_4 : String;
+      String_5 : String;
+      String_6 : String;
+      String_7 : String;
+      String_8 : String;
+      String_9 : String;
+      String_10 : String;
+      Bool_1 : Bool;
+      Bool_2 : Bool;
+      Bool_3 : Bool;
+      Bool_4 : Bool;
+      Bool_5 : Bool;
+      Bool_6 : Bool;
+      Bool_7 : Bool;
+      Bool_8 : Bool;
+      Bool_9 : Bool;
+      Bool_10 : Bool;
+      Bool_11 : Bool;
+      Bool_12 : Bool;
+      Bool_13 : Bool;
+      Bool_14 : Bool;
+      Bool_15 : Bool;
+      Bool_16 : Bool;
+      Bool_17 : Bool;
+      Bool_18 : Bool;
+      Bool_19 : Bool;
+      Bool_20 : Bool;
+      Bool_21 : Bool;
+      Bool_22 : Bool;
+      Bool_23 : Bool;
+      Bool_24 : Bool;
+      Bool_25 : Bool;
+      Bool_26 : Bool;
+      Bool_27 : Bool;
+      Bool_28 : Bool;
+      Bool_29 : Bool;
+      Bool_30 : Bool;
+      Bool_31 : Bool;
+      Bool_32 : Bool;
+      Real_1 : Real;
+      Real_2 : Real;
+      Real_3 : Real;
+      Real_4 : Real;
+      Real_5 : Real;
+      Real_6 : Real;
+      Real_7 : Real;
+      Real_8 : Real;
+      Real_9 : Real;
+      Real_10 : Real;
+      Real_11 : Real;
+      Real_12 : Real;
+      Real_13 : Real;
+      Real_14 : Real;
+      Real_15 : Real;
+      Real_16 : Real;
+      Real_17 : Real;
+      Real_18 : Real;
+      Real_19 : Real;
+      Real_20 : Real;
+      Int_1 : Int;
+      Int_2 : Int;
+      Int_3 : Int;
+      Int_4 : Int;
+      Int_5 : Int;
+      Int_6 : Int;
+      Int_7 : Int;
+      Int_8 : Int;
+      Int_9 : Int;
+      Int_10 : Int;
+      Int_11 : Int;
+      Int_12 : Int;
+      Int_13 : Int;
+      Int_14 : Int;
+      Int_15 : Int;
+      Int_16 : Int;
+      Int_17 : Int;
+      Int_18 : Int;
+      Int_19 : Int;
+      Int_20 : Int;
+   END_VAR
+
+   VAR_TEMP 
+      t_dummy : Int;
+      t_fecha_vacia {InstructionName := &#39;DTL&#39;; LibVersion := &#39;1.0&#39;} : DTL;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2024) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	Software:       TIA Portal 18
+	Restricciones:  PLC serie 1200/1500
+	Nombre:         FC12_ZC_INFORME_REGISTRO
+	Descripcion:    Función para añadir registreo de informe
+	Dependencias:
+	    FC:         FC8_ZC_TRAZA_REGISTRO
+	    FB:         -
+	    DB:         DB11_INFORMES
+	    UDT:        -
+	Change log:
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    01.00.00    30.07.2024  (ABH)               Primera version
+	    01.00.01    11.09.2024  (ABH)               Se elimina la generacion de ID. Ahora es el Gestos el que se encarga de generarlo,
+	                                                para evitar el problema de generar dos informes en el mismo ciclo de PLC, ya que el
+	                                                ID al ser la fecha actual seria la misma y daria problemas.
+	    01.00.02    06.11.2025  (ABH)               Se corrige la escritura de hora si año seleccionado es 0.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	IF &#34;DB11_INFORMES&#34;.Gestion.HabilitacionGeneral THEN
+	    
+	    // =============================================================================
+	    //  Desplazamos los datos del buffer una posicion hacia abajo
+	    #t_dummy := MOVE_BLK_VARIANT(SRC := &#34;DB11_INFORMES&#34;.Buffer, COUNT := INT_TO_UDINT((&#34;N_MAX_INF_BUFFER&#34;)), SRC_INDEX := 0, DEST_INDEX := 1, DEST =&gt; &#34;DB11_INFORMES&#34;.Buffer);
+	    
+	    // =============================================================================
+	    //  Grabamos el nuevo registro
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Registrar := #Registrar;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Id := &#34;FC15006_ZC_DTL_TO_STRING&#34;(FechaDTL := &#34;DB1_SYS&#34;.FechaHoraActual, Formato := 3);
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Tipo := #Tipo;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Codigo := #Codigo;
+	    IF #Fecha_1_Ano = 0 THEN
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Ano := 1970;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Mes := 1;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Dia := 1;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.DiaSemana := 5;
+	    ELSE
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Ano := #Fecha_1_Ano;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Mes := #Fecha_1_Mes;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Dia := #Fecha_1_Dia;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.DiaSemana := #Fecha_1_DiaSemana;
+	    END_IF;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Hora := #Fecha_1_Hora;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Minuto := #Fecha_1_Minuto;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.Segundo := #Fecha_1_Segundo;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_1.NanoSegundo := #Fecha_1_NanoSegundo;
+	    IF #Fecha_2_Ano = 0 THEN
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Ano := 1970;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Mes := 1;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Dia := 1;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.DiaSemana := 5;
+	    ELSE
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Ano := #Fecha_2_Ano;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Mes := #Fecha_2_Mes;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Dia := #Fecha_2_Dia;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.DiaSemana := #Fecha_2_DiaSemana;
+	    END_IF;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Hora := #Fecha_2_Hora;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Minuto := #Fecha_2_Minuto;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.Segundo := #Fecha_2_Segundo;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_2.NanoSegundo := #Fecha_2_NanoSegundo;
+	    IF #Fecha_3_Ano = 0 THEN
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Ano := 1970;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Mes := 1;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Dia := 1;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.DiaSemana := 5;
+	    ELSE
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Ano := #Fecha_3_Ano;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Mes := #Fecha_3_Mes;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Dia := #Fecha_3_Dia;
+	        &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.DiaSemana := #Fecha_3_DiaSemana;
+	    END_IF;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Hora := #Fecha_3_Hora;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Minuto := #Fecha_3_Minuto;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.Segundo := #Fecha_3_Segundo;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Fecha_3.NanoSegundo := #Fecha_3_NanoSegundo;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_1 := #String_1;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_2 := #String_2;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_3 := #String_3;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_4 := #String_4;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_5 := #String_5;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_6 := #String_6;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_7 := #String_7;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_8 := #String_8;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_9 := #String_9;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].String_10 := #String_10;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_1 := #Bool_1;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_2 := #Bool_2;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_3 := #Bool_3;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_4 := #Bool_4;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_5 := #Bool_5;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_6 := #Bool_6;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_7 := #Bool_7;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_8 := #Bool_8;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_9 := #Bool_9;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_10 := #Bool_10;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_11 := #Bool_11;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_12 := #Bool_12;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_13 := #Bool_13;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_14 := #Bool_14;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_15 := #Bool_15;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_16 := #Bool_16;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_17 := #Bool_17;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_18 := #Bool_18;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_19 := #Bool_19;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_20 := #Bool_20;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_21 := #Bool_21;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_22 := #Bool_22;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_23 := #Bool_23;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_24 := #Bool_24;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_25 := #Bool_25;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_26 := #Bool_26;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_27 := #Bool_27;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_28 := #Bool_28;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_29 := #Bool_29;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_30 := #Bool_30;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_31 := #Bool_31;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Bool_32 := #Bool_32;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_1 := #Real_1;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_2 := #Real_2;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_3 := #Real_3;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_4 := #Real_4;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_5 := #Real_5;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_6 := #Real_6;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_7 := #Real_7;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_8 := #Real_8;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_9 := #Real_9;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_10 := #Real_10;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_11 := #Real_11;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_12 := #Real_12;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_13 := #Real_13;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_14 := #Real_14;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_15 := #Real_15;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_16 := #Real_16;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_17 := #Real_17;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_18 := #Real_18;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_19 := #Real_19;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Real_20 := #Real_20;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_1 := #Int_1;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_2 := #Int_2;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_3 := #Int_3;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_4 := #Int_4;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_5 := #Int_5;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_6 := #Int_6;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_7 := #Int_7;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_8 := #Int_8;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_9 := #Int_9;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_10 := #Int_10;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_11 := #Int_11;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_12 := #Int_12;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_13 := #Int_13;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_14 := #Int_14;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_15 := #Int_15;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_16 := #Int_16;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_17 := #Int_17;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_18 := #Int_18;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_19 := #Int_19;
+	    &#34;DB11_INFORMES&#34;.Buffer[0].Int_20 := #Int_20;
+	END_IF;
+	
+END_FUNCTION
+
+</pre>
+</div>
+
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

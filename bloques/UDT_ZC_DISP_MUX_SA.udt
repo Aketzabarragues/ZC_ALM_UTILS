@@ -1,0 +1,13 @@
+﻿TYPE "UDT_ZC_DISP_MUX_SA"
+VERSION : 0.1
+   STRUCT
+      Habilitar : Bool := FALSE;   // Habilitar gestion multiplexado
+      ExisteCambio : Bool := FALSE;   // Existe algun cambio
+      MaxVisible : Bool := FALSE;   // Visibilidad ultimo dispositivo
+      Index : Int := 0;   // Indice
+      oldIndex : Int := 0;   // Auxiliar indice
+      SA { S7_SetPoint := 'False'} : "UDT_ZC_DISP_SA";
+   END_STRUCT;
+
+END_TYPE
+

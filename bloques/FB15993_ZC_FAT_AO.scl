@@ -1,0 +1,126 @@
+﻿FUNCTION_BLOCK "FB15993_ZC_FAT_AO"
+TITLE = FB15993_ZC_FAT_AO
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Bloque de funcion para pruebas de salidas analogicas
+   VAR_INPUT 
+      ByteSalida { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : DInt := 0;   // Direccion Byte entrada
+      Area { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Int := 1;   // 0= Input / 1= Output / 2= Marcas / 3= DB / 4= Periferia
+   END_VAR
+
+   VAR_OUTPUT 
+      Salida_Raw { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : DInt;   // Valor bruto del canal
+   END_VAR
+
+   VAR_IN_OUT 
+      Salida_0_100 { S7_HiddenAssignment := 'HideIfNoParamAssigned'} : Real;   // Valor en porcentaje
+   END_VAR
+
+   VAR RETAIN
+      s_oldByteSalida : DInt;
+   END_VAR
+
+   VAR_TEMP 
+      t_Area : Byte;
+      t_Salida : Int;
+      t_Salida_0_100 : Real;
+   END_VAR
+
+   VAR CONSTANT 
+      INPUT : Byte := 16#81;   // Input
+      OUTPUT : Byte := 16#82;   // Output
+      MARCAS : Byte := 16#83;   // Marcas
+      "DB" : Byte := 16#84;   // DB
+      PERIFERIA : Byte := 16#1;   // Entrada de periferia (solo S7-1500)
+      VALOR_MAX_TARJETA : Real := 27648.0;   // Valor maximo de tarjeta
+      VALOR_CERO : Word;
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FB15993_ZC_FAT_AO
+	Descripcion:    Bloque de funcion para pruebas de salidas analogicas.
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        -
+	    DB:         -
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    12.09.2023  (ABH)               Primera version.
+	    01.00.01    24.05.2024  (ABH)               Se añade gestion desactivacion de salidas al cambio de direccion.
+	   
+	//=====================================================================================
+	*)
+	
+	
+	//  ===============================================================================================================
+	//  Gestion de tipo de entradas
+	CASE #Area OF
+	    0:  
+	        #t_Area := #INPUT;
+	    1:  
+	        #t_Area := #OUTPUT;
+	    2:
+	        #t_Area := #MARCAS;
+	    3:
+	        #t_Area := #DB;
+	    4:
+	        #t_Area := #PERIFERIA;
+	        
+	    ELSE
+	        #t_Area := #INPUT;
+	END_CASE;
+	
+	
+	//  ===============================================================================================================
+	//  Calculo de valor puntos tarjeta en base a porcentaje
+	#t_Salida_0_100 := #Salida_0_100;
+	IF #t_Salida_0_100 < 0.0 THEN
+	    #t_Salida_0_100 := 0.0;
+	END_IF;
+	IF #t_Salida_0_100 > 100.0 THEN
+	    #t_Salida_0_100 := 100.0;
+	END_IF;
+	#t_Salida := REAL_TO_INT((#t_Salida_0_100 * #VALOR_MAX_TARJETA)/100);
+	
+	
+	//  ===============================================================================================================
+	//  Gestion desactivacion salidas al cambio de direccion
+	IF #s_oldByteSalida <> #ByteSalida THEN
+	    POKE(area := 16#82,
+	         dbNumber := 0,
+	         byteOffset := #s_oldByteSalida,
+	         value := #VALOR_CERO);
+	    #Salida_0_100 := 0;
+	END_IF;
+	
+	//  ===============================================================================================================
+	//  Escritura de salida analogica
+	POKE(area := 16#82,
+	dbNumber := 0,
+	byteOffset := #ByteSalida,
+	value := INT_TO_WORD(#t_Salida));
+	
+	//  ===============================================================================================================
+	//  Gestion de salidas
+	#Salida_Raw := #t_Salida;
+	
+	#s_oldByteSalida := #ByteSalida;
+	
+END_FUNCTION_BLOCK
+
