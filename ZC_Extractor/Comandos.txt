@@ -1,8 +1,0 @@
-Crear exe
-
-pyinstaller --noconfirm --onefile --console --name "ZC_Extractor" "main.py"
-
-
-Ejecutar para probar
-
-Python main.py --path "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\Definicion_programacion.xlsm"

@@ -1,9 +1,0 @@
-﻿TYPE "UDT_ZC_MUX"
-VERSION : 0.1
-   STRUCT
-      Index : Int := 1;
-      MaxVisible : Bool := FALSE;
-   END_STRUCT;
-
-END_TYPE
-
