@@ -25,19 +25,36 @@
             <div class="search-box"><input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarMenu()"></div>
             
             <ul class="nav-list" id="listaBloques">
-                <li class="titulo-seccion-menu">📚 MANUAL DE PROGRAMACIÓN</li>
                 
-                {{ manual_html | safe }}
+                <li>
+                    <div class="titulo-seccion-menu" onclick="toggleMenu(this.querySelector('.toggle-btn'))">
+                        <span class="toggle-btn"></span> 📚 MANUAL DE PROGRAMACIÓN
+                    </div>
+                    <ul class="nested" style="display: none;">
+                        {{ manual_html | safe }}
+                    </ul>
+                </li>
                 
-                <li class="titulo-seccion-menu" style="margin-top: 15px;">⚙️ FUNCIONES (FC Y FB)</li>
-                
-                {{ funciones_html | safe }}
+                <li>
+                    <div class="titulo-seccion-menu" onclick="toggleMenu(this.querySelector('.toggle-btn'))">
+                        <span class="toggle-btn"></span> ⚙️ FUNCIONES (FC Y FB)
+                    </div>
+                    <ul class="nested" style="display: none;">
+                        {{ funciones_html | safe }}
+                    </ul>
+                </li>
 
-                <li class="titulo-seccion-menu" style="margin-top: 15px;">💾 DATOS (DB Y UDT)</li>
-                
-                {{ datos_html | safe }}
+                <li>
+                    <div class="titulo-seccion-menu" onclick="toggleMenu(this.querySelector('.toggle-btn'))">
+                        <span class="toggle-btn"></span> 💾 DATOS (DB Y UDT)
+                    </div>
+                    <ul class="nested" style="display: none;">
+                        {{ datos_html | safe }}
+                    </ul>
+                </li>
                 
             </ul>
+
         </div>
 
         <div class="content-area">
@@ -105,17 +122,31 @@
             });
         });
 
-        // Desplegar/plegar carpetas
+        // Desplegar/plegar carpetas con colapso recursivo
         function toggleMenu(btn) {
             var li = btn.closest('li');
             var nestedUl = Array.from(li.children).find(c => c.classList.contains('nested'));
+            
             if (nestedUl) {
-                if (nestedUl.style.display === 'none') { 
+                // Si está cerrado (o sin estilo definido aún), lo abrimos
+                if (nestedUl.style.display === 'none' || nestedUl.style.display === '') { 
                     nestedUl.style.display = 'block'; 
-                    btn.classList.add('open'); // <-- Rota hacia abajo
-                } else { 
+                    btn.classList.add('open'); // Flecha hacia abajo
+                } 
+                // Si está abierto, lo cerramos y colapsamos TODO su contenido
+                else { 
                     nestedUl.style.display = 'none'; 
-                    btn.classList.remove('open'); // <-- Rota a la derecha
+                    btn.classList.remove('open'); // Flecha a la derecha
+                    
+                    // --- NUEVO: Magia recursiva para cerrar todo lo que hay debajo ---
+                    
+                    // 1. Ocultar todas las sub-listas (ul.nested) hijas
+                    let subUls = nestedUl.querySelectorAll('.nested');
+                    subUls.forEach(sub => sub.style.display = 'none');
+                    
+                    // 2. Quitar el estado 'open' a todos los sub-botones de flecha
+                    let subBtns = nestedUl.querySelectorAll('.toggle-btn');
+                    subBtns.forEach(subBtn => subBtn.classList.remove('open'));
                 }
             }
         }

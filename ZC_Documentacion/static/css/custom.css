@@ -95,16 +95,27 @@ body.layout-shell { overflow: hidden; display: flex; flex-direction: column; }
 
 .toggle-spacer { width: 16px; min-width: 16px; display: inline-block; }
 
-.menu-link { text-decoration: none; flex-grow: 1; outline: none; display: block; line-height: 1.3; font-size: 13px; color: #2c3e50 !important; }
+/* Enlaces generales del menú */
+.menu-link { 
+    text-decoration: none; 
+    flex-grow: 1; 
+    outline: none; 
+    display: block; 
+    line-height: 1.4; 
+    font-size: 12px; /* <-- Reducido de 13px a 12px para un aspecto más fino y profesional */
+    color: #34495e !important; 
+}
 .menu-link:hover { color: #005eb8 !important; }
+
+/* Solo el archivo que estamos viendo actualmente se pondrá en negrita y azul */
 .menu-item.activo-menu .menu-link { font-weight: 600 !important; color: #005eb8 !important; }
 
-/* Jerarquía de estilos en función del nivel (Python asigna estas clases) */
-.menu-link.level-1 { font-weight: 600; color: #1e2b3c !important; } 
-.menu-link.level-2 { font-weight: 400; color: #34495e !important; } 
-.menu-link.level-3, .menu-link.level-4 { font-weight: 400; color: #5d6d7e !important; font-style: italic; } 
+/* Jerarquía de estilos en función del nivel (Carpetas y archivos) */
+.menu-link.level-1 { font-weight: 500; color: #2c3e50 !important; }
+.menu-link.level-2 { font-weight: 400; color: #4a5a6a !important; } 
+.menu-link.level-3, .menu-link.level-4 { font-weight: 400; color: #7a8a9a !important; } 
 
-/* Títulos separadores (Manual vs Bloques SCL) */
+/* Títulos separadores (Manual vs Bloques SCL) 
 .titulo-seccion-menu { 
     background-color: #dbe2e8; 
     padding: 8px 15px; 
@@ -116,7 +127,30 @@ body.layout-shell { overflow: hidden; display: flex; flex-direction: column; }
     border-top: 1px solid #cdd6df;
     border-bottom: 1px solid #cdd6df;
 }
-.nested { display: block; } 
+.nested { display: block; } */
+
+/* Títulos separadores Principales (Colapsables) */
+.titulo-seccion-menu { 
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Pequeña separación entre la flecha y el texto */
+    background-color: #dbe2e8; /* Tu fondo gris original */
+    padding: 8px 10px; /* Alineado perfectamente con el padding de los elementos hijos */
+    font-weight: 600; 
+    color: #4a5a6a !important;
+    font-size: 11px; 
+    letter-spacing: 0.5px; 
+    text-transform: uppercase; 
+    border-top: 1px solid #cdd6df;
+    border-bottom: 1px solid #cdd6df;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.titulo-seccion-menu:hover {
+    background-color: #cdd6df; /* Un gris un pelín más oscuro al pasar el ratón */
+}
 
 /* ======================================================================================================================================= */
 /* === VISOR CENTRAL === */
