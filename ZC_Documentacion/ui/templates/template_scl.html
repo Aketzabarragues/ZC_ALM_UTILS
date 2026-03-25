@@ -1,148 +1,150 @@
 <div class="doc-section">
     <h1>
         {% set tipo_badge = "SCL" %}
-        {% if nombre_bloque.startswith('FB') %}
-            {% set tipo_badge = "FB" %}
-        {% elif nombre_bloque.startswith('FC') %}
-            {% set tipo_badge = "FC" %}
-        {% elif nombre_bloque.startswith('OB') %}
-            {% set tipo_badge = "OB" %}
+        {% if nombre_bloque.startswith('FB') %}{% set tipo_badge = "FB" %}
+        {% elif nombre_bloque.startswith('FC') %}{% set tipo_badge = "FC" %}
+        {% elif nombre_bloque.startswith('DB') %}{% set tipo_badge = "DB" %}
+        {% elif nombre_bloque.startswith('OB') %}{% set tipo_badge = "OB" %}
         {% endif %}
         
-        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
-            {{ tipo_badge }}
-        </span>
-        {{ nombre_bloque }}
+        <span class="scl-badge">{{ tipo_badge }}</span>{{ nombre_bloque }}
     </h1>
 
-    {% if etiquetas.Summary %}
-        <h3>Descripción General</h3>
-        <p style="white-space: pre-wrap;">{{ etiquetas.Summary }}</p>
-        {% if etiquetas.Remarks %}
-        <div style="margin-top:15px; padding:15px; background:#e8f4f8; border-left:4px solid #3498db; border-radius: 4px;">
-            <strong>Notas y Restricciones:</strong>
-            <p style="white-space: pre-wrap; margin-bottom: 0;">{{ etiquetas.Remarks }}</p>
-        </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; color: #475569; font-size: 0.95em; margin-top: 25px; background: #f1f5f9; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        
+        {% if etiquetas.Version_Bloque %}
+            <span><strong>Versión:</strong> {{ etiquetas.Version_Bloque }}</span>
+        {% elif changelog and changelog.filas %}
+            <span><strong>Versión:</strong> {{ changelog.filas[-1][0] }}</span>
         {% endif %}
+        
+        {% if changelog and changelog.filas %}
+            <span><strong>Fecha:</strong> {{ changelog.filas[-1][1] }}</span>
+        {% endif %}
+        
+        {% if etiquetas.Author_Bloque %}<span><strong>Autor:</strong> {{ etiquetas.Author_Bloque }}</span>
+        {% elif etiquetas.Author %}<span><strong>Autor:</strong> {{ etiquetas.Author }}</span>{% endif %}
+        
+        {% if etiquetas.Family_Bloque %}<span><strong>Familia:</strong> {{ etiquetas.Family_Bloque }}</span>
+        {% elif etiquetas['Library/Family'] %}<span><strong>Familia:</strong> {{ etiquetas['Library/Family'] }}</span>{% endif %}
+        
+        {% if etiquetas.Engineering %}<span><strong>Ingeniería:</strong> {{ etiquetas.Engineering }}</span>{% endif %}
+        {% if etiquetas['Tested on System'] %}<span><strong>Probado en:</strong> {{ etiquetas['Tested on System'] }}</span>{% endif %}
+    </div>
+
+    {% if etiquetas.Restrictions and etiquetas.Restrictions != '--' %}
+    <div style="margin-top:20px; padding:15px; background:#fff3cd; border-left:4px solid #ffc107; border-radius: 4px; color: #664d03;">
+        <strong>⚠️ Restricciones:</strong> {{ etiquetas.Restrictions }}
+    </div>
     {% endif %}
 </div>
 
-{% if dependencias %}
-<div class="doc-section" id="dependencias">
-    <h3>Dependencias</h3>
-    <table>
-        <tr><th>Tipo de Elemento</th><th>Nombre / Bloques</th></tr>
-        {% for dep in dependencias %}
-            {% if dep.tipo == 'normal' %}
-                <tr>
-                    <td><strong>{{ dep.clave }}</strong></td>
-                    <td>
-                        {% for elem in dep.elementos %}
-                            {% if elem.url %}
-                                <a href="{{ elem.url }}" style="color: #e74c3c; font-weight: bold; text-decoration: none;">{{ elem.nombre }}</a>
-                            {% else %}
-                                {{ elem.nombre }}
-                            {% endif %}
-                            
-                            {% if not loop.last %}, {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-            {% else %}
-                <tr><td colspan="2">{{ dep.valor }}</td></tr>
-            {% endif %}
-        {% endfor %}
-    </table>
+{% if etiquetas['Comment/Function'] %}
+<div class="doc-section" id="descripcion">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">1. Descripción Funcional</h2>
+    <p style="white-space: pre-wrap; color: #334155; margin-top: 15px;">{{ etiquetas['Comment/Function'] }}</p>
 </div>
 {% endif %}
 
 {% if changelog %}
 <div class="doc-section" id="changelog">
-    <h3>Historial de Cambios (Changelog)</h3>
-    <table>
-        <tr>
-        {% for cab in changelog.cabeceras %}
-            <th>{{ cab }}</th>
-        {% endfor %}
-        </tr>
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">2. Historial de Cambios</h2>
+    <table class="scl-table">
+        <thead>
+            <tr>
+            {% for cab in changelog.cabeceras %}
+                <th>{{ cab }}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
         {% for fila in changelog.filas %}
-        <tr>
-            {% for col in fila %}
-            <td>{{ col }}</td>
-            {% endfor %}
-        </tr>
+            <tr>
+                {% for col in fila %}
+                <td style="color: #475569 !important; font-weight: normal !important;">{{ col }}</td>
+                {% endfor %}
+            </tr>
         {% endfor %}
+        </tbody>
     </table>
 </div>
 {% endif %}
 
-{% if variables %}
+{% if variables_agrupadas %}
 <div class="doc-section" id="interfaz">
-    <h3>Interfaz de Variables</h3>
-    <table>
-        <tr><th>Sección</th><th>Nombre</th><th>Tipo de Dato</th><th>Descripción</th></tr>
-        {% for var in variables %}
-        <tr>
-            <td><span style="font-size:11px; color:#666;">{{ var.seccion }}</span></td>
-            <td><strong>{{ var.nombre }}</strong></td>
-            <td>{{ var.tipo }}</td>
-            <td>{{ var.descripcion }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">3. Interfaz del Bloque</h2>
+    
+    {% for tipo_seccion, lista_vars in variables_agrupadas.items() %}
+        
+        {% set mostrar_columna_retain = tipo_seccion in ['Entradas', 'Salidas', 'Entrada/Salida', 'Estáticas'] %}
+
+        <h3 style="color: #334155; margin-top: 25px; font-size: 1.1em; border-left: 4px solid rgb(0, 52, 102); padding-left: 10px;">{{ tipo_seccion }}</h3>
+        <table class="scl-table">
+            <thead>
+                <tr>
+                    <th>Parámetro</th>
+                    <th>Tipo de Dato</th>
+                    {% if mostrar_columna_retain %}
+                    <th style="text-align: center; width: 80px;">Remanencia</th>
+                    {% endif %}
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for var in lista_vars %}
+                <tr>
+                    <td style="font-family: monospace; font-weight: bold !important; color: #0f172a !important; width: 25%;">{{ var.nombre }}</td>
+                    <td style="font-weight: normal !important; color: #475569 !important; width: 25%;"><span style="background-color: #e2e8f0; padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #b91c1c !important; border: 1px solid #cbd5e1; font-weight: normal !important;">{{ var.tipo }}</span></td>
+                    
+                    {% if mostrar_columna_retain %}
+                    <td style="text-align: center; color: #475569 !important; font-weight: normal !important; width: 80px;">
+                        {% if var.is_retain %}
+                            <span style="color: #16a34a !important; font-weight: bold !important;">✔️</span>
+                        {% else %}
+                            <span style="color: #94a3b8 !important;">-</span>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+
+                    <td style="color: #475569 !important; font-weight: normal !important;">{{ var.descripcion }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 </div>
 {% endif %}
 
-{% macro renderizar_seccion(seccion, prefijo_id) %}
-<div class="scl-section nivel-{{ seccion.nivel }}" id="region_{{ prefijo_id }}">
-    <details open>
-        <summary class="section-title">
-            {% if seccion.nivel == 1 %}Lógica:{% else %}↳ Sub-lógica:{% endif %} {{ seccion.nombre }}
-        </summary>
-        
-        <div class="section-body">
-            {% if seccion.doc %}
-            <div class="section-doc markdown-body">
-                <p style="white-space: pre-wrap; margin-bottom: 15px;">{{ seccion.doc | safe }}</p>
-            </div>
-            {% else %}
-            <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
-            {% endif %}
-            
-            {% if seccion.codigo %}
-            <div class="section-code">
-                <pre class="scl-code" style="margin-bottom: 15px;">{{ seccion.codigo }}</pre>
-            </div>
-            {% endif %}
-            
-            {% if seccion.hijos %}
-                <div class="section-children">
-                    {% for hijo in seccion.hijos %}
-                        {{ renderizar_seccion(hijo, prefijo_id ~ '_' ~ loop.index0) }}
+{% if dependencias %}
+<div class="doc-section" id="dependencias">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">4. Dependencias Requeridas</h2>
+    <ul style="margin-top: 15px; color: #334155; line-height: 1.8;">
+        {% for dep in dependencias %}
+            {% if dep.tipo == 'normal' %}
+                <li><strong>{{ dep.clave }}:</strong> 
+                    {% for elem in dep.elementos %}
+                        {% if elem.url %}
+                            <a href="{{ elem.url }}" style="color: #e74c3c; font-weight: bold; text-decoration: none;">{{ elem.nombre }}</a>
+                        {% else %}
+                            {{ elem.nombre }}
+                        {% endif %}
+                        {% if not loop.last %}, {% endif %}
                     {% endfor %}
-                </div>
+                </li>
             {% endif %}
-        </div>
-    </details>
+        {% endfor %}
+    </ul>
 </div>
-{% endmacro %}
-
-<div class="doc-section" id="logica_bloque" style="margin-top: 40px;">
-    <h3 style="border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; margin-bottom: 20px;">Lógica del Bloque</h3>
-    {% if regiones %}
-        <div class="scl-regions-container">
-            {% for region in regiones %}
-                {{ renderizar_seccion(region, loop.index0|string) }}
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No se han definido secciones lógicas documentadas en este bloque.</p>
-    {% endif %}
-</div>
+{% endif %}
 
 {% if contenido_original %}
-<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
-    <h3>Código Fuente Completo</h3>
-    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">{{ contenido_original | e }}</pre>
+<div class="doc-section" id="codigo_fuente">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">5. Código Fuente Completo</h2>
+    <details style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-top: 20px;">
+        <summary style="font-weight: bold; color: rgb(0, 52, 102); cursor: pointer; user-select: none; font-size: 1.05em;">
+            Desplegar código SCL completo
+        </summary>
+        <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 6px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 13px; line-height: 1.5; margin-top: 15px; border: 1px solid #333;"><code>{{ contenido_original | e }}</code></pre>
+    </details>
 </div>
 {% endif %}
