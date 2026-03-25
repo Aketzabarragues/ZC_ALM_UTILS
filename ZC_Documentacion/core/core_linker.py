@@ -109,14 +109,18 @@ def enlazar_todo(capitulos_word, inventario_total, registro_global):
         dependencias = bloque.get("dependencias", [])
         
         for dep in dependencias:
-            if dep.get("tipo") == 'normal' and "valor" in dep:
-                # El valor declarado en el tag Requires (Ej: "FC8_TRAZA_REGISTRO")
-                nombre_buscado = dep["valor"].strip().upper()
+            # Ahora comprobamos si tiene la lista de 'elementos' (cambio respecto a 'valor')
+            if dep.get("tipo") == 'normal' and "elementos" in dep:
                 
-                # Inyección de hipervínculo si el componente es un ciudadano de nuestro registro
-                if nombre_buscado in registro_global:
-                    dep["url"] = registro_global[nombre_buscado]["url"]
-                    enlaces_resueltos_scl += 1
+                # Iteramos sobre cada bloque individual que el parser separó por comas
+                for elem in dep["elementos"]:
+                    # El nombre declarado (Ej: "FC8_TRAZA_REGISTRO")
+                    nombre_buscado = elem["nombre"].strip().upper()
+                    
+                    # Inyección de hipervínculo si el componente es un ciudadano de nuestro registro
+                    if nombre_buscado in registro_global:
+                        elem["url"] = registro_global[nombre_buscado]["url"]
+                        enlaces_resueltos_scl += 1
 
     log.debug(f"Resolución finalizada: {enlaces_resueltos_scl} dependencias cruzadas inyectadas en el código fuente.")
     

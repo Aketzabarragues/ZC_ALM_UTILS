@@ -152,6 +152,51 @@ pre.scl-code { background: #282c34; color: #abb2bf; padding: 15px; border-radius
 .page-content img { max-width: 100%; height: auto; border: 1px solid #ddd; padding: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin: 15px 0; border-radius: 4px;}
 
 /* ======================================================================================================================================= */
+/* === ACORDEONES SCL (NUEVAS SECCIONES) === */
+.scl-section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* La raíz tiene el borde corporativo fuerte. Los hijos se indentan. */
+.scl-section.nivel-1 { border-left: 4px solid #3498db; }
+.scl-section:not(.nivel-1) { margin-top: 15px; margin-left: 20px; border-left: 3px solid #bdc3c7; }
+
+.scl-section details summary {
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    font-size: 15px;
+    color: #2c3e50;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid transparent;
+}
+
+/* Estado Expandido */
+.scl-section details[open] > summary {
+    background-color: #e8f4f8;
+    border-bottom: 1px solid #e2e8f0;
+    color: #005eb8;
+}
+
+.scl-section details summary:hover { background-color: #e1e7ec; }
+
+.scl-section .section-body {
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+/* Ajuste nativo de la flecha del acordeón HTML5 */
+.scl-section details summary::marker { color: #3498db; }
+
+/* ======================================================================================================================================= */
 /* REGLAS PARA IMPRESIÓN / PDF */
 @media print {
     .sidebar, .top-header { display: none !important; }

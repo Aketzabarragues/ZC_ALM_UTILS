@@ -12,6 +12,7 @@ import extractor_disp_v
 import extractor_disp_m
 import extractor_disp_m_vf
 import extractor_config_disp
+import extractor_conexiones
 
 def ejecutar_todo(ruta_excel):
 
@@ -35,7 +36,8 @@ def ejecutar_todo(ruta_excel):
         ("Disp_V", extractor_disp_v.extraer),
         ("Disp_M", extractor_disp_m.extraer),
         ("Disp_M_VF", extractor_disp_m_vf.extraer),
-        ("Disp_Config", extractor_config_disp.extraer)
+        ("Disp_Config", extractor_config_disp.extraer),
+        ("Conexiones", extractor_conexiones.extraer)
     ]
     
     resultados_globales = []

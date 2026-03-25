@@ -1,8 +1,14 @@
 Crear exe
 
-pyinstaller --noconfirm --onefile --console --name "ZC_Extractor" "main.py"
-
+pyinstaller --noconfirm --onefile --console --name "ZC_Documentacion" --add-data "ui/templates;ui/templates" --add-data "static;static" "main.py"
 
 Ejecutar para probar
 
-Python main.py --path "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\Definicion_programacion.xlsm"
+Python main.py --word "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\ZC_DefinicionProgramacion\ESTANDAR ALIMENTACION.docx" --fuentes "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\bloques" --destino "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\_Ayuda_generada"
+
+
+ZC_Documentacion.exe --word "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\ZC_DefinicionProgramacion\ESTANDAR ALIMENTACION.docx" --fuentes "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\bloques" --destino "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\_Ayuda_generada"
+
+
+
+

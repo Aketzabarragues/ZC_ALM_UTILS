@@ -1,6 +1,5 @@
 <div class="doc-section">
     <h1>
-        <!-- Lógica Jinja para detectar si es FB, FC u OB según el nombre -->
         {% set tipo_badge = "SCL" %}
         {% if nombre_bloque.startswith('FB') %}
             {% set tipo_badge = "FB" %}
@@ -38,11 +37,15 @@
                 <tr>
                     <td><strong>{{ dep.clave }}</strong></td>
                     <td>
-                        {% if dep.url %}
-                            <a href="{{ dep.url }}" style="color: #e74c3c; font-weight: bold; text-decoration: none;">{{ dep.valor }}</a>
-                        {% else %}
-                            {{ dep.valor }}
-                        {% endif %}
+                        {% for elem in dep.elementos %}
+                            {% if elem.url %}
+                                <a href="{{ elem.url }}" style="color: #e74c3c; font-weight: bold; text-decoration: none;">{{ elem.nombre }}</a>
+                            {% else %}
+                                {{ elem.nombre }}
+                            {% endif %}
+                            
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
                     </td>
                 </tr>
             {% else %}
@@ -90,47 +93,52 @@
 </div>
 {% endif %}
 
-{% set ns = namespace(nivel_previo=0) %}
-{% for reg in regiones %}
-    {% set id_region = "region_" ~ loop.index0 %}
-    
-    {% if reg.nivel <= ns.nivel_previo %}
-        {% set cierres = ns.nivel_previo - reg.nivel + 1 %}
-        {% for _ in range(cierres) %}
+{% macro renderizar_seccion(seccion, prefijo_id) %}
+<div class="scl-section nivel-{{ seccion.nivel }}" id="region_{{ prefijo_id }}">
+    <details open>
+        <summary class="section-title">
+            {% if seccion.nivel == 1 %}Lógica:{% else %}↳ Sub-lógica:{% endif %} {{ seccion.nombre }}
+        </summary>
+        
+        <div class="section-body">
+            {% if seccion.doc %}
+            <div class="section-doc markdown-body">
+                <p style="white-space: pre-wrap; margin-bottom: 15px;">{{ seccion.doc | safe }}</p>
             </div>
-        {% endfor %}
-    {% endif %}
-    
-    {% if reg.nivel == 1 %}
-        <div class="doc-section" id="{{ id_region }}">
-        <h3>🔸 Lógica: {{ reg.nombre }}</h3>
-    {% else %}
-        <div id="{{ id_region }}" style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; margin-top: 20px; border-radius: 6px;">
-        <h4 style="color: #2c3e50; margin-top:0; font-size: 15px; border-bottom: 1px dashed #bdc3c7; padding-bottom: 5px; margin-bottom: 10px;">↳ Sub-lógica: {{ reg.nombre }}</h4>
-    {% endif %}
-    
-    {% if reg.doc == "Sin documentación específica." %}
-        <p style="color:#999; font-style:italic; margin-bottom:15px;">{{ reg.doc }}</p>
-    {% else %}
-        <p style="white-space: pre-wrap; margin-bottom: 15px;">{{ reg.doc }}</p>
-    {% endif %}
-    
-    {% if reg.hijos | length == 0 %}
-        <pre class="scl-code" style="margin-bottom: 0;">REGION {{ reg.nombre }}
-{{ reg.codigo }}
-END_REGION</pre>
-    {% else %}
-        <p style="color:#7f8c8d; font-size: 13px; margin: 0; font-style: italic;">(El detalle del código SCL se encuentra desglosado en las sub-regiones inferiores).</p>
-    {% endif %}
-    
-    {% set ns.nivel_previo = reg.nivel %}
-{% endfor %}
-
-{% if ns.nivel_previo > 0 %}
-    {% for _ in range(ns.nivel_previo) %}
+            {% else %}
+            <p style="color:#999; font-style:italic; margin-bottom:15px;">Sin documentación específica.</p>
+            {% endif %}
+            
+            {% if seccion.codigo %}
+            <div class="section-code">
+                <pre class="scl-code" style="margin-bottom: 15px;">{{ seccion.codigo }}</pre>
+            </div>
+            {% endif %}
+            
+            {% if seccion.hijos %}
+                <div class="section-children">
+                    {% for hijo in seccion.hijos %}
+                        {{ renderizar_seccion(hijo, prefijo_id ~ '_' ~ loop.index0) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-    {% endfor %}
-{% endif %}
+    </details>
+</div>
+{% endmacro %}
+
+<div class="doc-section" id="logica_bloque" style="margin-top: 40px;">
+    <h3 style="border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; margin-bottom: 20px;">Lógica del Bloque</h3>
+    {% if regiones %}
+        <div class="scl-regions-container">
+            {% for region in regiones %}
+                {{ renderizar_seccion(region, loop.index0|string) }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No se han definido secciones lógicas documentadas en este bloque.</p>
+    {% endif %}
+</div>
 
 {% if contenido_original %}
 <div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">

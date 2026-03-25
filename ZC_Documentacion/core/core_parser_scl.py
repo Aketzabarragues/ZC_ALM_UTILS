@@ -35,12 +35,6 @@ def limpiar_comentario(texto_crudo):
 def parsear_bloque(ruta_archivo):
     """
     Procesa un archivo .scl y estructura su contenido en un diccionario de datos.
-    
-    Args:
-        ruta_archivo (str): Ruta absoluta al archivo fuente .scl.
-        
-    Returns:
-        dict: Estructura de datos limpia con variables, regiones y metadatos.
     """
     log.info(f"Parseando código fuente SCL: {os.path.basename(ruta_archivo)}")
     
@@ -54,7 +48,7 @@ def parsear_bloque(ruta_archivo):
     # 1. EXTRACCIÓN DE ETIQUETAS XML-LIKE (<Summary>, <Remarks>, etc.)
     etiquetas = {}
     for match in re.finditer(r'///\s*<(\w+)>\s*\(\*(.*?)\*\)\s*///\s*</\1>', contenido, re.DOTALL):
-        if match.group(1) != 'RegionDoc':
+        if match.group(1) not in ['RegionDoc', 'Section']:
             etiquetas[match.group(1)] = limpiar_comentario(match.group(2))
 
     # 2. EXTRACCIÓN DE DEPENDENCIAS (<Requires>)
@@ -64,7 +58,16 @@ def parsear_bloque(ruta_archivo):
             linea_limpia = linea.strip()
             if ':' in linea_limpia:
                 partes = linea_limpia.split(':', 1)
-                dependencias_brutas.append({'tipo': 'normal', 'clave': partes[0].strip(), 'valor': partes[1].strip(), 'url': None})
+                clave = partes[0].strip()
+                
+                nombres_bloques = [b.strip() for b in partes[1].split(',') if b.strip()]
+                elementos = [{'nombre': b, 'url': None} for b in nombres_bloques]
+                
+                dependencias_brutas.append({
+                    'tipo': 'normal', 
+                    'clave': clave, 
+                    'elementos': elementos
+                })
             elif linea_limpia:
                 dependencias_brutas.append({'tipo': 'colspan', 'valor': linea_limpia})
 
@@ -77,24 +80,34 @@ def parsear_bloque(ruta_archivo):
         if lineas_utiles:
             cabeceras = re.split(r'\s{2,}', lineas_utiles[0].strip())
             filas = []
+            
+            # Expresión regular para detectar si la línea empieza con formato de versión (ej: 01.00.00 o 1.0.0)
+            patron_version = re.compile(r'^\d{1,2}\.\d{1,2}\.\d{1,2}')
+            
             for linea in lineas_utiles[1:]:
-                columnas = re.split(r'\s{2,}', linea.strip())
-                # Rellenado de columnas vacías por seguridad matricial (evita HTML roto)
-                columnas += [''] * (len(cabeceras) - len(columnas))
-                filas.append(columnas)
+                texto_limpio = linea.strip()
+                
+                # Si empieza por un número de versión, es una fila nueva
+                if patron_version.match(texto_limpio):
+                    # Separamos por 2 o más espacios, pero limitando los cortes al número de cabeceras.
+                    # Así evitamos que la descripción se rompa si tiene 2 espacios seguidos dentro.
+                    columnas = re.split(r'\s{2,}', texto_limpio, maxsplit=len(cabeceras) - 1)
+                    columnas += [''] * (len(cabeceras) - len(columnas))
+                    filas.append(columnas)
+                else:
+                    # Si no empieza por versión, es un salto de línea de la descripción anterior
+                    if filas: # Verificamos que ya exista al menos una fila previa
+                        # Concatenamos este texto a la última columna de la última fila registrada
+                        filas[-1][-1] += " " + texto_limpio
+                        
             changelog = {"cabeceras": cabeceras, "filas": filas}
 
     # 4. PARSEO DE INTERFAZ DE VARIABLES (In, Out, InOut, Temp, Constant)
     variables = []
-    # Patrón delimitador de las áreas de variables
     patron_bloques_var = r'(VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_CONSTANT|VAR)(.*?)(?:END_VAR)'
     
     for bloque in re.finditer(patron_bloques_var, contenido, re.DOTALL):
         tipo_seccion = bloque.group(1)
-        
-        # Patrón de línea modificado:
-        # Se incluye un grupo no capturable (?:\s*\{[^}]*\})? para absorber metadatos
-        # inyectados por TIA Portal como {InstructionName := 'DTL'; LibVersion := '1.0'}
         patron_linea_var = r'^\s*([a-zA-Z0-9_]+)(?:\s*\{[^}]*\})?\s*:\s*([^;]+);\s*(?://\s*(.*))?'
         
         for linea in re.finditer(patron_linea_var, bloque.group(2), re.MULTILINE):
@@ -105,39 +118,84 @@ def parsear_bloque(ruta_archivo):
                 'descripcion': linea.group(3).strip() if linea.group(3) else ''
             })
 
-    # 5. PARSEO JERÁRQUICO DE REGIONES Y CÓDIGO INTERNO
-    regiones, pila, doc_pendiente = [], [], "Sin documentación específica."
-    patron_tokens = r'(?P<doc>///\s*<RegionDoc>\s*\(\*(?P<texto_doc>.*?)\*\)\s*///\s*</RegionDoc>)|(?P<region>^[ \t]*REGION\s+(?P<nombre_region>[^\n\r]+))|(?P<endregion>^[ \t]*END_REGION)'
+    # 5. PARSEO JERÁRQUICO DE SECCIONES (Anidamiento con Pila y Máquina de Estados)
+    regiones = []
+    pila = []
     
-    for match in re.finditer(patron_tokens, contenido, flags=re.DOTALL | re.IGNORECASE | re.MULTILINE):
-        if match.group('doc'):
-            doc_pendiente = limpiar_comentario(match.group('texto_doc'))
-            
-        elif match.group('region'):
-            nueva_region = {
-                'doc': doc_pendiente, 
-                'nombre': match.group('nombre_region').strip(), 
-                'nivel': len(pila) + 1, 
-                'start_idx': match.end(), 
-                'hijos': [], 
-                'codigo': ''
+    rx_open = re.compile(r'///\s*<Section\s+title=["\'](.*?)["\']\s*>')
+    rx_close = re.compile(r'///\s*</Section>')
+    
+    estado = "CODIGO" # Estados: "CODIGO", "BUSCANDO_DOC", "DESCRIPCION"
+    buffer_descripcion = []
+    
+    for n_linea, linea in enumerate(contenido.splitlines(), start=1):
+        match_open = rx_open.search(linea)
+        if match_open:
+            nueva_seccion = {
+                'nombre': match_open.group(1).strip(),
+                'nivel': len(pila) + 1,
+                'doc': '',
+                'codigo': [],
+                'hijos': []
             }
-            pila.append(nueva_region)
-            regiones.append(nueva_region)
-            doc_pendiente = "Sin documentación específica."
+            if pila:
+                pila[-1]['hijos'].append(nueva_seccion)
+            else:
+                regiones.append(nueva_seccion)
             
-        elif match.group('endregion') and pila:
-            region_cerrada = pila.pop()
+            pila.append(nueva_seccion)
+            estado = "BUSCANDO_DOC"
+            continue
             
-            # Extracción y limpieza indentada del bloque de código nativo
-            codigo_bruto = contenido[region_cerrada['start_idx']:match.start()]
-            codigo_limpio = textwrap.dedent(codigo_bruto).strip('\n\r')
-            region_cerrada['codigo'] = textwrap.indent(codigo_limpio, '    ')
+        match_close = rx_close.search(linea)
+        if match_close:
+            if not pila:
+                log.info(f"[{nombre_bloque}] </Section> huérfano en línea {n_linea}")
+            else:
+                seccion_cerrada = pila.pop()
+                cod_limpio = textwrap.dedent('\n'.join(seccion_cerrada['codigo'])).strip('\n\r')
+                seccion_cerrada['codigo'] = textwrap.indent(cod_limpio, '    ')
+            estado = "CODIGO"
+            continue
             
-            if pila: 
-                pila[-1]['hijos'].append(region_cerrada['nombre'])
+        if not pila:
+            continue # Ignoramos todo el código que no esté dentro de un <Section>
+            
+        if estado == "BUSCANDO_DOC":
+            if linea.strip().startswith('(*'):
+                estado = "DESCRIPCION"
+                txt = linea.replace('(*', '', 1).strip()
+                if txt: buffer_descripcion.append(txt)
+                # Por si el comentario se cierra en la misma línea
+                if '*)' in linea:
+                    buffer_descripcion[-1] = buffer_descripcion[-1].replace('*)', '', 1).strip()
+                    pila[-1]['doc'] = limpiar_comentario('\n'.join(buffer_descripcion))
+                    buffer_descripcion = []
+                    estado = "CODIGO"
+            elif linea.strip() == '' or linea.strip().startswith('//'):
+                pass # Ignoramos líneas en blanco antes de la descripción
+            else:
+                pila[-1]['codigo'].append(linea)
+                estado = "CODIGO"
+            continue
+            
+        if estado == "DESCRIPCION":
+            if '*)' in linea:
+                txt = linea.replace('*)', '', 1).strip()
+                if txt: buffer_descripcion.append(txt)
+                pila[-1]['doc'] = limpiar_comentario('\n'.join(buffer_descripcion))
+                buffer_descripcion = []
+                estado = "CODIGO"
+            else:
+                buffer_descripcion.append(linea)
+            continue
+            
+        if estado == "CODIGO":
+            pila[-1]['codigo'].append(linea)
 
-    # Ensamblaje del objeto final (DTO - Data Transfer Object)
+    if pila:
+        log.info(f"[{nombre_bloque}] Faltan {len(pila)} etiquetas </Section> por cerrar.")
+
     bloque_data = {
         "nombre_bloque": nombre_bloque,
         "etiquetas": etiquetas,
@@ -154,9 +212,6 @@ def parsear_bloque(ruta_archivo):
 def generar_secciones_menu(bloque):
     """
     Construye la lista de índices (anclas) para el menú lateral web.
-    
-    Evalúa de forma dinámica la existencia de dependencias, variables o historial
-    para generar un índice limpio y coherente con el contenido real del bloque.
     """
     secciones = []
     
@@ -168,15 +223,25 @@ def generar_secciones_menu(bloque):
         
     if bloque.get("variables") and len(bloque["variables"]) > 0:
         secciones.append({"id": "interfaz", "titulo": "Interfaz de Variables", "nivel": 1})
+    
+    if bloque.get("regiones") and len(bloque["regiones"]) > 0:
+        secciones.append({"id": "logica_bloque", "titulo": "Lógica del Bloque", "nivel": 1})
         
-    # Árbol dinámico de lógicas de proceso
-    for i, r in enumerate(bloque.get("regiones", [])):
-        prefijo = "Lógica:" if r['nivel'] == 1 else "↳ Sub-lógica:"
-        secciones.append({
-            "id": f"region_{i}", 
-            "titulo": f"{prefijo} {r['nombre']}", 
-            "nivel": r['nivel']
-        })
+        # Función recursiva para aplanar las <Section> y crear las anclas del menú
+        def aplanar_regiones(nodos, prefijo_id=""):
+            for i, nodo in enumerate(nodos):
+                id_actual = f"region_{prefijo_id}{i}"
+                # Reducimos un poco el texto ya que ahora cuelgan de "Lógica del Bloque"
+                pref = "" if nodo['nivel'] == 1 else "↳" 
+                secciones.append({
+                    "id": id_actual, 
+                    "titulo": f"{pref} {nodo['nombre']}", 
+                    "nivel": nodo['nivel'] + 1 # Sumamos 1 para que indente en el menú lateral
+                })
+                if nodo['hijos']:
+                    aplanar_regiones(nodo['hijos'], f"{prefijo_id}{i}_")
+
+        aplanar_regiones(bloque.get("regiones", []))
         
     if bloque.get("contenido_original"):
         secciones.append({"id": "codigo_fuente", "titulo": "Código Fuente Completo", "nivel": 1})
