@@ -42,7 +42,10 @@
 {% if etiquetas['Comment/Function'] %}
 <div class="doc-section" id="descripcion">
     <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">1. Descripción Funcional</h2>
-    <p style="white-space: pre-wrap; color: #334155; margin-top: 15px;">{{ etiquetas['Comment/Function'] }}</p>
+    
+    <div class="markdown-container">
+        {{ etiquetas['Comment/Function'] | safe }}
+    </div>
 </div>
 {% endif %}
 

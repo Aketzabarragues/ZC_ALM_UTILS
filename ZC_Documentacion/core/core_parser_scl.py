@@ -6,6 +6,7 @@ import os
 import re
 import textwrap
 from core import core_logger as log
+import markdown
 
 def limpiar_texto(texto):
     if not texto: return ""
@@ -45,16 +46,37 @@ def parsear_bloque(ruta_archivo):
             if match_campo:
                 etiquetas[campo] = limpiar_texto(match_campo.group(1))
 
+        # --- LÓGICA PARA COMMENT/FUNCTION CON MARKDOWN ---
+        # --- LÓGICA PARA COMMENT/FUNCTION CON MARKDOWN ---
+        import markdown 
+
         match_comment = re.search(r'//\s*Comment/Function:\s*(.*?)(?=\n\s*//\s*[A-Za-z/ ]+:|\n\s*//---)', header_text, re.DOTALL)
         if match_comment:
             raw_comment = match_comment.group(1)
+            
             match_block = re.search(r'\(\*(.*?)\*\)', raw_comment, re.DOTALL)
             if match_block:
-                texto_limpio = textwrap.dedent(match_block.group(1)).strip()
-                etiquetas['Comment/Function'] = texto_limpio
+                texto_crudo = match_block.group(1)
+                
+                # 1. Convertimos tabulaciones literales a 2 espacios
+                texto_crudo = texto_crudo.replace('\t', '  ')
+                texto_limpio = textwrap.dedent(texto_crudo).strip()
             else:
                 lineas_limpias = [l.replace('//', '', 1).strip() for l in raw_comment.splitlines()]
-                etiquetas['Comment/Function'] = '\n'.join([l for l in lineas_limpias if l]).strip()
+                texto_limpio = '\n'.join([l for l in lineas_limpias if l]).strip()
+            
+            # 2. EL TRUCO ANTIMAQUINA DE ESCRIBIR: 
+            # Reemplazamos todos los grupos de 4 espacios por 2 espacios. 
+            # Esto evita el comportamiento de "Bloque de código" pero mantiene la anidación de las listas.
+            texto_limpio = texto_limpio.replace('    ', '  ')
+            
+            # 3. Forzar doble salto de línea antes de viñetas (Mejorado para detectar saltos de línea de Windows \r\n)
+            texto_limpio = re.sub(r'([^\n\r])\r?\n(\s*[-*]\s)', r'\1\n\n\2', texto_limpio)
+            
+            # 4. Generar HTML limpio
+            etiquetas['Comment/Function'] = markdown.markdown(texto_limpio, extensions=['extra', 'nl2br'])
+        # -------------------------------------------------------------
+        # -------------------------------------------------------------
 
         match_req = re.search(r'//\s*Requirements:\s*(.*?)(?=\n\s*//---)', header_text, re.DOTALL)
         if match_req:
