@@ -1,0 +1,424 @@
+=========================================================
+             VOLCADO DE CACHÉ DE TIA PORTAL              
+=========================================================
+Fecha de volcado: 28/03/2026 10:37:25
+PLC: ZC_PLC_STD
+Total Bloques: 150 | Total Tablas: 8 | Total UDTs: 91
+=========================================================
+
+=== BLOQUES (OB/FC/FB/DB) ===
+[Nombre] _borrar                             | [Num] 59998 | [Tipo API] GlobalDB     | [Ruta] Root
+[Nombre] DB1_SYS                             | [Num] 1     | [Tipo API] GlobalDB     | [Ruta] Root
+[Nombre] DB100_CPR_PRINCIPAL                 | [Num] 100   | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\100_Principal
+[Nombre] DB101_CPR_PROCESO                   | [Num] 101   | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\101_Proceso
+[Nombre] DB102_CPR_CHOFER                    | [Num] 102   | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\101_Proceso
+[Nombre] DB103_CPR_ACUM                      | [Num] 103   | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\101_Proceso
+[Nombre] DB104_CPR_INF                       | [Num] 104   | [Tipo API] InstanceDB   | [Ruta] 100_Compacto\101_Proceso
+[Nombre] DB11_INFORMES                       | [Num] 11    | [Tipo API] GlobalDB     | [Ruta] 11_Informes
+[Nombre] DB15_SINCRONIZAR_FECHA              | [Num] 20    | [Tipo API] GlobalDB     | [Ruta] 20_Scada
+[Nombre] DB16_GESTION_SCADA                  | [Num] 21    | [Tipo API] GlobalDB     | [Ruta] 20_Scada
+[Nombre] DB2_DeviceState_PN                  | [Num] 2     | [Tipo API] GlobalDB     | [Ruta] 0_Sistema
+[Nombre] DB2000_ED                           | [Num] 2000  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2001_EA                           | [Num] 2001  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2005_SD                           | [Num] 2005  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2006_SA                           | [Num] 2006  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2010_V                            | [Num] 2010  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2015_M                            | [Num] 2015  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2016_M_VF                         | [Num] 2016  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2017_M_SINA                       | [Num] 2017  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2018_INST_M_SINA                  | [Num] 2018  | [Tipo API] InstanceDB   | [Ruta] 2000_Dispositivos
+[Nombre] DB2025_TOT                          | [Num] 2025  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2026_FF                           | [Num] 2026  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2027_FF_SEC                       | [Num] 2027  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2031_TP                           | [Num] 2031  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2035_PID                          | [Num] 2035  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2037_MEDIA                        | [Num] 2037  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2038_MEDIA_VOLUMEN                | [Num] 2038  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2039_TQ                           | [Num] 2039  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB2045_TQ_AE                        | [Num] 2045  | [Tipo API] GlobalDB     | [Ruta] 2000_Dispositivos
+[Nombre] DB3_CHECKSUM                        | [Num] 3     | [Tipo API] InstanceDB   | [Ruta] 0_Sistema
+[Nombre] DB3100_CPR_PREAL                    | [Num] 3100  | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\3100_Parametros
+[Nombre] DB3101_CPR_PINT                     | [Num] 3101  | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\3100_Parametros
+[Nombre] DB5100_CPR_ALM                      | [Num] 5100  | [Tipo API] GlobalDB     | [Ruta] 100_Compacto\5100_Alarmas
+[Nombre] DB6_ENTIDAD                         | [Num] 6     | [Tipo API] GlobalDB     | [Ruta] 6_Entidades
+[Nombre] DB7_TRAZA                           | [Num] 7     | [Tipo API] GlobalDB     | [Ruta] 7_Traza
+[Nombre] FB15049_ZC_AIRE_ESTERIL             | [Num] 15149 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15050_ZC_CHEQUEO                  | [Num] 15050 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15051_ZC_INF_COMPACTO             | [Num] 15051 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15052_ZC_INF_PROD_MEM             | [Num] 15052 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15053_ZC_INF_LIMP_MAQ             | [Num] 15053 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15055_ZC_HORAS_MAQUINA            | [Num] 15055 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15056_ZC_REGISTRO_MEMBRANAS       | [Num] 15056 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15057_ZC_CONTADORES_PRODUCCION_MEM | [Num] 15057 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15102_ZC_CALCULO_FCV_UF           | [Num] 15102 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15104_ZC_CALCULO_LIMPIEZA_2_MODULOS | [Num] 15104 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15105_ZC_CALCULO_CURVA            | [Num] 15105 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15106_ZC_CALCULO_LIMPIEZA_4_MODULOS | [Num] 15106 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15148_ZC_SEC_MB_CLIENT            | [Num] 15148 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15150_ZC_SEC_GET                  | [Num] 15150 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15152_ZC_PARO_SEC                 | [Num] 15152 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15153_ZC_MARCHA_SEC_BOMBAS_MEM    | [Num] 15153 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15154_ZC_DOSIF                    | [Num] 15154 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15155_ZC_DOSIF_SI70_GARRAFAS      | [Num] 15155 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15156_ZC_DOSIF_SI100_CARTEL       | [Num] 15156 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15159_ZC_CIP_DOSIF_PREP           | [Num] 15159 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15160_ZC_CIP_SOSA_LIMP            | [Num] 15160 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15161_ZC_CIP_SOSA_ENJ             | [Num] 15161 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15162_ZC_CIP_ACIDO_LIMP           | [Num] 15162 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15163_ZC_CIP_ACIDO_ENJ            | [Num] 15163 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15164_ZC_CIP_SOLO_ENJ             | [Num] 15164 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15165_ZC_CIP_DESINF_LIMP          | [Num] 15165 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15166_ZC_CIP_DESINF_ENJ           | [Num] 15166 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15167_ZC_CIP_ESTERIL              | [Num] 15167 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15168_ZC_CIP_AGUA_RECUP           | [Num] 15168 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15169_ZC_CIP_RECUP_RECHAZO        | [Num] 15169 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15175_ZC_COCINA_AD_PROD           | [Num] 15175 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15176_ZC_COCINA_AD_AGUA           | [Num] 15176 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15177_ZC_COCINA_CAL_ENF           | [Num] 15177 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15178_ZC_COCINA_HOMO              | [Num] 15178 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15179_ZC_COCINA_FIN_PREP          | [Num] 15179 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15180_ZC_FERM_AD_PROD             | [Num] 15180 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15181_ZC_FERM_HOMO                | [Num] 15181 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15182_ZC_FERM_ESPERA_PH           | [Num] 15182 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15183_ZC_FERM_CORTE               | [Num] 15183 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15184_ZC_FERM_FIN_PREP            | [Num] 15184 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15200_ZC_SYNC_RECETA_PANEL        | [Num] 15200 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15990_ZC_FAT_DI                   | [Num] 15990 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15991_ZC_FAT_DO                   | [Num] 15991 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15992_ZC_FAT_AI                   | [Num] 15992 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15993_ZC_FAT_AO                   | [Num] 15993 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15994_ZC_INICIALIZAR_DISP         | [Num] 15994 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB15995_ZC_BUSCAR_DIR               | [Num] 15995 | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB2017_ZC_M_SINA                    | [Num] 2017  | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FB3_ZC_CHECKSUM                     | [Num] 3     | [Tipo API] FB           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC1_ZC_SISTEMA                      | [Num] 1     | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC100_CPR_PRINCIPAL                 | [Num] 100   | [Tipo API] FC           | [Ruta] 100_Compacto\100_Principal
+[Nombre] FC101_CPR_PROCESO                   | [Num] 101   | [Tipo API] FC           | [Ruta] 100_Compacto\101_Proceso
+[Nombre] FC102_CPR_AUXILIARES                | [Num] 102   | [Tipo API] FC           | [Ruta] 100_Compacto\101_Proceso
+[Nombre] FC103_CPR_TRANSICIONES              | [Num] 103   | [Tipo API] FC           | [Ruta] 100_Compacto\101_Proceso
+[Nombre] FC104_CPR_ORDENES                   | [Num] 104   | [Tipo API] FC           | [Ruta] 100_Compacto\101_Proceso
+[Nombre] FC11_ZC_GESTOR_INFORMES             | [Num] 11    | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC12_ZC_INFORME_REGISTRO            | [Num] 12    | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC15_SINCRONIZAR_FECHA_SCADA        | [Num] 20    | [Tipo API] FC           | [Ruta] 20_Scada
+[Nombre] FC15_ZC_GEST_PREAL                  | [Num] 15    | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC15000_ZC_INT_TO_TIME              | [Num] 15000 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15001_ZC_INT_TO_STRING            | [Num] 15001 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15003_ZC_REAL_TO_STRING           | [Num] 15003 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15005_ZC_DTL_TO_ZC_FECHA          | [Num] 15005 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15006_ZC_DTL_TO_STRING            | [Num] 15006 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15025_ZC_CONTADOR_TIEMPO          | [Num] 15025 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15026_ZC_PULSADOR                 | [Num] 15026 | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC15027_ZC_CONTADOR_MINUTOS         | [Num] 15027 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15103_ZC_CALCULO_RAMPA            | [Num] 15103 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15106_ZC_GESTION_LISTA            | [Num] 15106 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC15151_ZC_MARCHA_PARO_SEC          | [Num] 15151 | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC16_GESTION_SCADA                  | [Num] 21    | [Tipo API] FC           | [Ruta] 20_Scada
+[Nombre] FC16_ZC_GEST_PINT                   | [Num] 16    | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC2000_ZC_ED                        | [Num] 2000  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2001_ZC_EA                        | [Num] 2001  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2005_ZC_SD                        | [Num] 2005  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2006_ZC_SA                        | [Num] 2006  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2010_ZC_V                         | [Num] 2010  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2015_ZC_M                         | [Num] 2015  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2016_ZC_M_VF                      | [Num] 2016  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2025_ZC_TOT                       | [Num] 2025  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2026_ZC_FF                        | [Num] 2026  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2027_ZC_FF_SEC                    | [Num] 2027  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2035_ZC_PID                       | [Num] 2035  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2036_ZC_PID_MUX                   | [Num] 2036  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2037_ZC_MEDIA                     | [Num] 2037  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2038_ZC_MEDIA_VOLUMEN             | [Num] 2038  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2039_ZC_TQ                        | [Num] 2039  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2045_ZC_TQ_AE                     | [Num] 2045  | [Tipo API] FC           | [Ruta] ZC_Controles\2_RevisadoPendienteDoc
+[Nombre] FC2926_ZC_FF_INDV                   | [Num] 2926  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2927_ZC_FF_SEC_INDV               | [Num] 2927  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2928_ZC_TON_INDV                  | [Num] 2928  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2929_ZC_TOF_INDV                  | [Num] 2929  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2930_ZC_TONR_INDV                 | [Num] 2930  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2931_ZC_TP_INDV                   | [Num] 2931  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2932_ZC_FF_PARO_INDV              | [Num] 2932  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2937_ZC_MEDIA_INDV                | [Num] 2937  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC2938_ZC_MEDIA_VOLUMEN_INDV        | [Num] 2938  | [Tipo API] FC           | [Ruta] ZC_Controles\4_Pendiente
+[Nombre] FC3100_CPR_VIS_PARAM                | [Num] 3100  | [Tipo API] FC           | [Ruta] 100_Compacto\3100_Parametros
+[Nombre] FC4_ZC_DISPONIBILIDAD_ENTIDAD       | [Num] 4     | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC5_ZC_GESTOR_PROCESO               | [Num] 5     | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC5100_CPR_GEST_ALM                 | [Num] 5100  | [Tipo API] FC           | [Ruta] 100_Compacto\5100_Alarmas
+[Nombre] FC6_ZC_ESTADO_ENTIDAD               | [Num] 6     | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC7_ZC_GESTOR_TRAZA                 | [Num] 7     | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC8_ZC_TRAZA_REGISTRO               | [Num] 8     | [Tipo API] FC           | [Ruta] ZC_Controles\1_Documentado
+[Nombre] FC9_GESTOR_DISPOSITIVOS             | [Num] 9     | [Tipo API] FC           | [Ruta] 9_Gestor_Dispositivos
+[Nombre] OB1_MAIN                            | [Num] 1     | [Tipo API] OB           | [Ruta] Root
+[Nombre] OB100_Startup                       | [Num] 100   | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB121_ProgrammingError              | [Num] 121   | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB122_IOAccessError                 | [Num] 122   | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB30_PID_100MS                      | [Num] 30    | [Tipo API] OB           | [Ruta] Root
+[Nombre] OB40_HardwareInterrupt              | [Num] 40    | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB80_TimeErrorInterrupt             | [Num] 80    | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB82_DiagnosticErrorInterrupt       | [Num] 82    | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB83_PullOrPlugOfModules            | [Num] 83    | [Tipo API] OB           | [Ruta] 0_Sistema
+[Nombre] OB86_RackOrStationFailure           | [Num] 86    | [Tipo API] OB           | [Ruta] 0_Sistema
+
+=== TABLAS DE VARIABLES ===
+[Nombre] 000_Config_Dispositivos             | [Ruta] 000_Sistema
+[Nombre] 000_Config_Generales                | [Ruta] 000_Sistema
+[Nombre] 000_Productos                       | [Ruta] 000_Sistema
+[Nombre] 000_Traza_Categorias                | [Ruta] 000_Sistema
+[Nombre] 000_Traza_Codigos                   | [Ruta] 000_Sistema
+[Nombre] 002_Disp_ED                         | [Ruta] 2000_Dispositivos
+[Nombre] 100_Proceso                         | [Ruta] 003_Procesos
+[Nombre] Tabla de variables estándar         | [Ruta] Variables de PLC
+
+=== TIPOS DE DATOS DE USUARIO (UDT) ===
+[Nombre] UDT_ZC_ALARMA                       | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_CIP_CHEQUEO_RUTA             | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_INF                      | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA                   | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_ACIDO_ENJ         | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_ACIDO_LIMP        | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_COMUNES           | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_DESINF_ENJ        | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_DESINF_LIMP       | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_ESTERIL           | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_HOMOG             | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_RECHAZOS          | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_SOLO_ENJ          | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_SOSA_ENJ          | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CIP_RECETA_SOSA_LIMP         | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_COM_BOOL                     | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_COM_INT                      | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_COM_REAL                     | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CONTADOR_MINUTOS             | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CONTADOR_TIEMPO              | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CONTADORES_PRODUCCION        | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CONTROL_PRESION              | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_CPR_ACUM                     | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_AGRUP                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_EA                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_ED                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_FF                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_FF_PARO                 | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_DISP_FF_SEC                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_HMI_L                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_HMI_S                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_M                       | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_M_SINA                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_M_VF                    | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MEDIA                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MEDIA_VOLUMEN           | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_EA                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_ED                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_M                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_M_SINA              | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_M_VF                | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_PID                 | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_SA                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_SD                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_TOT                 | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_TQ                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_TQ_AE               | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_MUX_V                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PID                     | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_EA                 | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_ED                 | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_M                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_M_VF               | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_PID                | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_SA                 | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_TOT                | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_PPAL_V                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_SA                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_SD                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TOF                     | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TON                     | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TONR                    | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TOT                     | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TP                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TQ                      | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_TQ_AE                   | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_DISP_V                       | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_FECHA                        | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_INF_CHEQUEO                  | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_INF_CPR_PROD                 | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_INF_DATOS                    | [Ruta] 3_EnDesarrollo
+[Nombre] UDT_ZC_INF_DOSIFICACION             | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_INF_GESTION                  | [Ruta] 3_EnDesarrollo
+[Nombre] UDT_ZC_INF_LIMP_MAQ                 | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_INF_PROD_MEM                 | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_MARCHA_PARO_SEC              | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_MUX                          | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_PINT                         | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_PREAL                        | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_PRO_ENTIDAD                  | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_PRO_LITROS_ETAPA             | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_PRO_PROCESO                  | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_PRO_TIEMPO_ETAPA             | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_PULSADOR                     | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_RECETA_BATCH                 | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_RECETA_BATCH_ETAPA           | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_RECETA_BATCH_FASE_AD_PROD_REAL | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_SIVE_MEMBRANA_CARE           | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_TIEMPO_CICLO                 | [Ruta] 4_Pendiente
+[Nombre] UDT_ZC_TRZ_DATOS                    | [Ruta] 1_Documentado
+[Nombre] UDT_ZC_TRZ_GESTION                  | [Ruta] 1_Documentado
+
+
+=========================================================
+             VOLCADO DE APP_CONFIG (.json / .xml)        
+=========================================================
+{
+  "Global": {
+    "ProcessTemplatePath": "C:\\Plantilla",
+    "DocWordManualPath": "D:\\Zeus Control\\Proyectos\\GitHub\\ZC_ALM_UTILS\\ZC_Documentacion\\dist\\ESTANDAR ALIMENTACION.docx",
+    "DocExportSourcesPath": "D:\\Zeus Control\\Proyectos\\GitHub\\ZC_ALM_UTILS\\bloques",
+    "DocOutputPath": "D:\\Zeus Control\\Proyectos\\GitHub\\ZC_ALM_UTILS\\_Ayuda_generada"
+  },
+  "DeviceSettings": {
+    "TiaTable": "000_Config_Dispositivos",
+    "ExcelSheet": "CONFIGURACION",
+    "ConfigCells": {
+      "Disp_ED": "Num_Disp_ED",
+      "Disp_EA": "Num_Disp_EA",
+      "Disp_SA": "Num_Disp_SA",
+      "Disp_V": "Num_Disp_V",
+      "Disp_M": "Num_Disp_M",
+      "Disp_M_VF": "Num_Disp_M_VF"
+    }
+  },
+  "Devices": [
+    {
+      "Name": "Entrada Digital",
+      "ExcelSheet": "DISP_ED",
+      "ExcelTable": "Tabla_Disp_ED",
+      "TiaTable": "002_Disp_ED",
+      "TiaDbName": "DB2000_ED",
+      "TiaDbArrayName": "ED",
+      "PlcCountConstant": "N_MAX_DISP_ED",
+      "ModelClass": "Disp_ED",
+      "GlobalConfigKey": "Num_Disp_ED",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Entrada Analogica",
+      "ExcelSheet": "DISP_EA",
+      "ExcelTable": "Tabla_Disp_EA",
+      "TiaTable": "002_Disp_EA",
+      "TiaDbName": "DB2001_EA",
+      "TiaDbArrayName": "EA",
+      "PlcCountConstant": "N_MAX_DISP_EA",
+      "ModelClass": "Disp_EA",
+      "GlobalConfigKey": "Num_Disp_EA",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Salida Analogica",
+      "ExcelSheet": "DISP_SA",
+      "ExcelTable": "Tabla_Disp_SA",
+      "TiaTable": "002_Disp_SA",
+      "TiaDbName": "DB2006_SA",
+      "TiaDbArrayName": "SA",
+      "PlcCountConstant": "N_MAX_DISP_SA",
+      "ModelClass": "Disp_SA",
+      "GlobalConfigKey": "Num_Disp_SA",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Válvula",
+      "ExcelSheet": "DISP_V",
+      "ExcelTable": "Tabla_Disp_V",
+      "TiaTable": "002_Disp_V",
+      "TiaDbName": "DB2010_V",
+      "TiaDbArrayName": "V",
+      "PlcCountConstant": "N_MAX_DISP_V",
+      "ModelClass": "Disp_V",
+      "GlobalConfigKey": "Num_Disp_V",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Motor",
+      "ExcelSheet": "DISP_M",
+      "ExcelTable": "Tabla_Disp_M",
+      "TiaTable": "002_Disp_M",
+      "TiaDbName": "DB2015_M",
+      "TiaDbArrayName": "M",
+      "PlcCountConstant": "N_MAX_DISP_M",
+      "ModelClass": "Disp_M",
+      "GlobalConfigKey": "Num_Disp_M",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Motor variador",
+      "ExcelSheet": "DISP_M_VF",
+      "ExcelTable": "Tabla_Disp_M_VF",
+      "TiaTable": "002_Disp_M_VF",
+      "TiaDbName": "DB2016_M_VF",
+      "TiaDbArrayName": "M_VF",
+      "PlcCountConstant": "N_MAX_DISP_M_VF",
+      "ModelClass": "Disp_M_VF",
+      "GlobalConfigKey": "Num_Disp_M_VF",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    }
+  ],
+  "Process": {
+    "ProcessName": "Procesos",
+    "PRealName": "P_Real",
+    "PIntName": "P_Int",
+    "AlarmName": "Alarmas",
+    "StageName": "Etapas",
+    "ExcelSheet": "CONFIGURACION",
+    "ExcelTable": "Tabla_Procesos",
+    "SuffixConstReal": "_N_MAX_PREAL",
+    "SuffixConstInt": "_N_MAX_PINT",
+    "SuffixConstAlm": "_N_MAX_ALM",
+    "SuffixConstAlmHmi": "_N_MAX_ALM_HMI",
+    "SuffixDbReal": "_PREAL",
+    "SuffixDbInt": "_PINT",
+    "SuffixDbAlm": "_ALM"
+  },
+  "Network": {
+    "ExcelSheet": "TOPOLOGIA",
+    "ExcelTable": "Tabla_Conexiones"
+  },
+  "PReal": {
+    "ExcelSheet": "P_REAL",
+    "ExcelTable": "Tabla_PReal"
+  },
+  "PInt": {
+    "ExcelSheet": "P_INT",
+    "ExcelTable": "Tabla_PInt"
+  },
+  "Alarm": {
+    "ExcelSheet": "ALARMAS",
+    "ExcelTable": "Tabla_Alarmas"
+  }
+}
+
+
+=========================================================
+             VOLCADO DE ENGINEERING CACHÉ (EXCEL)        
+=========================================================
+{
+  "Salida Analogica": [],
+  "Válvula": [],
+  "Motor": [],
+  "Motor variador": [],
+  "Entrada Digital": [],
+  "Entrada Analogica": [],
+  "CONFIG_LIMITS": [],
+  "Procesos": [],
+  "P_Real": [],
+  "P_Int": [],
+  "Alarmas": [],
+  "Conexiones": []
+}

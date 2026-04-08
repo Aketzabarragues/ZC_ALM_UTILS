@@ -1,0 +1,772 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+Comandos.txt
+extractor_alarmas.py
+extractor_conexiones.py
+extractor_config_disp.py
+extractor_disp_ea.py
+extractor_disp_ed.py
+extractor_disp_m_vf.py
+extractor_disp_m.py
+extractor_disp_sa.py
+extractor_disp_v.py
+extractor_etapas.py
+extractor_pint.py
+extractor_preal.py
+extractor_procesos.py
+main.py
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="Comandos.txt">
+Crear exe
+
+pyinstaller --noconfirm --onefile --console --name "ZC_Extractor" "main.py"
+
+
+Ejecutar para probar
+
+Python main.py --path "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\ZC_DefinicionProgramacion\Definicion_programacion.xlsm"
+</file>
+
+<file path="extractor_alarmas.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["ALARMAS"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Alarmas"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Alarmas"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="ALARMAS",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "alarmas.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Alarmas", 
+                  row_name="Alarma", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+        
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_conexiones.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["TOPOLOGIA"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Conexiones"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Conexiones"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="TOPOLOGIA",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['Nombre_Conexion_TIA', 'Equipo_Origen']).fillna('')
+        
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "conexiones.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Conexiones", 
+                  row_name="Conexion", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_config_disp.py">
+import os
+from openpyxl import load_workbook
+import pandas as pd
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # Cargar el Excel (data_only=True para el resultado de fórmulas)
+        wb = load_workbook(ruta_excel, data_only=True)
+        
+        nombres_a_buscar = [
+            "Num_Disp_ED", 
+            "Num_Disp_EA", 
+            "Num_Disp_SA", 
+            "Num_Disp_V", 
+            "Num_Disp_M", 
+            "Num_Disp_M_VF"
+        ]
+        
+        datos_config = []
+
+        for nombre in nombres_a_buscar:
+            # Buscamos el nombre definido en el libro
+            if nombre in wb.defined_names:
+                # Obtenemos la ubicación (ej: 'CONFIGURACION'!$B$10)
+                destinos = wb.defined_names[nombre].destinations
+                
+                for sheet_name, cell_address in destinos:
+                    ws = wb[sheet_name]
+                    valor = ws[cell_address].value
+                    
+                    datos_config.append({
+                        "Name": nombre,
+                        "Value": valor if valor is not None else 0
+                    })
+            else:
+                print(f"   [!] Aviso: El nombre '{nombre}' no está definido en el Excel.")
+
+        if not datos_config:
+            return False, "No se encontró ningún Rango Nombrado de configuración."
+
+        # Generar el XML como siempre
+        df = pd.DataFrame(datos_config)
+        output_file = os.path.join(folder_path, "config_disp.xml")
+        df.to_xml(output_file, index=False, root_name="DispConfig", row_name="Item", attr_cols=False)
+
+        return True, f"Configuración exportada vía Rangos Nombrados a {output_file}"
+
+    except Exception as e:
+        return False, f"Error: {str(e)}"
+</file>
+
+<file path="extractor_disp_ea.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["DISP_EA"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Disp_EA"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Disp_EA"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="DISP_EA",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "disp_ea.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Dispositivos", 
+                  row_name="Dispositivo", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+        
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_disp_ed.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["DISP_ED"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Disp_ED"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Disp_ED"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="DISP_ED",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "disp_ed.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Dispositivos", 
+                  row_name="Dispositivo", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+        
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_disp_m_vf.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["DISP_M_VF"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Disp_M_VF"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Disp_M_VF"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="DISP_M_VF",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "disp_m_vf.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Dispositivos", 
+                  row_name="Dispositivo", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_disp_m.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["DISP_M"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Disp_M"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Disp_M"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="DISP_M",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "disp_m.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Dispositivos", 
+                  row_name="Dispositivo", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_disp_sa.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["DISP_SA"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Disp_SA"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Disp_SA"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="DISP_SA",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "disp_sa.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Dispositivos", 
+                  row_name="Dispositivo", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+        
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_disp_v.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["DISP_V"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Disp_V"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Disp_V"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="DISP_V",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "disp_v.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Dispositivos", 
+                  row_name="Dispositivo", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_etapas.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["ETAPAS"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Etapas"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Etapas"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="ETAPAS",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "etapas.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Etapas", 
+                  row_name="Etapa", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_pint.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["P_INT"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_PInt"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_PInt"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="P_INT",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "pint.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Parametros", 
+                  row_name="Parametro", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_preal.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["P_REAL"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_PReal"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_PReal"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="P_REAL",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "preal.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Parametros", 
+                  row_name="Parametro", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="extractor_procesos.py">
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import openpyxl.utils as utils
+
+def extraer(ruta_excel, folder_path):
+    try:
+        # 1. Cargar el Excel y localizar la tabla
+        wb = load_workbook(ruta_excel, data_only=True)
+        ws = wb["CONFIGURACION"]
+        tabla = next((t for t in ws.tables.values() if t.name == "Tabla_Procesos"), None)
+        
+        if not tabla:
+            return False, "No se encontró Tabla_Procesos"
+
+        # 2. Leer los datos basándose en el rango de la tabla
+        min_col, min_row, max_col, max_row = utils.cell.range_boundaries(tabla.ref)
+        df = pd.read_excel(ruta_excel, sheet_name="CONFIGURACION",
+                           skiprows=min_row - 1,
+                           usecols=list(range(min_col - 1, max_col)),
+                           nrows=max_row - min_row + 1)
+
+        # 3. Limpieza de datos
+        # Eliminamos filas sin UID y rellenamos vacíos para evitar errores en XML
+        df = df.dropna(subset=['UID']).fillna('')
+
+        # --- GUARDAR ARCHIVO XML ---
+        output_file = os.path.join(folder_path, "procesos.xml")
+        
+        # Exportamos a XML con una estructura jerárquica clara
+        # root_name: El nodo principal
+        # row_name: El nombre de cada objeto
+        # attr_cols=False: Para que use etiquetas <Campo> en lugar de atributos
+        df.to_xml(output_file, 
+                  index=False, 
+                  root_name="Procesos", 
+                  row_name="Proceso", 
+                  attr_cols=False, 
+                  xml_declaration=True, 
+                  encoding='utf-8')
+
+        return True, f"Exportado exitosamente a {output_file}"
+
+    except Exception as e:
+        return False, str(e)
+</file>
+
+<file path="main.py">
+import argparse
+import os
+import extractor_procesos
+import extractor_preal
+import extractor_pint
+import extractor_alarmas
+import extractor_etapas
+import extractor_disp_ed
+import extractor_disp_ea
+import extractor_disp_sa
+import extractor_disp_v
+import extractor_disp_m
+import extractor_disp_m_vf
+import extractor_config_disp
+import extractor_conexiones
+
+def ejecutar_todo(ruta_excel):
+
+    # 1. Definimos la carpeta base
+    base_temp = os.path.join(os.environ['TEMP'], "_ZC_ALM_TOOLS")
+    # Python genera datos para que C# los lea, así que los guardaremos en 'Temp' 
+    # para dejar 'Export' solo para lo que sale de TIA Portal.
+    folder_path = os.path.join(base_temp, "Export")
+    os.makedirs(folder_path, exist_ok=True)
+    
+    # Lista de funciones a ejecutar
+    operaciones = [
+        ("Procesos", extractor_procesos.extraer),
+        ("PReal", extractor_preal.extraer),
+        ("PInt", extractor_pint.extraer),
+        ("Alarmas", extractor_alarmas.extraer),
+        ("Etapas", extractor_etapas.extraer),
+        ("Disp_ED", extractor_disp_ed.extraer),
+        ("Disp_EA", extractor_disp_ea.extraer),
+        ("Disp_SA", extractor_disp_sa.extraer),        
+        ("Disp_V", extractor_disp_v.extraer),
+        ("Disp_M", extractor_disp_m.extraer),
+        ("Disp_M_VF", extractor_disp_m_vf.extraer),
+        ("Disp_Config", extractor_config_disp.extraer),
+        ("Conexiones", extractor_conexiones.extraer)
+    ]
+    
+    resultados_globales = []
+
+    for nombre, funcion_extraer in operaciones:
+        print(f"Iniciando extracción de: {nombre}...")
+        # Pasamos la carpeta de destino a la función
+        exito, mensaje = funcion_extraer(ruta_excel, folder_path)
+        
+        if exito:
+            resultados_globales.append(f"OK: {nombre}")
+        else:
+            resultados_globales.append(f"ERROR en {nombre}: {mensaje}")
+            
+    return resultados_globales
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path", required=True, help="Ruta al archivo Excel")
+    args = parser.parse_args()
+
+    if os.path.exists(args.path):
+        status = ejecutar_todo(args.path)
+        print("\n".join(status))
+        print("DONE")
+    else:
+        print(f"ERROR: No se encuentra el archivo en {args.path}")
+</file>
+
+</files>

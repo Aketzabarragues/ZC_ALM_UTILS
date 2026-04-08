@@ -1,0 +1,2110 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+Comandos.txt
+core/__init__.py
+core/core_linker.py
+core/core_logger.py
+core/core_parser_data.py
+core/core_parser_scl.py
+core/core_parser_word.py
+main.py
+RunRepomix.bat
+static/css/custom.css
+static/img/logo.png
+ui/__init__.py
+ui/html_renderer.py
+ui/templates/layout_index.html
+ui/templates/layout_page.html
+ui/templates/template_data.html
+ui/templates/template_scl.html
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="Comandos.txt">
+Crear exe
+
+pyinstaller --noconfirm --onefile --console --name "ZC_Documentacion" --add-data "ui/templates;ui/templates" --add-data "static;static" "main.py"
+
+Ejecutar para probar
+
+Python main.py --word "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\ZC_DefinicionProgramacion\ESTANDAR ALIMENTACION.docx" --fuentes "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\bloques" --destino "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\_Ayuda_generada"
+
+
+ZC_Documentacion.exe --word "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\ZC_DefinicionProgramacion\ESTANDAR ALIMENTACION.docx" --fuentes "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\bloques" --destino "D:\Zeus Control\Proyectos\GitHub\ZC_ALM_UTILS\_Ayuda_generada"
+</file>
+
+<file path="core/__init__.py">
+
+</file>
+
+<file path="core/core_linker.py">
+"""
+Módulo Enlazador (Linker) de Referencias Cruzadas.
+
+Este componente actúa como el motor de hipervinculación del generador.
+Se encarga de construir un registro global en memoria con todos los identificadores
+(Bloques SCL, UDTs, DBs y anclas del manual Word) y, posteriormente, realiza
+una pasada de resolución inyectando las URLs definitivas en las dependencias
+y enlaces cruzados detectados en el código.
+"""
+
+import re
+from core import core_logger as log
+
+
+def construir_registro_global(capitulos_word, inventario_total):
+    """
+    Fase 1: Escaneo y catalogación de entidades.
+    
+    Construye un diccionario en memoria (Hash Map) que relaciona el identificador
+    único de cada entidad (nombre de bloque o ID de sección) con su URI de destino.
+    
+    Args:
+        capitulos_word (list): Colección de capítulos procesados del manual.
+        inventario_total (list): Colección combinada de bloques (FC, FB) y datos (DB, UDT).
+        
+    Returns:
+        dict: Registro de enrutamiento global.
+    """
+    log.info("Construyendo Registro Global de Enrutamiento (Cerebro)...")
+    registro = {}
+
+    # 1. Indexación de bloques de código y estructuras de datos
+    for bloque in inventario_total:
+        nombre = bloque.get("nombre_bloque", "")
+        if nombre:
+            # Estandarización a mayúsculas para garantizar resolución case-insensitive
+            registro[nombre.upper()] = {
+                "tipo": "bloque_codigo_o_dato",
+                "url": f"../bloques/{nombre}.html"
+            }
+
+    # 2. Indexación de anclas topológicas del manual (Word)
+    for cap in capitulos_word:
+        archivo_base = f"../manual/{cap.get('archivo', '')}"
+        
+        # A. Indexar secciones explícitas (H3) generadas por nuestro parser
+        for sub in cap.get("subsecciones", []):
+            id_sub = sub.get("id")
+            if id_sub:
+                registro[id_sub] = {
+                    "tipo": "seccion_word",
+                    "url": f"{archivo_base}#{id_sub}"
+                }
+            
+        # B. Indexar marcadores nativos de anclaje de Microsoft Word (_Ref...)
+        contenido_cap = cap.get("contenido", "")
+        ids_nativos = re.findall(r'\b(?:id|name)="([^"]+)"', contenido_cap, re.IGNORECASE)
+        for id_nativo in ids_nativos:
+            registro[id_nativo] = {
+                "tipo": "ancla_nativa_word",
+                "url": f"{archivo_base}#{id_nativo}"
+            }
+
+    return registro
+
+
+def enlazar_todo(capitulos_word, inventario_total, registro_global):
+    """
+    Fase 2: Resolución estática de dependencias cruzadas.
+    
+    Recorre los documentos y bloques parseados, detectando referencias a otras entidades
+    y sobrescribiendo sus atributos/enlaces con las URLs consolidadas del registro global.
+    
+    Args:
+        capitulos_word (list): Colección de capítulos del manual.
+        inventario_total (list): Inventario completo de bloques SCL y datos.
+        registro_global (dict): Mapa de rutas generado en la Fase 1.
+        
+    Returns:
+        tuple: (capitulos_word, inventario_total) con las URIs ya inyectadas.
+    """
+    log.info("Resolviendo matriz de dependencias e hipervínculos cruzados...")
+
+    # --- 1. Resolución de referencias internas del Manual (Word) ---
+    for cap in capitulos_word:
+        def reemplazar_enlace_word(match):
+            id_destino = match.group(1)
+            # Inyección de URL si el ancla destino existe en nuestro ecosistema
+            if id_destino in registro_global:
+                return f'href="{registro_global[id_destino]["url"]}"'
+            # Preservación del enlace original si es externo (ej. protocolo HTTP)
+            return match.group(0)
+
+        # Intercepción de atributos href basados en anclas (#)
+        if "contenido" in cap:
+            cap["contenido"] = re.sub(
+                r'href="#([^"]+)"', 
+                reemplazar_enlace_word, 
+                cap["contenido"], 
+                flags=re.IGNORECASE
+            )
+
+    # --- 2. Resolución de dependencias (Requires) en bloques de código ---
+    enlaces_resueltos_scl = 0
+    for bloque in inventario_total:
+        
+        # PREVENCIÓN DE ERROR: Uso de .get() seguro en caso de que la entidad (ej. un UDT) 
+        # no posea la clave 'dependencias' en su estructura de datos original.
+        dependencias = bloque.get("dependencias", [])
+        
+        for dep in dependencias:
+            # Ahora comprobamos si tiene la lista de 'elementos' (cambio respecto a 'valor')
+            if dep.get("tipo") == 'normal' and "elementos" in dep:
+                
+                # Iteramos sobre cada bloque individual que el parser separó por comas
+                for elem in dep["elementos"]:
+                    # El nombre declarado (Ej: "FC8_TRAZA_REGISTRO")
+                    nombre_buscado = elem["nombre"].strip().upper()
+                    
+                    # Inyección de hipervínculo si el componente es un ciudadano de nuestro registro
+                    if nombre_buscado in registro_global:
+                        elem["url"] = registro_global[nombre_buscado]["url"]
+                        enlaces_resueltos_scl += 1
+
+    log.debug(f"Resolución finalizada: {enlaces_resueltos_scl} dependencias cruzadas inyectadas en el código fuente.")
+    
+    return capitulos_word, inventario_total
+</file>
+
+<file path="core/core_logger.py">
+"""
+Sistema Centralizado de Telemetría y Registro (Logger).
+
+Este módulo proporciona un wrapper sobre la librería estándar 'logging' de Python.
+Está diseñado para ofrecer un flujo de salida dual: una salida estándar (consola) 
+para la interacción con el usuario y una salida persistente (archivo) para 
+el rastreo de bajo nivel y la depuración de estructuras de datos complejas.
+"""
+
+import logging
+import json
+import os
+
+# Archivo local de salida para la persistencia de las trazas de ejecución
+LOG_FILE = 'debug.log'
+
+# ==============================================================================
+# CONFIGURACIÓN DEL MOTOR DE LOGS
+# ==============================================================================
+# Se utiliza el modo 'w' (write) en el FileHandler para asegurar que el archivo 
+# de log se sobreescriba y pertenezca exclusivamente a la última ejecución, 
+# evitando archivos residuales gigantescos (stateless logging).
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%H:%M:%S',
+    handlers=[
+        logging.FileHandler(LOG_FILE, mode='w', encoding='utf-8'),
+        logging.StreamHandler()
+    ]
+)
+
+
+def info(mensaje):
+    """
+    Registra un evento de telemetría de nivel informativo.
+    
+    Utilizado para indicar el progreso del pipeline principal (ej. inicio de 
+    fases, conteo de archivos procesados, operaciones I/O exitosas).
+    
+    Args:
+        mensaje (str): Cadena de texto a registrar.
+    """
+    logging.info(mensaje)
+
+
+def debug(mensaje):
+    """
+    Registra un evento de telemetría de bajo nivel (diagnóstico).
+    
+    Utilizado para trazas técnicas que son ruidosas para el usuario final en 
+    consola, pero críticas para el análisis post-mortem en el archivo de log.
+    
+    Args:
+        mensaje (str): Cadena de texto técnica a registrar.
+    """
+    logging.debug(mensaje)
+
+
+def error(mensaje):
+    """
+    Registra un evento de fallo o excepción crítica en el sistema.
+    
+    Activa la salida de error estándar y preserva el contexto del fallo 
+    para facilitar su posterior resolución.
+    
+    Args:
+        mensaje (str): Descripción del error o traza de la excepción.
+    """
+    logging.error(mensaje)
+
+
+def dump_dict(nombre_diccionario, diccionario):
+    """
+    Serializa y vuelca el estado de un objeto en memoria al archivo de log.
+    
+    Convierte diccionarios y listas complejas (como el Registro Global o los objetos 
+    parseados del SCL) en cadenas JSON formateadas e indentadas. Es una herramienta 
+    puramente analítica para validar los Contratos de Datos (DTOs).
+    
+    Args:
+        nombre_diccionario (str): Etiqueta identificativa para localizar el volcado.
+        diccionario (dict|list): Objeto o estructura de datos a inspeccionar.
+    """
+    try:
+        # ensure_ascii=False garantiza la correcta representación de tildes (UTF-8)
+        texto_formateado = json.dumps(diccionario, indent=4, ensure_ascii=False)
+        
+        # Volcado estructurado visualmente para facilitar la lectura en el archivo plano
+        logging.debug(
+            f"\n{'='*60}\n"
+            f"[DUMP MEMORIA] -> {nombre_diccionario}\n"
+            f"{'-'*60}\n"
+            f"{texto_formateado}\n"
+            f"{'='*60}\n"
+        )
+    except Exception as e:
+        logging.error(f"Fallo durante la serialización del objeto '{nombre_diccionario}': {str(e)}")
+</file>
+
+<file path="core/core_parser_data.py">
+"""
+Analizador (Parser) de Estructuras de Datos de TIA Portal.
+
+Este módulo procesa archivos fuente exportados que contienen la definición de
+Bloques de Datos (DB) y Tipos de Datos de Usuario (UDT). Extrae metadatos,
+descripciones globales y la estructura interna de variables, incluyendo sus 
+tipos, valores por defecto y comentarios asociados.
+"""
+
+import re
+from core import core_logger as log
+
+
+def parsear_archivo_datos(ruta_archivo):
+    """
+    Analiza un archivo físico (.db o .udt) para extraer sus bloques lógicos.
+    
+    Un único archivo fuente de Siemens puede contener múltiples declaraciones 
+    (por ejemplo, varios TYPEs). Esta función fragmenta el archivo en bloques
+    y delega el análisis sintáctico de cada uno.
+
+    Args:
+        ruta_archivo (str): Ruta absoluta al archivo fuente a procesar.
+
+    Returns:
+        list: Lista de diccionarios (Data Transfer Objects) con la información 
+              estructurada de cada bloque de datos encontrado.
+    """
+    try:
+        with open(ruta_archivo, 'r', encoding='utf-8', errors='replace') as f:
+            contenido = f.read()
+
+        bloques = []
+
+        # 1. Extracción de Tipos de Datos de Usuario (UDT)
+        # El patrón busca bloques delimitados por las palabras clave TYPE y END_TYPE
+        patron_udt = r'TYPE\s+"([^"]+)"(.*?)END_TYPE'
+        for match in re.finditer(patron_udt, contenido, flags=re.DOTALL):
+            nombre_udt = match.group(1)
+            cuerpo_udt = match.group(2)
+            bloques.append(_procesar_bloque(nombre_udt, "UDT", cuerpo_udt))
+
+        # 2. Extracción de Bloques de Datos Globales o de Instancia (DB)
+        # Se procesa únicamente la cabecera declarativa hasta la cláusula BEGIN.
+        # Se ignora el código posterior ya que contiene sobreescrituras estáticas de valores.
+        patron_db = r'DATA_BLOCK\s+"([^"]+)"(.*?)BEGIN'
+        for match in re.finditer(patron_db, contenido, flags=re.DOTALL):
+            nombre_db = match.group(1)
+            cuerpo_db = match.group(2)
+            bloques.append(_procesar_bloque(nombre_db, "DB", cuerpo_db))
+
+        return bloques
+
+    except Exception as e:
+        log.error(f"Fallo estructural durante el parseo de datos en {ruta_archivo}: {str(e)}")
+        return []
+
+
+def _procesar_bloque(nombre, tipo_bloque, cuerpo):
+    """
+    Procesa el contenido interno de un bloque de datos (TYPE o DATA_BLOCK).
+
+    Aplica limpieza de metadatos del compilador y extrae línea por línea
+    las variables declaradas, identificando su identificador, tipo de dato, 
+    valor de inicialización y comentario asociado.
+
+    Args:
+        nombre (str): Identificador del bloque (ej. "DB_PROCESO").
+        tipo_bloque (str): Clasificación funcional ("DB" o "UDT").
+        cuerpo (str): Cadena de texto con la definición interna del bloque.
+
+    Returns:
+        dict: Objeto estandarizado con los metadatos y la colección de variables.
+    """
+    bloque_info = {
+        "nombre_bloque": nombre,
+        "tipo": tipo_bloque,
+        "descripcion": "",
+        "variables": []
+    }
+
+    # Extracción de la descripción global del bloque
+    # Típicamente ubicada como comentario inmediatamente después de la declaración de VERSION
+    match_desc = re.search(r'VERSION.*?\n\s*//\s*(.*)', cuerpo)
+    if match_desc:
+        bloque_info["descripcion"] = match_desc.group(1).strip()
+
+    # Análisis secuencial de la estructura de variables
+    lineas = cuerpo.splitlines()
+    
+    for linea in lineas:
+        linea_limpia = linea.strip()
+        
+        # Filtro: Omisión de líneas vacías, delimitadores de jerarquía anidada (STRUCT) 
+        # y líneas exclusivas de comentarios.
+        if not linea_limpia or linea_limpia.startswith('STRUCT') or linea_limpia.startswith('END_STRUCT') or linea_limpia.startswith('//'):
+            continue
+
+        # Neutralización de metadatos de configuración inyectados por el IDE de TIA Portal
+        # Ej: { S7_SetPoint := 'False'; ExternalVisible := 'False' }
+        linea_sin_metadatos = re.sub(r'\{[^}]*\}\s*', '', linea_limpia)
+
+        # Extracción léxica de los componentes de la variable
+        # Grupos esperados: (1) Nombre, (2) Tipo y posible Valor, (3) Comentario opcional
+        patron_variable = r'^([a-zA-Z0-9_]+)\s*:\s*([^;]+);(?:\s*//\s*(.*))?'
+        match_var = re.match(patron_variable, linea_sin_metadatos)
+        
+        if match_var:
+            nombre_var = match_var.group(1).strip()
+            tipo_y_valor = match_var.group(2).strip()
+            comentario = match_var.group(3).strip() if match_var.group(3) else ""
+
+            # Desacoplamiento del tipo de dato y su valor de inicialización (si existe)
+            if ':=' in tipo_y_valor:
+                partes = tipo_y_valor.split(':=')
+                tipo_var = partes[0].strip()
+                valor_defecto = partes[1].strip()
+            else:
+                tipo_var = tipo_y_valor
+                valor_defecto = "-"
+
+            bloque_info["variables"].append({
+                "nombre": nombre_var,
+                # Limpieza de comillas residuales en tipos envolventes (ej. "UDT_Motor")
+                "tipo": tipo_var.replace('"', ''), 
+                "valor": valor_defecto,
+                "comentario": comentario
+            })
+
+    return bloque_info
+</file>
+
+<file path="core/core_parser_scl.py">
+"""
+Analizador (Parser) de archivos fuente SCL de TIA Portal - ESTÁNDAR SIEMENS LGF.
+"""
+
+import os
+import re
+import textwrap
+from core import core_logger as log
+import markdown
+
+def limpiar_texto(texto):
+    if not texto: return ""
+    return texto.replace('\xa0', ' ').replace('\t', ' ').strip()
+
+def parsear_bloque(ruta_archivo):
+    log.info(f"Parseando código fuente SCL (Formato Siemens): {os.path.basename(ruta_archivo)}")
+    
+    with open(ruta_archivo, 'r', encoding='utf-8', errors='replace') as f:
+        contenido = f.read()
+
+    match_nombre = re.search(r'(FUNCTION|FUNCTION_BLOCK|DATA_BLOCK)\s+"([^"]+)"', contenido)
+    nombre_bloque = match_nombre.group(2) if match_nombre else os.path.basename(ruta_archivo).replace('.scl', '')
+
+    etiquetas = {}
+    dependencias_brutas = []
+    changelog = None
+
+    # EXTRACCIÓN DE PROPIEDADES NATIVAS DEL BLOQUE
+    match_version = re.search(r'^VERSION\s*:\s*(.*)', contenido, re.MULTILINE | re.IGNORECASE)
+    if match_version: etiquetas['Version_Bloque'] = match_version.group(1).strip()
+        
+    match_author = re.search(r'^AUTHOR\s*:\s*(.*)', contenido, re.MULTILINE | re.IGNORECASE)
+    if match_author: etiquetas['Author_Bloque'] = match_author.group(1).strip()
+        
+    match_family = re.search(r'^FAMILY\s*:\s*(.*)', contenido, re.MULTILINE | re.IGNORECASE)
+    if match_family: etiquetas['Family_Bloque'] = match_family.group(1).strip()
+
+    # 1. EXTRACCIÓN DE LA CABECERA (REGION Description header)
+    match_header = re.search(r'REGION\s+(?:Description header|DESCRIPCION)\s*(.*?)\s*END_REGION\s+(?:Description header|DESCRIPCION)', contenido, re.DOTALL | re.IGNORECASE)
+    if match_header:
+        header_text = match_header.group(1)
+        
+        campos_simples = ['Title', 'Library/Family', 'Author', 'Tested on System', 'Engineering', 'Restrictions']
+        for campo in campos_simples:
+            match_campo = re.search(rf'//\s*{campo}:\s*(.*)', header_text)
+            if match_campo:
+                etiquetas[campo] = limpiar_texto(match_campo.group(1))
+
+        # --- LÓGICA PARA COMMENT/FUNCTION CON MARKDOWN ---
+        # --- LÓGICA PARA COMMENT/FUNCTION CON MARKDOWN ---
+        import markdown 
+
+        match_comment = re.search(r'//\s*Comment/Function:\s*(.*?)(?=\n\s*//\s*[A-Za-z/ ]+:|\n\s*//---)', header_text, re.DOTALL)
+        if match_comment:
+            raw_comment = match_comment.group(1)
+            
+            match_block = re.search(r'\(\*(.*?)\*\)', raw_comment, re.DOTALL)
+            if match_block:
+                texto_crudo = match_block.group(1)
+                
+                # 1. Convertimos tabulaciones literales a 2 espacios
+                texto_crudo = texto_crudo.replace('\t', '  ')
+                texto_limpio = textwrap.dedent(texto_crudo).strip()
+            else:
+                lineas_limpias = [l.replace('//', '', 1).strip() for l in raw_comment.splitlines()]
+                texto_limpio = '\n'.join([l for l in lineas_limpias if l]).strip()
+            
+            # 2. EL TRUCO ANTIMAQUINA DE ESCRIBIR: 
+            # Reemplazamos todos los grupos de 4 espacios por 2 espacios. 
+            # Esto evita el comportamiento de "Bloque de código" pero mantiene la anidación de las listas.
+            texto_limpio = texto_limpio.replace('    ', '  ')
+            
+            # 3. Forzar doble salto de línea antes de viñetas (Mejorado para detectar saltos de línea de Windows \r\n)
+            texto_limpio = re.sub(r'([^\n\r])\r?\n(\s*[-*]\s)', r'\1\n\n\2', texto_limpio)
+            
+            # 4. Generar HTML limpio
+            etiquetas['Comment/Function'] = markdown.markdown(texto_limpio, extensions=['extra', 'nl2br'])
+        # -------------------------------------------------------------
+        # -------------------------------------------------------------
+
+        match_req = re.search(r'//\s*Requirements:\s*(.*?)(?=\n\s*//---)', header_text, re.DOTALL)
+        if match_req:
+            for rline in match_req.group(1).splitlines():
+                rline_clean = rline.replace('//', '', 1).strip()
+                if rline_clean.startswith('-'):
+                    partes = rline_clean[1:].split(':', 1)
+                    if len(partes) == 2:
+                        clave = partes[0].strip()
+                        nombres = [n.strip() for n in partes[1].split(',') if n.strip()]
+                        elementos = [{'nombre': n, 'url': None} for n in nombres]
+                        dependencias_brutas.append({'tipo': 'normal', 'clave': clave, 'elementos': elementos})
+
+        match_change = re.search(r'//\s*Change log table:\s*\n(.*?)(?=\n\s*//===)', header_text, re.DOTALL)
+        if match_change:
+            cl_lines = match_change.group(1).splitlines()
+            utiles = [l.replace('//', '', 1).strip() for l in cl_lines if l.strip() and not l.strip().startswith('//---')]
+            if len(utiles) > 1:
+                cabeceras = [c.strip() for c in utiles[0].split('|')]
+                filas = [[c.strip() for c in fila_str.split('|')] for fila_str in utiles[1:]]
+                changelog = {"cabeceras": cabeceras, "filas": filas}
+
+    # 2. PARSEO DE INTERFAZ DE VARIABLES AGRUPADAS
+    variables_agrupadas = {}
+    
+    patron_bloques_var = r'(VAR_INPUT\s+RETAIN|VAR_INPUT|VAR_OUTPUT\s+RETAIN|VAR_OUTPUT|VAR_IN_OUT\s+RETAIN|VAR_IN_OUT|VAR_TEMP|VAR_CONSTANT|VAR\s+CONSTANT|VAR\s+RETAIN|VAR)(.*?)(?:END_VAR)'
+    
+    mapeo_secciones = {
+        'VAR_INPUT': 'Entradas',
+        'VAR_INPUT RETAIN': 'Entradas',
+        'VAR_OUTPUT': 'Salidas',
+        'VAR_OUTPUT RETAIN': 'Salidas',
+        'VAR_IN_OUT': 'Entrada/Salida',
+        'VAR_IN_OUT RETAIN': 'Entrada/Salida',
+        'VAR_TEMP': 'Temporales',
+        'VAR_CONSTANT': 'Constantes',
+        'VAR CONSTANT': 'Constantes',
+        'VAR': 'Estáticas',
+        'VAR RETAIN': 'Estáticas'
+    }
+
+    for bloque in re.finditer(patron_bloques_var, contenido, re.DOTALL | re.IGNORECASE):
+        tipo_raw = re.sub(r'\s+', ' ', bloque.group(1).strip().upper())
+        nombre_seccion = mapeo_secciones.get(tipo_raw, tipo_raw)
+        
+        # Averiguamos si la sección en la que estamos declara variables remanentes
+        es_remanente = 'RETAIN' in tipo_raw
+        
+        if nombre_seccion not in variables_agrupadas:
+            variables_agrupadas[nombre_seccion] = []
+            
+        patron_linea_var = r'^\s*([a-zA-Z0-9_]+)(?:\s*\{[^}]*\})?\s*:\s*([^;]+);\s*(?://\s*(.*))?'
+        
+        for linea in re.finditer(patron_linea_var, bloque.group(2), re.MULTILINE):
+            variables_agrupadas[nombre_seccion].append({
+                'nombre': linea.group(1).strip(), 
+                'tipo': linea.group(2).strip(), 
+                'descripcion': linea.group(3).strip() if linea.group(3) else '',
+                'is_retain': es_remanente # Guardamos el flag booleano
+            })
+
+    variables_agrupadas = {k: v for k, v in variables_agrupadas.items() if v}
+
+    return {
+        "nombre_bloque": nombre_bloque,
+        "etiquetas": etiquetas,
+        "dependencias": dependencias_brutas,
+        "changelog": changelog,
+        "variables_agrupadas": variables_agrupadas,
+        "contenido_original": contenido
+    }
+
+def generar_secciones_menu(bloque):
+    secciones = []
+    if bloque.get("etiquetas") and "Comment/Function" in bloque["etiquetas"]:
+        secciones.append({"id": "descripcion", "titulo": "Descripción Funcional", "nivel": 1})
+    if bloque.get("changelog"):
+        secciones.append({"id": "changelog", "titulo": "Historial de Cambios", "nivel": 1})
+    if bloque.get("variables_agrupadas"):
+        secciones.append({"id": "interfaz", "titulo": "Interfaz del Bloque", "nivel": 1})
+    if bloque.get("dependencias"):
+        secciones.append({"id": "dependencias", "titulo": "Dependencias", "nivel": 1})
+    if bloque.get("contenido_original"):
+        secciones.append({"id": "codigo_fuente", "titulo": "Código Fuente", "nivel": 1})
+    return secciones
+</file>
+
+<file path="core/core_parser_word.py">
+"""
+Analizador (Parser) y Conversor de Documentos Word.
+
+Este módulo se encarga de procesar el manual corporativo en formato .docx,
+transformándolo en una colección de vistas HTML estáticas.
+
+Implementa un flujo híbrido que utiliza 'python-docx' para la extracción y 
+preservación de metadatos de estilo (como colores RGB) que normalmente son 
+descartados por motores semánticos puros, y 'mammoth' para la conversión 
+robusta del documento a HTML estándar.
+"""
+
+import os
+import re
+import mammoth
+import unicodedata
+import tempfile
+from core import core_logger as log
+
+
+def preprocesar_colores_word(ruta_word):
+    """
+    Preprocesa el documento Word inyectando marcadores de retención de color.
+    
+    Dado que la librería Mammoth elimina intencionadamente los estilos manuales 
+    para priorizar la semántica, esta función escanea el documento previamente 
+    con python-docx. Al detectar texto con color explícito, lo envuelve en una 
+    etiqueta segura (ej. [COLOR:#FF0000]texto[/COLOR]). Estas etiquetas 
+    sobreviven a la conversión a texto plano de Mammoth y pueden ser 
+    reemplazadas posteriormente por código CSS/HTML real.
+
+    Args:
+        ruta_word (str): Ruta absoluta al documento Word original.
+
+    Returns:
+        str: Ruta absoluta al documento Word temporal modificado.
+    """
+    try:
+        import docx
+    except ImportError:
+        log.error("Dependencia faltante: python-docx requerida para retención de colores.")
+        return ruta_word
+        
+    log.info("Analizando y protegiendo paleta de colores del documento Word...")
+    doc = docx.Document(ruta_word)
+    
+    def procesar_runs(runs):
+        """Inspecciona y modifica fragmentos de texto (runs) conservando su color."""
+        for r in runs:
+            if r.font.color and r.font.color.rgb:
+                color_hex = str(r.font.color.rgb)
+                # Exclusión de color automático (negro) o indefinido
+                if color_hex and color_hex != "000000" and color_hex != "None":
+                    if r.text.strip(): 
+                        r.text = f"[COLOR:#{color_hex}]{r.text}[/COLOR]"
+
+    # 1. Inspección de nodos de texto estándar (párrafos)
+    for p in doc.paragraphs:
+        procesar_runs(p.runs)
+                
+    # 2. Inspección recursiva de nodos de texto anidados (tablas)
+    for t in doc.tables:
+        for row in t.rows:
+            for cell in row.cells:
+                for p in cell.paragraphs:
+                    procesar_runs(p.runs)
+                    
+    # Serialización del documento modificado en el directorio temporal del sistema OS
+    temp_dir = tempfile.gettempdir()
+    temp_path = os.path.join(temp_dir, "temp_zcalm_color.docx")
+    doc.save(temp_path)
+    
+    return temp_path
+
+
+def procesar_h3_en_contenido(html_contenido):
+    """
+    Detecta y procesa subsecciones (etiquetas <h3>) dentro de un bloque HTML.
+    
+    Aplica identificadores únicos generados dinámicamente basados en el título
+    normalizado, permitiendo la creación de anclas para enlaces profundos (Deep Linking).
+
+    Args:
+        html_contenido (str): Fragmento HTML a procesar.
+
+    Returns:
+        tuple: (HTML inyectado con clases e IDs, Lista de DTOs de subsecciones).
+    """
+    subsecciones = []
+    # Segmentación inclusiva reteniendo la etiqueta delimitadora
+    partes_h3 = re.split(r'(<h3\b[^>]*>.*?<\/h3>)', html_contenido, flags=re.IGNORECASE | re.DOTALL)
+    nuevo_html = ""
+    
+    if partes_h3[0].strip():
+        nuevo_html += f'<div class="doc-section">\n{partes_h3[0]}\n</div>\n'
+        
+    for i in range(1, len(partes_h3), 2):
+        h3_full = partes_h3[i]
+        contenido_h3 = partes_h3[i+1] if i+1 < len(partes_h3) else ""
+        
+        # Normalización ASCII para generación de identificadores URI-safe
+        texto_h3 = re.sub('<[^<]+?>', '', h3_full).strip()
+        texto_norm = unicodedata.normalize('NFKD', texto_h3).encode('ASCII', 'ignore').decode('utf-8')
+        id_h3 = "sec_" + re.sub(r'[^a-zA-Z0-9]+', '_', texto_norm).strip('_')[:30]
+        
+        subsecciones.append({"id": id_h3, "titulo": texto_h3, "nivel": 3})
+        nuevo_html += f'<div class="doc-section" id="{id_h3}">\n{h3_full}\n{contenido_h3}\n</div>\n'
+        
+    return nuevo_html, subsecciones
+
+
+def trocear_html_por_niveles(html_puro):
+    """
+    Fragmenta el documento HTML monolítico en capítulos discretos.
+    
+    Utiliza expresiones regulares para dividir el flujo basado en cabeceras 
+    de primer y segundo nivel (H1, H2), generando un DTO estructural por página.
+
+    Args:
+        html_puro (str): Documento HTML continuo exportado por Mammoth.
+
+    Returns:
+        list: Colección de diccionarios que representan los capítulos separados.
+    """
+    partes = re.split(r'(<(h[12])\b[^>]*>.*?<\/\2>)', html_puro, flags=re.IGNORECASE | re.DOTALL)
+    capitulos = []
+    
+    if partes[0].strip():
+        html_mod, subsecciones = procesar_h3_en_contenido(partes[0])
+        capitulos.append({
+            "archivo": "000_portada.html", 
+            "titulo": "Portada y Revisiones", 
+            "nivel": 1, 
+            "contenido": html_mod, 
+            "subsecciones": subsecciones
+        })
+    
+    contador = 1
+    for i in range(1, len(partes), 3):
+        etiqueta_completa = partes[i]
+        tipo_header = partes[i+1].lower() 
+        contenido_subsecuente = partes[i+2] if i+2 < len(partes) else ""
+        
+        # Generación de nombre de archivo estandarizado seguro
+        texto_limpio = re.sub('<[^<]+?>', '', etiqueta_completa).strip()
+        texto_normalizado = unicodedata.normalize('NFKD', texto_limpio).encode('ASCII', 'ignore').decode('utf-8')
+        nombre_seguro = re.sub(r'[^a-zA-Z0-9]+', '_', texto_normalizado).strip('_')[:50]
+        
+        contenido_total = etiqueta_completa + contenido_subsecuente
+        html_mod, subsecciones = procesar_h3_en_contenido(contenido_total)
+        
+        capitulos.append({
+            "archivo": f"{contador:03d}_{nombre_seguro}.html",
+            "titulo": texto_limpio,
+            "nivel": int(tipo_header[1]),
+            "contenido": html_mod,
+            "subsecciones": subsecciones
+        })
+        contador += 1
+        
+    return capitulos
+
+
+def procesar_word(ruta_word, ruta_destino):
+    """
+    Controlador principal de extracción y conversión del manual Word.
+    
+    Fases del proceso:
+    1. Inyección de metadatos de color (Preprocesamiento).
+    2. Extracción de imágenes y conversión estructural a HTML semántico.
+    3. Restauración de metadatos de color mediante CSS in-line.
+    4. Fragmentación en páginas HTML discretas para el visor web.
+
+    Args:
+        ruta_word (str): Path de origen del documento .docx.
+        ruta_destino (str): Path base donde se desplegarán las imágenes extraídas.
+
+    Returns:
+        list: Inventario completo de capítulos estructurados listos para enlazado.
+    """
+    log.info("Inicializando motor de extracción del documento Word...")
+    ruta_img = os.path.join(ruta_destino, 'img')
+    contador_img = 1
+
+    # 1. Preprocesamiento: Inyección de anclas de retención para colores RGB
+    ruta_temp_word = preprocesar_colores_word(ruta_word)
+
+    def convertir_imagen(image):
+        """Callback inyectado en Mammoth para la persistencia física de imágenes incrustadas."""
+        nonlocal contador_img
+        extension = image.content_type.split("/")[1]
+        nombre_img = f"img_{contador_img}.{extension}"
+        with image.open() as image_stream:
+            with open(os.path.join(ruta_img, nombre_img), "wb") as f:
+                f.write(image_stream.read())
+        contador_img += 1
+        return {"src": f"../img/{nombre_img}"}
+
+    # 2. Conversión estructural delegando el volcado de imágenes al callback
+    with open(ruta_temp_word, "rb") as docx_file:
+        resultado = mammoth.convert_to_html(
+            docx_file, 
+            convert_image=mammoth.images.img_element(convertir_imagen)
+        )
+    
+    html_crudo = resultado.value
+
+    # 3. Postprocesamiento: Resolución de marcadores y restitución del formato CSS
+    html_con_colores = re.sub(
+        r'\[COLOR:#([0-9a-fA-F]{6})\](.*?)\[/COLOR\]', 
+        r'<span style="color: #\1;">\2</span>', 
+        html_crudo, 
+        flags=re.DOTALL
+    )
+
+    # Higiene del sistema: Liberación del documento transaccional temporal
+    if ruta_temp_word != ruta_word and os.path.exists(ruta_temp_word):
+        os.remove(ruta_temp_word)
+    
+    # 4. Fragmentación algorítmica del documento continuo en páginas navegables
+    capitulos = trocear_html_por_niveles(html_con_colores)
+    
+    return capitulos
+</file>
+
+<file path="main.py">
+"""
+Módulo Principal del Generador de Documentación de Zeus Control.
+
+Este script actúa como el controlador central de la aplicación. 
+Se ejecuta mediante línea de comandos recibiendo las rutas de trabajo 
+y gestiona el flujo de ejecución completo: orquestación de los distintos 
+analizadores (parsers de Word y SCL/Datos), resolución de dependencias 
+cruzadas (Linker) y generación final de las vistas estáticas en formato HTML.
+"""
+
+import os
+import re
+import sys
+import argparse
+import traceback
+
+# Módulos internos del core de ZCALM
+from core import core_logger as log
+from core import core_parser_word
+from core import core_parser_scl
+from core import core_parser_data
+from core import core_linker
+from ui import html_renderer
+
+
+def generar_documentacion(ruta_word, ruta_scl, ruta_destino):
+    """
+    Ejecuta el pipeline principal de extracción y generación de documentación.
+    
+    Fases del proceso:
+    1. Extracción y parseo de datos del manual (Word).
+    2. Escaneo y parseo de código fuente SCL y estructuras de datos (DB/UDT).
+    3. Vinculación (Linking) para resolución de referencias cruzadas.
+    4. Renderización de plantillas Jinja2 a HTML estático.
+    5. Estructuración y ordenación del árbol de navegación lateral.
+    """
+    
+    # Validación pre-ejecución de rutas críticas
+    if not ruta_word or not os.path.exists(ruta_word):
+        log.error(f"La ruta del archivo Word especificada no es válida: {ruta_word}")
+        print("\n[ERROR] La ruta del archivo Word especificada no es válida.")
+        sys.exit(1)
+        
+    if not ruta_destino:
+        log.error("El directorio de destino no está configurado.")
+        print("\n[ERROR] El directorio de destino no está configurado.")
+        sys.exit(1)
+
+    print("\n" + "="*49)
+    print(" ZCALM - GENERADOR DE DOCUMENTACIÓN TÉCNICA v3.0 ")
+    print("="*49)
+
+    try:
+        log.info(f"Inicializando despliegue estático en: {ruta_destino}")
+        html_renderer.copiar_estaticos(ruta_destino)
+
+        # FASE 1: Procesamiento del documento funcional (Manual)
+        capitulos_word = core_parser_word.procesar_word(ruta_word, ruta_destino)
+
+        # FASE 2: Extracción de lógica y datos desde exportaciones VCI
+        bloques_scl = []
+        bloques_datos = []
+        
+        if ruta_scl and os.path.exists(ruta_scl):
+            log.info(f"Iniciando escaneo de código fuente en: {ruta_scl}")
+            archivos_fuente = [f for f in os.listdir(ruta_scl) if f.lower().endswith(('.scl', '.db', '.udt'))]
+            
+            for archivo in archivos_fuente:
+                ruta_completa = os.path.join(ruta_scl, archivo)
+                
+                # Desvío según el formato del archivo fuente
+                if archivo.lower().endswith('.scl'):
+                    datos_bloque = core_parser_scl.parsear_bloque(ruta_completa)
+                    if datos_bloque: 
+                        bloques_scl.append(datos_bloque)
+                
+                elif archivo.lower().endswith(('.db', '.udt')):
+                    datos_extraidos = core_parser_data.parsear_archivo_datos(ruta_completa)
+                    bloques_datos.extend(datos_extraidos)
+                    
+            log.info(f"Parseo finalizado: {len(bloques_scl)} bloques SCL, {len(bloques_datos)} estructuras DB/UDT.")
+        else:
+            log.info(f"Ruta de fuentes SCL no válida o vacía. Se omitirá el escaneo de código.")
+
+        # FASE 3: Enlazador (Linker) - Generación del árbol de dependencias
+        # Agrupamos todo (SCL + DB/UDT) para que el registro global conozca todos los archivos
+        inventario_total = bloques_scl + bloques_datos        
+        registro_global = core_linker.construir_registro_global(capitulos_word, inventario_total)        
+        # Procesamos los enlaces para todo el inventario completo
+        capitulos_word, inventario_total = core_linker.enlazar_todo(capitulos_word, inventario_total, registro_global)
+
+        # FASE 4: Renderizado de Vistas (HTML)
+        log.info("Iniciando compilación de vistas HTML...")
+        
+        # Renderizado del Manual
+        for cap in capitulos_word:
+            ruta_guardado = os.path.join(ruta_destino, 'manual', cap["archivo"])
+            html_renderer.renderizar_pagina(cap["titulo"], cap["contenido"], ruta_guardado)
+
+        bloques_info_menu = []
+
+        # Renderizado de Funciones y FBs
+        for bloque in bloques_scl:
+            ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque['nombre_bloque']}.html")
+            html_renderer.renderizar_bloque_scl(bloque, ruta_guardado)
+            
+            secciones = core_parser_scl.generar_secciones_menu(bloque)
+            
+            # Clasificación heurística del tipo de bloque basándose en el prefijo estándar
+            nombre_upper = bloque['nombre_bloque'].upper()
+            if nombre_upper.startswith('FC'):
+                tipo_bloque = 'FC'
+            elif nombre_upper.startswith('FB'):
+                tipo_bloque = 'FB'
+            elif nombre_upper.startswith('DB'):
+                tipo_bloque = 'DB'
+            else:
+                tipo_bloque = 'UDT'
+            
+            bloques_info_menu.append({
+                "nombre": bloque['nombre_bloque'], 
+                "archivo": f"{bloque['nombre_bloque']}.html", 
+                "secciones": secciones,
+                "tipo": tipo_bloque
+            })
+
+        # Renderizado de Tipos de Datos y Data Blocks
+        for bloque_dato in bloques_datos:
+            ruta_guardado = os.path.join(ruta_destino, 'bloques', f"{bloque_dato['nombre_bloque']}.html")
+            html_renderer.renderizar_datos(bloque_dato, ruta_guardado)
+            
+            # Clasificación binaria estricta para el menú de datos
+            tipo_dato = 'DB' if bloque_dato['nombre_bloque'].upper().startswith('DB') else 'UDT'
+            
+            bloques_info_menu.append({
+                "nombre": bloque_dato['nombre_bloque'], 
+                "archivo": f"{bloque_dato['nombre_bloque']}.html", 
+                "secciones": [], 
+                "tipo": tipo_dato
+            })
+
+        # FASE 5: Construcción y ordenación del Índice Lateral
+        def orden_natural_por_numero(item):
+            """
+            Algoritmo de ordenación natural focalizado en la numeración Siemens.
+            
+            Extrae el primer identificador numérico encontrado en el nombre del bloque
+            para realizar una ordenación matemática estricta (ej. FC8 precederá a FB2010),
+            ignorando el tipo de bloque. Si no posee identificador, se delega al final.
+            """
+            texto = item["nombre"]
+            match = re.search(r'\d+', texto)
+            numero = int(match.group()) if match else 9999999
+            
+            # Retorna tupla para desempatar alfabéticamente si comparten número (o carecen de él)
+            return (numero, texto.upper())
+            
+        bloques_info_menu.sort(key=orden_natural_por_numero)
+
+        # Segmentación del inventario para su distribución en el layout principal
+        funciones_info = [b for b in bloques_info_menu if b['tipo'] in ['FC', 'FB']]
+        datos_info     = [b for b in bloques_info_menu if b['tipo'] in ['DB', 'UDT']]
+
+        log.info("Ensamblando dom del índice de navegación...")
+        manual_html = html_renderer.construir_arbol_manual(capitulos_word)
+        funciones_html = html_renderer.construir_arbol_bloques(funciones_info)
+        datos_html = html_renderer.construir_arbol_bloques(datos_info)
+        
+        # Enrutamiento de la vista por defecto al abrir la aplicación
+        pagina_inicio = f"manual/{capitulos_word[0]['archivo']}" if capitulos_word else "inicio.html"
+        
+        # Renderizado del contenedor primario (Index)
+        html_renderer.renderizar_index(
+            manual_html, 
+            funciones_html, 
+            datos_html, 
+            pagina_inicio, 
+            os.path.join(ruta_destino, 'index.html')
+        )
+
+        log.info("Proceso de generación finalizado con éxito.")
+
+    except Exception as e:
+        # Captura de errores fatales no previstos durante el pipeline
+        log.error(f"Fallo estructural durante la ejecución:\n{traceback.format_exc()}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    # Configuración del parser de argumentos de consola
+    parser = argparse.ArgumentParser(description="ZCALM - Generador de Documentación Técnica")
+    
+    parser.add_argument(
+        "--word", 
+        required=True, 
+        help="Ruta absoluta al documento Word (.docx) del manual funcional."
+    )
+    parser.add_argument(
+        "--fuentes", 
+        required=True, 
+        help="Ruta absoluta a la carpeta exportada por VCI con archivos SCL, DB y UDT."
+    )
+    parser.add_argument(
+        "--destino", 
+        required=True, 
+        help="Ruta absoluta al directorio donde se generará la web HTML estática."
+    )
+
+    # Parsea los argumentos de la consola
+    args = parser.parse_args()
+
+    # Ejecuta el motor
+    generar_documentacion(args.word, args.fuentes, args.destino)
+</file>
+
+<file path="RunRepomix.bat">
+@echo off
+echo =========================================
+echo       Generando Repomix...
+echo =========================================
+npx repomix
+echo.
+echo =========================================
+echo       Proceso Finalizado.
+echo =========================================
+pause
+</file>
+
+<file path="static/css/custom.css">
+/* static/css/custom.css */
+body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; background-color: #f4f7f6; color: #333; }
+
+/* El layout-shell ahora es una columna (Cabecera arriba, Contenido abajo) */
+body.layout-shell { overflow: hidden; display: flex; flex-direction: column; }
+
+/* ======================================================================================================================================= */
+/* === BARRA SUPERIOR (HEADER) === */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #003466; /* Color corporativo */
+    color: white;
+    height: 45px; /* Barra pequeña y elegante */
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    z-index: 20;
+}
+.header-left { flex: 1; display: flex; align-items: center; }
+.header-left img { max-height: 25px; width: auto; background-color: transparent; padding: 2px; border-radius: 3px; } /* Ajuste del logo */
+.header-center { flex: 2; text-align: center; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #e8f4f8; }
+.header-right { flex: 1; text-align: right; font-size: 14px; font-weight: bold; letter-spacing: 1px; }
+
+/* Contenedor principal debajo del header */
+.main-container { display: flex; flex-grow: 1; overflow: hidden; width: 100%; }
+
+/* ======================================================================================================================================= */
+/* === MENÚ LATERAL === */
+.sidebar { 
+    width: 320px; 
+    background-color: #f0f3f5; /* Fondo gris muy claro */
+    border-right: 1px solid #d1d9e0; 
+    display: flex; 
+    flex-direction: column; 
+    color: #333; 
+    box-shadow: 1px 0 5px rgba(0,0,0,0.05); 
+    z-index: 10;
+}
+
+/* Buscador integrado sutilmente */
+.search-box { padding: 10px; background-color: #e5ebf0; border-bottom: 1px solid #d1d9e0; }
+.search-box input { width: 100%; padding: 6px 10px; box-sizing: border-box; border: 1px solid #c1cbd4; border-radius: 3px; background-color: white; color: #333; font-size: 13px; outline: none;}
+.search-box input:focus { border-color: #005eb8; }
+.search-box input::placeholder { color: #999; }
+
+.nav-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex-grow: 1; overflow-x: hidden; }
+.nav-list ul { list-style: none; padding: 0; margin: 0; }
+.nav-list li { margin: 0; }
+
+/* Elementos del menú */
+.menu-item { 
+    display: flex; 
+    align-items: flex-start; 
+    padding: 5px 10px; 
+    transition: background 0.1s; 
+    cursor: pointer; 
+    border-left: 3px solid transparent;
+    background-color: transparent; 
+}
+
+/* Hover y Activo */
+.menu-item:hover { background-color: #e1e7ec; }
+.menu-item.activo-menu { background-color: #ffffff; border-left: 3px solid #005eb8; }
+
+/* Textos de la estructura de árbol */
+/* === FLECHAS DEL MENÚ (VECTORIALES CSS) === */
+/* === FLECHAS DEL MENÚ (VECTORIALES CSS) === */
+.toggle-btn { 
+    width: 16px; 
+    min-width: 16px;
+    height: 16px; /* ¡CLAVE! Altura explícita para que no colapse */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; 
+}
+
+.toggle-btn::before {
+    content: '';
+    display: inline-block;
+    border-style: solid;
+    border-width: 4px 0 4px 6px; 
+    border-color: transparent transparent transparent #7a8a9a; 
+    transition: transform 0.15s ease-in-out; 
+}
+
+.toggle-btn:hover::before { border-color: transparent transparent transparent #005eb8; }
+.toggle-btn.open::before {
+    transform: rotate(90deg);
+    border-color: transparent transparent transparent #005eb8;
+}
+
+.toggle-spacer { width: 16px; min-width: 16px; display: inline-block; }
+
+.toggle-spacer { width: 16px; min-width: 16px; display: inline-block; }
+
+/* Enlaces generales del menú */
+.menu-link { 
+    text-decoration: none; 
+    flex-grow: 1; 
+    outline: none; 
+    display: block; 
+    line-height: 1.4; 
+    font-size: 12px; /* <-- Reducido de 13px a 12px para un aspecto más fino y profesional */
+    color: #34495e !important; 
+}
+.menu-link:hover { color: #005eb8 !important; }
+
+/* Solo el archivo que estamos viendo actualmente se pondrá en negrita y azul */
+.menu-item.activo-menu .menu-link { font-weight: 600 !important; color: #005eb8 !important; }
+
+/* Jerarquía de estilos en función del nivel (Carpetas y archivos) */
+.menu-link.level-1 { font-weight: 450; color: #2c3e50 !important; }
+.menu-link.level-2 { font-weight: 400; color: #4a5a6a !important; } 
+.menu-link.level-3, .menu-link.level-4 { font-weight: 400; color: #7a8a9a !important; } 
+
+/* Títulos separadores (Manual vs Bloques SCL) 
+.titulo-seccion-menu { 
+    background-color: #dbe2e8; 
+    padding: 8px 15px; 
+    font-weight: 600; 
+    color: #4a5a6a !important;
+    font-size: 11px; 
+    letter-spacing: 0.5px; 
+    text-transform: uppercase; 
+    border-top: 1px solid #cdd6df;
+    border-bottom: 1px solid #cdd6df;
+}
+.nested { display: block; } */
+
+/* Títulos separadores Principales (Colapsables) */
+.titulo-seccion-menu { 
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Pequeña separación entre la flecha y el texto */
+    background-color: #dbe2e8; /* Tu fondo gris original */
+    padding: 8px 10px; /* Alineado perfectamente con el padding de los elementos hijos */
+    font-weight: 600; 
+    color: #4a5a6a !important;
+    font-size: 11px; 
+    letter-spacing: 0.5px; 
+    text-transform: uppercase; 
+    border-top: 1px solid #cdd6df;
+    border-bottom: 1px solid #cdd6df;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.titulo-seccion-menu:hover {
+    background-color: #cdd6df; /* Un gris un pelín más oscuro al pasar el ratón */
+}
+
+/* ======================================================================================================================================= */
+/* === VISOR CENTRAL === */
+.content-area { flex-grow: 1; background-color: #f4f7f6; overflow-y: auto; scroll-behavior: smooth;}
+iframe { width: 100%; height: 100%; border: none; }
+.page-wrapper { display: flex; max-width: 95%; margin: 0 auto; width: 100%; }
+.page-content { flex-grow: 1; padding: 40px; box-sizing: border-box; max-width: 100%; }
+
+/* Cajas blancas para apartados */
+.doc-section { background: white; margin-bottom: 25px; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); box-sizing: border-box; width: 100%; overflow-x: auto; scroll-margin-top: 20px;}
+.doc-section > h1:first-child, .doc-section > h2:first-child, .doc-section > h3:first-child { margin-top: 0; }
+
+/* Tipografía interna (Color Corporativo Base) */
+.page-content h1 { color: rgb(0, 52, 102); border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; font-size: 28px; margin-bottom: 20px;}
+.page-content h2 { color: rgb(0, 52, 102); border-bottom: 1px solid #ecf0f1; padding-bottom: 5px; font-size: 22px; margin-top: 30px;}
+.page-content h3 { color: rgb(0, 52, 102); font-size: 18px; margin-top: 25px;}
+.page-content p { line-height: 1.6; color: #555; }
+
+/* ======================================================================================================================================= */
+/* === TABLAS UNIFICADAS === */
+.page-content table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); table-layout: auto;}
+.page-content th, .page-content td { border: 1px solid #dee2e6; padding: 12px 15px; text-align: left; vertical-align: top; line-height: 1.5; word-wrap: break-word; overflow-wrap: break-word;}
+
+/* Fondo de tabla Color Corporativo y letra BLANCA OBLIGATORIA */
+.page-content th, .page-content tr:first-child td { background-color: rgb(0, 52, 102) !important; color: white !important; font-weight: bold; }
+.page-content th *, .page-content tr:first-child td * { color: white !important; font-weight: bold !important; }
+
+
+
+/* ======================================================================================================================================= */
+/* === CÓDIGO SCL OSCURO === */
+pre.scl-code { background: #282c34; color: #abb2bf; padding: 15px; border-radius: 5px; border-left: 4px solid #e74c3c; overflow-x: auto; font-family: Consolas, monospace; font-size: 13px; line-height: 1.5; margin-top: 15px;}
+
+/* Imágenes */
+.page-content img { max-width: 100%; height: auto; border: 1px solid #ddd; padding: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin: 15px 0; border-radius: 4px;}
+
+
+
+/* ======================================================================================================================================= */
+/* === ESTILOS ESPECÍFICOS PARA BLOQUES SCL === */
+.scl-section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* La raíz tiene el borde corporativo fuerte. Los hijos se indentan. */
+.scl-section.nivel-1 { border-left: 4px solid #3498db; }
+.scl-section:not(.nivel-1) { margin-top: 15px; margin-left: 20px; border-left: 3px solid #bdc3c7; }
+
+.scl-section details summary {
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    font-size: 15px;
+    color: #2c3e50;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid transparent;
+}
+
+/* Estado Expandido */
+.scl-section details[open] > summary {
+    background-color: #e8f4f8;
+    border-bottom: 1px solid #e2e8f0;
+    color: #005eb8;
+}
+
+.scl-section details summary:hover { background-color: #e1e7ec; }
+
+.scl-section .section-body {
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+/* Ajuste nativo de la flecha del acordeón HTML5 */
+.scl-section details summary::marker { color: #3498db; }
+
+/* Estilos base de la tabla. */
+.scl-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 15px; 
+    font-size: 0.95em; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+    border: 1px solid #cbd5e1; 
+}
+
+.scl-table td { 
+    padding: 10px; 
+    border: 1px solid #cbd5e1; 
+}
+
+/* Forzamos el color de fondo blanco para anular el azul global en la 1ra fila de datos de las tablas SCL */
+.page-content table.scl-table tbody tr:first-child td {
+    background-color: #ffffff !important;
+}
+
+/* Zebra stripe (Filas grises intercaladas) */
+.page-content table.scl-table tbody tr:nth-child(even) td {
+    background-color: #f8fafc !important;
+}
+
+/* Badge corporativo para los títulos (FC, FB, DB...) */
+.scl-badge { 
+    display: inline-block; 
+    background-color: #e8f4f8; 
+    color: #3498db; 
+    padding: 4px 10px; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    font-size: 16px; 
+    margin-right: 10px; 
+    vertical-align: bottom; 
+}
+
+/* ======================================================================================================================================= */
+/* === FORMATO MARKDOWN UNIFICADO (DESCRIPCIÓN FUNCIONAL SCL) === */
+.markdown-container {
+    margin-top: 15px;
+    color: #555;
+}
+
+/* Usamos 'inherit' para que copie EXACTAMENTE el estilo (tamaño y fuente) de los párrafos de tu web */
+.markdown-container p, 
+.markdown-container ul, 
+.markdown-container ol, 
+.markdown-container li {
+    color: #555 !important;
+    font-family: inherit !important;
+    font-size: inherit !important; 
+    line-height: 1.6 !important;
+    font-weight: normal;
+}
+
+/* Ajustes de espaciado para que quede limpio */
+.markdown-container p {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.markdown-container ul, 
+.markdown-container ol {
+    margin-top: 0;
+    margin-left: 15px; /* Sangría natural */
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.markdown-container li {
+    margin-bottom: 5px; 
+}
+
+/* Negrita destacada en el azul corporativo de Zeus Control */
+.markdown-container strong {
+    color: rgb(0, 52, 102) !important;
+    font-weight: bold !important;
+}
+
+/* ======================================================================================================================================= */
+/* REGLAS PARA IMPRESIÓN / PDF */
+@media print {
+    .sidebar, .top-header { display: none !important; }
+    .main-container { height: auto !important; display: block !important; }
+    .content-area { overflow: visible !important; background-color: white !important;}
+    .page-content { padding: 0 !important; }
+    .doc-section { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; margin-bottom: 10px; padding: 15px;}
+    body.layout-shell { overflow: visible !important; background-color: white; display: block; }
+    ul.nested { display: block !important; }
+    pre.scl-code { background: #f8f9fa !important; color: #333 !important; border-left: 4px solid #333 !important; }
+}
+</file>
+
+<file path="ui/__init__.py">
+
+</file>
+
+<file path="ui/html_renderer.py">
+"""
+Motor de Renderizado HTML (View Layer).
+
+Este módulo gestiona la transformación de las estructuras de datos en memoria (DTOs)
+en vistas HTML estáticas utilizando el motor de plantillas Jinja2.
+Se encarga del aprovisionamiento de recursos estáticos, la composición de layouts 
+y la generación algorítmica de los árboles de navegación del Document Object Model (DOM).
+"""
+
+import os
+import sys
+import shutil
+from jinja2 import Environment, FileSystemLoader
+from core import core_logger as log
+
+
+def obtener_ruta_base():
+    """
+    Resuelve la ruta absoluta del directorio de ejecución.
+    Apunta siempre a la RAÍZ del proyecto (ZC_Documentacion).
+    """
+    if getattr(sys, 'frozen', False):
+        # Si es un .exe, devuelve la carpeta temporal raíz _MEIPASS
+        return sys._MEIPASS
+
+    directorio_actual = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(directorio_actual, '..'))
+
+def configurar_jinja():
+    """
+    Inicializa y configura el entorno del motor de plantillas Jinja2.
+    
+    Returns:
+        Environment: Instancia de Jinja2 enlazada al directorio estático de plantillas.
+    """
+    ruta_templates = os.path.join(obtener_ruta_base(), 'ui', 'templates')
+    return Environment(loader=FileSystemLoader(ruta_templates))
+
+
+def copiar_estaticos(ruta_destino):
+    """
+    Aprovisiona el directorio de salida inicializando la topología de carpetas
+    e inyectando los recursos estáticos compartidos (Hojas de estilo e Imágenes).
+    
+    Args:
+        ruta_destino (str): Directorio raíz donde se desplegará la documentación web.
+    """
+    log.info(f"Desplegando topología de carpetas en: {ruta_destino}")
+    ruta_base = obtener_ruta_base()
+    
+    ruta_css_destino = os.path.join(ruta_destino, 'css')
+    ruta_img_destino = os.path.join(ruta_destino, 'img')
+    
+    # exist_ok=True garantiza la idempotencia (no falla si la carpeta ya existe)
+    os.makedirs(ruta_css_destino, exist_ok=True)
+    os.makedirs(ruta_img_destino, exist_ok=True)
+    os.makedirs(os.path.join(ruta_destino, 'manual'), exist_ok=True)
+    os.makedirs(os.path.join(ruta_destino, 'bloques'), exist_ok=True)
+    
+    # Despliegue de CSS personalizado
+    archivo_css_origen = os.path.join(ruta_base, 'static', 'css', 'custom.css')
+    if os.path.exists(archivo_css_origen):
+        shutil.copy(archivo_css_origen, ruta_css_destino)
+        
+    # Despliegue masivo de recursos gráficos (Logos, iconos, etc.)
+    ruta_img_origen = os.path.join(ruta_base, 'static', 'img')
+    if os.path.exists(ruta_img_origen):
+        for archivo in os.listdir(ruta_img_origen):
+            shutil.copy(os.path.join(ruta_img_origen, archivo), ruta_img_destino)
+        log.debug("Aprovisionamiento de recursos estáticos (CSS/IMG) finalizado.")
+
+
+def renderizar_pagina(titulo, contenido_html, ruta_guardado):
+    """
+    Renderiza una vista genérica (típicamente capítulos procesados del Manual Word).
+    """
+    env = configurar_jinja()
+    plantilla = env.get_template('layout_page.html')
+    html_final = plantilla.render(titulo_pagina=titulo, contenido=contenido_html)
+    
+    with open(ruta_guardado, 'w', encoding='utf-8') as f:
+        f.write(html_final)
+
+
+def renderizar_bloque_scl(datos_bloque, ruta_guardado):
+    """
+    Renderiza la vista detallada de un bloque de código (FC/FB).
+    
+    Utiliza un patrón de composición de plantillas: procesa primero el DOM interno 
+    (template_scl) con las propiedades SCL, y luego lo inyecta como contenido 
+    en el contenedor maestro (layout_page).
+    
+    Args:
+        datos_bloque (dict): Diccionario DTO con la estructura del bloque SCL.
+        ruta_guardado (str): Path de escritura del archivo HTML resultante.
+    """
+    log.debug(f"Renderizando DOM estático para el bloque SCL: {datos_bloque['nombre_bloque']}")
+    env = configurar_jinja()
+    plantilla_scl = env.get_template('template_scl.html')
+    plantilla_base = env.get_template('layout_page.html')
+    
+    # 1. Composición del componente interno desempaquetando el diccionario (Kwargs)
+    html_interior = plantilla_scl.render(**datos_bloque)
+    
+    # 2. Inyección en el Layout Padre
+    html_final = plantilla_base.render(titulo_pagina=datos_bloque['nombre_bloque'], contenido=html_interior)
+    
+    with open(ruta_guardado, 'w', encoding='utf-8') as f:
+        f.write(html_final)
+
+
+def renderizar_datos(bloque, ruta_salida):
+    """
+    Renderiza la vista detallada de una estructura de datos (DB/UDT).
+    Aplica el mismo patrón de composición que los bloques SCL pero usando template_data.
+    """
+    log.debug(f"Renderizando DOM estático para la estructura de datos: {bloque['nombre_bloque']}")
+    env = configurar_jinja() 
+    
+    plantilla_datos = env.get_template('template_data.html')
+    plantilla_base = env.get_template('layout_page.html')
+    
+    html_interior = plantilla_datos.render(bloque=bloque)
+    html_final = plantilla_base.render(titulo_pagina=bloque['nombre_bloque'], contenido=html_interior)
+    
+    with open(ruta_salida, 'w', encoding='utf-8') as f:
+        f.write(html_final)
+
+
+def construir_arbol_manual(capitulos_manual):
+    """
+    Genera el HTML en crudo para el índice lateral interactivo del manual (Word).
+    
+    Implementa un algoritmo de control de profundidad que rastrea los niveles de 
+    jerarquía (H1, H2, H3) y gestiona de forma segura la apertura y cierre de 
+    listas anidadas (<ul>, <li>) en el DOM.
+    """
+    menu_manual = []
+    
+    # Indexación secuencial de los capítulos y subsecciones
+    for cap in capitulos_manual:
+        menu_manual.append({"enlace": f'manual/{cap["archivo"]}', "titulo": cap["titulo"], "nivel": cap["nivel"]})
+        for sub in cap.get("subsecciones", []):
+            menu_manual.append({"enlace": f'manual/{cap["archivo"]}#{sub["id"]}', "titulo": sub["titulo"], "nivel": sub["nivel"]})
+
+    manual_html = ""
+    nivel_actual = 1
+    
+    # Evaluación de estado para inyección de nodos en el DOM
+    for i, item in enumerate(menu_manual):
+        nivel = item["nivel"]
+        tiene_hijos = (i + 1 < len(menu_manual) and menu_manual[i+1]["nivel"] > nivel)
+        
+        # Compensación de cierres de etiquetas al ascender en el árbol
+        if nivel < nivel_actual:
+            for _ in range(nivel_actual - nivel): 
+                manual_html += "</ul></li>\n"
+            nivel_actual = nivel
+            
+        pad_left = 5 + ((nivel - 1) * 15)
+        clase_nivel = f"level-{nivel}"
+            
+        btn = '<div class="toggle-btn" onclick="toggleMenu(this)"></div>' if tiene_hijos else '<div class="toggle-spacer"></div>'
+        manual_html += f'<li><div class="menu-item" style="padding-left: {pad_left}px;">{btn}<a class="menu-link {clase_nivel}" href="{item["enlace"]}" target="visor">{item["titulo"]}</a></div>\n'
+        
+        # Apertura de nodo anidado si procede
+        if tiene_hijos:
+            manual_html += '<ul class="nested" style="display: none;">\n'
+            nivel_actual += 1
+        else:
+            manual_html += '</li>\n'
+            
+    # Clausura segura de todos los niveles residuales al finalizar el bucle
+    for _ in range(nivel_actual - 1): 
+        manual_html += "</ul></li>\n"
+        
+    return manual_html
+
+
+def construir_arbol_bloques(bloques_info):
+    """
+    Genera el HTML en crudo para el índice lateral interactivo de código y datos.
+    Implementa la misma lógica de jerarquía algorítmica que construir_arbol_manual().
+    """
+    bloques_html = ""
+    
+    if not bloques_info:
+        return ('<li><div class="menu-item" style="padding-left: 10px;">'
+                '<div class="toggle-spacer"></div>'
+                '<i class="menu-link" style="color:#999; font-size: 13px;">No hay recursos documentados</i>'
+                '</div></li>')
+        
+    for bloque in bloques_info:
+        tiene_secciones = len(bloque["secciones"]) > 0
+        btn_bloque = '<div class="toggle-btn" onclick="toggleMenu(this)"></div>' if tiene_secciones else '<div class="toggle-spacer"></div>'
+        
+        # Inserción del nodo raíz del bloque (Siempre de nivel 1 en la vista)
+        bloques_html += f'<li><div class="menu-item" style="padding-left: 5px;">{btn_bloque}<a class="menu-link level-1" href="bloques/{bloque["archivo"]}" target="visor">{bloque["nombre"]}</a></div>\n'
+        
+        if tiene_secciones:
+            bloques_html += '<ul class="nested" style="display: none;">\n'
+            nivel_actual = 1 
+            
+            for i, sec in enumerate(bloque["secciones"]):
+                nivel = sec["nivel"]
+                tiene_hijos = (i + 1 < len(bloque["secciones"]) and bloque["secciones"][i+1]["nivel"] > nivel)
+                
+                # Compensación de cierres
+                if nivel < nivel_actual:
+                    for _ in range(nivel_actual - nivel): 
+                        bloques_html += "</ul></li>\n"
+                    nivel_actual = nivel
+                    
+                # Incremento visual del nivel para diferenciar de la raíz del bloque
+                nivel_css = nivel + 1
+                pad_left = 5 + ((nivel_css - 1) * 15)
+                clase_nivel = f"level-{nivel_css}"
+                
+                btn_sec = '<div class="toggle-btn" onclick="toggleMenu(this)"></div>' if tiene_hijos else '<div class="toggle-spacer"></div>'
+                bloques_html += f'<li><div class="menu-item" style="padding-left: {pad_left}px;">{btn_sec}<a class="menu-link {clase_nivel}" href="bloques/{bloque["archivo"]}#{sec["id"]}" target="visor">{sec["titulo"]}</a></div>\n'
+                
+                if tiene_hijos:
+                    bloques_html += '<ul class="nested" style="display: none;">\n'
+                    nivel_actual += 1
+                else:
+                    bloques_html += '</li>\n'
+                    
+            # Clausura de seguridad de subsecciones
+            for _ in range(nivel_actual - 1): 
+                bloques_html += "</ul></li>\n"
+            bloques_html += '</ul>\n'
+            
+        bloques_html += '</li>\n'
+        
+    return bloques_html
+
+
+def renderizar_index(manual_html, funciones_html, datos_html, pagina_inicio, ruta_guardado):
+    """
+    Renderiza la vista principal (Index.html) que aloja el menú interactivo lateral 
+    y el IFrame contenedor.
+    
+    Args:
+        manual_html (str): Árbol DOM del manual pre-procesado.
+        funciones_html (str): Árbol DOM de bloques SCL pre-procesado.
+        datos_html (str): Árbol DOM de estructuras de datos pre-procesado.
+        pagina_inicio (str): Ruta predeterminada a cargar en el IFrame al inicio.
+        ruta_guardado (str): Path absoluto de escritura del archivo principal.
+    """
+    log.info("Renderizando contenedor maestro (index.html)...")
+    env = configurar_jinja()
+    plantilla = env.get_template('layout_index.html')
+    
+    html_final = plantilla.render(
+        manual_html=manual_html, 
+        funciones_html=funciones_html, 
+        datos_html=datos_html,
+        pagina_inicio=pagina_inicio
+    )
+    
+    with open(ruta_guardado, 'w', encoding='utf-8') as f:
+        f.write(html_final)
+</file>
+
+<file path="ui/templates/layout_index.html">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ayuda - Zeus Control ALM</title>
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="layout-shell">
+    
+    <header class="top-header">
+        <div class="header-left">
+            <img src="img/logo.png" alt="Zeus Control" onerror="this.style.display='none'">
+        </div>
+        <div class="header-center">
+            Documentación de Ingeniería
+        </div>
+        <div class="header-right">
+            ZEUS CONTROL
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <div class="sidebar">
+            <div class="search-box"><input type="text" id="buscador" placeholder="🔍 Buscar por nombre..." onkeyup="filtrarMenu()"></div>
+            
+            <ul class="nav-list" id="listaBloques">
+                
+                <li>
+                    <div class="titulo-seccion-menu" onclick="toggleMenu(this.querySelector('.toggle-btn'))">
+                        <span class="toggle-btn"></span> 📚 MANUAL DE PROGRAMACIÓN
+                    </div>
+                    <ul class="nested" style="display: none;">
+                        {{ manual_html | safe }}
+                    </ul>
+                </li>
+                
+                <li>
+                    <div class="titulo-seccion-menu" onclick="toggleMenu(this.querySelector('.toggle-btn'))">
+                        <span class="toggle-btn"></span> ⚙️ FUNCIONES (FC Y FB)
+                    </div>
+                    <ul class="nested" style="display: none;">
+                        {{ funciones_html | safe }}
+                    </ul>
+                </li>
+
+                <li>
+                    <div class="titulo-seccion-menu" onclick="toggleMenu(this.querySelector('.toggle-btn'))">
+                        <span class="toggle-btn"></span> 💾 DATOS (DB Y UDT)
+                    </div>
+                    <ul class="nested" style="display: none;">
+                        {{ datos_html | safe }}
+                    </ul>
+                </li>
+                
+            </ul>
+
+        </div>
+
+        <div class="content-area">
+            <iframe name="visor" src="{{ pagina_inicio }}"></iframe>
+        </div>
+    </div>
+
+    <script>
+        
+        // === INTELIGENCIA DEL MENÚ: Escucha al iframe ===
+        function marcarMenuDesdeIframe(urlIframe) {
+            let links = document.querySelectorAll('.menu-link');
+            let encontrado = false;
+            let urlNormalizada = urlIframe.replace(/\\/g, '/');
+
+            links.forEach(link => {
+                let hrefLink = link.getAttribute('href');
+                if (urlNormalizada.endsWith(hrefLink) || link.href === urlIframe) {
+                    activarEstiloLink(link);
+                    encontrado = true;
+                }
+            });
+            
+            if (!encontrado) {
+                let urlSinHash = urlNormalizada.split('#')[0];
+                links.forEach(link => {
+                    let hrefSinHash = link.getAttribute('href').split('#')[0];
+                    if (urlSinHash.endsWith(hrefSinHash) || link.href.split('#')[0] === urlSinHash) {
+                        if (!encontrado) {
+                            activarEstiloLink(link);
+                            encontrado = true;
+                        }
+                    }
+                });
+            }
+        }
+
+        // === ACTIVA VISUALMENTE EL ITEM ===
+        function activarEstiloLink(linkElement) {
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('activo-menu'));
+            let menuItem = linkElement.closest('.menu-item');
+            
+            if (menuItem) {
+                menuItem.classList.add('activo-menu');
+                
+                // Desplegamos todos los padres
+                let parentUl = menuItem.closest('ul.nested');
+                while(parentUl) {
+                    parentUl.style.display = 'block';
+                    let parentLi = parentUl.closest('li');
+                    if(parentLi) {
+                        let btn = parentLi.querySelector('.toggle-btn');
+                        if(btn) btn.classList.add('open'); // <-- Añadimos la clase en lugar de texto
+                        parentUl = parentLi.closest('ul.nested');
+                    } else break;
+                }
+                
+                menuItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                activarEstiloLink(this);
+            });
+        });
+
+        // Desplegar/plegar carpetas con colapso recursivo
+        function toggleMenu(btn) {
+            var li = btn.closest('li');
+            var nestedUl = Array.from(li.children).find(c => c.classList.contains('nested'));
+            
+            if (nestedUl) {
+                // Si está cerrado (o sin estilo definido aún), lo abrimos
+                if (nestedUl.style.display === 'none' || nestedUl.style.display === '') { 
+                    nestedUl.style.display = 'block'; 
+                    btn.classList.add('open'); // Flecha hacia abajo
+                } 
+                // Si está abierto, lo cerramos y colapsamos TODO su contenido
+                else { 
+                    nestedUl.style.display = 'none'; 
+                    btn.classList.remove('open'); // Flecha a la derecha
+                    
+                    // --- NUEVO: Magia recursiva para cerrar todo lo que hay debajo ---
+                    
+                    // 1. Ocultar todas las sub-listas (ul.nested) hijas
+                    let subUls = nestedUl.querySelectorAll('.nested');
+                    subUls.forEach(sub => sub.style.display = 'none');
+                    
+                    // 2. Quitar el estado 'open' a todos los sub-botones de flecha
+                    let subBtns = nestedUl.querySelectorAll('.toggle-btn');
+                    subBtns.forEach(subBtn => subBtn.classList.remove('open'));
+                }
+            }
+        }
+
+        // Buscador
+        function filtrarMenu() {
+            var input = document.getElementById('buscador').value.toUpperCase();
+            var menuItems = document.querySelectorAll('.menu-link');
+            menuItems.forEach(function(a) {
+                var text = a.innerHTML.toUpperCase();
+                var li = a.closest('li');
+                if (text.indexOf(input) > -1) {
+                    li.style.display = "";
+                    if (input !== "") {
+                        var parentUl = li.closest('ul.nested');
+                        while(parentUl) {
+                            parentUl.style.display = 'block';
+                            var parentLi = parentUl.closest('li');
+                            if(parentLi) {
+                                parentLi.style.display = "";
+                                var btn = parentLi.querySelector('.toggle-btn');
+                                if(btn) btn.classList.add('open'); // <-- Asegura que se abra
+                                parentUl = parentLi.closest('ul.nested');
+                            } else break;
+                        }
+                    }
+                } else {
+                    if (input !== "") li.style.display = "none";
+                    else li.style.display = "";
+                }
+            });
+        }
+
+        // Inicializar el estado de las flechas al cargar la página
+        document.querySelectorAll('ul.nested').forEach(function(ul) {
+            var btn = ul.closest('li').querySelector('.toggle-btn');
+            if(btn) {
+                if (ul.style.display === 'none') {
+                    btn.classList.remove('open');
+                } else {
+                    btn.classList.add('open');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+</file>
+
+<file path="ui/templates/layout_page.html">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo_pagina }}</title>
+    <link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="page-content manual-content">
+            {{ contenido | safe }}
+            <div style="height: 500px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Avisar al index cuando la página carga por primera vez
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+
+        // Avisar al index cuando navegamos a un enlace interno en la misma página (#)
+        window.addEventListener("hashchange", function() {
+            if(window.parent && typeof window.parent.marcarMenuDesdeIframe === "function") {
+                window.parent.marcarMenuDesdeIframe(window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>
+</file>
+
+<file path="ui/templates/template_data.html">
+<div class="doc-section">
+    <h1>
+        <span style="display: inline-block; padding: 4px 10px; background: #e8f4f8; color: #3498db; border-radius: 4px; font-weight: bold; font-size: 16px; margin-right: 10px; vertical-align: bottom;">
+            {{ bloque.tipo }}
+        </span>
+        {{ bloque.nombre_bloque }}
+    </h1>
+
+    {% if bloque.descripcion %}
+        <h3>Descripción General</h3>
+        <p style="white-space: pre-wrap;">{{ bloque.descripcion }}</p>
+    {% endif %}
+</div>
+
+{% if bloque.variables %}
+<div class="doc-section" id="estructura_datos">
+    <h3>Estructura de Datos</h3>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de Dato</th>
+            <th>Valor Inicial</th>
+            <th>Comentario</th>
+        </tr>
+        {% for var in bloque.variables %}
+        <tr>
+            <td><strong>{{ var.nombre }}</strong></td>
+            <td>{{ var.tipo }}</td>
+            <td>
+                {% if var.valor != "-" %}
+                    <span style="color: #7f8c8d; font-family: monospace;">{{ var.valor }}</span>
+                {% else %}
+                    {{ var.valor }}
+                {% endif %}
+            </td>
+            <td>{{ var.comentario }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% if contenido_original %}
+<div class="doc-section" id="codigo_fuente" style="margin-top: 40px; border-top: 4px solid #3498db;">
+    <h3>Código Fuente Completo</h3>
+    <pre class="scl-code" style="max-height: 600px; overflow-y: auto;">{{ contenido_original | e }}</pre>
+</div>
+{% endif %}
+</file>
+
+<file path="ui/templates/template_scl.html">
+<div class="doc-section">
+    <h1>
+        {% set tipo_badge = "SCL" %}
+        {% if nombre_bloque.startswith('FB') %}{% set tipo_badge = "FB" %}
+        {% elif nombre_bloque.startswith('FC') %}{% set tipo_badge = "FC" %}
+        {% elif nombre_bloque.startswith('DB') %}{% set tipo_badge = "DB" %}
+        {% elif nombre_bloque.startswith('OB') %}{% set tipo_badge = "OB" %}
+        {% endif %}
+        
+        <span class="scl-badge">{{ tipo_badge }}</span>{{ nombre_bloque }}
+    </h1>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; color: #475569; font-size: 0.95em; margin-top: 25px; background: #f1f5f9; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        
+        {% if etiquetas.Version_Bloque %}
+            <span><strong>Versión:</strong> {{ etiquetas.Version_Bloque }}</span>
+        {% elif changelog and changelog.filas %}
+            <span><strong>Versión:</strong> {{ changelog.filas[-1][0] }}</span>
+        {% endif %}
+        
+        {% if changelog and changelog.filas %}
+            <span><strong>Fecha:</strong> {{ changelog.filas[-1][1] }}</span>
+        {% endif %}
+        
+        {% if etiquetas.Author_Bloque %}<span><strong>Autor:</strong> {{ etiquetas.Author_Bloque }}</span>
+        {% elif etiquetas.Author %}<span><strong>Autor:</strong> {{ etiquetas.Author }}</span>{% endif %}
+        
+        {% if etiquetas.Family_Bloque %}<span><strong>Familia:</strong> {{ etiquetas.Family_Bloque }}</span>
+        {% elif etiquetas['Library/Family'] %}<span><strong>Familia:</strong> {{ etiquetas['Library/Family'] }}</span>{% endif %}
+        
+        {% if etiquetas.Engineering %}<span><strong>Ingeniería:</strong> {{ etiquetas.Engineering }}</span>{% endif %}
+        {% if etiquetas['Tested on System'] %}<span><strong>Probado en:</strong> {{ etiquetas['Tested on System'] }}</span>{% endif %}
+    </div>
+
+    {% if etiquetas.Restrictions and etiquetas.Restrictions != '--' %}
+    <div style="margin-top:20px; padding:15px; background:#fff3cd; border-left:4px solid #ffc107; border-radius: 4px; color: #664d03;">
+        <strong>⚠️ Restricciones:</strong> {{ etiquetas.Restrictions }}
+    </div>
+    {% endif %}
+</div>
+
+{% if etiquetas['Comment/Function'] %}
+<div class="doc-section" id="descripcion">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">1. Descripción Funcional</h2>
+    
+    <div class="markdown-container">
+        {{ etiquetas['Comment/Function'] | safe }}
+    </div>
+</div>
+{% endif %}
+
+{% if changelog %}
+<div class="doc-section" id="changelog">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">2. Historial de Cambios</h2>
+    <table class="scl-table">
+        <thead>
+            <tr>
+            {% for cab in changelog.cabeceras %}
+                <th>{{ cab }}</th>
+            {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for fila in changelog.filas %}
+            <tr>
+                {% for col in fila %}
+                <td style="color: #475569 !important; font-weight: normal !important;">{{ col }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if variables_agrupadas %}
+<div class="doc-section" id="interfaz">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">3. Interfaz del Bloque</h2>
+    
+    {% for tipo_seccion, lista_vars in variables_agrupadas.items() %}
+        
+        {% set mostrar_columna_retain = tipo_seccion in ['Entradas', 'Salidas', 'Entrada/Salida', 'Estáticas'] %}
+
+        <h3 style="color: #334155; margin-top: 25px; font-size: 1.1em; border-left: 4px solid rgb(0, 52, 102); padding-left: 10px;">{{ tipo_seccion }}</h3>
+        <table class="scl-table">
+            <thead>
+                <tr>
+                    <th>Parámetro</th>
+                    <th>Tipo de Dato</th>
+                    {% if mostrar_columna_retain %}
+                    <th style="text-align: center; width: 80px;">Remanencia</th>
+                    {% endif %}
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for var in lista_vars %}
+                <tr>
+                    <td style="font-family: monospace; font-weight: bold !important; color: #0f172a !important; width: 25%;">{{ var.nombre }}</td>
+                    <td style="font-weight: normal !important; color: #475569 !important; width: 25%;"><span style="background-color: #e2e8f0; padding: 3px 8px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #b91c1c !important; border: 1px solid #cbd5e1; font-weight: normal !important;">{{ var.tipo }}</span></td>
+                    
+                    {% if mostrar_columna_retain %}
+                    <td style="text-align: center; color: #475569 !important; font-weight: normal !important; width: 80px;">
+                        {% if var.is_retain %}
+                            <span style="color: #16a34a !important; font-weight: bold !important;">✔️</span>
+                        {% else %}
+                            <span style="color: #94a3b8 !important;">-</span>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+
+                    <td style="color: #475569 !important; font-weight: normal !important;">{{ var.descripcion }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if dependencias %}
+<div class="doc-section" id="dependencias">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">4. Dependencias Requeridas</h2>
+    <ul style="margin-top: 15px; color: #334155; line-height: 1.8;">
+        {% for dep in dependencias %}
+            {% if dep.tipo == 'normal' %}
+                <li><strong>{{ dep.clave }}:</strong> 
+                    {% for elem in dep.elementos %}
+                        {% if elem.url %}
+                            <a href="{{ elem.url }}" style="color: #e74c3c; font-weight: bold; text-decoration: none;">{{ elem.nombre }}</a>
+                        {% else %}
+                            {{ elem.nombre }}
+                        {% endif %}
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if contenido_original %}
+<div class="doc-section" id="codigo_fuente">
+    <h2 style="color: rgb(0, 52, 102); border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 10px;">5. Código Fuente Completo</h2>
+    <details style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-top: 20px;">
+        <summary style="font-weight: bold; color: rgb(0, 52, 102); cursor: pointer; user-select: none; font-size: 1.05em;">
+            Desplegar código SCL completo
+        </summary>
+        <pre style="background-color: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 6px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 13px; line-height: 1.5; margin-top: 15px; border: 1px solid #333;"><code>{{ contenido_original | e }}</code></pre>
+    </details>
+</div>
+{% endif %}
+</file>
+
+</files>

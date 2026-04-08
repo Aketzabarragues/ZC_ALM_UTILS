@@ -1,0 +1,170 @@
+=========================================================
+             VOLCADO DE CACHÉ DE TIA PORTAL              
+=========================================================
+Fecha de volcado: 30/03/2026 15:36:39
+
+
+=========================================================
+             VOLCADO DE APP_CONFIG (.json / .xml)        
+=========================================================
+{
+  "Global": {
+    "ProcessTemplatePath": "C:\\Plantilla",
+    "DocWordManualPath": "D:\\Zeus Control\\Proyectos\\GitHub\\ZC_ALM_UTILS\\ZC_Documentacion\\dist\\ESTANDAR ALIMENTACION.docx",
+    "DocExportSourcesPath": "D:\\Zeus Control\\Proyectos\\GitHub\\ZC_ALM_UTILS\\bloques",
+    "DocOutputPath": "D:\\Zeus Control\\Proyectos\\GitHub\\ZC_ALM_UTILS\\_Ayuda_generada"
+  },
+  "DeviceSettings": {
+    "Name": "N_MAX",
+    "TiaTable": "000_Config_Dispositivos",
+    "ExcelSheet": "CONFIGURACION",
+    "ConfigCells": {
+      "Disp_ED": "Num_Disp_ED",
+      "Disp_EA": "Num_Disp_EA",
+      "Disp_SA": "Num_Disp_SA",
+      "Disp_V": "Num_Disp_V",
+      "Disp_M": "Num_Disp_M",
+      "Disp_M_VF": "Num_Disp_M_VF"
+    }
+  },
+  "Devices": [
+    {
+      "Name": "Entrada Digital",
+      "ExcelSheet": "DISP_ED",
+      "ExcelTable": "Tabla_Disp_ED",
+      "TiaTable": "002_Disp_ED",
+      "TiaDbName": "DB2000_ED",
+      "TiaDbArrayName": "ED",
+      "PlcCountConstant": "N_MAX_DISP_ED",
+      "ModelClass": "Disp_ED",
+      "GlobalConfigKey": "Num_Disp_ED",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Entrada Analogica",
+      "ExcelSheet": "DISP_EA",
+      "ExcelTable": "Tabla_Disp_EA",
+      "TiaTable": "002_Disp_EA",
+      "TiaDbName": "DB2001_EA",
+      "TiaDbArrayName": "EA",
+      "PlcCountConstant": "N_MAX_DISP_EA",
+      "ModelClass": "Disp_EA",
+      "GlobalConfigKey": "Num_Disp_EA",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Salida Analogica",
+      "ExcelSheet": "DISP_SA",
+      "ExcelTable": "Tabla_Disp_SA",
+      "TiaTable": "002_Disp_SA",
+      "TiaDbName": "DB2006_SA",
+      "TiaDbArrayName": "SA",
+      "PlcCountConstant": "N_MAX_DISP_SA",
+      "ModelClass": "Disp_SA",
+      "GlobalConfigKey": "Num_Disp_SA",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Válvula",
+      "ExcelSheet": "DISP_V",
+      "ExcelTable": "Tabla_Disp_V",
+      "TiaTable": "002_Disp_V",
+      "TiaDbName": "DB2010_V",
+      "TiaDbArrayName": "V",
+      "PlcCountConstant": "N_MAX_DISP_V",
+      "ModelClass": "Disp_V",
+      "GlobalConfigKey": "Num_Disp_V",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Motor",
+      "ExcelSheet": "DISP_M",
+      "ExcelTable": "Tabla_Disp_M",
+      "TiaTable": "002_Disp_M",
+      "TiaDbName": "DB2015_M",
+      "TiaDbArrayName": "M",
+      "PlcCountConstant": "N_MAX_DISP_M",
+      "ModelClass": "Disp_M",
+      "GlobalConfigKey": "Num_Disp_M",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    },
+    {
+      "Name": "Motor variador",
+      "ExcelSheet": "DISP_M_VF",
+      "ExcelTable": "Tabla_Disp_M_VF",
+      "TiaTable": "002_Disp_M_VF",
+      "TiaDbName": "DB2016_M_VF",
+      "TiaDbArrayName": "M_VF",
+      "PlcCountConstant": "N_MAX_DISP_M_VF",
+      "ModelClass": "Disp_M_VF",
+      "GlobalConfigKey": "Num_Disp_M_VF",
+      "NMaxStatus": 0,
+      "ConstantsStatus": 0,
+      "DbStatus": 0
+    }
+  ],
+  "Process": {
+    "Name": "Proceso",
+    "ExcelSheet": "CONFIGURACION",
+    "ExcelTable": "Tabla_Procesos",
+    "ArrayNameReal": "PReal",
+    "ArrayNameInt": "Pint",
+    "ArrayNameAlm": "Alm",
+    "SuffixConstReal": "_N_MAX_PREAL",
+    "SuffixConstInt": "_N_MAX_PINT",
+    "SuffixConstAlm": "_N_MAX_ALM",
+    "SuffixConstAlmHmi": "_N_MAX_ALM_HMI",
+    "SuffixDbReal": "_PREAL",
+    "SuffixDbInt": "_PINT",
+    "SuffixDbAlm": "_ALM"
+  },
+  "Network": {
+    "Name": "Conexiones",
+    "ExcelSheet": "TOPOLOGIA",
+    "ExcelTable": "Tabla_Conexiones"
+  },
+  "PReal": {
+    "Name": "P_REAL",
+    "ExcelSheet": "P_REAL",
+    "ExcelTable": "Tabla_PReal"
+  },
+  "PInt": {
+    "Name": "P_INT",
+    "ExcelSheet": "P_INT",
+    "ExcelTable": "Tabla_PInt"
+  },
+  "Alarm": {
+    "Name": "ALM",
+    "ExcelSheet": "ALARMAS",
+    "ExcelTable": "Tabla_Alarmas"
+  }
+}
+
+
+=========================================================
+             VOLCADO DE ENGINEERING CACHÉ (EXCEL)        
+=========================================================
+{
+  "Motor variador": [],
+  "Entrada Digital": [],
+  "Salida Analogica": [],
+  "Válvula": [],
+  "Entrada Analogica": [],
+  "Motor": [],
+  "N_MAX": [],
+  "Proceso": [],
+  "P_REAL": [],
+  "P_INT": [],
+  "ALM": [],
+  "Conexiones": []
+}
