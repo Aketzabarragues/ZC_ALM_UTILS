@@ -1,0 +1,10 @@
+site_name: ZC ALM Documentación
+
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables

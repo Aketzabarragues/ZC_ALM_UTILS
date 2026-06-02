@@ -1,0 +1,1683 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../FC6_ZC_ESTADO_ENTIDAD/">
+      
+      
+        <link rel="next" href="../FC8_ZC_TRAZA_REGISTRO/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>FC7_ZC_GESTOR_TRAZA - ZC ALM Documentación</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fc-fc7_zc_gestor_traza" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ZC ALM Documentación" class="md-header__button md-logo" aria-label="ZC ALM Documentación" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ZC ALM Documentación
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FC7_ZC_GESTOR_TRAZA
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ZC ALM Documentación" class="md-nav__button md-logo" aria-label="ZC ALM Documentación" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ZC ALM Documentación
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentación Técnica ZC ALM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bloques de codigo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Bloques de codigo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC11_ZC_GESTOR_INFORMES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC11_ZC_GESTOR_INFORMES
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC12_ZC_INFORME_REGISTRO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC12_ZC_INFORME_REGISTRO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC15026_ZC_PULSADOR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC15026_ZC_PULSADOR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC15_ZC_GEST_PREAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC15_ZC_GEST_PREAL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC16_ZC_GEST_PINT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC16_ZC_GEST_PINT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC1_ZC_SISTEMA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC1_ZC_SISTEMA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC2000_ZC_ED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC2000_ZC_ED
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC2001_ZC_EA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC2001_ZC_EA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC2005_ZC_SD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC2005_ZC_SD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC2006_ZC_SA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC2006_ZC_SA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC2010_ZC_V/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC2010_ZC_V
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC2015_ZC_M/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC2015_ZC_M
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC4_ZC_DISPONIBILIDAD_ENTIDAD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC4_ZC_DISPONIBILIDAD_ENTIDAD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC5_ZC_GESTOR_PROCESO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC5_ZC_GESTOR_PROCESO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC6_ZC_ESTADO_ENTIDAD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC6_ZC_ESTADO_ENTIDAD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC7_ZC_GESTOR_TRAZA
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC7_ZC_GESTOR_TRAZA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#interfaz-de-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interfaz de Variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interfaz de Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entradas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entradas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constantes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codigo-fuente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Código Fuente
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FC8_ZC_TRAZA_REGISTRO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FC8_ZC_TRAZA_REGISTRO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estructura de datos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estructura de datos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Estructura%20de%20datos/DB1_SYS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DB1_SYS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#interfaz-de-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interfaz de Variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interfaz de Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entradas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entradas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constantes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#codigo-fuente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Código Fuente
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fc-fc7_zc_gestor_traza">FC FC7_ZC_GESTOR_TRAZA</h1>
+<div class="admonition info">
+<p class="admonition-title">Información del Sistema</p>
+<p><strong>Hardware:</strong> -<br>
+<strong>Ingeniería:</strong> -<br>
+<strong>Versión:</strong> 2.0<br>
+<strong>Autor:</strong> ABH</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Restricciones</p>
+<p>Ninguna restricción operativa detectada.</p>
+</div>
+<h2 id="interfaz-de-variables">Interfaz de Variables</h2>
+<h3 id="entradas">Entradas</h3>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Tipo</th>
+<th style="text-align: center;">Retain</th>
+<th>Valor Defecto</th>
+<th>Comentario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Pulso1Seg</code></td>
+<td><code>Bool</code></td>
+<td style="text-align: center;">-</td>
+<td><code>-</code></td>
+<td>Pulso de 1 segundo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="temporales">Temporales</h3>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Tipo</th>
+<th style="text-align: center;">Retain</th>
+<th>Valor Defecto</th>
+<th>Comentario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>for_i</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>-</code></td>
+<td>Variable para bucles FOR</td>
+</tr>
+<tr>
+<td><code>t_PosicionRegistro</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>-</code></td>
+<td>Posicion del registro encontrado en el buffer</td>
+</tr>
+<tr>
+<td><code>t_RegistroEncontrado</code></td>
+<td><code>Bool</code></td>
+<td style="text-align: center;">-</td>
+<td><code>-</code></td>
+<td>Indicador de registro encontrado</td>
+</tr>
+<tr>
+<td><code>t_TextoGenerado</code></td>
+<td><code>Bool</code></td>
+<td style="text-align: center;">-</td>
+<td><code>-</code></td>
+<td>Indicador de texto generado en todos los Scadas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="constantes">Constantes</h3>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Tipo</th>
+<th style="text-align: center;">Retain</th>
+<th>Valor Defecto</th>
+<th>Comentario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REPOSO</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>0</code></td>
+<td>ETAPA EN REPOSO</td>
+</tr>
+<tr>
+<td><code>COMPROBACION_INICIAL</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>10</code></td>
+<td>ETAPA COMPROBACIONES INICIALES</td>
+</tr>
+<tr>
+<td><code>GENERAR_TEXTO</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>20</code></td>
+<td>ETAPA GENERAR TEXTO</td>
+</tr>
+<tr>
+<td><code>LANZAR_AVISO</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>30</code></td>
+<td>ETAPA LANZAR AVISO</td>
+</tr>
+<tr>
+<td><code>ESPERA</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>40</code></td>
+<td>ETAPA ESPERA</td>
+</tr>
+<tr>
+<td><code>BORRAR_TEXTO</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>50</code></td>
+<td>ETAPA BORRAR TEXTO</td>
+</tr>
+<tr>
+<td><code>QUITAR_AVISO</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>60</code></td>
+<td>ETAPA QUITAR AVISO</td>
+</tr>
+<tr>
+<td><code>BORRAR_DATOS</code></td>
+<td><code>Int</code></td>
+<td style="text-align: center;">-</td>
+<td><code>70</code></td>
+<td>ETAPA BORRAR DATOS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="codigo-fuente">Código Fuente</h2>
+<details class="group rounded-xl border bg-card p-4 shadow-sm">
+<summary class="font-semibold cursor-pointer">Desplegar Código SCL</summary>
+<div class="mt-4" markdown>
+
+<div class="highlight"><pre><span></span><code><span class="k">FUNCTION</span><span class="w"> </span><span class="err">&quot;</span><span class="nf">FC7_ZC_GESTOR_TRAZA</span><span class="err">&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Void</span>
+<span class="n">TITLE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FC7_GESTOR_TRAZA</span>
+<span class="cm">{ S7_Optimized_Access := &#39;TRUE&#39; }</span>
+<span class="n">AUTHOR</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ABH</span>
+<span class="n">FAMILY</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ZeusControl</span>
+<span class="n">VERSION</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">2.0</span>
+<span class="c1">//Funcion para gestion de trazabilidad</span>
+<span class="w">   </span><span class="n">VAR_INPUT</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Bool</span><span class="o">;</span><span class="w">   </span><span class="c1">// Pulso de 1 segundo</span>
+<span class="w">   </span><span class="n">END_VAR</span>
+
+<span class="w">   </span><span class="n">VAR_TEMP</span><span class="w"> </span>
+<span class="w">      </span><span class="n">for_i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="o">;</span><span class="w">   </span><span class="c1">// Variable para bucles FOR</span>
+<span class="w">      </span><span class="n">t_PosicionRegistro</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="o">;</span><span class="w">   </span><span class="c1">// Posicion del registro encontrado en el buffer</span>
+<span class="w">      </span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Bool</span><span class="o">;</span><span class="w">   </span><span class="c1">// Indicador de registro encontrado</span>
+<span class="w">      </span><span class="n">t_TextoGenerado</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Bool</span><span class="o">;</span><span class="w">   </span><span class="c1">// Indicador de texto generado en todos los Scadas</span>
+<span class="w">   </span><span class="n">END_VAR</span>
+
+<span class="w">   </span><span class="k">VAR</span><span class="w"> </span><span class="n">CONSTANT</span><span class="w"> </span>
+<span class="w">      </span><span class="n">REPOSO</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA EN REPOSO</span>
+<span class="w">      </span><span class="n">COMPROBACION_INICIAL</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">10</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA COMPROBACIONES INICIALES</span>
+<span class="w">      </span><span class="n">GENERAR_TEXTO</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">20</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA GENERAR TEXTO</span>
+<span class="w">      </span><span class="n">LANZAR_AVISO</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">30</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA LANZAR AVISO</span>
+<span class="w">      </span><span class="n">ESPERA</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">40</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA ESPERA</span>
+<span class="w">      </span><span class="n">BORRAR_TEXTO</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">50</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA BORRAR TEXTO</span>
+<span class="w">      </span><span class="n">QUITAR_AVISO</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">60</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA QUITAR AVISO</span>
+<span class="w">      </span><span class="n">BORRAR_DATOS</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">70</span><span class="o">;</span><span class="w">   </span><span class="c1">// ETAPA BORRAR DATOS</span>
+<span class="w">   </span><span class="n">END_VAR</span>
+
+
+<span class="k">BEGIN</span>
+<span class="w">    </span><span class="n">REGION</span><span class="w"> </span><span class="n">DESCRIPCION</span>
+<span class="w">    </span><span class="c1">//=======================================================================</span>
+<span class="w">    </span><span class="c1">// (C)Copyright ZeusControl 2022 - 2026</span>
+<span class="w">    </span><span class="c1">//=======================================================================</span>
+<span class="w">    </span><span class="cm">(*</span>
+<span class="cm">    ### Información del Sistema</span>
+<span class="cm">    | Hardware Compatible | Entorno de Ingeniería |</span>
+<span class="cm">    |---------------------|-----------------------|</span>
+<span class="cm">    | PLC serie 1200/1500 | TIA Portal 18         |</span>
+
+<span class="cm">    ---</span>
+<span class="cm">    ### Descripción Funcional</span>
+<span class="cm">    Función principal para la gestión de mensajes de trazabilidad y su envío estructurado a los sistemas de supervisión.</span>
+
+<span class="cm">    &gt; **Restricciones:** Ninguna.</span>
+
+<span class="cm">    Las tareas que realiza son las siguientes:</span>
+
+<span class="cm">    - Búsqueda en orden inverso dentro del buffer para localizar y extraer el último registro con orden de registrar.</span>
+<span class="cm">    - Transferencia del registro a variables de gestión estáticas, formateo de cadenas de tiempo y usuario, y liberación de la posición ocupada en el buffer.</span>
+<span class="cm">    - Ejecución de la **Etapa Reposo**: Con un registro habilitado y conexión activa, lanza la orden de inicio de secuencia.</span>
+<span class="cm">    - Ejecución de la **Etapa Comprobaciones Iniciales**: Valida que la categoría del evento se encuentre en los límites permitidos (forzando una categoría de usuario si excede el índice), limpia las confirmaciones previas y espera la actualización temporal.</span>
+<span class="cm">    - Ejecución de la **Etapa Generar Texto**: Envía la orden de generación de textos a los SCADAs habilitados, transitando al recibir la confirmación de todos o al superar un tiempo de espera de seguridad.</span>
+<span class="cm">    - Ejecución de la **Etapa Lanzar Aviso**: Activa la señal de aviso correspondiente a la categoría de la trazabilidad procesada.</span>
+<span class="cm">    - Ejecución de la **Etapa Espera**: Retiene el aviso activo durante el tiempo configurado para garantizar su captura en los sistemas de supervisión.</span>
+<span class="cm">    - Ejecución de la **Etapa Borrar Texto**: Lanza la orden de limpieza de textos en pantalla a todos los SCADAs.</span>
+<span class="cm">    - Ejecución de la **Etapa Quitar Aviso**: Desactiva la señal de aviso y verifica mediante un tiempo corto que el evento ha caído.</span>
+<span class="cm">    - Ejecución de la **Etapa Borrar Datos**: Inicializa por completo los valores, códigos y textos del aviso actual, regresando a la etapa de reposo.</span>
+<span class="cm">    - Mapeo final de las activaciones de alarma a nivel de bit, agrupándolas en dos variables tipo `Word` para las 32 categorías y aplicando sus respectivas máscaras de habilitación individual.</span>
+
+<span class="cm">    ---</span>
+<span class="cm">    ### Dependencias Requeridas</span>
+<span class="cm">    | Tipo | Elementos |</span>
+<span class="cm">    |------|-----------|</span>
+<span class="cm">    | FC   | - |</span>
+<span class="cm">    | FB   | - |</span>
+<span class="cm">    | DB   | `DB7_TRAZA` |</span>
+<span class="cm">    | UDT  | - |</span>
+
+<span class="cm">    ---</span>
+<span class="cm">    ### Historial de Cambios</span>
+<span class="cm">    | Versión  | Fecha      | Técnico | Cambios |</span>
+<span class="cm">    |----------|------------|---------|---------|</span>
+<span class="cm">    | 00.00.01 | 31.08.2022 | (ABH)   | Primera version. |</span>
+<span class="cm">    | 01.00.00 | 18.09.2023 | (ABH)   | Se añade gestion de bits para 16 categorias. |</span>
+<span class="cm">    | 02.00.00 | 25.03.2026 | (ABH)   | Se eliminan `String`. Se añaden 32 categorias. Se añade gestion de generacion de textos para Scada. |</span>
+<span class="cm">    *)</span>
+<span class="w">    </span><span class="n">END_REGION</span><span class="w"> </span><span class="n">DESCRIPCION</span>
+
+
+<span class="w">    </span><span class="c1">//  ==========================================================================================================</span>
+<span class="w">    </span><span class="n">REGION</span><span class="w"> </span><span class="n">GESTION_TRAZA</span>
+
+<span class="w">        </span><span class="c1">//  ==========================================================================================================</span>
+<span class="w">        </span><span class="n">REGION</span><span class="w"> </span><span class="n">GESTION_ULTIMO_REGISTRO</span>
+
+<span class="w">            </span><span class="c1">//  Si la gestion esta habilitada, se busca el ultimo registro y se mueve a la variable de gestion de avisos para</span>
+<span class="w">            </span><span class="c1">//  los sistemas de supervision</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitacionGeneral</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">#</span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">#</span><span class="n">REPOSO</span><span class="w"> </span><span class="k">THEN</span>
+
+<span class="w">                </span><span class="c1">// Buscamos el ultimo registro</span>
+<span class="w">                </span><span class="k">FOR</span><span class="w"> </span><span class="err">#</span><span class="n">for_i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">N_MAX_TRAZA_BUFFER</span><span class="err">&quot;</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">BY</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="k">DO</span>
+
+<span class="w">                    </span><span class="c1">// Registro encontrado</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">for_i</span><span class="p">]</span><span class="o">.</span><span class="n">Registrar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">for_i</span><span class="o">;</span>
+<span class="w">                        </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">TRUE</span><span class="o">;</span>
+<span class="w">                        </span><span class="k">EXIT</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_FOR</span><span class="o">;</span>
+
+
+<span class="w">                </span><span class="c1">// Si hemos encontrado el registro, copiamos a variable estatica</span>
+<span class="w">                </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="k">THEN</span>
+
+<span class="w">                    </span><span class="c1">//  Copiamos el los datos de la traza a variable estatica para tratarla</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">TimeStamp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">CONCAT_STRING</span><span class="p">(</span><span class="n">IN1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">TimeStamp</span><span class="o">,</span><span class="w"> </span><span class="n">IN2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="p">)</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">User</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">CONCAT_STRING</span><span class="p">(</span><span class="n">IN1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#39;USER: &#39;</span><span class="o">,</span>
+<span class="w">                                                                          </span><span class="n">IN2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">User</span><span class="o">,</span>
+<span class="w">                                                                          </span><span class="n">IN3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#39;.&#39;</span><span class="p">)</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="c1">//  Quitamos el registro del buffer</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">Registrar</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">Categoria</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodInt_1</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodInt_2</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodInt_3</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodInt_4</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodInt_5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodReal_1</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">CodReal_2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mf">0.0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">TimeStamp</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Buffer</span><span class="p">[</span><span class="err">#</span><span class="n">t_PosicionRegistro</span><span class="p">]</span><span class="o">.</span><span class="n">User</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">            </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">        </span><span class="n">END_REGION</span><span class="w"> </span><span class="n">GESTION_ULTIMO_REGISTRO</span>
+
+
+<span class="w">        </span><span class="c1">//  ==========================================================================================================</span>
+<span class="w">        </span><span class="n">REGION</span><span class="w"> </span><span class="n">GESTION_ORDEN_INICIAR</span>
+
+<span class="w">            </span><span class="c1">// =============================================================================</span>
+<span class="w">            </span><span class="c1">//  Si existe registro a trazar, lanzamos la orden de iniciar la secuencia</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Registrar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">#</span><span class="n">REPOSO</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">EstadoConexion</span><span class="w"> </span><span class="k">THEN</span>
+
+<span class="w">                </span><span class="c1">//  Lanzamos la orden de iniciar la secuencia de registro</span>
+<span class="w">                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">OrdenIniciar</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">TRUE</span><span class="o">;</span>
+
+<span class="w">            </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">        </span><span class="n">END_REGION</span><span class="w"> </span><span class="n">GESTION_ORDEN_INICIAR</span>
+
+<span class="w">    </span><span class="n">END_REGION</span><span class="w"> </span><span class="n">GESTION_TRAZA</span>
+
+
+<span class="w">    </span><span class="c1">//  ==========================================================================================================</span>
+<span class="w">    </span><span class="n">REGION</span><span class="w"> </span><span class="n">SECUENCIA_TRAZA</span>
+
+<span class="w">        </span><span class="c1">//  En caso de deshabilitar la trazabilidad, ponemos el estado en borrar datos.</span>
+<span class="w">        </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitacionGeneral</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="err">#</span><span class="n">REPOSO</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">BORRAR_DATOS</span><span class="o">;</span>
+<span class="w">        </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">        </span><span class="c1">//  Gestion trazabilidad</span>
+<span class="w">        </span><span class="k">CASE</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="k">OF</span>
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa reposo</span>
+<span class="w">            </span><span class="err">#</span><span class="n">REPOSO</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">REPOSO</span>
+
+<span class="w">                    </span><span class="c1">//  Con orden de iniciar, vamos a etapa comprobaciones iniciales</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">OrdenIniciar</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">COMPROBACION_INICIAL</span><span class="o">;</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">OrdenIniciar</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa comprobaciones iniciales</span>
+<span class="w">            </span><span class="err">#</span><span class="n">COMPROBACION_INICIAL</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">COMPROBACION_INICIAL</span>
+
+<span class="w">                    </span><span class="c1">//  Si el registro actual no tiene orden de registrar, lo borramos yendo a etapa borrar datos</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Registrar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">BORRAR_DATOS</span><span class="o">;</span>
+<span class="w">                    </span><span class="k">ELSE</span>
+<span class="w">                        </span><span class="c1">//  Esperamos a que tenga los datos actualizados en scada/hmi</span>
+<span class="w">                        </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span>
+<span class="w">                            </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">SP_Tiempo</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+
+<span class="w">                                </span><span class="c1">//  En caso de tener una categoria fuera de indices, formazos a categoria usuario</span>
+<span class="w">                                </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Categoria</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="err">&quot;</span><span class="n">TRZ_CAT_1_SYS</span><span class="err">&quot;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Categoria</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="err">&quot;</span><span class="n">TRZ_CAT_32_USER</span><span class="err">&quot;</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Categoria</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">TRZ_CAT_32_USER</span><span class="err">&quot;</span><span class="o">;</span>
+<span class="w">                                </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                                </span><span class="c1">// Limpiamos las confirmaciones de texto generado por seguridad antes de esperar</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">GENERAR_TEXTO</span><span class="o">;</span>
+<span class="w">                            </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                        </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa generar texto</span>
+<span class="w">            </span><span class="err">#</span><span class="n">GENERAR_TEXTO</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">GENERAR_TEXTO</span>
+
+<span class="w">                    </span><span class="c1">//  Lanzamos la orden de generar textos a sistemas scada que esten habilitados</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="c1">//  Activamos marca de texto generado OK desde Scada, antes de realizar las comprobaciones.</span>
+<span class="w">                    </span><span class="err">#</span><span class="n">t_TextoGenerado</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">TRUE</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="c1">//  Comprobamos si los Scadas estan habilitados y tenemos confirmacion de que el texto se ha generado correctamente</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">HabilitarScada</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">TextoGenerado</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+
+<span class="w">                    </span><span class="c1">//  Comprobacion de fin etapa</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">t_RegistroEncontrado</span><span class="w"> </span><span class="k">THEN</span>
+
+<span class="w">                        </span><span class="c1">//  Tenemos confirmacion de todos los Scadas que han generado el texto correctamente</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">LANZAR_AVISO</span><span class="o">;</span>
+
+<span class="w">                        </span><span class="c1">//  Reseteamos las ordenes de generar texto</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="k">ELSE</span>
+
+<span class="w">                        </span><span class="c1">//  Esperamos un tiempo de seguridad si no tenemos respuesta desde Scadas</span>
+<span class="w">                        </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span>
+
+<span class="w">                            </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">SP_TiempoTexto</span><span class="w"> </span><span class="k">THEN</span>
+
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+
+<span class="w">                                </span><span class="c1">//  Reseteamos las ordenes de generar texto</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">GenerarTexto</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+
+<span class="w">                                </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">LANZAR_AVISO</span><span class="o">;</span>
+<span class="w">                            </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                        </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa lanzar aviso</span>
+<span class="w">            </span><span class="err">#</span><span class="n">LANZAR_AVISO</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">LANZAR_AVISO</span>
+
+<span class="w">                    </span><span class="c1">//  Activamos orden de lanzar el aviso</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Categoria</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">TRUE</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">ESPERA</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa espera</span>
+<span class="w">            </span><span class="err">#</span><span class="n">ESPERA</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">ESPERA</span>
+
+<span class="w">                    </span><span class="c1">//  Esperamos un tiempo para que el aviso se haya registrado en todos los sistemas de supervision</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span>
+<span class="w">                        </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">SP_Tiempo</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">BORRAR_TEXTO</span><span class="o">;</span>
+<span class="w">                        </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa borrar texto</span>
+<span class="w">            </span><span class="err">#</span><span class="n">BORRAR_TEXTO</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">BORRAR_TEXTO</span>
+
+<span class="w">                    </span><span class="c1">//  Lanzamos orden de borrar texto a todos los Scadas</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">BorrarTexto</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">TRUE</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="c1">//  Reseteamos los valores del aviso actual</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Registrar</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_1</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_2</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_3</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_4</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodReal_1</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodReal_1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mf">0.0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">User</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">TimeStamp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="c1">//  Saltamos de etapa tras un tiempo</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span>
+<span class="w">                        </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">SP_Tiempo</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">BorrarTexto</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">QUITAR_AVISO</span><span class="o">;</span>
+<span class="w">                        </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa quitar aviso</span>
+<span class="w">            </span><span class="err">#</span><span class="n">QUITAR_AVISO</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">QUITAR_AVISO</span>
+
+<span class="w">                    </span><span class="c1">//  Desactivamos el aviso</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Categoria</span><span class="p">]</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">FALSE</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="c1">//  Saltamos de etapa tras un tiempo</span>
+<span class="w">                    </span><span class="k">IF</span><span class="w"> </span><span class="err">#</span><span class="n">Pulso1Seg</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span>
+<span class="w">                        </span><span class="k">IF</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Categoria</span><span class="p">]</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">TiempoActual</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                            </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">BORRAR_DATOS</span><span class="o">;</span>
+<span class="w">                        </span><span class="n">END_IF</span><span class="o">;</span>
+<span class="w">                    </span><span class="n">END_IF</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+
+<span class="w">                </span><span class="c1">//  =============================================================================</span>
+<span class="w">                </span><span class="c1">//  Etapa borrar datos</span>
+<span class="w">            </span><span class="err">#</span><span class="n">BORRAR_DATOS</span><span class="o">:</span>
+<span class="w">                </span><span class="n">REGION</span><span class="w"> </span><span class="err">#</span><span class="n">BORRAR_DATOS</span>
+
+<span class="w">                    </span><span class="c1">//  Reseteamos los valores del aviso actual</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">Registrar</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_1</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_2</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_3</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_4</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodInt_5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodReal_1</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">CodReal_1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mf">0.0</span><span class="o">;</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">User</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Datos</span><span class="o">.</span><span class="n">TimeStamp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&#39;&#39;</span><span class="o">;</span>
+
+<span class="w">                    </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Etapa</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">#</span><span class="n">REPOSO</span><span class="o">;</span>
+
+<span class="w">                </span><span class="n">END_REGION</span>
+
+<span class="w">        </span><span class="n">END_CASE</span><span class="o">;</span>
+
+<span class="w">    </span><span class="n">END_REGION</span><span class="w"> </span><span class="n">SECUENCIA_TRAZA</span><span class="w">    </span>
+
+
+<span class="w">    </span><span class="c1">//  ==========================================================================================================</span>
+<span class="w">    </span><span class="n">REGION</span><span class="w"> </span><span class="n">ACTIVACION_ALARMAS</span>
+
+<span class="w">        </span><span class="c1">//  Activamos los avisos en WORD segun la categoria y su habilitacion</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X4</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X6</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X7</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X8</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X9</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X10</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X11</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X12</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X13</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X14</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X15</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">17</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">17</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">18</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X4</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X5</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X6</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">22</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">22</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X7</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">23</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">23</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X8</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">24</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">24</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X9</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">25</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">25</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X10</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X11</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">27</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">27</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X12</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">28</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">28</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X13</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">29</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">29</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X14</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">30</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">30</span><span class="p">]</span><span class="o">;</span>
+<span class="w">        </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">AvisoWord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="err">%</span><span class="n">X15</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">HabilitarCategoria</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="err">&quot;</span><span class="n">DB7_TRAZA</span><span class="err">&quot;</span><span class="o">.</span><span class="n">Gestion</span><span class="o">.</span><span class="n">Aviso</span><span class="o">.</span><span class="n">Aviso</span><span class="p">[</span><span class="mi">31</span><span class="p">]</span><span class="o">;</span>
+
+<span class="w">    </span><span class="n">END_REGION</span><span class="w"> </span><span class="n">ACTIVACION_ALARMAS</span>
+
+
+<span class="n">END_FUNCTION</span>
+</code></pre></div>
+
+</div>
+</details>
+<div class="h-24"></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,558 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.clinerules
+custom_theme/css/custom.css
+custom_theme/img/logo.png
+custom_theme/main.html
+custom_theme/mkdocs_theme.yml
+mkdocs.yml
+RunRepomix.bat
+src/domain/models.py
+src/extractors/data_parser.py
+src/extractors/scl_parser.py
+src/main.py
+src/renderers/md_generator.py
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".clinerules">
+# PERFIL DEL SISTEMA: ZEUSCONTROL ALM GENERATOR
+Eres un Arquitecto de Software Backend. Estás trabajando en un generador estático. 
+El proyecto usa Python puro para extraer datos de código fuente (TIA Portal) y genera Markdown. Luego, MkDocs compila ese Markdown usando un Tema HTML 100% personalizado.
+
+# REGLAS ARQUITECTÓNICAS ESTRICTAS
+1. **Frontera del Backend (`src/`):** Tu trabajo ocurre aquí. Los scripts en `src/extractors/` leen código SCL/DB y devuelven modelos Pydantic. El `src/main.py` convierte esos modelos a Markdown en la carpeta `docs/`. 
+2. **Prohibido tocar Frontend:** NUNCA modifiques nada dentro de `custom_theme/` (HTML/CSS) a menos que se te pida explícitamente. La UI ya está cerrada.
+3. **Regex Robustas:** El código Siemens SCL es impredecible. Usa `re.IGNORECASE` y `re.DOTALL`. Si un parser falla al encontrar una etiqueta, el modelo debe asignar `None` en lugar de romper la ejecución.
+4. **Markdown Intermedio:** El único output de tu código Python deben ser archivos `.md` puros. MkDocs y Jinja2 se encargarán del renderizado HTML.
+
+# WORKFLOW OBLIGATORIO
+Antes de dar cualquier tarea por finalizada, debes verificar que no has roto el flujo de compilación:
+1. Ejecuta: `python src/main.py build --word "..." --fuentes "..." --out "./docs"`
+2. Ejecuta: `mkdocs build`
+Si MkDocs arroja *Warnings* (ej. enlaces rotos), resuélvelos antes de responder al usuario.
+</file>
+
+<file path="custom_theme/css/custom.css">
+
+</file>
+
+<file path="custom_theme/main.html">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
+    <link rel="stylesheet" href="{{ base_url }}/css/custom.css">
+</head>
+<body class="layout-shell">
+
+    <header class="top-header">
+        <div class="header-left">
+            <img src="{{ base_url }}/img/logo.png" alt="Logo">
+        </div>
+        <div class="header-center">{{ config.site_name }}</div>
+        <div class="header-right">DOCUMENTACIÓN TÉCNICA</div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="search-box">
+                <input type="text" id="search-query" placeholder="Buscar bloque...">
+            </div>
+            <nav class="nav-list">
+                <ul>
+                    {% for nav_item in nav %}
+                        <li class="menu-item {% if nav_item.active %}activo-menu{% endif %}">
+                            <a href="{{ nav_item.url }}" class="menu-link level-1">{{ nav_item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <div class="page-wrapper">
+                <div class="page-content manual-content">
+                    <section class="doc-section">
+                        {{ page.content }}
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
+</file>
+
+<file path="custom_theme/mkdocs_theme.yml">
+# custom_theme/mkdocs_theme.yml
+extends: base # Heredamos del core básico para no perder el motor de búsqueda
+</file>
+
+<file path="mkdocs.yml">
+# mkdocs.yml
+site_name: Zeus Control
+
+# Desactivamos Material y forzamos tu tema
+theme:
+  name: null
+  custom_dir: custom_theme
+
+# Extensiones esenciales de Markdown que usará el Backend
+markdown_extensions:
+  - tables
+  - fenced_code
+  - attr_list       # Permite añadir clases CSS así: {: .mi-clase }
+  - md_in_html      # Permite procesar Markdown dentro de etiquetas <div>
+  - pymdownx.details
+</file>
+
+<file path="RunRepomix.bat">
+@echo off
+echo =========================================
+echo       Generando Repomix...
+echo =========================================
+npx repomix
+echo.
+echo =========================================
+echo       Proceso Finalizado.
+echo =========================================
+pause
+</file>
+
+<file path="src/domain/models.py">
+from enum import Enum
+from typing import List, Optional, Dict
+from pydantic import BaseModel, Field
+
+class BlockType(str, Enum):
+    FC = "FC"
+    FB = "FB"
+    DB = "DB"
+    UDT = "UDT"
+
+class VariableDef(BaseModel):
+    name: str
+    data_type: str
+    default_value: str = "-"
+    comment: Optional[str] = None
+    is_retain: bool = False
+
+class SystemInfo(BaseModel):
+    hardware: str = "-"
+    engineering: str = "-"
+
+class DependencyDef(BaseModel):
+    type: str
+    elements: str
+
+class SiemensBlock(BaseModel):
+    name: str
+    block_type: BlockType
+    system_info: SystemInfo = Field(default_factory=SystemInfo)
+    description: Optional[str] = None
+    restrictions: Optional[str] = None
+    dependencies: List[DependencyDef] = Field(default_factory=list)
+    changelog_md: Optional[str] = None
+    
+    author: Optional[str] = None
+    version: Optional[str] = None
+    family: Optional[str] = None
+    
+    sections: Dict[str, List[VariableDef]] = Field(default_factory=dict)
+    source_code: Optional[str] = None
+</file>
+
+<file path="src/extractors/data_parser.py">
+# src/extractors/data_parser.py
+import re
+from pathlib import Path
+from typing import List
+from domain.models import BlockType, SiemensBlock, VariableDef, SystemInfo
+
+def parsear_archivo_datos(ruta_archivo: Path) -> List[SiemensBlock]:
+    try:
+        contenido = ruta_archivo.read_text(encoding='utf-8', errors='replace')
+        bloques = []
+
+        # 1. Extracción de UDTs
+        for match in re.finditer(r'TYPE\s+"([^"]+)"(.*?)END_TYPE', contenido, flags=re.DOTALL):
+            bloques.append(_procesar_bloque(match.group(1), BlockType.UDT, match.group(2), contenido))
+
+        # 2. Extracción de DBs
+        for match in re.finditer(r'DATA_BLOCK\s+"([^"]+)"(.*?)BEGIN', contenido, flags=re.DOTALL):
+            bloques.append(_procesar_bloque(match.group(1), BlockType.DB, match.group(2), contenido))
+
+        return bloques
+    except Exception as e:
+        print(f"[ERROR] Fallo en {ruta_archivo}: {e}")
+        return []
+
+def _procesar_bloque(nombre: str, tipo_bloque: BlockType, cuerpo: str, contenido_completo: str) -> SiemensBlock:
+    descripcion = None
+    match_desc = re.search(r'VERSION.*?\n\s*//\s*(.*)', cuerpo)
+    if match_desc:
+        descripcion = match_desc.group(1).strip()
+
+    variables = []
+    for linea in cuerpo.splitlines():
+        linea_limpia = linea.strip()
+        if not linea_limpia or linea_limpia.startswith(('STRUCT', 'END_STRUCT', '//')):
+            continue
+
+        linea_sin_metadatos = re.sub(r'\{[^}]*\}\s*', '', linea_limpia)
+        match_var = re.match(r'^([a-zA-Z0-9_]+)\s*:\s*([^;]+);(?:\s*//\s*(.*))?', linea_sin_metadatos)
+        
+        if match_var:
+            t_y_v = match_var.group(2).strip()
+            variables.append(VariableDef(
+                name=match_var.group(1).strip(),
+                data_type=t_y_v.split(':=')[0].strip().replace('"', ''),
+                default_value=t_y_v.split(':=')[1].strip() if ':=' in t_y_v else "-",
+                comment=match_var.group(3).strip() if match_var.group(3) else None,
+                is_retain='RETAIN' in linea_limpia.upper()
+            ))
+
+    # Creamos el modelo cumpliendo los nuevos requisitos del Custom Theme
+    return SiemensBlock(
+        name=nombre,
+        block_type=tipo_bloque,
+        description=descripcion,
+        system_info=SystemInfo(), # Valores por defecto
+        sections={"Variables": variables} if variables else {},
+        source_code=contenido_completo
+    )
+</file>
+
+<file path="src/extractors/scl_parser.py">
+import re
+import textwrap
+from pathlib import Path
+from domain.models import BlockType, SiemensBlock, VariableDef, SystemInfo, DependencyDef
+
+def parsear_scl(ruta_archivo: Path) -> SiemensBlock:
+    contenido = ruta_archivo.read_text(encoding='utf-8', errors='replace')
+
+    match_nombre = re.search(r'(FUNCTION|FUNCTION_BLOCK)\s+"([^"]+)"', contenido, re.IGNORECASE)
+    if not match_nombre:
+        raise ValueError(f"No se encontró definición de bloque en {ruta_archivo.name}")
+        
+    tipo_bloque = BlockType.FB if "BLOCK" in match_nombre.group(1).upper() else BlockType.FC
+    nombre_bloque = match_nombre.group(2)
+
+    version = (re.search(r'^VERSION\s*:\s*(.*)', contenido, re.M | re.I) or [None, None])[1]
+    author = (re.search(r'^AUTHOR\s*:\s*(.*)', contenido, re.M | re.I) or [None, None])[1]
+    family = (re.search(r'^FAMILY\s*:\s*(.*)', contenido, re.M | re.I) or [None, None])[1]
+
+    sys_info = SystemInfo()
+    description = restrictions = changelog_md = None
+    dependencies = []
+
+    # Extraer todo el bloque de documentación corporativa
+    match_region = re.search(r'REGION\s+DESCRIPCION\s*\(\*(.*?)\*\)\s*END_REGION', contenido, re.DOTALL | re.IGNORECASE)
+    if match_region:
+        header_text = match_region.group(1)
+        
+        # 1. Información del Sistema
+        sys_match = re.search(r'###\s*Información del Sistema\s*(.*?)(?=\n\s*---|###|\*\))', header_text, re.DOTALL | re.IGNORECASE)
+        if sys_match:
+            lineas_tabla = [l.strip() for l in sys_match.group(1).splitlines() if l.strip().startswith('|')]
+            if len(lineas_tabla) >= 3:
+                valores = [v.strip() for v in lineas_tabla[2].split('|') if v.strip()]
+                if len(valores) >= 2:
+                    sys_info.hardware = valores[0]
+                    sys_info.engineering = valores[1]
+
+        # 2. Descripción Funcional y Restricciones
+        desc_match = re.search(r'###\s*Descripción Funcional\s*(.*?)(?=\n\s*---|###|\*\))', header_text, re.DOTALL | re.IGNORECASE)
+        if desc_match:
+            raw_desc = desc_match.group(1).strip()
+            rest_match = re.search(r'>\s*\*\*Restricciones:\*\*(.*)', raw_desc, re.IGNORECASE)
+            if rest_match:
+                restrictions = rest_match.group(1).strip()
+                raw_desc = re.sub(r'>\s*\*\*Restricciones:\*\*.*', '', raw_desc, flags=re.IGNORECASE).strip()
+            description = textwrap.dedent(raw_desc).strip()
+
+        # 3. Dependencias Requeridas
+        req_match = re.search(r'###\s*Dependencias Requeridas\s*(.*?)(?=\n\s*---|###|\*\))', header_text, re.DOTALL | re.IGNORECASE)
+        if req_match:
+            lineas_tabla = [l.strip() for l in req_match.group(1).splitlines() if l.strip().startswith('|')]
+            for linea in lineas_tabla[2:]: # Saltar cabeceras
+                valores = [v.strip() for v in linea.split('|') if v.strip()]
+                if len(valores) >= 2 and valores[1] != '-':
+                    dependencies.append(DependencyDef(type=valores[0], elements=valores[1]))
+
+        # 4. Historial de Cambios
+        cl_match = re.search(r'###\s*Historial de Cambios\s*(.*?)(?=\n\s*---|###|\*\))', header_text, re.DOTALL | re.IGNORECASE)
+        if cl_match:
+            changelog_md = cl_match.group(1).strip()
+
+    # Variables
+    sections = {}
+    patron_bloques_var = r'(VAR_INPUT\s+RETAIN|VAR_INPUT|VAR_OUTPUT\s+RETAIN|VAR_OUTPUT|VAR_IN_OUT\s+RETAIN|VAR_IN_OUT|VAR_TEMP|VAR_CONSTANT|VAR\s+CONSTANT|VAR\s+RETAIN|VAR)(.*?)(?:END_VAR)'
+    mapeo_secciones = {
+        'VAR_INPUT': 'Entradas', 'VAR_INPUT RETAIN': 'Entradas', 'VAR_OUTPUT': 'Salidas', 'VAR_OUTPUT RETAIN': 'Salidas',
+        'VAR_IN_OUT': 'Entrada/Salida', 'VAR_IN_OUT RETAIN': 'Entrada/Salida', 'VAR_TEMP': 'Temporales', 
+        'VAR_CONSTANT': 'Constantes', 'VAR CONSTANT': 'Constantes', 'VAR': 'Estáticas', 'VAR RETAIN': 'Estáticas'
+    }
+
+    for bloque in re.finditer(patron_bloques_var, contenido, re.DOTALL | re.IGNORECASE):
+        tipo_raw = re.sub(r'\s+', ' ', bloque.group(1).strip().upper())
+        nombre_seccion = mapeo_secciones.get(tipo_raw, tipo_raw)
+        if nombre_seccion not in sections: sections[nombre_seccion] = []
+            
+        for linea in re.finditer(r'^\s*([a-zA-Z0-9_]+)(?:\s*\{[^}]*\})?\s*:\s*([^;]+);\s*(?://\s*(.*))?', bloque.group(2), re.MULTILINE):
+            t_y_v = linea.group(2).strip()
+            sections[nombre_seccion].append(VariableDef(
+                name=linea.group(1).strip(),
+                data_type=t_y_v.split(':=')[0].strip().replace('"', ''),
+                default_value=t_y_v.split(':=')[1].strip() if ':=' in t_y_v else "-",
+                comment=linea.group(3).strip() if linea.group(3) else None,
+                is_retain='RETAIN' in tipo_raw
+            ))
+
+    return SiemensBlock(
+        name=nombre_bloque, block_type=tipo_bloque, description=description,
+        author=author, version=version, family=family, system_info=sys_info,
+        restrictions=restrictions, changelog_md=changelog_md,
+        dependencies=dependencies, sections=sections, source_code=contenido
+    )
+</file>
+
+<file path="src/main.py">
+# src/main.py
+import os
+from pathlib import Path
+import typer
+from pydantic import ValidationError
+
+from domain.models import BlockType
+from extractors.tia_parser import parsear_archivo_datos
+from extractors.scl_parser import parsear_scl
+from renderers.md_generator import generar_markdown_bloque
+
+app = typer.Typer(help="Generador de Documentación ZC ALM", no_args_is_help=True)
+
+@app.callback()
+def main_callback() -> None:
+    pass
+
+@app.command()
+def build(
+    word_path: str = typer.Option(None, "--word", help="Ruta al manual Word (Pendiente de integrar)"),
+    scl_path: str = typer.Option(..., "--fuentes", help="Ruta a la carpeta con archivos SCL/DB/UDT"),
+    docs_dir: Path = typer.Option(Path("./docs"), "--out", help="Carpeta salida de MkDocs")
+) -> None:
+    
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    fuentes_dir = Path(scl_path)
+    
+    if not fuentes_dir.exists() or not fuentes_dir.is_dir():
+        typer.secho(f"[-] Directorio de fuentes inválido: {scl_path}", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+
+    try:
+        # Escaneo de todos los archivos de Siemens
+        archivos_fuente = list(fuentes_dir.glob("*.db")) + list(fuentes_dir.glob("*.udt")) + list(fuentes_dir.glob("*.scl"))
+        total_bloques = 0
+        
+        for archivo in archivos_fuente:
+            bloques_extraidos = []
+            
+            # Enrutamiento al Extractor adecuado
+            if archivo.suffix.lower() == '.scl':
+                try:
+                    bloques_extraidos.append(parsear_scl(archivo))
+                except Exception as e:
+                    typer.secho(f"[-] Omitiendo SCL {archivo.name}: {e}", fg=typer.colors.YELLOW)
+            else:
+                bloques_extraidos.extend(parsear_archivo_datos(archivo))
+            
+            # Renderizado y Generación de Markdown
+            for bloque in bloques_extraidos:
+                # Carpetas que MkDocs usará para el menú lateral
+                if bloque.block_type in [BlockType.FC, BlockType.FB]:
+                    carpeta_destino = docs_dir / "Bloques de codigo"
+                else:
+                    carpeta_destino = docs_dir / "Estructura de datos"
+                
+                carpeta_destino.mkdir(parents=True, exist_ok=True)
+                ruta_generada = generar_markdown_bloque(bloque, carpeta_destino)
+                typer.echo(f"[+] Generado: {ruta_generada}")
+                total_bloques += 1
+
+        # Crear el index.md básico si no existe
+        index_path = docs_dir / "index.md"
+        if not index_path.exists():
+            index_path.write_text("# Documentación ZC ALM\n\nBienvenido a la documentación técnica generada automáticamente.", encoding="utf-8")
+
+        typer.secho(f"\n[OK] Escaneo finalizado. {total_bloques} bloques listos para MkDocs.", fg=typer.colors.GREEN)
+        
+    except ValidationError as e:
+        typer.secho(f"[X] Error crítico de validación Pydantic:\n{e}", fg=typer.colors.RED)
+        raise typer.Exit(code=1)
+
+if __name__ == "__main__":
+    app()
+</file>
+
+<file path="src/renderers/md_generator.py">
+from pathlib import Path
+from domain.models import SiemensBlock
+
+def generar_markdown_bloque(bloque: SiemensBlock, output_dir: Path) -> Path:
+    md_lines = []
+    
+    # 1. Título con tu Badge Corporativo
+    md_lines.extend([
+        f"# <span class=\"scl-badge\">{bloque.block_type.value}</span> {bloque.name}",
+        ""
+    ])
+    
+    # 2. Caja de Metadatos (Estilo Dashboard de tu HTML original)
+    md_lines.extend([
+        '<div style="display: flex; flex-wrap: wrap; gap: 20px; color: #475569; font-size: 0.95em; margin-top: 25px; background: #f1f5f9; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">',
+        f'  <span><strong>Versión:</strong> {bloque.version or "-"}</span>',
+        f'  <span><strong>Autor:</strong> {bloque.author or "-"}</span>',
+        f'  <span><strong>Familia:</strong> {bloque.family or "-"}</span>',
+        f'  <span><strong>Hardware:</strong> {bloque.system_info.hardware or "-"}</span>',
+        f'  <span><strong>Ingeniería:</strong> {bloque.system_info.engineering or "-"}</span>',
+        '</div>',
+        ''
+    ])
+
+    # 3. Descripción y Restricciones
+    if bloque.description:
+        md_lines.extend([
+            "## Descripción Funcional",
+            f"<div class=\"markdown-container\" markdown>",
+            bloque.description,
+            "</div>",
+            ""
+        ])
+
+    if bloque.restrictions and bloque.restrictions.lower() != "ninguna.":
+        md_lines.extend([
+            "## Restricciones",
+            f"<div style=\"border-left: 4px solid #e74c3c; padding: 10px; background: #fdf2f2;\"><strong>Aviso:</strong> {bloque.restrictions}</div>",
+            ""
+        ])
+
+    # 4. Dependencias Cruzadas
+    if bloque.dependencies:
+        md_lines.extend(["## Dependencias Requeridas", ""])
+        for dep in bloque.dependencies:
+            elements_clean = [e.strip().replace('`', '') for e in dep.elements.split(',')]
+            links = []
+            for e in elements_clean:
+                if e == "-": continue
+                # Enrutamiento basado en las carpetas que auto-genera MkDocs
+                if e.startswith("FC") or e.startswith("FB"):
+                    links.append(f"[{e}](../Bloques de codigo/{e}.md)")
+                else:
+                    links.append(f"[{e}](../Estructura de datos/{e}.md)")
+            
+            md_lines.append(f"* **{dep.type}:** {', '.join(links)}")
+        md_lines.append("")
+
+    # 5. Interfaz de Variables (Usando tu clase CSS scl-table)
+    if bloque.sections:
+        md_lines.append("## Interfaz de Variables")
+        for nombre_seccion, variables in bloque.sections.items():
+            if not variables: continue
+            
+            md_lines.extend([
+                f"### {nombre_seccion}",
+                "| Nombre | Tipo | Retain | Valor Defecto | Comentario |",
+                "|---|---|:---:|---|---|",
+            ])
+            for var in variables:
+                com = var.comment if var.comment else "-"
+                ret = "✔️" if var.is_retain else "-"
+                md_lines.append(f"| `{var.name}` | `{var.data_type}` | {ret} | `{var.default_value}` | {com} |")
+            
+            # Forzamos tu clase corporativa a la tabla generada por Markdown
+            md_lines.extend([
+                "{: .scl-table }",
+                ""
+            ])
+
+    # 6. Historial de Cambios
+    if bloque.changelog_md:
+        md_lines.extend([
+            "## Historial de Cambios",
+            bloque.changelog_md,
+            "{: .scl-table }",
+            ""
+        ])
+
+    # 7. Código Fuente (Usando tu acordeón HTML original)
+    if bloque.source_code:
+        md_lines.extend([
+            '<div class="scl-section nivel-1">',
+            '  <details>',
+            '    <summary>Desplegar Código SCL</summary>',
+            '    <div class="section-body">',
+            '      <pre class="scl-code"><code>'
+        ])
+        # Escapar < y > por seguridad en HTML
+        codigo_seguro = bloque.source_code.replace("<", "&lt;").replace(">", "&gt;")
+        md_lines.append(codigo_seguro)
+        md_lines.extend([
+            '      </code></pre>',
+            '    </div>',
+            '  </details>',
+            '</div>'
+        ])
+
+    archivo_salida = output_dir / f"{bloque.name}.md"
+    archivo_salida.write_text("\n".join(md_lines), encoding="utf-8")
+    return archivo_salida
+</file>
+
+</files>

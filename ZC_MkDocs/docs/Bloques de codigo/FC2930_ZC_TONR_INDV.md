@@ -1,0 +1,106 @@
+---
+title: FC2930_ZC_TONR_INDV
+---
+# FC FC2930_ZC_TONR_INDV
+
+!!! info "Información del Sistema"
+    **Hardware:** -<br>
+    **Ingeniería:** -<br>
+    **Versión:** 1.0<br>
+    **Autor:** ABH
+
+!!! note "Restricciones"
+    Ninguna restricción operativa detectada.
+
+## Interfaz de Variables
+### Entradas
+| Nombre | Tipo | Retain | Valor Defecto | Comentario |
+|---|---|:---:|---|---|
+| `Pulso1seg` | `Bool` | - | `-` | - |
+
+### Entrada/Salida
+| Nombre | Tipo | Retain | Valor Defecto | Comentario |
+|---|---|:---:|---|---|
+| `TONR` | `UDT_ZC_DISP_TONR` | - | `-` | - |
+
+## Código Fuente
+<details class="group rounded-xl border bg-card p-4 shadow-sm">
+<summary class="font-semibold cursor-pointer">Desplegar Código SCL</summary>
+<div class="mt-4" markdown>
+
+```pascal
+﻿FUNCTION "FC2930_ZC_TONR_INDV" : Void
+TITLE = FC2930_TONR_INDV
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : ABH
+FAMILY : ZeusControl
+VERSION : 1.0
+//Funcion para gestion temporizador TONR (Base 1 seg) individual
+   VAR_INPUT 
+      Pulso1seg : Bool;
+   END_VAR
+
+   VAR_IN_OUT 
+      TONR : "UDT_ZC_DISP_TONR";
+   END_VAR
+
+
+BEGIN
+	(*  
+	ZEUS CONTROL, S.A.
+	(c)Copyright (2023) All Rights Reserved
+	--------------------------------------------------------------------------------------
+	
+	Software:       TIA Portal 16
+	Restricciones:  PLC serie 1200/1500
+	
+	Nombre:         FC2930_TONR_INDV
+	Descripcion:    Temporizador TONR individual
+	
+	Dependencias:
+	    FC:         -
+	    FB:         -
+	    UDT:        ZC_DISP_TONR
+	    DB:         DB2030_TONR
+	
+	Change log:
+	
+	    Version     Fecha       Tecnico a cargo     Descripcion
+	    
+	    01.00.00    02.10.2023  (ABH)               Primera version.
+	    01.00.01    13.08.2025  (ABH)               Se modifica activacion de salida Q sin dependencia de entrada IN.
+	    
+	//=====================================================================================
+	*)
+	
+	
+	// =============================================================================
+	//  GESTION DE TEMPORIZADOR TONR
+	IF #TONR.RESET THEN
+	    #TONR.ET := 0;
+	    #TONR.Q := FALSE;
+	    #TONR.RESET := FALSE;
+	END_IF;
+	
+	IF #TONR.IN AND
+	    #TONR.ET < #TONR.SP AND
+	    #Pulso1seg
+	THEN
+	    #TONR.ET += 1;
+	    #TONR.Q := FALSE;
+	    
+	END_IF;
+	
+	
+	
+	IF #TONR.ET >= #TONR.SP THEN
+	    #TONR.Q := TRUE;
+	END_IF;
+	
+END_FUNCTION
+
+```
+
+</div>
+</details>
+<div class="h-24"></div>

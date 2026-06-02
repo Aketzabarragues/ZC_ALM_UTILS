@@ -1,0 +1,27 @@
+site_name: Zeus Control
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  font:
+    text: Segoe UI
+    code: Consolas
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+  features:
+    - navigation.path
+    - toc.integrate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - attr_list
+  - md_in_html
+
+extra_css:
+  - stylesheets/zeus_theme.css
